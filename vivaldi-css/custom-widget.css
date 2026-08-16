@@ -1,0 +1,34 @@
+/* =========================================================
+ * Vivaldi Start Page Custom CSS Mod
+ * Description: Menghilangkan title/header pada Webpage Widget
+ *              dan membuat background kontainer transparan
+ * ========================================================= */
+
+/* Sembunyikan URL wrapper dan judul teks pada Webpage Widget */
+.dashboard-widget.Dashboard-Webpage .url-wrapper,
+.dashboard-widget.Dashboard-Webpage h1.title span,
+.dashboard-widget.Dashboard-Webpage h1.title {
+    display: none !important;
+}
+
+/* Hilangkan kartu putih, border, dan bayangan bawaan */
+.Startpage-Widget,
+.dashboard-widget,
+.dashboard-widget .widget-front,
+.dashboard-widget .widget-content,
+.dashboard-widget .webview-container,
+.dashboard-widget webview {
+    background-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Hilangkan outline/hover border bawaan */
+.Startpage-Widget:hover,
+.dashboard-widget:hover,
+.dashboard-widget:focus-within {
+    box-shadow: none !important;
+    background-color: transparent !important;
+    outline: none !important;
+}
