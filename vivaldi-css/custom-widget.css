@@ -1,17 +1,10 @@
 /* =========================================================
  * Vivaldi Start Page Custom CSS Mod
- * Description: Menghilangkan title/header pada Webpage Widget
- *              dan membuat background kontainer transparan
+ * Description: Clean, transparent webpage widgets with
+ *              hover-reveal 3-dots settings menu.
  * ========================================================= */
 
-/* Sembunyikan URL wrapper dan judul teks pada Webpage Widget */
-.dashboard-widget.Dashboard-Webpage .url-wrapper,
-.dashboard-widget.Dashboard-Webpage h1.title span,
-.dashboard-widget.Dashboard-Webpage h1.title {
-    display: none !important;
-}
-
-/* Hilangkan kartu putih, border, dan bayangan bawaan */
+/* 1. Make all widget background layers transparent & remove borders */
 .Startpage-Widget,
 .dashboard-widget,
 .dashboard-widget .widget-front,
@@ -24,11 +17,63 @@
     border: none !important;
 }
 
-/* Hilangkan outline/hover border bawaan */
 .Startpage-Widget:hover,
 .dashboard-widget:hover,
 .dashboard-widget:focus-within {
     box-shadow: none !important;
     background-color: transparent !important;
     outline: none !important;
+}
+
+/* 2. Hide unwanted title text, icons, and URL address */
+.dashboard-widget.Dashboard-Webpage .url-wrapper,
+.dashboard-widget.Dashboard-Webpage h1.title span,
+.dashboard-widget.Dashboard-Webpage h1.title svg {
+    display: none !important;
+}
+
+/* 3. Make the widget header & action buttons float in the top-right corner */
+.dashboard-widget.Dashboard-Webpage .widget-header,
+.dashboard-widget.Dashboard-Webpage .dashboard-widget-header,
+.dashboard-widget.Dashboard-Webpage h1.title {
+    position: absolute !important;
+    top: 6px !important;
+    right: 8px !important;
+    left: auto !important;
+    z-index: 999 !important;
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 4. Hide 3-dots menu by default, reveal smoothly on hover */
+.dashboard-widget.Dashboard-Webpage .widget-header,
+.dashboard-widget.Dashboard-Webpage .toolbar,
+.dashboard-widget.Dashboard-Webpage .button-toolbar,
+.dashboard-widget.Dashboard-Webpage .dashboard-widget-header {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.2s ease-in-out !important;
+}
+
+.dashboard-widget.Dashboard-Webpage:hover .widget-header,
+.dashboard-widget.Dashboard-Webpage:hover .toolbar,
+.dashboard-widget.Dashboard-Webpage:hover .button-toolbar,
+.dashboard-widget.Dashboard-Webpage:hover .dashboard-widget-header,
+.dashboard-widget.Dashboard-Webpage:focus-within .widget-header,
+.dashboard-widget.Dashboard-Webpage:focus-within .toolbar,
+.dashboard-widget.Dashboard-Webpage:focus-within .button-toolbar {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* 5. Sleek translucent style for the 3-dots action button */
+.dashboard-widget.Dashboard-Webpage .toolbar button,
+.dashboard-widget.Dashboard-Webpage .button-toolbar button {
+    background: rgba(20, 20, 24, 0.75) !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
 }

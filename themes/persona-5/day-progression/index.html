@@ -160,8 +160,11 @@
       padding: 3px 12px;
       transform: rotate(-2deg) skewX(-5deg);
     }
-    .phase-icon {
-      font-size: clamp(12px, 2.2vw, 18px);
+    .phase-prefix {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(10px, 2vw, 15px);
+      color: #e60012;
+      letter-spacing: 1px;
       margin-right: 6px;
     }
     .phase-title {
@@ -366,7 +369,7 @@
       <!-- Top Row: Time Phase & Live Clock -->
       <div class="top-row">
         <div class="phase-badge">
-          <span class="phase-icon" id="phaseIcon">⛅</span>
+          <span class="phase-prefix">TIME //</span>
           <span class="phase-title" id="phaseTitle">AFTER SCHOOL</span>
         </div>
         <div class="time-badge">
@@ -420,47 +423,41 @@
       if (totalMinutes < 6 * 60) {
         return {
           title: 'LATE NIGHT',
-          icon: '🌙',
-          desc: 'DARK HOUR • REST WELL PHANTOM'
+          desc: 'DARK HOUR // REST WELL'
         };
       }
       // 06:00 - 08:29: EARLY MORNING
       if (totalMinutes < 8 * 60 + 30) {
         return {
           title: 'EARLY MORNING',
-          icon: '🌅',
-          desc: 'MORNING COMMUTE • READY UP'
+          desc: 'MORNING COMMUTE // READY UP'
         };
       }
       // 08:30 - 12:29: MORNING CLASS
       if (totalMinutes < 12 * 60 + 30) {
         return {
           title: 'DAYTIME',
-          icon: '☀️',
-          desc: 'SHUJIN ACADEMY • PAY ATTENTION'
+          desc: 'CLASS IN SESSION // STAY SHARP'
         };
       }
       // 12:30 - 15:29: AFTERNOON
       if (totalMinutes < 15 * 60 + 30) {
         return {
           title: 'AFTERNOON',
-          icon: '🌤️',
-          desc: 'CLASS IN SESSION • STAY SHARP'
+          desc: 'AFTERNOON CLASS // STAY ALERT'
         };
       }
       // 15:30 - 18:59: AFTER SCHOOL
       if (totalMinutes < 19 * 60) {
         return {
           title: 'AFTER SCHOOL',
-          icon: '🌇',
-          desc: 'FREE ACTIVITY • INFILTRATE PALACE'
+          desc: 'FREE TIME // INFILTRATE PALACE'
         };
       }
       // 19:00 - 23:59: EVENING
       return {
         title: 'EVENING',
-        icon: '🌆',
-        desc: 'YONGEN-JAYA NIGHTS • CHILL AT LEBLANC'
+        desc: 'NIGHT LIFE // CHILL AT LEBLANC'
       };
     }
 
@@ -471,21 +468,18 @@
       const s = now.getSeconds();
       const ms = now.getMilliseconds();
 
-      // Hitung total detik yang telah berlalu hari ini
       const totalSecondsPassed = (h * 3600) + (m * 60) + s + (ms / 1000);
       const totalSecondsInDay = 86400; // 24 * 3600
 
       const percent = (totalSecondsPassed / totalSecondsInDay) * 100;
       const formattedPercent = percent.toFixed(1);
 
-      // Hitung sisa waktu hari ini
       const remainingSeconds = Math.max(0, totalSecondsInDay - totalSecondsPassed);
       const remHours = Math.floor(remainingSeconds / 3600);
       const remMinutes = Math.floor((remainingSeconds % 3600) / 60);
 
       // Update Phase
       const phase = getTimePhase(h, m);
-      document.getElementById('phaseIcon').textContent = phase.icon;
       document.getElementById('phaseTitle').textContent = phase.title;
       document.getElementById('phaseDesc').textContent = phase.desc;
 

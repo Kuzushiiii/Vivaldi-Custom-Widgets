@@ -1,21 +1,23 @@
-# 🎨 Cara Memasang Custom CSS di Vivaldi Browser
+# Vivaldi Custom CSS Modifications
 
-Agar tampilan widget terlihat bersih tanpa title bar dan kartu putih bawaan, kamu bisa mengaktifkan fitur **CSS Modifications** di Vivaldi.
+To achieve a borderless, transparent look without default widget titles and background cards, you can enable **CSS Modifications** in Vivaldi Browser.
+
+This configuration also includes a **hover-reveal action menu**: the widget remains completely clean and seamless during normal viewing, but hovering your cursor over the widget will smoothly reveal the 3-dots action button in the top-right corner to reload, resize, edit the URL, or configure settings.
 
 ---
 
-## 🛠️ Langkah-langkah Aktivasi CSS Mod
+## Setup Instructions
 
-### 1. Aktifkan Fitur Eksperimen CSS
-1. Buka Vivaldi, lalu ketik `vivaldi://experiments` pada kolom alamat URL dan tekan **Enter**.
-2. Centang opsi **"Allow for CSS modifications"**.
-3. *Restart* (tutup dan buka kembali) browser Vivaldi kamu.
+### 1. Enable CSS Modifications Experiment
+1. Open Vivaldi and navigate to `vivaldi://experiments` in the address bar.
+2. Check the box for **"Allow for CSS modifications"**.
+3. Restart Vivaldi.
 
-### 2. Tentukan Folder Custom CSS
-1. Buka **Settings** Vivaldi (`Ctrl + F12` atau ikon gerigi di kiri bawah).
-2. Pergi ke tab **Appearance (Tampilan)**.
-3. Gulir ke bawah hingga bagian **Custom UI Modifications**.
-4. Klik tombol **Select Folder...** dan pilih folder `vivaldi-css` dari repositori ini (atau folder pilihanmu tempat kamu menyimpan file `custom-widget.css`).
+### 2. Set the Custom CSS Directory
+1. Open **Settings** (`Ctrl + F12` or click the gear icon in the bottom-left corner).
+2. Go to the **Appearance** tab.
+3. Scroll down to the **Custom UI Modifications** section.
+4. Click **Select Folder...** and choose the `vivaldi-css` directory from this repository (or any custom folder containing `custom-widget.css`).
 
 ### 3. Restart Vivaldi
-Tutup dan buka kembali Vivaldi Browser. Sekarang widget webpage di Start Page kamu akan otomatis tanpa title bar dan berlatar belakang transparan! ✨
+Close and reopen Vivaldi Browser. Webpage widgets on your Start Page will now render transparently without title bars while retaining full access to the 3-dots settings menu on hover.
