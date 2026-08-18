@@ -35,7 +35,7 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 | **Calendar & Clock** | `themes/persona-5/calendar-widget/index.html` | Comic-style digital clock, day indicator, interactive month calendar, stars, and Phantom Thieves mask. |
 | **Day Progression** | `themes/persona-5/day-progression/index.html` | Real-time percentage meter tracking the progression of the day with Persona 5 time-of-day phases. |
 | **GIF Cut-in Banner** | `themes/persona-5/gif-widget/index.html` | Dynamic Persona 5 Royal cut-in character animation banner. |
-| **Spotify Now Playing** *(Planned)* | `themes/persona-5/spotify-widget/index.html` | Real-time now-playing music widget via Discord / Lanyard API. |
+| **Spotify Now Playing** | `themes/persona-5/spotify-widget/index.html` | Real-time Spotify music playback widget powered by Discord & Lanyard API. |
 
 ---
 
@@ -65,13 +65,22 @@ To remove default white card backgrounds and title bars while keeping access to 
 
 ---
 
+### Spotify Widget Setup (Lanyard / Discord)
+
+The Spotify widget displays your currently playing track in real-time without requiring Spotify API developer credentials:
+1. Connect your Spotify account to Discord (**Discord Settings > Connections > Spotify** and toggle *"Display Spotify as your status"*).
+2. Get your Discord User ID (**Discord Settings > Advanced > Enable Developer Mode** > right-click your profile > **Copy User ID**).
+3. Click the **CONFIG** button on the widget, paste your Discord User ID, and click **SAVE**.
+
+---
+
 ## Roadmap
 
 - [x] Persona 5 Royal: Calendar & Clock Widget
 - [x] Persona 5 Royal: Animated GIF Banner Widget
 - [x] Persona 5 Royal: Day Progression Widget (time phases & live percentage)
+- [x] Persona 5 Royal: Spotify Now Playing Widget (Real-time Lanyard / Discord API)
 - [x] Vivaldi Custom CSS mod (transparent cards & hover-reveal 3-dots menu)
-- [ ] Spotify Now Playing Widget (Real-time Lanyard / Discord API)
 - [ ] Violet Evergarden Theme Pack
 - [ ] Preview screenshots and setup gallery
 
