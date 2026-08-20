@@ -1,0 +1,205 @@
+@import url('../theme-base.css');
+
+/* ============ MAIN CONTENT LAYOUT ============ */
+.content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 3.5% 6% 3.5% 6%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ===== TOP ROW: Phase Badge & Clock ===== */
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.phase-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--p5-cream);
+  border: 2.5px solid var(--p5-black);
+  box-shadow: 3px 3px 0 var(--p5-black);
+  padding: 3px 12px;
+  transform: rotate(-2deg) skewX(-5deg);
+}
+.phase-prefix {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(10px, 2vw, 15px);
+  color: var(--p5-red);
+  letter-spacing: 1px;
+  margin-right: 6px;
+}
+.phase-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(13px, 2.8vw, 22px);
+  letter-spacing: 1.5px;
+  color: #1a191b;
+  text-transform: uppercase;
+}
+
+.time-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #111;
+  border: 2px solid var(--p5-red);
+  box-shadow: 3px 3px 0 var(--p5-black);
+  padding: 3px 10px;
+  transform: rotate(1deg) skewX(-4deg);
+}
+.time-text {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(12px, 2.4vw, 18px);
+  color: var(--p5-text-light);
+  letter-spacing: 1px;
+}
+
+/* ===== MIDDLE ROW: Big Percentage Display & Title ===== */
+.mid-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 4px 0;
+}
+
+.slogan-wrap {
+  display: flex;
+  flex-direction: column;
+}
+.slogan-main {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(16px, 3.8vw, 30px);
+  color: var(--p5-text-light);
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
+  transform: skewX(-4deg);
+  line-height: 1;
+}
+.slogan-sub {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(9px, 1.8vw, 14px);
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 2px;
+  margin-top: 3px;
+  text-transform: uppercase;
+}
+
+.percent-display {
+  display: flex;
+  align-items: baseline;
+  font-family: 'Anton', sans-serif;
+  transform: rotate(-2deg) skewX(-4deg);
+}
+.percent-val {
+  font-size: clamp(34px, 8.5vw, 68px);
+  line-height: 0.9;
+  color: var(--p5-red);
+  text-shadow: 3px 3px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
+}
+.percent-unit {
+  font-size: clamp(18px, 4vw, 32px);
+  color: var(--p5-cream-light);
+  margin-left: 2px;
+  text-shadow: 2px 2px 0 var(--p5-black);
+}
+
+/* ===== PROGRESS BAR SECTION ===== */
+.bar-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bar-track-wrap {
+  position: relative;
+  width: 100%;
+  height: clamp(18px, 4vw, 30px);
+  background: var(--p5-black);
+  border: 2.5px solid var(--p5-black);
+  box-shadow: 4px 4px 0 var(--p5-black);
+  transform: skewX(-6deg);
+  overflow: hidden;
+}
+
+.bar-bg-stripe {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    #1c1c20,
+    #1c1c20 8px,
+    #2a2930 8px,
+    #2a2930 16px
+  );
+  z-index: 1;
+}
+
+.bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--p5-red-dark) 0%, var(--p5-red) 70%, var(--p5-red-light) 100%);
+  z-index: 2;
+  transition: width 0.8s cubic-bezier(0.2, 0.9, 0.3, 1);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.4), inset 0 -2px 0 rgba(0,0,0,0.5);
+}
+.bar-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.15),
+    rgba(255,255,255,0.15) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  animation: moveStripe 20s linear infinite;
+}
+@keyframes moveStripe {
+  from { background-position: 0 0; }
+  to { background-position: 200px 0; }
+}
+
+/* ===== BOTTOM ROW: Time Milestones / Remaining Info ===== */
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.time-remaining {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(10px, 2vw, 15px);
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 1.5px;
+  text-shadow: 1px 1px 0 var(--p5-black);
+}
+.time-remaining span {
+  color: var(--p5-red-hover);
+  font-weight: bold;
+}
+
+.p5-motto {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(11px, 2.2vw, 16px);
+  color: var(--p5-red);
+  letter-spacing: 1.5px;
+  font-style: italic;
+  text-shadow: 1px 1px 0 var(--p5-black);
+  transform: skewX(-4deg);
+}

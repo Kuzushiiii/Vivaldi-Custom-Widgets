@@ -1,0 +1,666 @@
+/**
+ * Spotify Now Playing Service
+ * Shared module supporting Discord Lanyard (WebSocket/REST) and Last.fm (REST with duration fetching).
+ */
+
+const STORAGE_KEYS = {
+  PROVIDER: 'vcw_music_provider',
+  DISCORD: 'vcw_lanyard_discord_id',
+  LASTFM_USER: 'vcw_lastfm_username',
+  LASTFM_KEY: 'vcw_lastfm_api_key',
+
+  LASTFM_CURRENT_TRACK: 'vcw_lastfm_current_track',
+  LASTFM_START_TIME: 'vcw_lastfm_start_time',
+
+  // Fallback / legacy keys for backward compatibility
+  LEGACY_PROVIDER: 'p5_music_provider',
+  LEGACY_DISCORD: 'p5_lanyard_discord_id',
+  LEGACY_LASTFM_USER: 'p5_lastfm_username',
+  LEGACY_LASTFM_KEY: 'p5_lastfm_api_key',
+};
+
+const DEFAULT_LASTFM_API_KEY = 'b25b959554ed76058ac220b7b2e0a026';
+
+function getStorage(key, legacyKey) {
+  return localStorage.getItem(key) || (legacyKey ? localStorage.getItem(legacyKey) : null) || '';
+}
+
+function setStorage(key, legacyKey, value) {
+  localStorage.setItem(key, value);
+  if (legacyKey) {
+    localStorage.setItem(legacyKey, value);
+  }
+}
+
+function formatTimeMs(ms) {
+  if (isNaN(ms) || ms < 0) return '00:00';
+  const totalSec = Math.floor(ms / 1000);
+  const min = Math.floor(totalSec / 60);
+  const sec = totalSec % 60;
+  return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+}
+
+class SpotifyService {
+  constructor(options = {}) {
+    this.options = options;
+
+    this.provider = getStorage(STORAGE_KEYS.PROVIDER, STORAGE_KEYS.LEGACY_PROVIDER) || 'discord';
+    this.discordId = getStorage(STORAGE_KEYS.DISCORD, STORAGE_KEYS.LEGACY_DISCORD);
+    this.lastfmUser = getStorage(STORAGE_KEYS.LASTFM_USER, STORAGE_KEYS.LEGACY_LASTFM_USER);
+    this.lastfmApiKey = getStorage(STORAGE_KEYS.LASTFM_KEY, STORAGE_KEYS.LEGACY_LASTFM_KEY);
+
+    this.socket = null;
+    this.pollInterval = null;
+    this.heartbeatInterval = null;
+    this.progressTimer = null;
+
+    this.trackStartTime = 0;
+    this.trackEndTime = 0;
+    this.isDemoMode = false;
+    this.isPaused = false;
+    this.currentTrackId = null;
+
+    this.trackInfoCache = new Map();
+    this.bindVisibilityHandler();
+  }
+
+  bindVisibilityHandler() {
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && !this.isDemoMode) {
+        if (this.provider === 'lastfm') {
+          this.fetchLastfmData();
+        } else if (this.provider === 'discord') {
+          if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
+            this.connectLanyard();
+          }
+        }
+        this.updateProgress();
+      }
+    });
+  }
+
+  saveConfig({ provider, discordId, lastfmUser, lastfmApiKey }) {
+    this.provider = provider || 'discord';
+    this.discordId = (discordId || '').trim();
+    this.lastfmUser = (lastfmUser || '').trim();
+    this.lastfmApiKey = (lastfmApiKey || '').trim();
+
+    setStorage(STORAGE_KEYS.PROVIDER, STORAGE_KEYS.LEGACY_PROVIDER, this.provider);
+    setStorage(STORAGE_KEYS.DISCORD, STORAGE_KEYS.LEGACY_DISCORD, this.discordId);
+    setStorage(STORAGE_KEYS.LASTFM_USER, STORAGE_KEYS.LEGACY_LASTFM_USER, this.lastfmUser);
+    setStorage(STORAGE_KEYS.LASTFM_KEY, STORAGE_KEYS.LEGACY_LASTFM_KEY, this.lastfmApiKey);
+
+    this.isDemoMode = false;
+    this.init();
+  }
+
+  init() {
+    this.cleanup();
+
+    if (this.isDemoMode) {
+      this.runDemoMode();
+      return;
+    }
+
+    if (this.provider === 'discord') {
+      if (this.discordId) {
+        this.connectLanyard();
+      } else {
+        this.runDemoMode();
+      }
+    } else if (this.provider === 'lastfm') {
+      if (this.lastfmUser) {
+        this.connectLastfm();
+      } else {
+        this.runDemoMode();
+      }
+    }
+
+    this.startProgressTimer();
+  }
+
+  cleanup() {
+    if (this.pollInterval) {
+      clearInterval(this.pollInterval);
+      this.pollInterval = null;
+    }
+    if (this.heartbeatInterval) {
+      clearInterval(this.heartbeatInterval);
+      this.heartbeatInterval = null;
+    }
+    if (this.socket) {
+      try {
+        this.socket.onclose = null;
+        this.socket.onerror = null;
+        this.socket.close();
+      } catch (e) {}
+      this.socket = null;
+    }
+  }
+
+  startProgressTimer() {
+    if (this.progressTimer) clearInterval(this.progressTimer);
+    this.progressTimer = setInterval(() => this.updateProgress(), 500);
+  }
+
+  updateProgress() {
+    if (!this.options.onProgressUpdate) return;
+
+    if (!this.trackStartTime || !this.trackEndTime) {
+      this.options.onProgressUpdate({
+        isStreaming: true,
+        percentage: 0,
+        currentFormatted: '--:--',
+        durationFormatted: '--:--'
+      });
+      return;
+    }
+
+    const totalDuration = this.trackEndTime - this.trackStartTime;
+    const currentElapsed = Math.min(totalDuration, Math.max(0, Date.now() - this.trackStartTime));
+    const percentage = Math.min(100, Math.max(0, (currentElapsed / totalDuration) * 100));
+
+    this.options.onProgressUpdate({
+      isStreaming: false,
+      percentage,
+      currentFormatted: formatTimeMs(currentElapsed),
+      durationFormatted: formatTimeMs(totalDuration),
+      currentMs: currentElapsed,
+      totalMs: totalDuration
+    });
+
+    if (currentElapsed >= totalDuration && !this.isDemoMode) {
+      this.setPaused(true);
+    }
+  }
+
+  setPaused(isPaused) {
+    this.isPaused = isPaused;
+    if (typeof this.options.onStateChange === 'function') {
+      this.options.onStateChange({ isPaused: this.isPaused, provider: this.provider });
+    }
+  }
+
+  notifyData(track) {
+    if (!track || !track.song) {
+      if (typeof this.options.onStandby === 'function') {
+        this.options.onStandby(this.provider);
+      }
+      return;
+    }
+
+    const trackId = `${track.song}-${track.artist}`;
+    if (this.currentTrackId !== trackId) {
+      this.currentTrackId = trackId;
+    }
+
+    this.trackStartTime = track.timestamps ? (track.timestamps.start || 0) : 0;
+    this.trackEndTime = track.timestamps ? (track.timestamps.end || 0) : 0;
+    this.setPaused(Boolean(track.isPaused));
+
+    if (typeof this.options.onTrackUpdate === 'function') {
+      this.options.onTrackUpdate(track);
+    }
+
+    this.updateProgress();
+  }
+
+  // ==========================================
+  // DISCORD LANYARD CONNECTION
+  // ==========================================
+  connectLanyard() {
+    if (!this.discordId || this.isDemoMode) return;
+    this.cleanup();
+
+    try {
+      this.socket = new WebSocket('wss://api.lanyard.rest/socket');
+
+      this.socket.onopen = () => {
+        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+          this.socket.send(JSON.stringify({
+            op: 2,
+            d: { subscribe_to_id: this.discordId }
+          }));
+        }
+      };
+
+      this.socket.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+
+          if (data.op === 1) {
+            const interval = data.d.heartbeat_interval;
+            if (this.heartbeatInterval) clearInterval(this.heartbeatInterval);
+            this.heartbeatInterval = setInterval(() => {
+              if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+                this.socket.send(JSON.stringify({ op: 3 }));
+              }
+            }, interval);
+          }
+
+          if (data.t === 'INIT_STATE' || data.t === 'PRESENCE_UPDATE') {
+            const spotify = data.d?.spotify;
+            if (spotify) {
+              this.notifyData({
+                song: spotify.song,
+                artist: spotify.artist,
+                album: spotify.album,
+                album_art_url: spotify.album_art_url,
+                timestamps: spotify.timestamps,
+                isPaused: false
+              });
+            } else {
+              if (typeof this.options.onStandby === 'function') {
+                this.options.onStandby('discord', 'SPOTIFY IS IDLE OR PAUSED');
+              }
+            }
+          }
+        } catch (e) {}
+      };
+
+      this.socket.onerror = () => {
+        this.fallbackRestPolling();
+      };
+
+      this.socket.onclose = () => {
+        setTimeout(() => {
+          if (this.provider === 'discord' && !this.isDemoMode) this.connectLanyard();
+        }, 8000);
+      };
+    } catch (err) {
+      this.fallbackRestPolling();
+    }
+  }
+
+  fallbackRestPolling() {
+    if (!this.discordId || this.isDemoMode || this.provider !== 'discord') return;
+    if (this.pollInterval) clearInterval(this.pollInterval);
+
+    const fetchRest = async () => {
+      if (this.provider !== 'discord' || this.isDemoMode) return;
+      try {
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${this.discordId}`);
+        const json = await res.json();
+        if (json.success && json.data) {
+          if (json.data.spotify) {
+            this.notifyData({
+              song: json.data.spotify.song,
+              artist: json.data.spotify.artist,
+              album: json.data.spotify.album,
+              album_art_url: json.data.spotify.album_art_url,
+              timestamps: json.data.spotify.timestamps,
+              isPaused: false
+            });
+          } else {
+            if (typeof this.options.onStandby === 'function') {
+              this.options.onStandby('discord', 'SPOTIFY IS IDLE OR PAUSED');
+            }
+          }
+        } else if (json.error && json.error.code === 'USER_NOT_MONITORED') {
+          if (typeof this.options.onStandby === 'function') {
+            this.options.onStandby('discord', 'JOIN DISCORD.GG/LANYARD TO ENABLE MONITORING');
+          }
+        }
+      } catch (e) {}
+    };
+
+    fetchRest();
+    this.pollInterval = setInterval(fetchRest, 12000);
+  }
+
+  // ==========================================
+  // LAST.FM CONNECTION + DURATION FETCHING
+  // ==========================================
+  async fetchLastfmTrackDuration(artist, trackName, apiKey) {
+    const cacheKey = `${artist}-${trackName}`.toLowerCase();
+    if (this.trackInfoCache.has(cacheKey)) {
+      return this.trackInfoCache.get(cacheKey);
+    }
+
+    try {
+      const url = `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(trackName)}&api_key=${apiKey}&format=json`;
+      const res = await fetch(url);
+      if (res.ok) {
+        const json = await res.json();
+        if (json.track && json.track.duration) {
+          const durationMs = parseInt(json.track.duration, 10);
+          if (!isNaN(durationMs) && durationMs > 0) {
+            this.trackInfoCache.set(cacheKey, durationMs);
+            return durationMs;
+          }
+        }
+      }
+    } catch (e) {}
+    return 0;
+  }
+
+  async fetchLastfmData() {
+    if (this.provider !== 'lastfm' || this.isDemoMode || !this.lastfmUser) return;
+    const apiKey = this.lastfmApiKey.trim() || DEFAULT_LASTFM_API_KEY;
+
+    try {
+      const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(this.lastfmUser)}&api_key=${apiKey}&format=json&limit=2`);
+      
+      if (!res.ok) {
+        if (typeof this.options.onStandby === 'function') {
+          this.options.onStandby('lastfm', `LAST.FM ERROR (${res.status})`);
+        }
+        return;
+      }
+
+      const json = await res.json();
+
+      if (json.error) {
+        if (typeof this.options.onStandby === 'function') {
+          this.options.onStandby('lastfm', `LAST.FM: ${json.message || 'Error ' + json.error}`);
+        }
+        return;
+      }
+
+      if (json.recenttracks && json.recenttracks.track) {
+        const rawTrack = json.recenttracks.track;
+        const tracks = Array.isArray(rawTrack) ? rawTrack : (rawTrack ? [rawTrack] : []);
+
+        if (tracks.length > 0) {
+          const track = tracks[0];
+          const isNowPlaying = Boolean(track['@attr'] && track['@attr'].nowplaying === 'true');
+
+          let albumArt = '';
+          if (track.image && Array.isArray(track.image)) {
+            const imgObj = track.image[3] || track.image[2] || track.image[1] || track.image[0];
+            albumArt = imgObj ? imgObj['#text'] : '';
+          }
+
+          const artistStr = (typeof track.artist === 'object' && track.artist !== null)
+            ? (track.artist['#text'] || track.artist.name || 'Unknown Artist')
+            : (track.artist || 'Unknown Artist');
+
+          const albumStr = (typeof track.album === 'object' && track.album !== null)
+            ? (track.album['#text'] || track.album.title || '')
+            : (track.album || '');
+
+          const trackName = track.name || 'Unknown Track';
+          const currentIdentifier = `${artistStr}-${trackName}`;
+
+          let timestamps = null;
+
+          if (isNowPlaying) {
+            const savedTrack = localStorage.getItem(STORAGE_KEYS.LASTFM_CURRENT_TRACK);
+            const savedStartTime = parseInt(localStorage.getItem(STORAGE_KEYS.LASTFM_START_TIME) || '0', 10);
+            let startTime = 0;
+
+            if (savedTrack === currentIdentifier && savedStartTime > 0) {
+              startTime = savedStartTime;
+            } else {
+              startTime = Date.now();
+              localStorage.setItem(STORAGE_KEYS.LASTFM_CURRENT_TRACK, currentIdentifier);
+              localStorage.setItem(STORAGE_KEYS.LASTFM_START_TIME, String(startTime));
+            }
+
+            const durationMs = await this.fetchLastfmTrackDuration(artistStr, trackName, apiKey);
+            if (durationMs > 0) {
+              timestamps = {
+                start: startTime,
+                end: startTime + durationMs
+              };
+            }
+          } else {
+            localStorage.removeItem(STORAGE_KEYS.LASTFM_CURRENT_TRACK);
+            localStorage.removeItem(STORAGE_KEYS.LASTFM_START_TIME);
+          }
+
+          this.notifyData({
+            song: trackName,
+            artist: artistStr,
+            album: albumStr,
+            album_art_url: albumArt,
+            timestamps,
+            isPaused: !isNowPlaying,
+            isLastScrobble: !isNowPlaying
+          });
+        } else {
+          if (typeof this.options.onStandby === 'function') {
+            this.options.onStandby('lastfm', 'NO RECENT SCROBBLES FOUND');
+          }
+        }
+      } else {
+        if (typeof this.options.onStandby === 'function') {
+          this.options.onStandby('lastfm', 'NO TRACK CURRENTLY PLAYING');
+        }
+      }
+    } catch (e) {
+      if (typeof this.options.onStandby === 'function') {
+        this.options.onStandby('lastfm', 'LAST.FM CONNECTION ERROR');
+      }
+    }
+  }
+
+  connectLastfm() {
+    if (!this.lastfmUser || this.isDemoMode) return;
+    this.cleanup();
+
+    this.fetchLastfmData();
+    this.pollInterval = setInterval(() => this.fetchLastfmData(), 8000);
+  }
+
+  runDemoMode() {
+    this.isDemoMode = true;
+    this.cleanup();
+
+    const demoDuration = 265000;
+    const startTime = Date.now() - 74000;
+    const endTime = startTime + demoDuration;
+
+    this.notifyData({
+      song: 'Life Will Change',
+      artist: 'Lyn, Shoji Meguro',
+      album: 'Persona 5 Original Soundtrack',
+      album_art_url: 'https://i.scdn.co/image/ab67616d0000b27341ea22b31131102573d09a7b',
+      timestamps: {
+        start: startTime,
+        end: endTime
+      },
+      isPaused: false,
+      isDemo: true
+    });
+  }
+}
+
+/**
+ * Controller helper to wire up DOM elements for Spotify Widgets
+ */
+function initSpotifyWidget(config = {}) {
+  const elements = {
+    badgePrefix: document.getElementById(config.badgePrefixId || 'badgePrefix'),
+    statusBadge: document.getElementById(config.statusBadgeId || 'statusBadge'),
+    songTitle: document.getElementById(config.songTitleId || 'songTitle'),
+    artistName: document.getElementById(config.artistNameId || 'artistName'),
+    albumName: document.getElementById(config.albumNameId || 'albumName'),
+    albumImg: document.getElementById(config.albumImgId || 'albumImg'),
+    artFallback: document.getElementById(config.artFallbackId || 'artFallback'),
+    trackProgress: document.getElementById(config.trackProgressId || 'trackProgress'),
+    timeCurrent: document.getElementById(config.timeCurrentId || 'timeCurrent'),
+    timeDuration: document.getElementById(config.timeDurationId || 'timeDuration'),
+    visOverlay: document.getElementById(config.visOverlayId || 'visOverlay'),
+    visBars: document.querySelectorAll(config.visBarsSelector || '.vis-bar'),
+    trackInfoSection: document.getElementById(config.trackInfoSectionId || 'trackInfoSection'),
+    artWrap: document.getElementById(config.artWrapId || 'artWrap'),
+    standbySection: document.getElementById(config.standbySectionId || 'standbySection'),
+    standbyHint: document.getElementById(config.standbyHintId || 'standbyHint'),
+
+    // Modal elements
+    configModal: document.getElementById(config.configModalId || 'configModal'),
+    openConfigBtn: document.getElementById(config.openConfigBtnId || 'openConfigBtn'),
+    standbyConfigBtn: document.getElementById(config.standbyConfigBtnId || 'standbyConfigBtn'),
+    closeConfigBtn: document.getElementById(config.closeConfigBtnId || 'closeConfigBtn'),
+    saveConfigBtn: document.getElementById(config.saveConfigBtnId || 'saveConfigBtn'),
+    demoBtn: document.getElementById(config.demoBtnId || 'demoBtn'),
+    discordIdInput: document.getElementById(config.discordIdInputId || 'discordIdInput'),
+    lastfmUsernameInput: document.getElementById(config.lastfmUsernameInputId || 'lastfmUsernameInput'),
+    lastfmApiKeyInput: document.getElementById(config.lastfmApiKeyInputId || 'lastfmApiKeyInput'),
+    tabDiscord: document.getElementById(config.tabDiscordId || 'tabDiscord'),
+    tabLastfm: document.getElementById(config.tabLastfmId || 'tabLastfm'),
+    discordTabContent: document.getElementById(config.discordTabContentId || 'discordTabContent'),
+    lastfmTabContent: document.getElementById(config.lastfmTabContentId || 'lastfmTabContent'),
+  };
+
+  if (elements.albumImg && elements.artFallback) {
+    elements.albumImg.onerror = () => {
+      elements.albumImg.style.display = 'none';
+      elements.artFallback.style.display = 'flex';
+    };
+  }
+
+  let activeTabProvider = 'discord';
+
+  const spotifyService = new SpotifyService({
+    onTrackUpdate: (track) => {
+      if (elements.artWrap) elements.artWrap.style.display = 'flex';
+      if (elements.trackInfoSection) elements.trackInfoSection.style.display = 'flex';
+      if (elements.standbySection) elements.standbySection.style.display = 'none';
+      if (elements.visOverlay) elements.visOverlay.style.display = 'flex';
+
+      if (elements.songTitle) elements.songTitle.textContent = track.song || 'Unknown Title';
+      if (elements.artistName) elements.artistName.textContent = (track.artist || 'Unknown Artist').replace(/;/g, ',');
+      if (elements.albumName) elements.albumName.textContent = track.album || '';
+
+      if (track.album_art_url && elements.albumImg && elements.artFallback) {
+        elements.albumImg.src = track.album_art_url;
+        elements.albumImg.style.display = 'block';
+        elements.artFallback.style.display = 'none';
+      } else if (elements.albumImg && elements.artFallback) {
+        elements.albumImg.style.display = 'none';
+        elements.artFallback.style.display = 'flex';
+      }
+
+      if (elements.badgePrefix) {
+        elements.badgePrefix.textContent = track.isDemo ? 'DEMO //' : 'BGM //';
+      }
+
+      if (elements.statusBadge) {
+        if (track.isLastScrobble) {
+          elements.statusBadge.textContent = 'LAST SCROBBLE';
+        } else {
+          elements.statusBadge.textContent = track.isPaused ? 'PAUSED' : 'ON AIR';
+        }
+      }
+    },
+
+    onProgressUpdate: ({ isStreaming, percentage, currentFormatted, durationFormatted }) => {
+      if (!elements.trackProgress) return;
+
+      if (isStreaming) {
+        elements.trackProgress.classList.add('streaming');
+        if (elements.timeCurrent) elements.timeCurrent.textContent = '--:--';
+        if (elements.timeDuration) elements.timeDuration.textContent = '--:--';
+      } else {
+        elements.trackProgress.classList.remove('streaming');
+        elements.trackProgress.style.width = `${percentage}%`;
+        if (elements.timeCurrent) elements.timeCurrent.textContent = currentFormatted;
+        if (elements.timeDuration) elements.timeDuration.textContent = durationFormatted;
+      }
+    },
+
+    onStateChange: ({ isPaused }) => {
+      if (elements.visBars) {
+        elements.visBars.forEach(bar => {
+          if (isPaused) bar.classList.add('paused');
+          else bar.classList.remove('paused');
+        });
+      }
+      if (elements.statusBadge && !spotifyService.isLastScrobble) {
+        elements.statusBadge.textContent = isPaused ? 'PAUSED' : 'ON AIR';
+        if (isPaused) elements.statusBadge.classList.add('paused');
+        else elements.statusBadge.classList.remove('paused');
+      }
+    },
+
+    onStandby: (provider, hintText) => {
+      if (elements.artWrap) elements.artWrap.style.display = 'none';
+      if (elements.trackInfoSection) elements.trackInfoSection.style.display = 'none';
+      if (elements.standbySection) elements.standbySection.style.display = 'flex';
+      if (elements.visOverlay) elements.visOverlay.style.display = 'none';
+
+      if (elements.visBars) {
+        elements.visBars.forEach(bar => bar.classList.add('paused'));
+      }
+
+      if (elements.standbyHint) {
+        if (hintText) {
+          elements.standbyHint.textContent = hintText;
+        } else if (provider === 'discord') {
+          elements.standbyHint.textContent = 'If not detected, make sure you joined discord.gg/lanyard';
+        } else {
+          elements.standbyHint.textContent = 'Play a track on Spotify to display';
+        }
+      }
+    }
+  });
+
+  // Wire Modal handlers
+  function switchTab(prov) {
+    activeTabProvider = prov;
+    if (elements.tabDiscord && elements.tabLastfm && elements.discordTabContent && elements.lastfmTabContent) {
+      if (prov === 'discord') {
+        elements.tabDiscord.classList.add('active');
+        elements.tabLastfm.classList.remove('active');
+        elements.discordTabContent.style.display = 'block';
+        elements.lastfmTabContent.style.display = 'none';
+      } else {
+        elements.tabLastfm.classList.add('active');
+        elements.tabDiscord.classList.remove('active');
+        elements.lastfmTabContent.style.display = 'block';
+        elements.discordTabContent.style.display = 'none';
+      }
+    }
+  }
+
+  if (elements.tabDiscord) {
+    elements.tabDiscord.addEventListener('click', () => switchTab('discord'));
+  }
+  if (elements.tabLastfm) {
+    elements.tabLastfm.addEventListener('click', () => switchTab('lastfm'));
+  }
+
+  function openModal() {
+    if (elements.discordIdInput) elements.discordIdInput.value = spotifyService.discordId;
+    if (elements.lastfmUsernameInput) elements.lastfmUsernameInput.value = spotifyService.lastfmUser;
+    if (elements.lastfmApiKeyInput) elements.lastfmApiKeyInput.value = spotifyService.lastfmApiKey;
+
+    switchTab(spotifyService.provider);
+
+    if (elements.configModal) elements.configModal.style.display = 'flex';
+  }
+
+  function closeModal() {
+    if (elements.configModal) elements.configModal.style.display = 'none';
+  }
+
+  if (elements.openConfigBtn) elements.openConfigBtn.addEventListener('click', openModal);
+  if (elements.standbyConfigBtn) elements.standbyConfigBtn.addEventListener('click', openModal);
+  if (elements.closeConfigBtn) elements.closeConfigBtn.addEventListener('click', closeModal);
+
+  if (elements.saveConfigBtn) {
+    elements.saveConfigBtn.addEventListener('click', () => {
+      spotifyService.saveConfig({
+        provider: activeTabProvider,
+        discordId: elements.discordIdInput ? elements.discordIdInput.value : '',
+        lastfmUser: elements.lastfmUsernameInput ? elements.lastfmUsernameInput.value : '',
+        lastfmApiKey: elements.lastfmApiKeyInput ? elements.lastfmApiKeyInput.value : ''
+      });
+      closeModal();
+    });
+  }
+
+  if (elements.demoBtn) {
+    elements.demoBtn.addEventListener('click', () => {
+      closeModal();
+      spotifyService.runDemoMode();
+    });
+  }
+
+  // Initialize
+  spotifyService.init();
+
+  return spotifyService;
+}

@@ -1,0 +1,20 @@
+@import url('../theme-base.css');
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d0d0f;
+}
+
+.cut-in-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: drop-shadow(0 0 10px rgba(230,0,18,0.35));
+}
