@@ -1,5 +1,74 @@
 @import url('../theme-base.css');
 
+/* ============ DAY PROGRESSION: SPEED & URGENCY THEME ============ */
+/* Diagonal dynamic red polygons */
+.day-shape-1 {
+  top: -25%;
+  left: -15%;
+  width: 65%;
+  height: 80%;
+  clip-path: polygon(0 0, 100% 0, 70% 30%, 95% 45%, 60% 65%, 75% 85%, 45% 75%, 40% 100%, 20% 75%, 0 85%);
+  transform: rotate(-6deg);
+  opacity: 0.92;
+}
+
+.day-shape-2 {
+  bottom: -20%;
+  right: -10%;
+  width: 50%;
+  height: 65%;
+  clip-path: polygon(45% 0, 100% 0, 100% 100%, 60% 65%, 85% 95%, 45% 68%, 25% 95%, 15% 55%, 0 45%);
+  transform: rotate(4deg);
+  opacity: 0.85;
+}
+
+.day-shape-3 {
+  top: 30%;
+  right: -5%;
+  width: 30%;
+  height: 35%;
+  clip-path: polygon(100% 0, 0 50%, 100% 100%);
+  background: var(--p5-red-dark);
+  opacity: 0.5;
+}
+
+/* Speed / Action slashes in background */
+.day-speed-lines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -35deg,
+    transparent,
+    transparent 18px,
+    rgba(230, 0, 18, 0.08) 18px,
+    rgba(230, 0, 18, 0.08) 20px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Repositioned Day Progression Mask - perfectly placed in the middle-right open gap */
+.day-mask {
+  position: absolute;
+  top: 15%;
+  right: 25%;
+  width: clamp(52px, 9.5vw, 80px);
+  transform: rotate(-14deg);
+  z-index: 2;
+  opacity: 0.95;
+}
+
+/* Comic Spikes */
+.day-spike-1 {
+  top: 8%;
+  left: 42%;
+  width: 4.5%;
+  height: 25%;
+  clip-path: polygon(50% 0, 65% 50%, 100% 60%, 60% 74%, 50% 100%, 40% 74%, 0 60%, 35% 50%);
+  transform: rotate(-18deg);
+  opacity: 0.85;
+}
+
 /* ============ MAIN CONTENT LAYOUT ============ */
 .content {
   position: relative;
@@ -31,14 +100,14 @@
 }
 .phase-prefix {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(10px, 2vw, 15px);
+  font-size: clamp(11px, 2vw, 16px);
   color: var(--p5-red);
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   margin-right: 6px;
 }
 .phase-title {
   font-family: 'Anton', sans-serif;
-  font-size: clamp(13px, 2.8vw, 22px);
+  font-size: clamp(13px, 2.6vw, 22px);
   letter-spacing: 1.5px;
   color: #1a191b;
   text-transform: uppercase;
@@ -56,39 +125,94 @@
 .time-text {
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
-  font-size: clamp(12px, 2.4vw, 18px);
+  font-size: clamp(13px, 2.5vw, 19px);
   color: var(--p5-text-light);
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
 }
 
-/* ===== MIDDLE ROW: Big Percentage Display & Title ===== */
+/* ===== MIDDLE ROW: Big Percentage Display & Ransom-Note Title =====
+   FIX: this row now wraps (flex-wrap) with each side given a sane flex
+   basis, so if there isn't room for the full title + percentage on one
+   line, the percentage drops to its own line cleanly instead of forcing
+   a single ransom letter to break off and collide with the subtitle. */
 .mid-row {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: baseline;
-  margin: 4px 0;
+  align-items: flex-start;
+  row-gap: 6px;
+  column-gap: 14px;
+  margin: 4px 0 6px;
 }
 
 .slogan-wrap {
   display: flex;
   flex-direction: column;
+  flex: 1 1 190px;
+  min-width: 0;
 }
-.slogan-main {
+
+/* Ransom-Note Typography Styles */
+.ransom-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 5px;
+  column-gap: 8px;
+  margin-bottom: 5px;
+}
+
+/* Groups letters belonging to one word so wrapping happens between
+   words, never mid-word. */
+.ransom-word {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 2px;
+}
+
+.ransom-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Anton', sans-serif;
-  font-size: clamp(16px, 3.8vw, 30px);
-  color: var(--p5-text-light);
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
-  transform: skewX(-4deg);
+  font-size: clamp(12px, 2.4vw, 20px);
+  width: clamp(15px, 3vw, 26px);
+  height: clamp(20px, 3.4vw, 30px);
+  border: 2px solid var(--p5-black);
+  box-shadow: 2px 2px 0 var(--p5-black);
   line-height: 1;
+  font-weight: bold;
+  flex-shrink: 0;
 }
+
+.ransom-box.r-b {
+  background: var(--p5-black);
+  color: var(--p5-white);
+  transform: rotate(-3deg) skewY(-1deg);
+}
+
+.ransom-box.r-w {
+  background: var(--p5-cream-light);
+  color: var(--p5-black);
+  transform: rotate(4deg) skewY(2deg);
+}
+
+.ransom-box.r-r {
+  background: var(--p5-red);
+  color: var(--p5-white);
+  transform: rotate(-4deg) skewY(-2deg);
+}
+
 .slogan-sub {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(9px, 1.8vw, 14px);
-  color: rgba(255,255,255,0.7);
+  font-size: clamp(11px, 2.1vw, 16px);
+  color: rgba(255,255,255,0.95);
   letter-spacing: 2px;
   margin-top: 3px;
   text-transform: uppercase;
+  text-shadow: 2px 2px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
 }
 
 .percent-display {
@@ -96,18 +220,19 @@
   align-items: baseline;
   font-family: 'Anton', sans-serif;
   transform: rotate(-2deg) skewX(-4deg);
+  flex-shrink: 0;
 }
 .percent-val {
   font-size: clamp(34px, 8.5vw, 68px);
   line-height: 0.9;
-  color: var(--p5-red);
-  text-shadow: 3px 3px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
+  color: #ff3344;
+  text-shadow: 3.5px 3.5px 0 var(--p5-black), -1.5px -1.5px 0 var(--p5-black), 1.5px -1.5px 0 var(--p5-black), -1.5px 1.5px 0 var(--p5-black);
 }
 .percent-unit {
   font-size: clamp(18px, 4vw, 32px);
   color: var(--p5-cream-light);
   margin-left: 2px;
-  text-shadow: 2px 2px 0 var(--p5-black);
+  text-shadow: 2.5px 2.5px 0 var(--p5-black);
 }
 
 /* ===== PROGRESS BAR SECTION ===== */
@@ -159,8 +284,8 @@
   inset: 0;
   background: repeating-linear-gradient(
     45deg,
-    rgba(255,255,255,0.15),
-    rgba(255,255,255,0.15) 6px,
+    rgba(255,255,255,0.18),
+    rgba(255,255,255,0.18) 6px,
     transparent 6px,
     transparent 12px
   );
@@ -171,7 +296,7 @@
   to { background-position: 200px 0; }
 }
 
-/* ===== BOTTOM ROW: Time Milestones / Remaining Info ===== */
+/* ===== BOTTOM ROW: High Legibility Time Remaining & Motto ===== */
 .bottom-row {
   display: flex;
   justify-content: space-between;
@@ -181,13 +306,13 @@
 
 .time-remaining {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(10px, 2vw, 15px);
-  color: rgba(255,255,255,0.85);
-  letter-spacing: 1.5px;
-  text-shadow: 1px 1px 0 var(--p5-black);
+  font-size: clamp(13px, 2.4vw, 19px);
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
 }
 .time-remaining span {
-  color: var(--p5-red-hover);
+  color: #ff5260;
   font-weight: bold;
 }
 
@@ -196,10 +321,10 @@
   align-items: center;
   gap: 4px;
   font-family: 'Anton', sans-serif;
-  font-size: clamp(11px, 2.2vw, 16px);
+  font-size: clamp(13px, 2.4vw, 19px);
   color: var(--p5-red);
   letter-spacing: 1.5px;
   font-style: italic;
-  text-shadow: 1px 1px 0 var(--p5-black);
+  text-shadow: 2px 2px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
   transform: skewX(-4deg);
 }

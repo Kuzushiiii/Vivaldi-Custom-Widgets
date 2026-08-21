@@ -9,27 +9,29 @@
 <body>
 
   <div class="p5-banner">
-    <!-- Red Comic Splashes -->
-    <div class="red-shape rs-1"></div>
-    <div class="red-shape rs-2"></div>
-    <div class="red-shape rs-3"></div>
+    <!-- Unique Day Progression Comic Shapes -->
+    <div class="red-shape day-shape-1"></div>
+    <div class="red-shape day-shape-2"></div>
+    <div class="red-shape day-shape-3"></div>
+
+    <!-- Speed Lines Accent -->
+    <div class="day-speed-lines"></div>
 
     <!-- White Comic Spikes -->
-    <div class="spike spike-1"></div>
-    <div class="spike spike-2"></div>
+    <div class="spike day-spike-1"></div>
 
     <!-- Stars -->
     <div class="star star-left">
-      <svg width="50" height="50" viewBox="0 0 56 56">
+      <svg width="48" height="48" viewBox="0 0 56 56">
         <polygon points="28,2 34,20 54,20 38,32 44,52 28,40 12,52 18,32 2,20 22,20"
           fill="#111" stroke="#e60012" stroke-width="2.5"/>
       </svg>
     </div>
-    <div class="star star-right">
-      <svg width="64" height="64" viewBox="0 0 56 56">
-        <polygon points="28,2 34,20 54,20 38,32 44,52 28,40 12,52 18,32 2,20 22,20"
-          fill="#141414" stroke="#e60012" stroke-width="2"/>
-      </svg>
+
+    <!-- Random Mask Accent - Positioned stylishly in empty center-right area -->
+    <div class="mask-container day-mask">
+      <div class="mask-glow"></div>
+      <img class="p5-mask" data-random-mask src="../assets/Ann Mask.png" alt="Phantom Mask" onerror="this.style.display='none';">
     </div>
 
     <!-- Main Content -->
@@ -48,7 +50,30 @@
       <!-- Mid Row: Title & Percentage -->
       <div class="mid-row">
         <div class="slogan-wrap">
-          <div class="slogan-main">DAY PROGRESSION</div>
+          <!-- Ransom-Note Styled Title -->
+          <!-- Letters are grouped per word (.ransom-word) so that if the
+               row ever runs out of space, a whole word wraps to the next
+               line instead of a single stray letter breaking off. -->
+          <div class="slogan-main ransom-title">
+            <span class="ransom-word">
+              <span class="ransom-box r-b">D</span>
+              <span class="ransom-box r-w">A</span>
+              <span class="ransom-box r-r">Y</span>
+            </span>
+            <span class="ransom-word">
+              <span class="ransom-box r-w">P</span>
+              <span class="ransom-box r-b">R</span>
+              <span class="ransom-box r-r">O</span>
+              <span class="ransom-box r-w">G</span>
+              <span class="ransom-box r-b">R</span>
+              <span class="ransom-box r-w">E</span>
+              <span class="ransom-box r-r">S</span>
+              <span class="ransom-box r-b">S</span>
+              <span class="ransom-box r-w">I</span>
+              <span class="ransom-box r-r">O</span>
+              <span class="ransom-box r-b">N</span>
+            </span>
+          </div>
           <div class="slogan-sub" id="phaseDesc">TAKE YOUR TIME • STEAL THE DAY</div>
         </div>
         <div class="percent-display">
@@ -81,6 +106,7 @@
     </div>
   </div>
 
+  <script src="../../../shared/js/mask-randomizer.js"></script>
   <script src="../../../shared/js/day-progression.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {

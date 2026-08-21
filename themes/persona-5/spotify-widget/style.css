@@ -1,22 +1,186 @@
 @import url('../theme-base.css');
 
+/* ============ SPOTIFY THEME: PUNK ROCK BGM STAGE ============ */
+/* Unique background burst shapes for Spotify widget */
+.spot-shape-1 {
+  top: -22%;
+  left: -12%;
+  width: 52%;
+  height: 64%;
+  clip-path: polygon(0 0, 100% 0, 85% 26%, 100% 52%, 68% 58%, 84% 86%, 46% 70%, 50% 100%, 25% 74%, 0 88%, 14% 46%, 0 28%);
+  transform: rotate(-3deg);
+  opacity: 0.92;
+}
+
+.spot-shape-2 {
+  bottom: -24%;
+  right: -12%;
+  width: 100%;
+  height: 28%;
+  transform: rotate(-19deg);
+  opacity: 0.88;
+  background: var(--p5-red-dark);
+}
+
+/* Soundwave / Action Lines */
+.spot-lines-1{
+  position: absolute;
+  left: 22%;
+  top: 14%;
+  width: 140px;
+  height: 48px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(230, 0, 18, 0.18),
+    rgba(230, 0, 18, 0.18) 3px,
+    transparent 3px,
+    transparent 8px
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.spot-lines-2{
+  position: absolute;
+  top: 94%;
+  width: 100%;
+  height: 108px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(230, 0, 18, 0.18),
+    rgba(230, 0, 18, 0.18) 3px,
+    transparent 3px,
+    transparent 8px
+  );
+  transform: skewX(-20deg) rotate(-19deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Comic Spikes */
+.spot-spike-1 {
+  top: 8%;
+  left: 36%;
+  width: 3.5%;
+  height: 24%;
+  clip-path: polygon(50% 0, 65% 50%, 100% 60%, 60% 75%, 50% 100%, 40% 75%, 0 60%, 35% 50%);
+  transform: rotate(-24deg);
+  opacity: 0.85;
+}
+
+.spot-star-left {
+  left: 3%;
+  bottom: 8%;
+  transform: rotate(-12deg) scale(0.65);
+}
+
+/* Mask Positioned on the Right as Hero Emblem */
+.spotify-mask-wrap {
+  position: absolute;
+  right: 4.5%;
+  top: 28%;
+  width: clamp(52px, 10vw, 84px);
+  transform: rotate(12deg);
+  z-index: 2;
+  pointer-events: none;
+}
+
 /* ============ MAIN CONTENT LAYOUT ============ */
 .content {
   position: relative;
   z-index: 2;
   width: 100%;
   height: 100%;
-  padding: 3.5% 5% 3.5% 5%;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 5%;
-  align-items: center;
+  padding: 3.5% 5% 4.5% 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-/* ===== LEFT: ALBUM ART COVER ===== */
+/* ===== TOP ROW: Centered Ransom-Badge & Config Button ===== */
+.info-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  min-height: 28px;
+}
+
+.badge-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--p5-cream);
+  border: 2.5px solid var(--p5-black);
+  box-shadow: 3px 3px 0 var(--p5-black);
+  padding: 2px 14px;
+  transform: rotate(-1.5deg) skewX(-6deg);
+  max-width: 80%;
+  overflow: hidden;
+}
+.badge-prefix {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(11px, 2vw, 16px);
+  color: var(--p5-red);
+  letter-spacing: 1.5px;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+.badge-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(13px, 2.4vw, 19px);
+  letter-spacing: 1.5px;
+  color: #1a191b;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.badge-title.paused {
+  color: #666;
+}
+
+.config-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) skewX(-5deg);
+  background: #1a191d;
+  color: var(--p5-white);
+  border: 1.5px solid var(--p5-red);
+  box-shadow: 2px 2px 0 var(--p5-black);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(10px, 1.6vw, 13px);
+  letter-spacing: 1.2px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.config-btn:hover {
+  background: var(--p5-red);
+  color: var(--p5-white);
+}
+
+/* ===== MIDDLE: Album Art + Track Info ===== */
+.info-mid-section {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 4%;
+  align-items: center;
+  margin: auto 0;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Album Art Cover */
 .album-art-wrap {
   position: relative;
-  width: clamp(75px, 18vw, 130px);
+  width: clamp(70px, 16vw, 110px);
   aspect-ratio: 1 / 1;
   background: var(--p5-black);
   border: 2.5px solid var(--p5-black);
@@ -50,39 +214,38 @@
   text-align: center;
 }
 .album-fallback svg {
-  width: 40%;
-  height: 40%;
+  width: 42%;
+  height: 42%;
   fill: var(--p5-red);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 /* Visualizer overlay on album cover */
 .visualizer {
   position: absolute;
-  bottom: 4px;
-  right: 4px;
+  bottom: 3px;
+  right: 3px;
   display: flex;
   align-items: flex-end;
   gap: 2.5px;
   height: 16px;
   padding: 2px 4px;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.85);
   border-radius: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 .vis-bar {
-  width: 3px;
+  width: 3.5px;
   background: var(--p5-red);
   border-radius: 1px;
   height: 4px;
   animation: bounce 1.2s ease-in-out infinite alternate;
   transition: height 0.2s ease, opacity 0.2s ease;
 }
-.vis-bar:nth-child(2) { animation-delay: 0.2s; height: 10px; }
-.vis-bar:nth-child(3) { animation-delay: 0.4s; height: 6px; }
-.vis-bar:nth-child(4) { animation-delay: 0.1s; height: 12px; }
+.vis-bar:nth-child(2) { animation-delay: 0.2s; height: 11px; }
+.vis-bar:nth-child(3) { animation-delay: 0.4s; height: 7px; }
+.vis-bar:nth-child(4) { animation-delay: 0.1s; height: 13px; }
 
-/* Paused Visualizer State */
 .vis-bar.paused {
   animation-play-state: paused !important;
   height: 3px !important;
@@ -94,85 +257,14 @@
   100% { height: 15px; }
 }
 
-/* ===== RIGHT: TRACK INFO & CONTROLS ===== */
-.track-info {
+/* Track Title & Artist */
+.info-text-wrap {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
+  justify-content: center;
   min-width: 0;
   overflow: hidden;
-}
-
-/* Top Row: Badge & Status */
-.info-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-
-.badge-wrap {
-  display: inline-flex;
-  align-items: center;
-  background: var(--p5-cream);
-  border: 2px solid var(--p5-black);
-  box-shadow: 2.5px 2.5px 0 var(--p5-black);
-  padding: 2px 10px;
-  transform: rotate(-1.5deg) skewX(-5deg);
-  max-width: 75%;
-  overflow: hidden;
-}
-.badge-prefix {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(9px, 1.6vw, 13px);
-  color: var(--p5-red);
-  letter-spacing: 1px;
-  margin-right: 4px;
-  flex-shrink: 0;
-}
-.badge-title {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(11px, 2.2vw, 17px);
-  letter-spacing: 1.2px;
-  color: #1a191b;
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.badge-title.paused {
-  color: #777;
-}
-
-.config-btn {
-  background: #1a191d;
-  color: var(--p5-text-light);
-  border: 1.5px solid var(--p5-red);
-  box-shadow: 2px 2px 0 var(--p5-black);
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(9px, 1.5vw, 12px);
-  letter-spacing: 1px;
-  padding: 2px 8px;
-  cursor: pointer;
-  transform: skewX(-4deg);
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  flex-shrink: 0;
-}
-.config-btn:hover {
-  background: var(--p5-red);
-  color: var(--p5-text-light);
-}
-
-/* Middle: Track Title & Artist */
-.info-mid {
-  display: flex;
-  flex-direction: column;
-  margin: 2px 0;
-  min-width: 0;
+  padding-right: 10px;
 }
 
 .song-title-container {
@@ -182,44 +274,55 @@
 }
 .song-title {
   font-family: 'Anton', sans-serif;
-  font-size: clamp(16px, 4vw, 32px);
-  color: var(--p5-text-light);
+  font-size: clamp(17px, 4vw, 32px);
+  color: var(--p5-white);
   letter-spacing: 1.5px;
-  text-shadow: 2px 2px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
+  text-shadow: 2.5px 2.5px 0 var(--p5-black), -1.5px -1.5px 0 var(--p5-black), 1.5px -1.5px 0 var(--p5-black), -1.5px 1.5px 0 var(--p5-black);
   transform: skewX(-4deg);
-  line-height: 1.1;
+  line-height: 1.15;
   display: inline-block;
 }
 
 .artist-album {
   font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: clamp(10px, 2vw, 15px);
+  font-weight: 700;
+  font-size: clamp(12px, 2.3vw, 17px);
   color: var(--p5-cream-light);
   letter-spacing: 1px;
-  margin-top: 2px;
+  margin-top: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-shadow: 1px 1px 0 var(--p5-black);
-  opacity: 0.9;
+  text-shadow: 2px 2px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
+  opacity: 1;
 }
-.artist-name { color: #ff5260; font-weight: 700; }
+.artist-name {
+  color: #ff5260;
+  font-weight: 700;
+}
 
-/* Bottom: Progress Bar & Time */
-.info-bot {
+/* Spacer for right mask */
+.mask-spacer {
+  width: clamp(52px, 10vw, 84px);
+  flex-shrink: 0;
+}
+
+/* ===== BOTTOM: Centered Progress Bar & High Contrast Large Time ===== */
+.info-bot-centered {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
+  width: 100%;
+  margin-top: 4px;
 }
 
 .bar-track {
   position: relative;
   width: 100%;
-  height: clamp(10px, 2vw, 16px);
+  height: clamp(13px, 2.5vw, 20px);
   background: var(--p5-black);
-  border: 2px solid var(--p5-black);
-  box-shadow: 3px 3px 0 var(--p5-black);
+  border: 2.5px solid var(--p5-black);
+  box-shadow: 3.5px 3.5px 0 var(--p5-black);
   transform: skewX(-6deg);
   overflow: hidden;
 }
@@ -245,7 +348,6 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-/* Live streaming progress fallback */
 .bar-fill.streaming {
   width: 100% !important;
   background: repeating-linear-gradient(
@@ -259,17 +361,27 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
+/* Enhanced High-Legibility Time Display */
 .time-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(9px, 1.7vw, 13px);
-  color: rgba(255, 255, 255, 0.85);
-  letter-spacing: 1.5px;
-  text-shadow: 1px 1px 0 var(--p5-black);
+  font-size: clamp(14px, 2.5vw, 19px);
+  letter-spacing: 2px;
+  padding: 0 4px;
+  line-height: 1;
 }
-.time-cur { color: var(--p5-red-hover); font-weight: bold; }
+.time-cur {
+  color: #ff5260;
+  font-weight: bold;
+  text-shadow: 2px 2px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
+}
+.time-dur {
+  color: var(--p5-cream-light);
+  font-weight: bold;
+  text-shadow: 2px 2px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
+}
 
 /* ============ MODAL CONFIG ============ */
 .modal-backdrop {
@@ -299,7 +411,7 @@
   font-family: 'Anton', sans-serif;
   font-size: 18px;
   letter-spacing: 1.5px;
-  color: var(--p5-text-light);
+  color: var(--p5-white);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -323,14 +435,14 @@
 }
 .tab-btn.active {
   background: var(--p5-red);
-  color: var(--p5-text-light);
+  color: var(--p5-white);
   border-color: var(--p5-red);
 }
 
 .modal-desc {
   font-family: 'Oswald', sans-serif;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.88);
   line-height: 1.4;
 }
 .alert-box {
@@ -338,12 +450,12 @@
   border-left: 3px solid var(--p5-red);
   padding: 6px 8px;
   font-family: 'Oswald', sans-serif;
-  font-size: 10.5px;
+  font-size: 11px;
   color: #ff999f;
   line-height: 1.35;
 }
 .alert-box a {
-  color: var(--p5-text-light);
+  color: var(--p5-white);
   font-weight: bold;
   text-decoration: underline;
 }
@@ -353,7 +465,7 @@
   padding: 6px 10px;
   background: #0d0c0e;
   border: 1.5px solid #555;
-  color: var(--p5-text-light);
+  color: var(--p5-white);
   font-family: 'Oswald', sans-serif;
   font-size: 13px;
   outline: none;
@@ -374,8 +486,8 @@
   font-size: 12px;
   transform: skewX(-4deg);
 }
-.btn-save { background: var(--p5-red); color: var(--p5-text-light); box-shadow: 2px 2px 0 var(--p5-black); }
-.btn-demo { background: #2f8f3f; color: var(--p5-text-light); box-shadow: 2px 2px 0 var(--p5-black); }
+.btn-save { background: var(--p5-red); color: var(--p5-white); box-shadow: 2px 2px 0 var(--p5-black); }
+.btn-demo { background: #2f8f3f; color: var(--p5-white); box-shadow: 2px 2px 0 var(--p5-black); }
 .btn-cancel { background: #333; color: #bbb; }
 
 /* Standby Overlay */
@@ -392,19 +504,19 @@
 .standby-title {
   font-family: 'Anton', sans-serif;
   font-size: clamp(14px, 3.5vw, 24px);
-  color: var(--p5-text-light);
+  color: var(--p5-white);
   letter-spacing: 2px;
   text-shadow: 2px 2px 0 var(--p5-black);
 }
 .standby-sub {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(9px, 1.8vw, 13px);
+  font-size: clamp(11px, 2vw, 15px);
   color: var(--p5-red);
   letter-spacing: 1.5px;
 }
 .standby-hint {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(8px, 1.4vw, 11px);
-  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(10px, 1.6vw, 13px);
+  color: rgba(255, 255, 255, 0.85);
   margin-top: 2px;
 }

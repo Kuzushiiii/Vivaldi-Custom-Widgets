@@ -9,45 +9,38 @@
 <body>
 
   <div class="p5-banner">
-    <!-- Komik Poligon Merah -->
-    <div class="red-shape rs-1"></div>
-    <div class="red-shape rs-2"></div>
-    <div class="red-shape rs-3"></div>
+    <!-- Unique Calendar Polygons -->
+    <div class="red-shape cal-shape-1"></div>
+    <div class="red-shape cal-shape-2"></div>
+    <div class="red-shape cal-shape-3"></div>
 
     <!-- Percikan Komik Putih -->
-    <div class="spike spike-1"></div>
-    <div class="spike spike-2"></div>
-    <div class="spike spike-3"></div>
+    <div class="spike cal-spike-1"></div>
 
-    <!-- Topeng Joker / Phantom Thieves -->
-    <div class="mask-container">
+    <!-- Random Mask Accent with Glow (Positioned at bottom-center of left col) -->
+    <div class="mask-container cal-mask">
       <div class="mask-glow"></div>
-      <img class="p5-mask" src="../assets/Joker Mask.png" alt="Phantom Thieves Mask" onerror="this.style.display='none';">
+      <img class="p5-mask" data-random-mask src="../assets/Akechi Mask.png" alt="Phantom Mask" onerror="this.style.display='none';">
     </div>
 
-    <!-- Bintang Dekorasi -->
-    <div class="star star-left">
+    <!-- Single Beautiful P5 Star (No duplicates!) -->
+    <div class="cal-star-left">
       <svg width="56" height="56" viewBox="0 0 56 56">
         <polygon points="28,2 34,20 54,20 38,32 44,52 28,40 12,52 18,32 2,20 22,20"
-          fill="#111" stroke="#e60012" stroke-width="2.5"/>
-      </svg>
-    </div>
-    <div class="star star-right">
-      <svg width="76" height="76" viewBox="0 0 56 56">
-        <polygon points="28,2 34,20 54,20 38,32 44,52 28,40 12,52 18,32 2,20 22,20"
-          fill="#141414" stroke="#e60012" stroke-width="2"/>
+          fill="#141414" stroke="#e60012" stroke-width="2.5"/>
       </svg>
     </div>
 
     <!-- Konten Utama: Jam & Kalender -->
     <div class="content">
       <div class="left-col">
-        <div class="clock">
-          <span id="h1" class="num-red">0</span>
-          <span id="h2" class="num-blue">0</span>
+        <!-- Ransom-Note Clock digits! -->
+        <div class="clock ransom-clock">
+          <span id="h1" class="clock-digit r-b">0</span>
+          <span id="h2" class="clock-digit r-w">0</span>
           <span class="colon">:</span>
-          <span id="m1" class="num-green">0</span>
-          <span id="m2" class="num-red">0</span>
+          <span id="m1" class="clock-digit r-r">0</span>
+          <span id="m2" class="clock-digit r-b">0</span>
         </div>
         <div class="day-text" id="dayLabel">TODAY</div>
         <div class="p5r-logo">
@@ -68,6 +61,7 @@
     </div>
   </div>
 
+  <script src="../../../shared/js/mask-randomizer.js"></script>
   <script src="../../../shared/js/calendar-service.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
