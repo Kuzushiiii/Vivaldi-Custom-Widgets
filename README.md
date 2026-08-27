@@ -98,10 +98,27 @@ To remove default white card backgrounds and title bars while keeping access to 
 
 ### Spotify Widget Setup (Lanyard / Discord)
 
-The Spotify widget displays your currently playing track in real-time without requiring Spotify API developer credentials:
+The Spotify widget displays your currently playing track in real-time without requiring Spotify API developer credentials.
+
+> **Prerequisite :** You must join the [Lanyard Discord Server](https://discord.gg/lanyard) first. The Lanyard API requires you to share a mutual server with their bot to read your activity status.
+
 1. Connect your Spotify account to Discord (**Discord Settings > Connections > Spotify** and toggle *"Display Spotify as your status"*).
-2. Get your Discord User ID (**Discord Settings > Advanced > Enable Developer Mode** > right-click your profile > **Copy User ID**).
+<p align="center">
+   <img src="docs/assets/spotify-wid-step1.jpeg" alt="Connect Spotify" width="600">
+</p>
+
+2. Get your Discord User ID (**Discord Settings > Developer > Enable Developer Mode** > open your profile > **Copy User ID**).
+<p align="center">
+   <img src="docs/assets/spotify-wid-step2.jpeg" alt="Enable dev" width="600">
+</p>
+<p align="center">
+   <img src="docs/assets/spotify-wid-step3.png" alt="Copy User ID" width="600">
+</p>
+
 3. Click the **CONFIG** button on the widget, paste your Discord User ID, and click **SAVE**.
+<p align="center">
+   <img src="docs/assets/spotify-wid-step4.png" alt="Paste User ID" width="600">
+</p>
 
 ---
 
