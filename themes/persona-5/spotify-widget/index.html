@@ -9,18 +9,14 @@
 <body>
 
   <div class="p5-banner">
-    <!-- Unique Spotify Comic Splashes -->
     <div class="red-shape spot-shape-1"></div>
     <div class="red-shape spot-shape-2"></div>
 
-    <!-- Sound wave accent -->
     <div class="sound-lines spot-lines-1"></div>
     <div class="sound-lines spot-lines-2"></div>
 
-    <!-- White Comic Spike -->
     <div class="spike spot-spike-1"></div>
 
-    <!-- Star at bottom-left -->
     <div class="star spot-star-left">
       <svg width="103" height="93" viewBox="0 0 103 93" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M36.3518 48.5L17.3518 3.5L29.8518 1H42.8518L73.3518 5.5L79.3518 11H81.8518L90.3518 23V37.5L99.3518 44.5L95.3518 46.5L100.852 54L84.8518 59.5V68.5L65.3518 59.5L67.3518 56.5L65.8518 55L64.3518 54L62.8518 53L66.8518 47.5L55.3518 40.5L54.8518 81.5L42.3518 91L19.3518 90L5.35178 81.5L1.35178 64L4.85178 65V62.5L8.85178 64L14.3518 57L25.8518 48.5H36.3518Z" fill="black" stroke="#FF0000" stroke-width="2"/>
@@ -37,15 +33,12 @@
       </svg>
     </div>
 
-    <!-- Mask Hero Accent (Right Side) -->
     <div class="mask-container spotify-mask-wrap">
       <div class="mask-glow"></div>
       <img class="p5-mask" data-random-mask src="../assets/Joker Mask.png" alt="Phantom Mask" onerror="this.style.display='none';">
     </div>
 
-    <!-- Main Content -->
     <div class="content" id="mainContent">
-      <!-- Top Row: Centered Ransom Badge + Config button -->
       <div class="info-top">
         <div class="badge-wrap">
           <span class="badge-prefix" id="badgePrefix">BGM //</span>
@@ -54,9 +47,7 @@
         <button class="config-btn" id="openConfigBtn" title="Settings">CONFIG</button>
       </div>
 
-      <!-- Middle: Track Info, Album Art & Mask Spacer -->
       <div class="info-mid-section" id="trackInfoSection">
-        <!-- Album Art -->
         <div class="album-art-wrap" id="artWrap">
           <div class="album-fallback" id="artFallback">
             <svg viewBox="0 0 24 24">
@@ -73,7 +64,6 @@
           </div>
         </div>
 
-        <!-- Song Title & Artist -->
         <div class="info-text-wrap">
           <div class="song-title-container">
             <div class="song-title" id="songTitle">Loading Track...</div>
@@ -83,11 +73,9 @@
           </div>
         </div>
 
-        <!-- Right Spacer for Mask -->
         <div class="mask-spacer"></div>
       </div>
 
-      <!-- Bottom: Centered Progress Bar & Large Legible Time -->
       <div class="info-bot-centered">
         <div class="bar-track">
           <div class="bar-bg"></div>
@@ -99,7 +87,6 @@
         </div>
       </div>
 
-      <!-- Standby View (When paused/offline) -->
       <div class="standby-state" id="standbySection">
         <div class="standby-title" id="standbyMainTitle">NO TRACK CURRENTLY PLAYING</div>
         <div class="standby-sub" id="standbySubTitle">PLAY MUSIC ON SPOTIFY</div>
@@ -108,20 +95,17 @@
       </div>
     </div>
 
-    <!-- Configuration Modal -->
     <div class="modal-backdrop" id="configModal">
       <div class="modal-box">
         <div class="modal-title">
           <span>NOW PLAYING // SETUP</span>
         </div>
 
-        <!-- Tabs: Discord Lanyard vs Last.fm -->
         <div class="service-tabs">
           <button class="tab-btn active" id="tabDiscord">DISCORD (LANYARD)</button>
           <button class="tab-btn" id="tabLastfm">LAST.FM</button>
         </div>
 
-        <!-- Discord Tab Content -->
         <div id="discordTabContent">
           <div class="modal-desc">
             Enter your <strong>Discord User ID</strong> (Right-click profile in Discord &gt; Copy User ID).
@@ -133,7 +117,6 @@
           <input type="text" class="modal-input" id="discordIdInput" placeholder="e.g. 328901234567890123">
         </div>
 
-        <!-- Last.fm Tab Content -->
         <div id="lastfmTabContent" style="display: none;">
           <div class="modal-desc">
             Enter your <strong>Last.fm Username</strong> (Spotify must be connected to scrobble in Last.fm).

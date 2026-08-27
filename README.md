@@ -10,7 +10,7 @@
 
 A curated collection of aesthetic, lightweight, and interactive custom webpage widgets designed specifically for the **Vivaldi Browser Start Page Dashboard**.
 
-[Installation Guide](#installation-guide) • [Theme Collection](#theme-collection) • [Roadmap](#roadmap)
+[Installation Guide](#installation-guide) • [Theme Collection](#theme-collection)
 
 </div>
 
@@ -45,22 +45,22 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 To remove default white card backgrounds and title bars while keeping access to the 3-dots settings menu on hover:
 1. Open `vivaldi://experiments` or `vivaldi://flags` in your Vivaldi address bar.
 <p align="center">
-     <img src="docs/assets/installation-step1.png" alt="Vivaldi Experiments menu" width="600">
+   <img src="docs/assets/installation-step1.png" alt="Vivaldi Experiments menu" width="600">
 </p>
 
 2. Search **"Allow CSS modifications"** on the search bar, enable it and then restart Vivaldi.
 <p align="center">
-     <img src="docs/assets/installation-step2.png" alt="Enable CSS modifications" width="600">
+   <img src="docs/assets/installation-step2.png" alt="Enable CSS modifications" width="600">
 </p>
 
 3. Open **Settings** (`Ctrl + F12`) > **Appearance** > scroll to **Custom UI Modifications**.
 <p align="center">
-     <img src="docs/assets/installation-step3.png" alt="Vivaldi Settings menu" width="600">
+   <img src="docs/assets/installation-step3.png" alt="Vivaldi Settings menu" width="600">
 </p>
 
 4. Click **Select Folder...** and select the `vivaldi-css` folder from this repository.
 <p align="center">
-     <img src="docs/assets/installation-step4.png" alt="Selecting vivaldi-css folder" width="600">
+   <img src="docs/assets/installation-step4.png" alt="Selecting vivaldi-css folder" width="600">
 </p>
 
 5. Restart Vivaldi. *(For details, see [vivaldi-css/README.md](vivaldi-css/README.md))*
@@ -71,13 +71,28 @@ To remove default white card backgrounds and title bars while keeping access to 
 
 1. Open the widget file you want to use in Vivaldi:
    - Right-click the widget's `index.html` file (e.g. `themes/persona-5/calendar-widget/index.html`) > **Open with** > **Vivaldi**.
+<p align="center">
+   <img src="docs/assets/add-widgets-step1.png" alt="Opening widget through Vivaldi" width="600">
+</p>
+
 2. Copy the local file URL from the address bar (e.g. `file:///D:/Vivaldi-Widgets-Windows/themes/persona-5/calendar-widget/index.html`).
+<p align="center">
+   <img src="docs/assets/add-widgets-step2.png" alt="Copy URL" width="600">
+</p>
+
 3. Open a **New Tab (Start Page)** in Vivaldi.
 4. Add a new **Webpage** widget:
    - Paste the `file:///...` URL into the URL field.
    - Uncheck *Share Theme Colors* to retain the authentic widget styling.
    - Click **Done**.
+<p align="center">
+   <img src="docs/assets/add-widgets-step3.png" alt="New tab -> New widget -> Paste URL" width="600">
+</p>
+
 5. Resize and position the widget on your Start Page grid as desired.
+<p align="center">
+   <img src="docs/assets/add-widgets-step4.png" alt="Resize and position widget" width="600">
+</p>
 
 ---
 
@@ -90,18 +105,16 @@ The Spotify widget displays your currently playing track in real-time without re
 
 ---
 
-## Roadmap
+### Notes
 
-- [x] Persona 5 Royal: Calendar & Clock Widget
-- [x] Persona 5 Royal: Animated GIF Banner Widget
-- [x] Persona 5 Royal: Day Progression Widget (time phases & live percentage)
-- [x] Persona 5 Royal: Spotify Now Playing Widget (Real-time Lanyard / Discord API)
-- [x] Vivaldi Custom CSS mod (transparent cards & hover-reveal 3-dots menu)
-- [ ] Violet Evergarden Theme Pack
-- [ ] Preview screenshots and setup gallery
+For Calendar, Day Progression and the Gif widget i suggest resize it to regular and tall only for the Spotify widget, like mine :
+<p align="center">
+   <img src="docs/assets/P5-preview.png" alt="The final preview" width="600">
+</p>
+but keep in mind this is my personal preference soo you can resize & position it however you like xD, if its looks kinda lame you can just change the style in the css file
 
 ---
 
-## License
+### License
 
 Distributed under the [MIT](LICENSE) License. Feel free to use, modify, and customize for your own setup.
