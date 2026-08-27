@@ -1,13 +1,26 @@
-@import url('../theme-base.css');
+@import url("../theme-base.css");
 
-/* ============ CALENDAR: PHANTOM AGENDA THEME ============ */
-/* Unique Calendar Polygons */
 .cal-shape-1 {
   top: -15%;
   left: -8%;
   width: 45%;
   height: 55%;
-  clip-path: polygon(0 0, 100% 0, 75% 25%, 95% 45%, 65% 55%, 85% 80%, 50% 68%, 55% 100%, 35% 72%, 10% 95%, 15% 58%, 0 68%, 12% 38%, 0 22%);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    75% 25%,
+    95% 45%,
+    65% 55%,
+    85% 80%,
+    50% 68%,
+    55% 100%,
+    35% 72%,
+    10% 95%,
+    15% 58%,
+    0 68%,
+    12% 38%,
+    0 22%
+  );
   transform: rotate(-1deg);
   opacity: 0.9;
 }
@@ -17,7 +30,17 @@
   right: -8%;
   width: 46%;
   height: 55%;
-  clip-path: polygon(35% 0, 100% 0, 100% 100%, 65% 58%, 85% 90%, 48% 62%, 28% 95%, 20% 48%, 0 38%);
+  clip-path: polygon(
+    35% 0,
+    100% 0,
+    100% 100%,
+    65% 58%,
+    85% 90%,
+    48% 62%,
+    28% 95%,
+    20% 48%,
+    0 38%
+  );
   transform: rotate(2deg);
   opacity: 0.85;
 }
@@ -27,44 +50,63 @@
   left: 15%;
   width: 50%;
   height: 50%;
-  clip-path: polygon(0 0, 100% 0, 75% 25%, 95% 45%, 65% 55%, 85% 80%, 50% 68%, 55% 100%, 35% 72%, 10% 95%, 15% 58%, 0 68%, 12% 38%, 0 22%);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    75% 25%,
+    95% 45%,
+    65% 55%,
+    85% 80%,
+    50% 68%,
+    55% 100%,
+    35% 72%,
+    10% 95%,
+    15% 58%,
+    0 68%,
+    12% 38%,
+    0 22%
+  );
   background: var(--p5-red-dark);
   transform: rotate(190deg);
   opacity: 0.45;
 }
 
-/* Mask in Calendar Widget */
 .cal-mask {
-  bottom: 5%;
-  left: 34%;
+  bottom: 78%;
+  left: 5%;
   width: clamp(50px, 9vw, 76px);
   transform: rotate(-6deg);
   z-index: 2;
 }
 
-/* Comic Spikes */
 .cal-spike-1 {
   top: -2%;
   left: 36%;
   width: 5.5%;
   height: 30%;
-  clip-path: polygon(50% 0, 64% 50%, 100% 60%, 60% 74%, 50% 100%, 40% 74%, 0 60%, 36% 50%);
+  clip-path: polygon(
+    50% 0,
+    64% 50%,
+    100% 60%,
+    60% 74%,
+    50% 100%,
+    40% 74%,
+    0 60%,
+    36% 50%
+  );
   transform: rotate(18deg);
   opacity: 0.85;
 }
 
-/* Single Star in Top-Left (No duplicates!) */
-.cal-star-left {
+.cal-calendar-left {
   position: absolute;
-  left: 3%;
-  top: 6%;
-  transform: rotate(-10deg) scale(0.85);
+  top: 62%;
+  transform: rotate(-20deg) scale(0.45);
   z-index: 1;
   pointer-events: none;
   filter: drop-shadow(2px 2px 0 var(--p5-black));
 }
 
-/* ============ KONTEN GRID ============ */
 .content {
   position: relative;
   z-index: 2;
@@ -79,7 +121,6 @@
   align-items: center;
 }
 
-/* ===== KOLOM KIRI: JAM + HARI + LOGO P5R ===== */
 .left-col {
   display: flex;
   flex-direction: column;
@@ -88,7 +129,6 @@
   position: relative;
 }
 
-/* ===== POLISHED RANSOM-NOTE CLOCK ===== */
 .ransom-clock {
   display: flex;
   align-items: center;
@@ -104,7 +144,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Anton', sans-serif;
+  font-family: "Anton", sans-serif;
   font-size: clamp(28px, 7.5vw, 56px);
   width: clamp(26px, 6vw, 48px);
   height: clamp(38px, 9vw, 68px);
@@ -135,19 +175,23 @@
 .clock .colon {
   color: #888888;
   padding: 0 4px;
-  font-family: 'Anton', sans-serif;
+  font-family: "Anton", sans-serif;
   font-size: clamp(24px, 6vw, 44px);
   animation: blink 1s step-end infinite;
   text-shadow: 2px 2px 0 var(--p5-black);
 }
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
-/* ===== HARI ===== */
 .day-text {
-  font-family: 'Anton', sans-serif;
+  font-family: "Anton", sans-serif;
   font-size: clamp(14px, 3.2vw, 22px);
   background: var(--p5-black);
   color: var(--p5-white);
@@ -160,35 +204,6 @@
   width: max-content;
 }
 
-/* ===== LOGO P5R ===== */
-.p5r-logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 6px;
-  transform: rotate(-2deg) skewX(-4deg);
-  pointer-events: none;
-}
-.p5r-emblem {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(19px, 3.8vw, 28px);
-  font-style: italic;
-  color: #ff2a3a;
-  line-height: 0.85;
-  text-shadow: 2.5px 2.5px 0 var(--p5-black), -1px -1px 0 var(--p5-black), 1px -1px 0 var(--p5-black), -1px 1px 0 var(--p5-black);
-  letter-spacing: -0.5px;
-}
-.p5r-sub {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(8px, 1.2vw, 11px);
-  color: var(--p5-text-light);
-  letter-spacing: 2.5px;
-  margin-top: 2px;
-  opacity: 0.95;
-  text-shadow: 1.5px 1.5px 0 var(--p5-black);
-}
-
-/* ===== KOLOM KANAN: KALENDER ===== */
 .right-col {
   display: flex;
   flex-direction: column;
@@ -201,11 +216,12 @@
   text-align: center;
   margin-bottom: 4px;
 }
+
 .cal-month {
   display: inline-block;
   background: var(--p5-cream);
   color: #1a191b;
-  font-family: 'Anton', sans-serif;
+  font-family: "Anton", sans-serif;
   font-size: clamp(11px, 2.4vw, 18px);
   letter-spacing: 1.5px;
   padding: 3px 16px;
@@ -221,16 +237,23 @@
   text-align: center;
   margin-bottom: 3px;
 }
+
 .cal-header span {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   font-size: clamp(10px, 2vw, 15px);
   color: #ffffff;
   letter-spacing: 0.5px;
   text-shadow: 1.5px 1.5px 0 var(--p5-black);
   font-weight: bold;
 }
-.cal-header span.sun { color: #ff5260; }
-.cal-header span.sat { color: #80b5ff; }
+
+.cal-header span.sun {
+  color: #ff5260;
+}
+
+.cal-header span.sat {
+  color: #80b5ff;
+}
 
 .cal-body {
   display: grid;
@@ -238,16 +261,24 @@
   row-gap: 2px;
   text-align: center;
 }
+
 .cal-day {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-weight: 700;
   font-size: clamp(11px, 2.4vw, 18px);
   color: #ffffff;
   padding: 1px 0;
   text-shadow: 1.5px 1.5px 0 var(--p5-black);
 }
-.cal-day.sun { color: #ff6e7a; }
-.cal-day.sat { color: #99c4ff; }
+
+.cal-day.sun {
+  color: #ff6e7a;
+}
+
+.cal-day.sat {
+  color: #99c4ff;
+}
+
 .cal-day.prev-month {
   color: rgba(255, 255, 255, 0.28);
   text-shadow: none;
@@ -258,12 +289,15 @@
   color: #ffffff !important;
   font-weight: 700;
 }
+
 .cal-day.today::after {
   content: "";
   position: absolute;
   inset: -1px;
   border: 2.5px solid var(--p5-red);
-  box-shadow: 0 0 10px rgba(230, 0, 18, 0.8), inset 0 0 4px rgba(230, 0, 18, 0.5);
+  box-shadow:
+    0 0 10px rgba(230, 0, 18, 0.8),
+    inset 0 0 4px rgba(230, 0, 18, 0.5);
   pointer-events: none;
   border-radius: 3px;
 }

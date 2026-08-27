@@ -9,51 +9,40 @@
 <body>
 
   <div class="p5-banner">
-    <!-- Unique Day Progression Comic Shapes -->
     <div class="red-shape day-shape-1"></div>
     <div class="red-shape day-shape-2"></div>
     <div class="red-shape day-shape-3"></div>
 
-    <!-- Speed Lines Accent -->
     <div class="day-speed-lines"></div>
 
-    <!-- White Comic Spikes -->
     <div class="spike day-spike-1"></div>
 
-    <!-- Stars -->
-    <div class="star star-left">
-      <svg width="48" height="48" viewBox="0 0 56 56">
-        <polygon points="28,2 34,20 54,20 38,32 44,52 28,40 12,52 18,32 2,20 22,20"
-          fill="#111" stroke="#e60012" stroke-width="2.5"/>
+    <div class="day-msg-left">
+      <svg width="93" height="88" viewBox="0 0 93 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12.8193 74.7516L0.593857 15.3105L86.5939 0.555557L88.2801 3.92811L89.5448 5.19281V9.83007L91.6527 11.5163L80.2703 50.7222L81.1135 56.6242L74.3684 66.3203H67.6233L63.4076 68.8497L62.5644 71.3791L26.7311 86.5556L23.7801 81.4967L24.6233 72.2222L12.8193 74.7516Z" fill="#FF0000" stroke="#FF0000" stroke-miterlimit="16"/>
+        <path d="M84.9076 3.08497L3.54485 16.5752L13.6625 69.6928L27.9958 66.7418L26.3096 80.6536L60.035 66.7418L60.8782 62.1046L73.5252 60.4183L87.437 8.56536L84.0645 9.83007L84.9076 3.08497Z" fill="black" stroke="black" stroke-miterlimit="16"/>
+        <path d="M18.7213 61.2614L10.7115 19.5261L81.9566 7.30066L70.5743 54.0948L52.0252 56.2026L54.1331 62.9477L32.6331 76.0163L38.1135 62.9477L33.4762 58.732L18.7213 61.2614Z" fill="white" stroke="white" stroke-miterlimit="16"/>
+        <circle cx="28.839" cy="38.4967" r="3.37255" fill="black"/>
+        <circle cx="44.8586" cy="36.8105" r="3.37255" fill="black"/>
+        <circle cx="59.1919" cy="35.1242" r="3.37255" fill="black"/>
       </svg>
     </div>
 
-    <!-- Random Mask Accent - Positioned stylishly in empty center-right area -->
     <div class="mask-container day-mask">
       <div class="mask-glow"></div>
       <img class="p5-mask" data-random-mask src="../assets/Ann Mask.png" alt="Phantom Mask" onerror="this.style.display='none';">
     </div>
 
-    <!-- Main Content -->
     <div class="content">
-      <!-- Top Row: Time Phase & Live Clock -->
       <div class="top-row">
         <div class="phase-badge">
           <span class="phase-prefix">TIME //</span>
           <span class="phase-title" id="phaseTitle">AFTER SCHOOL</span>
         </div>
-        <div class="time-badge">
-          <span class="time-text" id="liveTime">00:00:00</span>
-        </div>
       </div>
 
-      <!-- Mid Row: Title & Percentage -->
       <div class="mid-row">
         <div class="slogan-wrap">
-          <!-- Ransom-Note Styled Title -->
-          <!-- Letters are grouped per word (.ransom-word) so that if the
-               row ever runs out of space, a whole word wraps to the next
-               line instead of a single stray letter breaking off. -->
           <div class="slogan-main ransom-title">
             <span class="ransom-word">
               <span class="ransom-box r-b">D</span>
@@ -82,7 +71,6 @@
         </div>
       </div>
 
-      <!-- Progress Bar Track -->
       <div class="bar-section">
         <div class="bar-track-wrap">
           <div class="bar-bg-stripe"></div>
@@ -90,7 +78,6 @@
         </div>
       </div>
 
-      <!-- Bottom Row: Time Remaining & Motto -->
       <div class="bottom-row">
         <div class="time-remaining">
           TIME LEFT TODAY: <span id="timeLeft">00H 00M</span>
