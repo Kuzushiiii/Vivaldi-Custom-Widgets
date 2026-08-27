@@ -43,10 +43,26 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 
 ### Step 1: Apply Vivaldi Custom CSS (Recommended)
 To remove default white card backgrounds and title bars while keeping access to the 3-dots settings menu on hover:
-1. Open `vivaldi://experiments` in your Vivaldi address bar.
-2. Check **"Allow for CSS modifications"** and restart Vivaldi.
+1. Open `vivaldi://experiments` or `vivaldi://flags` in your Vivaldi address bar.
+<p align="center">
+     <img src="docs/assets/installation-step1.png" alt="Vivaldi Experiments menu" width="600">
+</p>
+
+2. Search **"Allow CSS modifications"** on the search bar, enable it and then restart Vivaldi.
+<p align="center">
+     <img src="docs/assets/installation-step2.png" alt="Enable CSS modifications" width="600">
+</p>
+
 3. Open **Settings** (`Ctrl + F12`) > **Appearance** > scroll to **Custom UI Modifications**.
+<p align="center">
+     <img src="docs/assets/installation-step3.png" alt="Vivaldi Settings menu" width="600">
+</p>
+
 4. Click **Select Folder...** and select the `vivaldi-css` folder from this repository.
+<p align="center">
+     <img src="docs/assets/installation-step4.png" alt="Selecting vivaldi-css folder" width="600">
+</p>
+
 5. Restart Vivaldi. *(For details, see [vivaldi-css/README.md](vivaldi-css/README.md))*
 
 ---
