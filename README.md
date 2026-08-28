@@ -96,9 +96,13 @@ To remove default white card backgrounds and title bars while keeping access to 
 
 ---
 
-### Spotify Widget Setup (Lanyard / Discord)
+### Spotify Widget Setup
 
-The Spotify widget displays your currently playing track in real-time without requiring Spotify API developer credentials.
+The Spotify widget displays your currently playing track in real-time. You can choose either **Discord (Lanyard)** or **Last.fm** as the data provider.
+
+---
+
+#### Option A: Discord (Lanyard API)
 
 > **Prerequisite :** You must join the [Lanyard Discord Server](https://discord.gg/lanyard) first. The Lanyard API requires you to share a mutual server with their bot to read your activity status.
 
@@ -115,10 +119,29 @@ The Spotify widget displays your currently playing track in real-time without re
    <img src="docs/assets/spotify-wid-step3.png" alt="Copy User ID" width="600">
 </p>
 
-3. Click the **CONFIG** button on the widget, paste your Discord User ID, and click **SAVE**.
+3. Click the **CONFIG** button on the widget, select the **DISCORD (LANYARD)** tab, paste your Discord User ID, and click **SAVE**.
 <p align="center">
    <img src="docs/assets/spotify-wid-step4.png" alt="Paste User ID" width="600">
 </p>
+
+---
+
+#### Option B: Last.fm (No Discord Required)
+
+If you don't use Discord or prefer scrobbling, you can integrate via Last.fm:
+
+1. Make **Last.fm** account if you dont have it in the first place  
+2. Connect your Spotify account to Last.fm via [Last.fm Settings > Applications](https://www.last.fm/settings/applications) (under **Spotify Scrobbling**, click **Connect**).
+3. Click the **CONFIG** button on the top right in Spotify Widget in Vivaldi.
+4. Switch to the **LAST.FM** tab.
+5. Enter your **Last.fm Username**.
+6. *(Optional)* Leave the **Custom API Key** field blank to use the built-in default API key, or provide your own from [Last.fm API Accounts](https://www.last.fm/api/account/create).
+7. Click **SAVE**.
+
+> ⚠️ **Important Note on Last.fm Experience:** 
+> Unlike Discord (Lanyard) which uses real-time WebSockets and directly reads active desktop app states (instantly knowing when you pause, buffer, or play ads), Last.fm is a web-based scrobbling service. Because of this technical limitation:
+> - The widget estimates track progression locally and may occasionally drift by a few seconds if your Spotify buffers, encounters lag, or plays Spotify Free ads.
+> - The widget automatically resynchronizes to `00:00` as soon as the next track begins.
 
 ---
 

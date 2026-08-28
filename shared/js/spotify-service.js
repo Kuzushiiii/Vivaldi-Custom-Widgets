@@ -4,25 +4,31 @@
  */
 
 const STORAGE_KEYS = {
-  PROVIDER: 'vcw_music_provider',
-  DISCORD: 'vcw_lanyard_discord_id',
-  LASTFM_USER: 'vcw_lastfm_username',
-  LASTFM_KEY: 'vcw_lastfm_api_key',
+  PROVIDER: "vcw_music_provider",
+  DISCORD: "vcw_lanyard_discord_id",
+  LASTFM_USER: "vcw_lastfm_username",
+  LASTFM_KEY: "vcw_lastfm_api_key",
 
-  LASTFM_CURRENT_TRACK: 'vcw_lastfm_current_track',
-  LASTFM_START_TIME: 'vcw_lastfm_start_time',
+  LASTFM_CURRENT_TRACK: "vcw_lastfm_current_track",
+  LASTFM_START_TIME: "vcw_lastfm_start_time",
+  LASTFM_PAUSED_ELAPSED: "vcw_lastfm_paused_elapsed",
+
+  LASTFM_TRACK_NAME: "vcw_lastfm_track_name",
+  LASTFM_TRACK_ARTIST: "vcw_lastfm_track_artist",
+  LASTFM_TRACK_ALBUM: "vcw_lastfm_track_album",
+  LASTFM_TRACK_ART: "vcw_lastfm_track_art",
 
   // Fallback / legacy keys for backward compatibility
-  LEGACY_PROVIDER: 'p5_music_provider',
-  LEGACY_DISCORD: 'p5_lanyard_discord_id',
-  LEGACY_LASTFM_USER: 'p5_lastfm_username',
-  LEGACY_LASTFM_KEY: 'p5_lastfm_api_key',
+  LEGACY_PROVIDER: "p5_music_provider",
+  LEGACY_DISCORD: "p5_lanyard_discord_id",
+  LEGACY_LASTFM_USER: "p5_lastfm_username",
+  LEGACY_LASTFM_KEY: "p5_lastfm_api_key",
 };
 
-const DEFAULT_LASTFM_API_KEY = 'b25b959554ed76058ac220b7b2e0a026';
+const DEFAULT_LASTFM_API_KEY = "b25b959554ed76058ac220b7b2e0a026";
 
 function getStorage(key, legacyKey) {
-  return localStorage.getItem(key) || (legacyKey ? localStorage.getItem(legacyKey) : null) || '';
+  return (localStorage.getItem(key) || (legacyKey ? localStorage.getItem(legacyKey) : null) ||"");
 }
 
 function setStorage(key, legacyKey, value) {
@@ -33,21 +39,21 @@ function setStorage(key, legacyKey, value) {
 }
 
 function formatTimeMs(ms) {
-  if (isNaN(ms) || ms < 0) return '00:00';
+  if (isNaN(ms) || ms < 0) return "00:00";
   const totalSec = Math.floor(ms / 1000);
   const min = Math.floor(totalSec / 60);
   const sec = totalSec % 60;
-  return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+  return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
 }
 
 class SpotifyService {
   constructor(options = {}) {
     this.options = options;
 
-    this.provider = getStorage(STORAGE_KEYS.PROVIDER, STORAGE_KEYS.LEGACY_PROVIDER) || 'discord';
-    this.discordId = getStorage(STORAGE_KEYS.DISCORD, STORAGE_KEYS.LEGACY_DISCORD);
-    this.lastfmUser = getStorage(STORAGE_KEYS.LASTFM_USER, STORAGE_KEYS.LEGACY_LASTFM_USER);
-    this.lastfmApiKey = getStorage(STORAGE_KEYS.LASTFM_KEY, STORAGE_KEYS.LEGACY_LASTFM_KEY);
+    this.provider = getStorage(STORAGE_KEYS.PROVIDER, STORAGE_KEYS.LEGACY_PROVIDER) || "discord";
+    this.discordId = getStorage(STORAGE_KEYS.DISCORD, STORAGE_KEYS.LEGACY_DISCORD,);
+    this.lastfmUser = getStorage(STORAGE_KEYS.LASTFM_USER, STORAGE_KEYS.LEGACY_LASTFM_USER,);
+    this.lastfmApiKey = getStorage(STORAGE_KEYS.LASTFM_KEY, STORAGE_KEYS.LEGACY_LASTFM_KEY,);
 
     this.socket = null;
     this.pollInterval = null;
@@ -56,6 +62,7 @@ class SpotifyService {
 
     this.trackStartTime = 0;
     this.trackEndTime = 0;
+    this.pausedElapsed = 0;
     this.isDemoMode = false;
     this.isPaused = false;
     this.currentTrackId = null;
@@ -65,11 +72,11 @@ class SpotifyService {
   }
 
   bindVisibilityHandler() {
-    document.addEventListener('visibilitychange', () => {
+    document.addEventListener("visibilitychange", () => {
       if (!document.hidden && !this.isDemoMode) {
-        if (this.provider === 'lastfm') {
+        if (this.provider === "lastfm") {
           this.fetchLastfmData();
-        } else if (this.provider === 'discord') {
+        } else if (this.provider === "discord") {
           if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
             this.connectLanyard();
           }
@@ -80,15 +87,15 @@ class SpotifyService {
   }
 
   saveConfig({ provider, discordId, lastfmUser, lastfmApiKey }) {
-    this.provider = provider || 'discord';
-    this.discordId = (discordId || '').trim();
-    this.lastfmUser = (lastfmUser || '').trim();
-    this.lastfmApiKey = (lastfmApiKey || '').trim();
+    this.provider = provider || "discord";
+    this.discordId = (discordId || "").trim();
+    this.lastfmUser = (lastfmUser || "").trim();
+    this.lastfmApiKey = (lastfmApiKey || "").trim();
 
-    setStorage(STORAGE_KEYS.PROVIDER, STORAGE_KEYS.LEGACY_PROVIDER, this.provider);
-    setStorage(STORAGE_KEYS.DISCORD, STORAGE_KEYS.LEGACY_DISCORD, this.discordId);
-    setStorage(STORAGE_KEYS.LASTFM_USER, STORAGE_KEYS.LEGACY_LASTFM_USER, this.lastfmUser);
-    setStorage(STORAGE_KEYS.LASTFM_KEY, STORAGE_KEYS.LEGACY_LASTFM_KEY, this.lastfmApiKey);
+    setStorage(STORAGE_KEYS.PROVIDER, STORAGE_KEYS.LEGACY_PROVIDER, this.provider,);
+    setStorage(STORAGE_KEYS.DISCORD, STORAGE_KEYS.LEGACY_DISCORD, this.discordId,);
+    setStorage(STORAGE_KEYS.LASTFM_USER, STORAGE_KEYS.LEGACY_LASTFM_USER, this.lastfmUser,);
+    setStorage(STORAGE_KEYS.LASTFM_KEY, STORAGE_KEYS.LEGACY_LASTFM_KEY, this.lastfmApiKey,);
 
     this.isDemoMode = false;
     this.init();
@@ -102,13 +109,13 @@ class SpotifyService {
       return;
     }
 
-    if (this.provider === 'discord') {
+    if (this.provider === "discord") {
       if (this.discordId) {
         this.connectLanyard();
       } else {
         this.runDemoMode();
       }
-    } else if (this.provider === 'lastfm') {
+    } else if (this.provider === "lastfm") {
       if (this.lastfmUser) {
         this.connectLastfm();
       } else {
@@ -146,19 +153,32 @@ class SpotifyService {
   updateProgress() {
     if (!this.options.onProgressUpdate) return;
 
-    if (!this.trackStartTime || !this.trackEndTime) {
+    if (!this.trackEndTime) {
       this.options.onProgressUpdate({
         isStreaming: true,
         percentage: 0,
-        currentFormatted: '--:--',
-        durationFormatted: '--:--'
+        currentFormatted: "--:--",
+        durationFormatted: "--:--",
       });
       return;
     }
 
     const totalDuration = this.trackEndTime - this.trackStartTime;
-    const currentElapsed = Math.min(totalDuration, Math.max(0, Date.now() - this.trackStartTime));
-    const percentage = Math.min(100, Math.max(0, (currentElapsed / totalDuration) * 100));
+    let currentElapsed = 0;
+
+    if (this.isPaused) {
+      currentElapsed = Math.min(totalDuration, Math.max(0, this.pausedElapsed));
+    } else {
+      currentElapsed = Math.min(
+        totalDuration,
+        Math.max(0, Date.now() - this.trackStartTime),
+      );
+    }
+
+    const percentage = Math.min(
+      100,
+      Math.max(0, (currentElapsed / totalDuration) * 100),
+    );
 
     this.options.onProgressUpdate({
       isStreaming: false,
@@ -166,7 +186,7 @@ class SpotifyService {
       currentFormatted: formatTimeMs(currentElapsed),
       durationFormatted: formatTimeMs(totalDuration),
       currentMs: currentElapsed,
-      totalMs: totalDuration
+      totalMs: totalDuration,
     });
 
     if (currentElapsed >= totalDuration && !this.isDemoMode) {
@@ -176,14 +196,17 @@ class SpotifyService {
 
   setPaused(isPaused) {
     this.isPaused = isPaused;
-    if (typeof this.options.onStateChange === 'function') {
-      this.options.onStateChange({ isPaused: this.isPaused, provider: this.provider });
+    if (typeof this.options.onStateChange === "function") {
+      this.options.onStateChange({
+        isPaused: this.isPaused,
+        provider: this.provider,
+      });
     }
   }
 
   notifyData(track) {
     if (!track || !track.song) {
-      if (typeof this.options.onStandby === 'function') {
+      if (typeof this.options.onStandby === "function") {
         this.options.onStandby(this.provider);
       }
       return;
@@ -194,11 +217,12 @@ class SpotifyService {
       this.currentTrackId = trackId;
     }
 
-    this.trackStartTime = track.timestamps ? (track.timestamps.start || 0) : 0;
-    this.trackEndTime = track.timestamps ? (track.timestamps.end || 0) : 0;
+    this.trackStartTime = track.timestamps ? track.timestamps.start || 0 : 0;
+    this.trackEndTime = track.timestamps ? track.timestamps.end || 0 : 0;
+    this.pausedElapsed = track.pausedElapsed || 0;
     this.setPaused(Boolean(track.isPaused));
 
-    if (typeof this.options.onTrackUpdate === 'function') {
+    if (typeof this.options.onTrackUpdate === "function") {
       this.options.onTrackUpdate(track);
     }
 
@@ -213,14 +237,15 @@ class SpotifyService {
     this.cleanup();
 
     try {
-      this.socket = new WebSocket('wss://api.lanyard.rest/socket');
+      this.socket = new WebSocket("wss://api.lanyard.rest/socket");
 
       this.socket.onopen = () => {
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
           this.socket.send(JSON.stringify({
-            op: 2,
-            d: { subscribe_to_id: this.discordId }
-          }));
+              op: 2,
+              d: { subscribe_to_id: this.discordId },
+            }),
+          );
         }
       };
 
@@ -238,7 +263,7 @@ class SpotifyService {
             }, interval);
           }
 
-          if (data.t === 'INIT_STATE' || data.t === 'PRESENCE_UPDATE') {
+          if (data.t === "INIT_STATE" || data.t === "PRESENCE_UPDATE") {
             const spotify = data.d?.spotify;
             if (spotify) {
               this.notifyData({
@@ -247,11 +272,11 @@ class SpotifyService {
                 album: spotify.album,
                 album_art_url: spotify.album_art_url,
                 timestamps: spotify.timestamps,
-                isPaused: false
+                isPaused: false,
               });
             } else {
-              if (typeof this.options.onStandby === 'function') {
-                this.options.onStandby('discord', 'SPOTIFY IS IDLE OR PAUSED');
+              if (typeof this.options.onStandby === "function") {
+                this.options.onStandby("discord", "SPOTIFY IS IDLE OR PAUSED");
               }
             }
           }
@@ -264,7 +289,8 @@ class SpotifyService {
 
       this.socket.onclose = () => {
         setTimeout(() => {
-          if (this.provider === 'discord' && !this.isDemoMode) this.connectLanyard();
+          if (this.provider === "discord" && !this.isDemoMode)
+            this.connectLanyard();
         }, 8000);
       };
     } catch (err) {
@@ -273,13 +299,16 @@ class SpotifyService {
   }
 
   fallbackRestPolling() {
-    if (!this.discordId || this.isDemoMode || this.provider !== 'discord') return;
+    if (!this.discordId || this.isDemoMode || this.provider !== "discord")
+      return;
     if (this.pollInterval) clearInterval(this.pollInterval);
 
     const fetchRest = async () => {
-      if (this.provider !== 'discord' || this.isDemoMode) return;
+      if (this.provider !== "discord" || this.isDemoMode) return;
       try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${this.discordId}`);
+        const res = await fetch(
+          `https://api.lanyard.rest/v1/users/${this.discordId}`,
+        );
         const json = await res.json();
         if (json.success && json.data) {
           if (json.data.spotify) {
@@ -289,16 +318,19 @@ class SpotifyService {
               album: json.data.spotify.album,
               album_art_url: json.data.spotify.album_art_url,
               timestamps: json.data.spotify.timestamps,
-              isPaused: false
+              isPaused: false,
             });
           } else {
-            if (typeof this.options.onStandby === 'function') {
-              this.options.onStandby('discord', 'SPOTIFY IS IDLE OR PAUSED');
+            if (typeof this.options.onStandby === "function") {
+              this.options.onStandby("discord", "SPOTIFY IS IDLE OR PAUSED");
             }
           }
-        } else if (json.error && json.error.code === 'USER_NOT_MONITORED') {
-          if (typeof this.options.onStandby === 'function') {
-            this.options.onStandby('discord', 'JOIN DISCORD.GG/LANYARD TO ENABLE MONITORING');
+        } else if (json.error && json.error.code === "USER_NOT_MONITORED") {
+          if (typeof this.options.onStandby === "function") {
+            this.options.onStandby(
+              "discord",
+              "JOIN DISCORD.GG/LANYARD TO ENABLE MONITORING",
+            );
           }
         }
       } catch (e) {}
@@ -335,15 +367,18 @@ class SpotifyService {
   }
 
   async fetchLastfmData() {
-    if (this.provider !== 'lastfm' || this.isDemoMode || !this.lastfmUser) return;
+    if (this.provider !== "lastfm" || this.isDemoMode || !this.lastfmUser)
+      return;
     const apiKey = this.lastfmApiKey.trim() || DEFAULT_LASTFM_API_KEY;
 
     try {
-      const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(this.lastfmUser)}&api_key=${apiKey}&format=json&limit=2`);
-      
+      const res = await fetch(
+        `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(this.lastfmUser)}&api_key=${apiKey}&format=json&limit=2`,
+      );
+
       if (!res.ok) {
-        if (typeof this.options.onStandby === 'function') {
-          this.options.onStandby('lastfm', `LAST.FM ERROR (${res.status})`);
+        if (typeof this.options.onStandby === "function") {
+          this.options.onStandby("lastfm", `LAST.FM ERROR (${res.status})`);
         }
         return;
       }
@@ -351,62 +386,165 @@ class SpotifyService {
       const json = await res.json();
 
       if (json.error) {
-        if (typeof this.options.onStandby === 'function') {
-          this.options.onStandby('lastfm', `LAST.FM: ${json.message || 'Error ' + json.error}`);
+        if (typeof this.options.onStandby === "function") {
+          this.options.onStandby(
+            "lastfm",
+            `LAST.FM: ${json.message || "Error " + json.error}`,
+          );
         }
         return;
       }
 
       if (json.recenttracks && json.recenttracks.track) {
         const rawTrack = json.recenttracks.track;
-        const tracks = Array.isArray(rawTrack) ? rawTrack : (rawTrack ? [rawTrack] : []);
+        const tracks = Array.isArray(rawTrack)
+          ? rawTrack
+          : rawTrack
+            ? [rawTrack]
+            : [];
 
         if (tracks.length > 0) {
           const track = tracks[0];
-          const isNowPlaying = Boolean(track['@attr'] && track['@attr'].nowplaying === 'true');
+          const isNowPlaying = Boolean(
+            track["@attr"] && track["@attr"].nowplaying === "true",
+          );
 
-          let albumArt = '';
+          let albumArt = "";
           if (track.image && Array.isArray(track.image)) {
-            const imgObj = track.image[3] || track.image[2] || track.image[1] || track.image[0];
-            albumArt = imgObj ? imgObj['#text'] : '';
+            const imgObj =
+              track.image[3] ||
+              track.image[2] ||
+              track.image[1] ||
+              track.image[0];
+            albumArt = imgObj ? imgObj["#text"] : "";
           }
 
-          const artistStr = (typeof track.artist === 'object' && track.artist !== null)
-            ? (track.artist['#text'] || track.artist.name || 'Unknown Artist')
-            : (track.artist || 'Unknown Artist');
+          const artistStr =
+            typeof track.artist === "object" && track.artist !== null
+              ? track.artist["#text"] || track.artist.name || "Unknown Artist"
+              : track.artist || "Unknown Artist";
 
-          const albumStr = (typeof track.album === 'object' && track.album !== null)
-            ? (track.album['#text'] || track.album.title || '')
-            : (track.album || '');
+          const albumStr =
+            typeof track.album === "object" && track.album !== null
+              ? track.album["#text"] || track.album.title || ""
+              : track.album || "";
 
-          const trackName = track.name || 'Unknown Track';
+          const trackName = track.name || "Unknown Track";
           const currentIdentifier = `${artistStr}-${trackName}`;
 
           let timestamps = null;
+          let pausedElapsed = 0;
 
           if (isNowPlaying) {
-            const savedTrack = localStorage.getItem(STORAGE_KEYS.LASTFM_CURRENT_TRACK);
-            const savedStartTime = parseInt(localStorage.getItem(STORAGE_KEYS.LASTFM_START_TIME) || '0', 10);
+            const savedTrack = localStorage.getItem(
+              STORAGE_KEYS.LASTFM_CURRENT_TRACK,
+            );
+            const savedStartTime = parseInt(
+              localStorage.getItem(STORAGE_KEYS.LASTFM_START_TIME) || "0",
+              10,
+            );
             let startTime = 0;
 
             if (savedTrack === currentIdentifier && savedStartTime > 0) {
               startTime = savedStartTime;
             } else {
-              startTime = Date.now();
-              localStorage.setItem(STORAGE_KEYS.LASTFM_CURRENT_TRACK, currentIdentifier);
-              localStorage.setItem(STORAGE_KEYS.LASTFM_START_TIME, String(startTime));
+              const savedPausedElapsed = parseInt(
+                localStorage.getItem(STORAGE_KEYS.LASTFM_PAUSED_ELAPSED) || "0",
+                10,
+              );
+              if (savedTrack === currentIdentifier && savedPausedElapsed > 0) {
+                startTime = Date.now() - savedPausedElapsed;
+              } else {
+                startTime = Date.now();
+              }
+              localStorage.setItem(
+                STORAGE_KEYS.LASTFM_CURRENT_TRACK,
+                currentIdentifier,
+              );
+              localStorage.setItem(
+                STORAGE_KEYS.LASTFM_START_TIME,
+                String(startTime),
+              );
             }
 
-            const durationMs = await this.fetchLastfmTrackDuration(artistStr, trackName, apiKey);
+            localStorage.setItem(STORAGE_KEYS.LASTFM_TRACK_NAME, trackName);
+            localStorage.setItem(STORAGE_KEYS.LASTFM_TRACK_ARTIST, artistStr);
+            localStorage.setItem(STORAGE_KEYS.LASTFM_TRACK_ALBUM, albumStr);
+            localStorage.setItem(STORAGE_KEYS.LASTFM_TRACK_ART, albumArt);
+            localStorage.removeItem(STORAGE_KEYS.LASTFM_PAUSED_ELAPSED);
+
+            const durationMs = await this.fetchLastfmTrackDuration(
+              artistStr,
+              trackName,
+              apiKey,
+            );
             if (durationMs > 0) {
               timestamps = {
                 start: startTime,
-                end: startTime + durationMs
+                end: startTime + durationMs,
               };
             }
           } else {
-            localStorage.removeItem(STORAGE_KEYS.LASTFM_CURRENT_TRACK);
-            localStorage.removeItem(STORAGE_KEYS.LASTFM_START_TIME);
+            const savedTrack = localStorage.getItem(
+              STORAGE_KEYS.LASTFM_CURRENT_TRACK,
+            );
+
+            if (savedTrack) {
+              trackName =
+                localStorage.getItem(STORAGE_KEYS.LASTFM_TRACK_NAME) ||
+                trackName;
+              artistStr =
+                localStorage.getItem(STORAGE_KEYS.LASTFM_TRACK_ARTIST) ||
+                artistStr;
+              albumStr =
+                localStorage.getItem(STORAGE_KEYS.LASTFM_TRACK_ALBUM) ||
+                albumStr;
+              albumArt =
+                localStorage.getItem(STORAGE_KEYS.LASTFM_TRACK_ART) || albumArt;
+
+              const savedStartTime = parseInt(
+                localStorage.getItem(STORAGE_KEYS.LASTFM_START_TIME) || "0",
+                10,
+              );
+              const savedPausedElapsed = parseInt(
+                localStorage.getItem(STORAGE_KEYS.LASTFM_PAUSED_ELAPSED) || "0",
+                10,
+              );
+              const durationMs = await this.fetchLastfmTrackDuration(
+                artistStr,
+                trackName,
+                apiKey,
+              );
+
+              if (savedPausedElapsed > 0) {
+                pausedElapsed = savedPausedElapsed;
+              } else if (savedStartTime > 0) {
+                pausedElapsed = Date.now() - savedStartTime;
+                if (durationMs > 0 && pausedElapsed > durationMs) {
+                  pausedElapsed = durationMs;
+                }
+                localStorage.setItem(
+                  STORAGE_KEYS.LASTFM_PAUSED_ELAPSED,
+                  String(pausedElapsed),
+                );
+              }
+              localStorage.removeItem(STORAGE_KEYS.LASTFM_START_TIME);
+
+              if (durationMs > 0) {
+                timestamps = {
+                  start: 0,
+                  end: durationMs,
+                };
+              }
+            } else {
+              localStorage.removeItem(STORAGE_KEYS.LASTFM_TRACK_NAME);
+              localStorage.removeItem(STORAGE_KEYS.LASTFM_TRACK_ARTIST);
+              localStorage.removeItem(STORAGE_KEYS.LASTFM_TRACK_ALBUM);
+              localStorage.removeItem(STORAGE_KEYS.LASTFM_TRACK_ART);
+              localStorage.removeItem(STORAGE_KEYS.LASTFM_CURRENT_TRACK);
+              localStorage.removeItem(STORAGE_KEYS.LASTFM_START_TIME);
+              localStorage.removeItem(STORAGE_KEYS.LASTFM_PAUSED_ELAPSED);
+            }
           }
 
           this.notifyData({
@@ -416,21 +554,22 @@ class SpotifyService {
             album_art_url: albumArt,
             timestamps,
             isPaused: !isNowPlaying,
-            isLastScrobble: !isNowPlaying
+            isLastScrobble: !isNowPlaying,
+            pausedElapsed: pausedElapsed,
           });
         } else {
-          if (typeof this.options.onStandby === 'function') {
-            this.options.onStandby('lastfm', 'NO RECENT SCROBBLES FOUND');
+          if (typeof this.options.onStandby === "function") {
+            this.options.onStandby("lastfm", "NO RECENT SCROBBLES FOUND");
           }
         }
       } else {
-        if (typeof this.options.onStandby === 'function') {
-          this.options.onStandby('lastfm', 'NO TRACK CURRENTLY PLAYING');
+        if (typeof this.options.onStandby === "function") {
+          this.options.onStandby("lastfm", "NO TRACK CURRENTLY PLAYING");
         }
       }
     } catch (e) {
-      if (typeof this.options.onStandby === 'function') {
-        this.options.onStandby('lastfm', 'LAST.FM CONNECTION ERROR');
+      if (typeof this.options.onStandby === "function") {
+        this.options.onStandby("lastfm", "LAST.FM CONNECTION ERROR");
       }
     }
   }
@@ -452,16 +591,17 @@ class SpotifyService {
     const endTime = startTime + demoDuration;
 
     this.notifyData({
-      song: 'Life Will Change',
-      artist: 'Lyn, Shoji Meguro',
-      album: 'Persona 5 Original Soundtrack',
-      album_art_url: 'https://i.scdn.co/image/ab67616d0000b27341ea22b31131102573d09a7b',
+      song: "Life Will Change",
+      artist: "Lyn, Shoji Meguro",
+      album: "Persona 5 Original Soundtrack",
+      album_art_url:
+        "https://t2.genius.com/unsafe/344x344/https%3A%2F%2Fimages.genius.com%2F29fe123938b00fe1522ca7a8c04ff9b5.1000x1000x1.png",
       timestamps: {
         start: startTime,
-        end: endTime
+        end: endTime,
       },
       isPaused: false,
-      isDemo: true
+      isDemo: true,
     });
   }
 }
@@ -471,189 +611,250 @@ class SpotifyService {
  */
 function initSpotifyWidget(config = {}) {
   const elements = {
-    badgePrefix: document.getElementById(config.badgePrefixId || 'badgePrefix'),
-    statusBadge: document.getElementById(config.statusBadgeId || 'statusBadge'),
-    songTitle: document.getElementById(config.songTitleId || 'songTitle'),
-    artistName: document.getElementById(config.artistNameId || 'artistName'),
-    albumName: document.getElementById(config.albumNameId || 'albumName'),
-    albumImg: document.getElementById(config.albumImgId || 'albumImg'),
-    artFallback: document.getElementById(config.artFallbackId || 'artFallback'),
-    trackProgress: document.getElementById(config.trackProgressId || 'trackProgress'),
-    timeCurrent: document.getElementById(config.timeCurrentId || 'timeCurrent'),
-    timeDuration: document.getElementById(config.timeDurationId || 'timeDuration'),
-    visOverlay: document.getElementById(config.visOverlayId || 'visOverlay'),
-    visBars: document.querySelectorAll(config.visBarsSelector || '.vis-bar'),
-    trackInfoSection: document.getElementById(config.trackInfoSectionId || 'trackInfoSection'),
-    artWrap: document.getElementById(config.artWrapId || 'artWrap'),
-    standbySection: document.getElementById(config.standbySectionId || 'standbySection'),
-    standbyHint: document.getElementById(config.standbyHintId || 'standbyHint'),
+    badgePrefix: document.getElementById(config.badgePrefixId || "badgePrefix"),
+    statusBadge: document.getElementById(config.statusBadgeId || "statusBadge"),
+    songTitle: document.getElementById(config.songTitleId || "songTitle"),
+    artistName: document.getElementById(config.artistNameId || "artistName"),
+    albumName: document.getElementById(config.albumNameId || "albumName"),
+    albumImg: document.getElementById(config.albumImgId || "albumImg"),
+    artFallback: document.getElementById(config.artFallbackId || "artFallback"),
+    trackProgress: document.getElementById(
+      config.trackProgressId || "trackProgress",
+    ),
+    timeCurrent: document.getElementById(config.timeCurrentId || "timeCurrent"),
+    timeDuration: document.getElementById(
+      config.timeDurationId || "timeDuration",
+    ),
+    visOverlay: document.getElementById(config.visOverlayId || "visOverlay"),
+    visBars: document.querySelectorAll(config.visBarsSelector || ".vis-bar"),
+    trackInfoSection: document.getElementById(
+      config.trackInfoSectionId || "trackInfoSection",
+    ),
+    artWrap: document.getElementById(config.artWrapId || "artWrap"),
+    standbySection: document.getElementById(
+      config.standbySectionId || "standbySection",
+    ),
+    standbyHint: document.getElementById(config.standbyHintId || "standbyHint"),
 
     // Modal elements
-    configModal: document.getElementById(config.configModalId || 'configModal'),
-    openConfigBtn: document.getElementById(config.openConfigBtnId || 'openConfigBtn'),
-    standbyConfigBtn: document.getElementById(config.standbyConfigBtnId || 'standbyConfigBtn'),
-    closeConfigBtn: document.getElementById(config.closeConfigBtnId || 'closeConfigBtn'),
-    saveConfigBtn: document.getElementById(config.saveConfigBtnId || 'saveConfigBtn'),
-    demoBtn: document.getElementById(config.demoBtnId || 'demoBtn'),
-    discordIdInput: document.getElementById(config.discordIdInputId || 'discordIdInput'),
-    lastfmUsernameInput: document.getElementById(config.lastfmUsernameInputId || 'lastfmUsernameInput'),
-    lastfmApiKeyInput: document.getElementById(config.lastfmApiKeyInputId || 'lastfmApiKeyInput'),
-    tabDiscord: document.getElementById(config.tabDiscordId || 'tabDiscord'),
-    tabLastfm: document.getElementById(config.tabLastfmId || 'tabLastfm'),
-    discordTabContent: document.getElementById(config.discordTabContentId || 'discordTabContent'),
-    lastfmTabContent: document.getElementById(config.lastfmTabContentId || 'lastfmTabContent'),
+    configModal: document.getElementById(config.configModalId || "configModal"),
+    openConfigBtn: document.getElementById(
+      config.openConfigBtnId || "openConfigBtn",
+    ),
+    standbyConfigBtn: document.getElementById(
+      config.standbyConfigBtnId || "standbyConfigBtn",
+    ),
+    closeConfigBtn: document.getElementById(
+      config.closeConfigBtnId || "closeConfigBtn",
+    ),
+    saveConfigBtn: document.getElementById(
+      config.saveConfigBtnId || "saveConfigBtn",
+    ),
+    demoBtn: document.getElementById(config.demoBtnId || "demoBtn"),
+    discordIdInput: document.getElementById(
+      config.discordIdInputId || "discordIdInput",
+    ),
+    lastfmUsernameInput: document.getElementById(
+      config.lastfmUsernameInputId || "lastfmUsernameInput",
+    ),
+    lastfmApiKeyInput: document.getElementById(
+      config.lastfmApiKeyInputId || "lastfmApiKeyInput",
+    ),
+    tabDiscord: document.getElementById(config.tabDiscordId || "tabDiscord"),
+    tabLastfm: document.getElementById(config.tabLastfmId || "tabLastfm"),
+    discordTabContent: document.getElementById(
+      config.discordTabContentId || "discordTabContent",
+    ),
+    lastfmTabContent: document.getElementById(
+      config.lastfmTabContentId || "lastfmTabContent",
+    ),
   };
 
   if (elements.albumImg && elements.artFallback) {
     elements.albumImg.onerror = () => {
-      elements.albumImg.style.display = 'none';
-      elements.artFallback.style.display = 'flex';
+      elements.albumImg.style.display = "none";
+      elements.artFallback.style.display = "flex";
     };
   }
 
-  let activeTabProvider = 'discord';
+  let activeTabProvider = "discord";
 
   const spotifyService = new SpotifyService({
     onTrackUpdate: (track) => {
-      if (elements.artWrap) elements.artWrap.style.display = 'flex';
-      if (elements.trackInfoSection) elements.trackInfoSection.style.display = 'flex';
-      if (elements.standbySection) elements.standbySection.style.display = 'none';
-      if (elements.visOverlay) elements.visOverlay.style.display = 'flex';
+      if (elements.artWrap) elements.artWrap.style.display = "flex";
+      if (elements.trackInfoSection)
+        elements.trackInfoSection.style.display = "flex";
+      if (elements.standbySection)
+        elements.standbySection.style.display = "none";
+      if (elements.visOverlay) elements.visOverlay.style.display = "flex";
 
-      if (elements.songTitle) elements.songTitle.textContent = track.song || 'Unknown Title';
-      if (elements.artistName) elements.artistName.textContent = (track.artist || 'Unknown Artist').replace(/;/g, ',');
-      if (elements.albumName) elements.albumName.textContent = track.album || '';
+      if (elements.songTitle)
+        elements.songTitle.textContent = track.song || "Unknown Title";
+      if (elements.artistName)
+        elements.artistName.textContent = (
+          track.artist || "Unknown Artist"
+        ).replace(/;/g, ",");
+      if (elements.albumName)
+        elements.albumName.textContent = track.album || "";
 
       if (track.album_art_url && elements.albumImg && elements.artFallback) {
         elements.albumImg.src = track.album_art_url;
-        elements.albumImg.style.display = 'block';
-        elements.artFallback.style.display = 'none';
+        elements.albumImg.style.display = "block";
+        elements.artFallback.style.display = "none";
       } else if (elements.albumImg && elements.artFallback) {
-        elements.albumImg.style.display = 'none';
-        elements.artFallback.style.display = 'flex';
+        elements.albumImg.style.display = "none";
+        elements.artFallback.style.display = "flex";
       }
 
       if (elements.badgePrefix) {
-        elements.badgePrefix.textContent = track.isDemo ? 'DEMO //' : 'BGM //';
+        elements.badgePrefix.textContent = track.isDemo ? "DEMO //" : "BGM //";
       }
 
       if (elements.statusBadge) {
         if (track.isLastScrobble) {
-          elements.statusBadge.textContent = 'LAST SCROBBLE';
+          elements.statusBadge.textContent = "LAST SCROBBLE";
         } else {
-          elements.statusBadge.textContent = track.isPaused ? 'PAUSED' : 'ON AIR';
+          elements.statusBadge.textContent = track.isPaused
+            ? "PAUSED"
+            : "ON AIR";
         }
       }
     },
 
-    onProgressUpdate: ({ isStreaming, percentage, currentFormatted, durationFormatted }) => {
+    onProgressUpdate: ({
+      isStreaming,
+      percentage,
+      currentFormatted,
+      durationFormatted,
+    }) => {
       if (!elements.trackProgress) return;
 
       if (isStreaming) {
-        elements.trackProgress.classList.add('streaming');
-        if (elements.timeCurrent) elements.timeCurrent.textContent = '--:--';
-        if (elements.timeDuration) elements.timeDuration.textContent = '--:--';
+        elements.trackProgress.classList.add("streaming");
+        if (elements.timeCurrent) elements.timeCurrent.textContent = "--:--";
+        if (elements.timeDuration) elements.timeDuration.textContent = "--:--";
       } else {
-        elements.trackProgress.classList.remove('streaming');
+        elements.trackProgress.classList.remove("streaming");
         elements.trackProgress.style.width = `${percentage}%`;
-        if (elements.timeCurrent) elements.timeCurrent.textContent = currentFormatted;
-        if (elements.timeDuration) elements.timeDuration.textContent = durationFormatted;
+        if (elements.timeCurrent)
+          elements.timeCurrent.textContent = currentFormatted;
+        if (elements.timeDuration)
+          elements.timeDuration.textContent = durationFormatted;
       }
     },
 
     onStateChange: ({ isPaused }) => {
       if (elements.visBars) {
-        elements.visBars.forEach(bar => {
-          if (isPaused) bar.classList.add('paused');
-          else bar.classList.remove('paused');
+        elements.visBars.forEach((bar) => {
+          if (isPaused) bar.classList.add("paused");
+          else bar.classList.remove("paused");
         });
       }
       if (elements.statusBadge && !spotifyService.isLastScrobble) {
-        elements.statusBadge.textContent = isPaused ? 'PAUSED' : 'ON AIR';
-        if (isPaused) elements.statusBadge.classList.add('paused');
-        else elements.statusBadge.classList.remove('paused');
+        elements.statusBadge.textContent = isPaused ? "PAUSED" : "ON AIR";
+        if (isPaused) elements.statusBadge.classList.add("paused");
+        else elements.statusBadge.classList.remove("paused");
       }
     },
 
     onStandby: (provider, hintText) => {
-      if (elements.artWrap) elements.artWrap.style.display = 'none';
-      if (elements.trackInfoSection) elements.trackInfoSection.style.display = 'none';
-      if (elements.standbySection) elements.standbySection.style.display = 'flex';
-      if (elements.visOverlay) elements.visOverlay.style.display = 'none';
+      if (elements.artWrap) elements.artWrap.style.display = "none";
+      if (elements.trackInfoSection)
+        elements.trackInfoSection.style.display = "none";
+      if (elements.standbySection)
+        elements.standbySection.style.display = "flex";
+      if (elements.visOverlay) elements.visOverlay.style.display = "none";
 
       if (elements.visBars) {
-        elements.visBars.forEach(bar => bar.classList.add('paused'));
+        elements.visBars.forEach((bar) => bar.classList.add("paused"));
       }
 
       if (elements.standbyHint) {
         if (hintText) {
           elements.standbyHint.textContent = hintText;
-        } else if (provider === 'discord') {
-          elements.standbyHint.textContent = 'If not detected, make sure you joined discord.gg/lanyard';
+        } else if (provider === "discord") {
+          elements.standbyHint.textContent =
+            "If not detected, make sure you joined discord.gg/lanyard";
         } else {
-          elements.standbyHint.textContent = 'Play a track on Spotify to display';
+          elements.standbyHint.textContent =
+            "Play a track on Spotify to display";
         }
       }
-    }
+    },
   });
 
   // Wire Modal handlers
   function switchTab(prov) {
     activeTabProvider = prov;
-    if (elements.tabDiscord && elements.tabLastfm && elements.discordTabContent && elements.lastfmTabContent) {
-      if (prov === 'discord') {
-        elements.tabDiscord.classList.add('active');
-        elements.tabLastfm.classList.remove('active');
-        elements.discordTabContent.style.display = 'block';
-        elements.lastfmTabContent.style.display = 'none';
+    if (
+      elements.tabDiscord &&
+      elements.tabLastfm &&
+      elements.discordTabContent &&
+      elements.lastfmTabContent
+    ) {
+      if (prov === "discord") {
+        elements.tabDiscord.classList.add("active");
+        elements.tabLastfm.classList.remove("active");
+        elements.discordTabContent.style.display = "block";
+        elements.lastfmTabContent.style.display = "none";
       } else {
-        elements.tabLastfm.classList.add('active');
-        elements.tabDiscord.classList.remove('active');
-        elements.lastfmTabContent.style.display = 'block';
-        elements.discordTabContent.style.display = 'none';
+        elements.tabLastfm.classList.add("active");
+        elements.tabDiscord.classList.remove("active");
+        elements.lastfmTabContent.style.display = "block";
+        elements.discordTabContent.style.display = "none";
       }
     }
   }
 
   if (elements.tabDiscord) {
-    elements.tabDiscord.addEventListener('click', () => switchTab('discord'));
+    elements.tabDiscord.addEventListener("click", () => switchTab("discord"));
   }
   if (elements.tabLastfm) {
-    elements.tabLastfm.addEventListener('click', () => switchTab('lastfm'));
+    elements.tabLastfm.addEventListener("click", () => switchTab("lastfm"));
   }
 
   function openModal() {
-    if (elements.discordIdInput) elements.discordIdInput.value = spotifyService.discordId;
-    if (elements.lastfmUsernameInput) elements.lastfmUsernameInput.value = spotifyService.lastfmUser;
-    if (elements.lastfmApiKeyInput) elements.lastfmApiKeyInput.value = spotifyService.lastfmApiKey;
+    if (elements.discordIdInput)
+      elements.discordIdInput.value = spotifyService.discordId;
+    if (elements.lastfmUsernameInput)
+      elements.lastfmUsernameInput.value = spotifyService.lastfmUser;
+    if (elements.lastfmApiKeyInput)
+      elements.lastfmApiKeyInput.value = spotifyService.lastfmApiKey;
 
     switchTab(spotifyService.provider);
 
-    if (elements.configModal) elements.configModal.style.display = 'flex';
+    if (elements.configModal) elements.configModal.style.display = "flex";
   }
 
   function closeModal() {
-    if (elements.configModal) elements.configModal.style.display = 'none';
+    if (elements.configModal) elements.configModal.style.display = "none";
   }
 
-  if (elements.openConfigBtn) elements.openConfigBtn.addEventListener('click', openModal);
-  if (elements.standbyConfigBtn) elements.standbyConfigBtn.addEventListener('click', openModal);
-  if (elements.closeConfigBtn) elements.closeConfigBtn.addEventListener('click', closeModal);
+  if (elements.openConfigBtn)
+    elements.openConfigBtn.addEventListener("click", openModal);
+  if (elements.standbyConfigBtn)
+    elements.standbyConfigBtn.addEventListener("click", openModal);
+  if (elements.closeConfigBtn)
+    elements.closeConfigBtn.addEventListener("click", closeModal);
 
   if (elements.saveConfigBtn) {
-    elements.saveConfigBtn.addEventListener('click', () => {
+    elements.saveConfigBtn.addEventListener("click", () => {
       spotifyService.saveConfig({
         provider: activeTabProvider,
-        discordId: elements.discordIdInput ? elements.discordIdInput.value : '',
-        lastfmUser: elements.lastfmUsernameInput ? elements.lastfmUsernameInput.value : '',
-        lastfmApiKey: elements.lastfmApiKeyInput ? elements.lastfmApiKeyInput.value : ''
+        discordId: elements.discordIdInput ? elements.discordIdInput.value : "",
+        lastfmUser: elements.lastfmUsernameInput
+          ? elements.lastfmUsernameInput.value
+          : "",
+        lastfmApiKey: elements.lastfmApiKeyInput
+          ? elements.lastfmApiKeyInput.value
+          : "",
       });
       closeModal();
     });
   }
 
   if (elements.demoBtn) {
-    elements.demoBtn.addEventListener('click', () => {
+    elements.demoBtn.addEventListener("click", () => {
       closeModal();
       spotifyService.runDemoMode();
     });
