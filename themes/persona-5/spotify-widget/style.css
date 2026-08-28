@@ -208,6 +208,7 @@
   font-family: 'Anton', sans-serif;
   text-align: center;
 }
+
 .album-fallback svg {
   width: 42%;
   height: 42%;
@@ -265,6 +266,7 @@
   white-space: nowrap;
   position: relative;
 }
+
 .song-title {
   font-family: 'Anton', sans-serif;
   font-size: clamp(17px, 4vw, 32px);
@@ -389,6 +391,7 @@
   justify-content: center;
   padding: 12px;
 }
+
 .modal-box {
   background: var(--p5-bg-card);
   border: 2.5px solid var(--p5-red);
@@ -401,6 +404,7 @@
   flex-direction: column;
   gap: 10px;
 }
+
 .modal-title {
   font-family: 'Anton', sans-serif;
   font-size: 18px;
@@ -410,11 +414,13 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .service-tabs {
   display: flex;
   gap: 6px;
   margin-top: 2px;
 }
+
 .tab-btn {
   flex: 1;
   padding: 4px 8px;
@@ -427,6 +433,7 @@
   cursor: pointer;
   transform: skewX(-4deg);
 }
+
 .tab-btn.active {
   background: var(--p5-red);
   color: var(--p5-white);
@@ -464,6 +471,7 @@
   font-size: 13px;
   outline: none;
 }
+
 .modal-input:focus { border-color: var(--p5-red); }
 .modal-btns {
   display: flex;
@@ -471,6 +479,7 @@
   gap: 8px;
   margin-top: 4px;
 }
+
 .btn-save, .btn-cancel, .btn-demo {
   font-family: 'Anton', sans-serif;
   letter-spacing: 1px;
@@ -480,11 +489,11 @@
   font-size: 12px;
   transform: skewX(-4deg);
 }
+
 .btn-save { background: var(--p5-red); color: var(--p5-white); box-shadow: 2px 2px 0 var(--p5-black); }
 .btn-demo { background: #2f8f3f; color: var(--p5-white); box-shadow: 2px 2px 0 var(--p5-black); }
 .btn-cancel { background: #333; color: #bbb; }
 
-/* Standby Overlay */
 .standby-state {
   display: none;
   flex-direction: column;
@@ -495,6 +504,7 @@
   text-align: center;
   padding: 0 10px;
 }
+
 .standby-title {
   font-family: 'Anton', sans-serif;
   font-size: clamp(14px, 3.5vw, 24px);
@@ -502,12 +512,14 @@
   letter-spacing: 2px;
   text-shadow: 2px 2px 0 var(--p5-black);
 }
+
 .standby-sub {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(11px, 2vw, 15px);
   color: var(--p5-red);
   letter-spacing: 1.5px;
 }
+
 .standby-hint {
   font-family: 'Oswald', sans-serif;
   font-size: clamp(10px, 1.6vw, 13px);

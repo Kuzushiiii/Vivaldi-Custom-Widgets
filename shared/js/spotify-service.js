@@ -618,6 +618,8 @@ function initSpotifyWidget(config = {}) {
     albumName: document.getElementById(config.albumNameId || "albumName"),
     albumImg: document.getElementById(config.albumImgId || "albumImg"),
     artFallback: document.getElementById(config.artFallbackId || "artFallback"),
+    p5Banner: document.querySelector('.p5-banner'),
+    infoBot: document.querySelector('.info-bot-centered'),
     trackProgress: document.getElementById(
       config.trackProgressId || "trackProgress",
     ),
@@ -681,12 +683,18 @@ function initSpotifyWidget(config = {}) {
 
   const spotifyService = new SpotifyService({
     onTrackUpdate: (track) => {
-      if (elements.artWrap) elements.artWrap.style.display = "flex";
+      if (elements.p5Banner) 
+        elements.p5Banner.classList.add('is-playing');
+      if (elements.infoBot) 
+        elements.infoBot.style.display = 'flex';
+      if (elements.artWrap) 
+        elements.artWrap.style.display = "flex";
       if (elements.trackInfoSection)
         elements.trackInfoSection.style.display = "flex";
       if (elements.standbySection)
         elements.standbySection.style.display = "none";
-      if (elements.visOverlay) elements.visOverlay.style.display = "flex";
+      if (elements.visOverlay) 
+        elements.visOverlay.style.display = "flex";
 
       if (elements.songTitle)
         elements.songTitle.textContent = track.song || "Unknown Title";
@@ -731,8 +739,10 @@ function initSpotifyWidget(config = {}) {
 
       if (isStreaming) {
         elements.trackProgress.classList.add("streaming");
-        if (elements.timeCurrent) elements.timeCurrent.textContent = "--:--";
-        if (elements.timeDuration) elements.timeDuration.textContent = "--:--";
+        if (elements.timeCurrent) 
+          elements.timeCurrent.textContent = "--:--";
+        if (elements.timeDuration) 
+          elements.timeDuration.textContent = "--:--";
       } else {
         elements.trackProgress.classList.remove("streaming");
         elements.trackProgress.style.width = `${percentage}%`;
@@ -758,7 +768,12 @@ function initSpotifyWidget(config = {}) {
     },
 
     onStandby: (provider, hintText) => {
-      if (elements.artWrap) elements.artWrap.style.display = "none";
+      if (elements.p5Banner) 
+        elements.p5Banner.classList.remove('is-playing');
+      if (elements.infoBot) 
+        elements.infoBot.style.display = 'none';
+      if (elements.artWrap) 
+        elements.artWrap.style.display = "none";
       if (elements.trackInfoSection)
         elements.trackInfoSection.style.display = "none";
       if (elements.standbySection)
