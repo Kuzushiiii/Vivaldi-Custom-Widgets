@@ -132,9 +132,17 @@ If you don't use Discord or prefer scrobbling, you can integrate via Last.fm:
 
 1. Make **Last.fm** account if you dont have it in the first place  
 2. Connect your Spotify account to Last.fm via [Last.fm Settings > Applications](https://www.last.fm/settings/applications) (under **Spotify Scrobbling**, click **Connect**).
+<p align="center">
+   <img src="docs/assets/last.fm-step1.jpeg" alt="Connect Spotify Last.fm" width="600">
+</p>
+
 3. Click the **CONFIG** button on the top right in Spotify Widget in Vivaldi.
 4. Switch to the **LAST.FM** tab.
 5. Enter your **Last.fm Username**.
+<p align="center">
+   <img src="docs/assets/last.fm-step2.png" alt="Paste User ID" width="600">
+</p>
+
 6. *(Optional)* Leave the **Custom API Key** field blank to use the built-in default API key, or provide your own from [Last.fm API Accounts](https://www.last.fm/api/account/create).
 7. Click **SAVE**.
 
