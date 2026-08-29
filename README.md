@@ -63,7 +63,7 @@ To remove default white card backgrounds and title bars while keeping access to 
    <img src="docs/assets/installation-step4.png" alt="Selecting vivaldi-css folder" width="600">
 </p>
 
-5. Restart Vivaldi. *(For details, see [vivaldi-css/README.md](vivaldi-css/README.md))*
+5. Restart Vivaldi, and then the white card backgrounds and the title bars should be removed, but the access to the 3-dots still exist on hover.
 
 ---
 
