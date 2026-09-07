@@ -1,39 +1,26 @@
-/* ==========================================================================
-   Violet Evergarden — Auto Memory Doll Calendar Theme
-   Victorian, Typewriter, & Letter Stationery Aesthetic
-   ========================================================================== */
-
 :root {
-  /* --- Palette (Requested Specifications) --- */
-  --bg-paper: #F9F6F0;                  /* Ivory/Off-white parchment */
-  --text-ink: #2b2422;                  /* Deep, warm charcoal/dark brown ink (never pure black) */
-  --accent-emerald: #3c6e5a;            /* Muted emerald green (Gilbert's brooch) */
-  --accent-wax-red: #a63a33;            /* Vintage sealing wax red */
-  --border-delicate: rgba(43, 36, 34, 0.15); /* Faint ink lines for ledger grid */
+  --bg-paper: #F9F6F0;
+  --text-ink: #2b2422;
+  --accent-emerald: #3c6e5a;
+  --accent-wax-red: #a63a33;
+  --border-delicate: rgba(43, 36, 34, 0.15);
 
-  /* --- Supplemental Aesthetic Palette --- */
   --bg-paper-warm: #F4EFE6;
   --bg-note-torn: #FBF8F1;
   --text-ink-muted: rgba(43, 36, 34, 0.65);
   --text-ink-faint: rgba(43, 36, 34, 0.35);
   --border-letterhead: rgba(43, 36, 34, 0.25);
   --brass-accent: #b38b4d;
-  --brass-dark: #7a5c2d;
   --wax-shadow: rgba(166, 58, 51, 0.38);
   --wax-deep: #782620;
 
-  /* --- Typography --- */
   --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-typewriter: 'Special Elite', 'Courier Prime', monospace;
   --font-cursive: 'Great Vibes', 'Dancing Script', cursive;
 
-  /* --- Sizing & Rhythms --- */
   --radius-card: 8px;
 }
 
-/* ==========================================================================
-   Reset & Viewport Setup
-   ========================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -56,10 +43,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ==========================================================================
-   Main Stationery Widget Container
-   Simulates authentic heavy-grain Victorian parchment & letterhead paper
-   ========================================================================== */
+/* Stationery Card Container */
 .stationery-widget {
   position: relative;
   width: 100%;
@@ -68,23 +52,17 @@ body {
   border-radius: var(--radius-card);
   overflow: hidden;
   isolation: isolate;
-
-  /* Requested paper thickness inset shadow */
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.03), 0 4px 18px rgba(43, 36, 34, 0.12);
-
-  /* Outer vintage parchment border */
   border: 1px solid var(--border-delicate);
 }
 
-/* Faint horizontal ruled ledger lines & watermarked stationery weave */
+/* Ruled ledger lines & stationery watermark */
 .stationery-widget::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-
-  /* Fine ruled ledger lines + subtle watermark texture */
   background-image: 
     repeating-linear-gradient(
       to bottom,
@@ -101,7 +79,7 @@ body {
   opacity: 0.85;
 }
 
-/* Victorian double-line ornamental inner frame */
+/* Double-line letterhead frame */
 .stationery-widget::after {
   content: "";
   position: absolute;
@@ -113,7 +91,6 @@ body {
   box-shadow: inset 0 0 0 1px rgba(249, 246, 240, 0.6);
 }
 
-/* Inner content wrapper */
 .stationery-inner {
   position: relative;
   z-index: 3;
@@ -124,9 +101,7 @@ body {
   padding: clamp(10px, 2.5vw, 16px) clamp(12px, 3.2vw, 22px) clamp(8px, 2vw, 12px);
 }
 
-/* ==========================================================================
-   Letterhead Top Banner
-   ========================================================================== */
+/* Header Letterhead */
 .letterhead-header {
   display: flex;
   flex-direction: column;
@@ -171,9 +146,7 @@ body {
   );
 }
 
-/* ==========================================================================
-   Calendar Navigation & Month / Year Headline
-   ========================================================================== */
+/* Month/Year Navigation Bar */
 .calendar-nav-bar {
   display: flex;
   align-items: baseline;
@@ -188,7 +161,6 @@ body {
   gap: 10px;
 }
 
-/* Current Month in elegant cursive Accent Font */
 .cursive-month {
   font-family: var(--font-cursive);
   font-size: clamp(26px, 5.8vw, 36px);
@@ -199,7 +171,6 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* Year typed next to month in typewriter font */
 .typewriter-year {
   font-family: var(--font-typewriter);
   font-size: clamp(14px, 2.8vw, 18px);
@@ -208,7 +179,6 @@ body {
   letter-spacing: 2px;
 }
 
-/* Navigation Controls (Vintage ink stamps / brass buttons) */
 .nav-controls {
   display: flex;
   align-items: center;
@@ -256,9 +226,7 @@ body {
   background: rgba(43, 36, 34, 0.09);
 }
 
-/* ==========================================================================
-   Calendar Days of Week Header (Serif Font)
-   ========================================================================== */
+/* Days of Week */
 .calendar-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -287,22 +255,19 @@ body {
   color: var(--text-ink-muted);
 }
 
-/* ==========================================================================
-   Calendar Grid (Thin delicate ink lines & spacious ledger cells)
-   ========================================================================== */
+/* Calendar Grid */
 .calendar-grid {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-auto-rows: 1fr;
   gap: 1px;
-  background-color: var(--border-delicate); /* Renders hairline grid border */
+  background-color: var(--border-delicate);
   border: 1px solid var(--border-delicate);
   border-radius: 2px;
   overflow: hidden;
 }
 
-/* Calendar Day Cell */
 .cal-day {
   background-color: var(--bg-paper);
   display: flex;
@@ -319,7 +284,6 @@ body {
   background-color: rgba(60, 110, 90, 0.06);
 }
 
-/* Day Number Typography */
 .day-num {
   font-family: var(--font-serif);
   font-size: clamp(11.5px, 2.1vw, 15px);
@@ -329,7 +293,6 @@ body {
   transition: transform 0.15s ease;
 }
 
-/* Trailing / Leading Months Days */
 .cal-day.prev-month {
   background-color: rgba(244, 239, 230, 0.55);
   cursor: default;
@@ -343,10 +306,7 @@ body {
   color: var(--accent-wax-red);
 }
 
-/* ==========================================================================
-   Current Date Indicator: Pressed Red Wax Seal
-   Simulates authentic Victorian hot wax stamp pressed onto stationery
-   ========================================================================== */
+/* Current Date Wax Seal Badge */
 .cal-day.today {
   position: relative;
   z-index: 2;
@@ -361,7 +321,7 @@ body {
   background: radial-gradient(circle at 35% 30%, #c4473f 0%, var(--accent-wax-red) 65%, var(--wax-deep) 100%);
   color: #ffffff !important;
   font-weight: 700;
-  border-radius: 50% 48% 52% 49% / 49% 52% 48% 51%; /* Organic wax contours */
+  border-radius: 50% 48% 52% 49% / 49% 52% 48% 51%;
   box-shadow: 
     0 2px 5px var(--wax-shadow),
     0 1px 2px rgba(43, 36, 34, 0.25),
@@ -371,7 +331,6 @@ body {
   transform: rotate(-2deg);
 }
 
-/* Wax seal embossed outer ring */
 .cal-day.today .day-num::after {
   content: "";
   position: absolute;
@@ -381,9 +340,7 @@ body {
   pointer-events: none;
 }
 
-/* ==========================================================================
-   Event Indicators (Muted Emerald Green Gilbert's Brooch Motif)
-   ========================================================================== */
+/* Emerald Event Indicators */
 .event-dot-wrap {
   display: flex;
   align-items: center;
@@ -407,7 +364,6 @@ body {
   background-color: #2b5243;
 }
 
-/* Underline variant if multiple events */
 .cal-day.has-event.multi-event .event-dot-wrap::after {
   content: "";
   width: 10px;
@@ -417,16 +373,13 @@ body {
   border-radius: 1px;
 }
 
-/* Selected / Active Day highlight */
 .cal-day.active-day {
   background-color: rgba(60, 110, 90, 0.12);
   outline: 1px solid var(--accent-emerald);
   outline-offset: -1px;
 }
 
-/* ==========================================================================
-   Ledger Footer Letterhead
-   ========================================================================== */
+/* Ledger Footer */
 .ledger-footer {
   display: flex;
   align-items: center;
@@ -446,10 +399,7 @@ body {
   color: var(--text-ink-muted);
 }
 
-/* ==========================================================================
-   Torn Note / Typewriter Event Details Popover
-   Displays event details like a typed scrap of letter paper
-   ========================================================================== */
+/* Torn Note Popover */
 .torn-note-card {
   position: absolute;
   top: 48%;
@@ -479,7 +429,6 @@ body {
   transform: translate(-50%, -50%) scale(1) rotate(-1deg);
 }
 
-/* Torn paper irregular top edge */
 .torn-paper-edge {
   height: 7px;
   background: 
@@ -490,7 +439,6 @@ body {
   border-bottom: 1px dashed rgba(43, 36, 34, 0.15);
 }
 
-/* Decorative vintage brass paperclip */
 .paper-clip-brass {
   position: absolute;
   top: -2px;
@@ -616,10 +564,7 @@ body {
   color: var(--text-ink);
 }
 
-/* ==========================================================================
-   FIGMA ASSET PLACEHOLDERS (Absolute Positioned Containers)
-   These slots are positioned so custom SVGs can be dropped right in.
-   ========================================================================== */
+/* Asset Placeholders */
 .figma-placeholder {
   position: absolute;
   z-index: 10;
@@ -630,7 +575,6 @@ body {
   transition: opacity 0.3s ease;
 }
 
-/* Placeholder hint icon (discreetly visible if no SVG is injected yet) */
 .placeholder-hint {
   display: flex;
   align-items: center;
@@ -640,7 +584,6 @@ body {
   opacity: 0.35;
 }
 
-/* Placeholder 1: Top-Left Gilbert's Emerald Brooch */
 .brooch-placeholder {
   top: 8px;
   left: 10px;
@@ -653,7 +596,6 @@ body {
   filter: drop-shadow(0 1px 2px rgba(60, 110, 90, 0.3));
 }
 
-/* Placeholder 2: Top-Right CH Postal Postmark Stamp */
 .postal-stamp-placeholder {
   top: 8px;
   right: 10px;
@@ -669,7 +611,6 @@ body {
   letter-spacing: 1px;
 }
 
-/* Placeholder 3: Bottom-Right Violet's Bougainvillea Flowers & Ribbons */
 .flower-placeholder {
   bottom: 6px;
   right: 8px;
@@ -682,7 +623,6 @@ body {
   opacity: 0.5;
 }
 
-/* Placeholder 4: Bottom-Left Auto Memory Doll Signature / Typewriter Ribbon */
 .typewriter-placeholder {
   bottom: 6px;
   left: 10px;
@@ -695,7 +635,6 @@ body {
   color: var(--text-ink-faint);
 }
 
-/* Once you inject an SVG into any placeholder, ensure it scales cleanly */
 .figma-placeholder svg {
   width: 100%;
   height: 100%;
@@ -703,14 +642,11 @@ body {
   filter: drop-shadow(1px 2px 3px rgba(43, 36, 34, 0.15));
 }
 
-/* Hide placeholder hints automatically if an SVG is inserted */
 .figma-placeholder:has(svg) .placeholder-hint {
   display: none;
 }
 
-/* ==========================================================================
-   Responsive Adaptations
-   ========================================================================== */
+/* Responsive Adaptations */
 @media (max-width: 320px) {
   .stationery-inner {
     padding: 6px 8px;

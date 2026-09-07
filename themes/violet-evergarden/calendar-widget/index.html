@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Violet Evergarden — Auto Memory Doll Calendar</title>
 
-  <!-- Google Fonts: Serif (Playfair/Cormorant), Typewriter (Special Elite/Courier Prime), Cursive (Great Vibes/Dancing Script) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@500;600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Special+Elite&display=swap" rel="stylesheet">
@@ -14,65 +13,28 @@
 </head>
 <body>
 
-  <!-- Main Stationery Widget Container -->
   <div class="stationery-widget" id="violetCalendarWidget">
 
-    <!-- ================================================================= -->
-    <!-- FIGMA ASSET PLACEHOLDERS (Absolute Positioned Containers)        -->
-    <!-- You can directly inject your custom SVGs into these containers.  -->
-    <!-- ================================================================= -->
-
-    <!-- FIGMA PLACEHOLDER 1: Major Gilbert's Emerald Brooch (Top-Left) -->
-    <div class="figma-placeholder brooch-placeholder" id="placeholderBrooch" data-placeholder="Gilbert's Emerald Brooch" title="Figma Placeholder: Emerald Brooch">
-      <!-- 
-        [FIGMA SVG INJECTION POINT]:
-        Paste your custom Emerald Brooch SVG here.
-        Example: <svg viewBox="0 0 48 48">...</svg> 
-      -->
-      <div class="placeholder-hint">
-        <span class="hint-gem">◆</span>
-      </div>
+    <!-- Figma Asset Placeholders -->
+    <div class="figma-placeholder brooch-placeholder" id="placeholderBrooch" title="Gilbert's Emerald Brooch">
+      <div class="placeholder-hint"><span class="hint-gem">◆</span></div>
     </div>
 
-    <!-- FIGMA PLACEHOLDER 2: CH Postal Company Stamp / Leiden Postmark (Top-Right) -->
-    <div class="figma-placeholder postal-stamp-placeholder" id="placeholderPostalStamp" data-placeholder="CH Postal Postmark" title="Figma Placeholder: CH Postal Postmark">
-      <!-- 
-        [FIGMA SVG INJECTION POINT]:
-        Paste your CH Postal Company Seal or Vintage Postage Stamp SVG here.
-      -->
-      <div class="placeholder-hint">
-        <span class="hint-stamp">POST</span>
-      </div>
+    <div class="figma-placeholder postal-stamp-placeholder" id="placeholderPostalStamp" title="CH Postal Postmark">
+      <div class="placeholder-hint"><span class="hint-stamp">POST</span></div>
     </div>
 
-    <!-- FIGMA PLACEHOLDER 3: Violet's Bougainvillea Flowers & Ribbons (Bottom-Right) -->
-    <div class="figma-placeholder flower-placeholder" id="placeholderFlower" data-placeholder="Bougainvillea Flowers" title="Figma Placeholder: Bougainvillea Flowers">
-      <!-- 
-        [FIGMA SVG INJECTION POINT]:
-        Paste your Bougainvillea floral cluster or silk ribbon SVG here.
-      -->
-      <div class="placeholder-hint">
-        <span class="hint-flora">❦</span>
-      </div>
+    <div class="figma-placeholder flower-placeholder" id="placeholderFlower" title="Bougainvillea Flowers">
+      <div class="placeholder-hint"><span class="hint-flora">❦</span></div>
     </div>
 
-    <!-- FIGMA PLACEHOLDER 4: Auto Memory Doll Signature / Typewriter Ribbon (Bottom-Left) -->
-    <div class="figma-placeholder typewriter-placeholder" id="placeholderTypewriter" data-placeholder="Violet's Signature / Ribbon" title="Figma Placeholder: Auto Memory Doll Signature">
-      <!-- 
-        [FIGMA SVG INJECTION POINT]:
-        Paste your typewriter keys motif, mechanical hands silhouette, or Violet's signature SVG here.
-      -->
-      <div class="placeholder-hint">
-        <span class="hint-sign">V.E.</span>
-      </div>
+    <div class="figma-placeholder typewriter-placeholder" id="placeholderTypewriter" title="Auto Memory Doll Signature">
+      <div class="placeholder-hint"><span class="hint-sign">V.E.</span></div>
     </div>
 
-    <!-- ================================================================= -->
-    <!-- STATIONERY CONTENT LAYER                                          -->
-    <!-- ================================================================= -->
+    <!-- Stationery Content Layer -->
     <div class="stationery-inner">
 
-      <!-- Formal Letterhead Top Banner -->
       <header class="letterhead-header">
         <div class="letterhead-brand">
           <span class="postal-crest">⚜</span>
@@ -82,12 +44,9 @@
         <div class="letterhead-rule"></div>
       </header>
 
-      <!-- Calendar Navigation & Month/Year Display -->
       <div class="calendar-nav-bar">
         <div class="date-headline">
-          <!-- Month in elegant cursive Accent Font -->
           <span class="cursive-month" id="cursiveMonth">September</span>
-          <!-- Year in authentic Typewriter Font -->
           <span class="typewriter-year" id="typewriterYear">2026</span>
         </div>
 
@@ -104,7 +63,6 @@
         </div>
       </div>
 
-      <!-- Days of Week Header (Serif Font) -->
       <div class="calendar-weekdays" aria-hidden="true">
         <span class="weekday sun">Sun</span>
         <span class="weekday">Mon</span>
@@ -115,21 +73,16 @@
         <span class="weekday sat">Sat</span>
       </div>
 
-      <!-- Calendar Days Grid Container (Built dynamically via JS & calendar-service.js) -->
       <div class="calendar-grid" id="calendarGrid" role="grid" aria-label="Monthly Calendar Days"></div>
 
-      <!-- Bottom Ledger Letterhead Footer -->
       <footer class="ledger-footer">
         <span class="ledger-meta-left">REG. № 0422 · MEMORY DISPATCH</span>
         <span class="ledger-meta-right">“I will run as fast as I can to wherever my customer desires.”</span>
       </footer>
 
-    </div><!-- /.stationery-inner -->
+    </div>
 
-    <!-- ================================================================= -->
-    <!-- TORN NOTE / TYPEWRITER EVENT DETAILS CARD (POPOVER)               -->
-    <!-- Displays event data fetched from calendar-service.js on hover/click -->
-    <!-- ================================================================= -->
+    <!-- Torn Note Event Popover -->
     <div class="torn-note-card" id="tornNoteCard" aria-live="polite" aria-hidden="true">
       <div class="torn-paper-edge"></div>
       <div class="paper-clip-brass" title="Brass Postal Clip"></div>
@@ -141,7 +94,6 @@
         </div>
 
         <div class="note-date-stamp" id="noteDateStamp">September 09, 2026</div>
-
         <h4 class="note-title" id="noteTitle">Letter Transcription</h4>
 
         <div class="note-meta-row">
@@ -162,14 +114,11 @@
           <em>Violet Evergarden</em>
         </div>
       </div>
-    </div><!-- /.torn-note-card -->
+    </div>
 
-  </div><!-- /.stationery-widget -->
+  </div>
 
-  <!-- Load Shared Calendar Service -->
   <script src="../../../shared/js/calendar-service.js"></script>
-
-  <!-- Violet Evergarden Calendar Widget Logic -->
   <script src="script.js"></script>
 </body>
 </html>
