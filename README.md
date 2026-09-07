@@ -39,6 +39,14 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 
 ---
 
+### Violet Evergarden Theme (`themes/violet-evergarden/`)
+
+| Widget | Path | Description |
+|---|---|---|
+| **Auto Memory Doll Calendar** | `themes/violet-evergarden/calendar-widget/index.html` | Victorian letterhead stationery calendar, cursive & typewriter typography, sealing wax current date indicator, emerald brooch event indicators, and typewriter torn note popover. |
+
+---
+
 ## Installation Guide
 
 ### Step 1: Apply Vivaldi Custom CSS (Recommended)
