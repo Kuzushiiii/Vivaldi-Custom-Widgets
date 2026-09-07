@@ -419,17 +419,17 @@ class SpotifyService {
             albumArt = imgObj ? imgObj["#text"] : "";
           }
 
-          const artistStr =
+          let artistStr =
             typeof track.artist === "object" && track.artist !== null
               ? track.artist["#text"] || track.artist.name || "Unknown Artist"
               : track.artist || "Unknown Artist";
 
-          const albumStr =
+          let albumStr =
             typeof track.album === "object" && track.album !== null
               ? track.album["#text"] || track.album.title || ""
               : track.album || "";
 
-          const trackName = track.name || "Unknown Track";
+          let trackName = track.name || "Unknown Track";
           const currentIdentifier = `${artistStr}-${trackName}`;
 
           let timestamps = null;
@@ -683,6 +683,7 @@ function initSpotifyWidget(config = {}) {
 
   const spotifyService = new SpotifyService({
     onTrackUpdate: (track) => {
+      spotifyService.isLastScrobble = Boolean(track.isLastScrobble);
       if (elements.p5Banner) 
         elements.p5Banner.classList.add('is-playing');
       if (elements.infoBot) 
@@ -768,6 +769,7 @@ function initSpotifyWidget(config = {}) {
     },
 
     onStandby: (provider, hintText) => {
+      spotifyService.isLastScrobble = false;
       if (elements.p5Banner) 
         elements.p5Banner.classList.remove('is-playing');
       if (elements.infoBot) 

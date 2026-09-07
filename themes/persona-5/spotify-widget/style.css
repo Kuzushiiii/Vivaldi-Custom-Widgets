@@ -65,19 +65,79 @@
   opacity: 0.85;
 }
 
-.spot-star-left {
-  left: 3%;
-  bottom: 8%;
-  transform: rotate(-12deg) scale(0.65);
+.spot-deco {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  filter: drop-shadow(2px 2px 0 var(--p5-black));
+}
+
+.spot-deco svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.spot-deco-white {
+  left: -24px;
+  top: -22px;
+  width: clamp(72px, 16vw, 112px);
+  transform: rotate(-12deg);
+  opacity: 0.95;
+  z-index: 0;
+}
+
+.spot-deco-red {
+  right: -14px;
+  bottom: -16px;
+  width: clamp(72px, 18vw, 122px);
+  transform: rotate(10deg);
+  opacity: 0.95;
+  z-index: 0;
+}
+
+.title-exclaim {
+  flex-shrink: 0;
+  width: clamp(30px, 6vw, 54px);
+  transform: rotate(6deg);
+  filter: drop-shadow(2px 2px 0 var(--p5-black));
+  pointer-events: none;
+  margin-bottom: 2px;
+}
+
+.title-exclaim svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Anchor wrappers so decorations track their content responsively */
+.album-art-stack {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.album-art-stack .album-art-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.progress-stack {
+  position: relative;
+}
+
+.progress-stack .bar-track {
+  position: relative;
+  z-index: 1;
 }
 
 .spotify-mask-wrap {
   position: absolute;
-  right: 4.5%;
-  top: 28%;
+  right: 3%;
+  top: 24%;
   width: clamp(52px, 10vw, 84px);
   transform: rotate(12deg);
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 
@@ -90,6 +150,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 }
 
 .info-top {
@@ -111,7 +172,7 @@
   padding: 2px 14px;
   transform: rotate(-1.5deg) skewX(-6deg);
   max-width: 80%;
-  overflow: hidden                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+  overflow: hidden;
 }
 
 .badge-prefix {
@@ -165,12 +226,57 @@
 
 .info-mid-section {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   gap: 4%;
   align-items: center;
-  margin: auto 0;
   min-width: 0;
+  width: min(92%, 480px);
+  margin: 6px auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Full-width black strip behind the centered track block (ala screenshot) */
+.track-strip {
   width: 100%;
+  max-width: none;
+  margin: auto 0;
+  padding: 8px calc(4% + 6px);
+  background: #0a0a0c;
+  border-top: 2px solid var(--p5-black);
+  border-bottom: 2px solid var(--p5-black);
+  box-shadow: 0 3px 0 var(--p5-black);
+  overflow: hidden;
+  grid-template-columns: auto 1fr;
+  justify-content: center;
+}
+
+.track-strip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(230, 0, 18, 0.28) 1.2px, transparent 1.5px);
+  background-size: 10px 10px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.track-strip::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 22px;
+  background: var(--p5-red);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.track-strip > * {
+  position: relative;
+  z-index: 2;
 }
 
 .album-art-wrap {
@@ -252,7 +358,9 @@
 @keyframes bounce {
   0% { height: 3px; }
   100% { height: 15px; }
-}.info-text-wrap {
+}
+
+.info-text-wrap {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -262,6 +370,9 @@
 }
 
 .song-title-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
   overflow: hidden;
   white-space: nowrap;
   position: relative;
@@ -276,6 +387,11 @@
   transform: skewX(-4deg);
   line-height: 1.15;
   display: inline-block;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .artist-album {
@@ -298,8 +414,7 @@
 }
 
 .mask-spacer {
-  width: clamp(52px, 10vw, 84px);
-  flex-shrink: 0;
+  display: none;
 }
 
 .info-bot-centered {
@@ -366,6 +481,8 @@
   letter-spacing: 2px;
   padding: 0 4px;
   line-height: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .time-cur {
