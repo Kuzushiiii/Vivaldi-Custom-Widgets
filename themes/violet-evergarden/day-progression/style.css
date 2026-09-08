@@ -1,0 +1,662 @@
+﻿:root {
+  /* Core Theme Palette */
+  --bg-paper: #F9F6F0;
+  --bg-paper-warm: #F4EFE6;
+  --text-ink: #2b2422;
+  --text-ink-muted: rgba(43, 36, 34, 0.68);
+  --text-ink-faint: rgba(43, 36, 34, 0.38);
+  
+  --accent-emerald: #3c6e5a;
+  --accent-emerald-glow: rgba(60, 110, 90, 0.35);
+  --accent-wax-red: #a63a33;
+  --wax-shadow: rgba(166, 58, 51, 0.4);
+  --wax-deep: #75231e;
+  
+  /* Mechanical & Metal Palette */
+  --brass-metal: #b38b4d;
+  --brass-light: #e8c66a;
+  --brass-dark: #6e4e20;
+  --typewriter-roller: #1e1e24;
+  --roller-highlight: #464654;
+  --metal-steel: #7d848a;
+  
+  /* Ribbon Inks */
+  --ribbon-black: #1a1716;
+  --ribbon-red: #8c2b25;
+  
+  /* Delicate Borders */
+  --border-delicate: rgba(43, 36, 34, 0.15);
+  --border-letterhead: rgba(43, 36, 34, 0.25);
+  
+  /* Typography Tokens */
+  --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-typewriter: 'Special Elite', 'Courier Prime', monospace;
+  --font-script: 'Dancing Script', cursive;
+
+  --radius-card: 10px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  user-select: none;
+  font-family: var(--font-serif);
+  color: var(--text-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Stationery Parchment Container */
+.stationery-widget {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 580px;
+  max-height: 360px;
+  background-color: var(--bg-paper);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--border-delicate);
+  box-shadow: 
+    inset 0 0 30px rgba(43, 36, 34, 0.05),
+    0 4px 20px rgba(43, 36, 34, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ruled ledger lines & subtle paper watermark */
+.stationery-widget::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: 
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 21px,
+      rgba(43, 36, 34, 0.028) 22px
+    ),
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(43, 36, 34, 0.02) 0%,
+      transparent 75%
+    );
+  background-size: 100% 22px, 100% 100%;
+  opacity: 0.9;
+}
+
+/* Double-line archival stationery frame */
+.stationery-widget::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--border-delicate);
+  border-radius: 6px;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: inset 0 0 0 1px rgba(249, 246, 240, 0.7);
+}
+
+.stationery-inner {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(10px, 2.8vh, 16px) clamp(14px, 3.5vw, 24px) clamp(8px, 2.2vh, 14px);
+}
+
+/* Letterhead Header (C·H Postal Company) */
+.letterhead-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(4px, 1vh, 8px);
+}
+
+.letterhead-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-typewriter);
+  color: var(--text-ink-muted);
+  letter-spacing: 2.2px;
+  font-size: clamp(8px, 1.4vw, 10.5px);
+  text-transform: uppercase;
+}
+
+.postal-crest {
+  font-size: 13px;
+  color: var(--accent-emerald);
+  filter: drop-shadow(0 0 2px var(--accent-emerald-glow));
+}
+
+.postal-title {
+  font-weight: 700;
+  color: var(--text-ink);
+}
+
+.postal-sub {
+  font-size: clamp(7px, 1.1vw, 8.5px);
+  color: var(--text-ink-faint);
+  letter-spacing: 1.6px;
+}
+
+.letterhead-rule {
+  width: 90%;
+  height: 1px;
+  margin-top: 5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--border-letterhead) 25%,
+    var(--border-letterhead) 75%,
+    transparent 100%
+  );
+}
+
+/* Readout Section (Phase Badge & Fresh Inked Readouts) */
+.readout-section {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1.5vh, 10px);
+  margin-bottom: clamp(6px, 1.5vh, 12px);
+}
+
+.phase-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.phase-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(60, 110, 90, 0.08);
+  border: 1px solid rgba(60, 110, 90, 0.25);
+  border-radius: 12px;
+  padding: 2px 10px 2px 8px;
+}
+
+.phase-gem {
+  color: var(--accent-emerald);
+  font-size: 9px;
+  line-height: 1;
+  text-shadow: 0 0 4px var(--accent-emerald-glow);
+}
+
+.phase-title {
+  font-family: var(--font-serif);
+  font-size: clamp(11px, 1.8vw, 13px);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-ink);
+}
+
+.phase-desc {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(10px, 1.6vw, 12.5px);
+  color: var(--text-ink-muted);
+}
+
+.stamped-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(43, 36, 34, 0.02);
+  border: 1px dashed rgba(43, 36, 34, 0.14);
+  border-radius: 6px;
+  padding: clamp(6px, 1.4vh, 10px) clamp(8px, 2vw, 16px);
+}
+
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-caption {
+  font-family: var(--font-serif);
+  font-size: clamp(9px, 1.3vw, 10.5px);
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-ink-muted);
+  margin-bottom: 2px;
+}
+
+.stat-value-group {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.typewriter-ink {
+  font-family: var(--font-typewriter);
+  color: var(--text-ink);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0.4px 0.4px 0 rgba(43, 36, 34, 0.2);
+}
+
+.time-block .stat-value {
+  font-size: clamp(20px, 4.2vw, 28px);
+  line-height: 1.1;
+}
+
+.percent-block .stat-value {
+  font-size: clamp(22px, 4.6vw, 30px);
+  line-height: 1.1;
+  color: var(--accent-wax-red);
+}
+
+.stat-unit {
+  font-size: clamp(13px, 2.4vw, 16px);
+  color: var(--accent-wax-red);
+  font-weight: 600;
+}
+
+.stat-separator {
+  width: 1px;
+  height: clamp(24px, 4.5vh, 36px);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(43, 36, 34, 0.2) 20%,
+    rgba(43, 36, 34, 0.2) 80%,
+    transparent
+  );
+}
+
+/* Mechanical Typewriter Carriage Assembly */
+.carriage-assembly {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: clamp(4px, 1vh, 8px) 0;
+}
+
+/* Brass Margin Scale (Paper Bail Ruler) */
+.brass-ruler {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    var(--brass-light) 0%,
+    var(--brass-metal) 60%,
+    var(--brass-dark) 100%
+  );
+  border-radius: 3px;
+  padding: 2px 14px 1px 14px;
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--brass-dark);
+}
+
+.ruler-numbers {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-typewriter);
+  font-size: clamp(7.5px, 1.1vw, 9px);
+  color: #1a150e;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.ruler-ticks {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 5px;
+}
+
+.tick {
+  width: 1px;
+  height: 3px;
+  background-color: rgba(26, 21, 14, 0.55);
+}
+
+.tick.major {
+  height: 5px;
+  background-color: rgba(26, 21, 14, 0.9);
+}
+
+/* Platen Roller Track Container */
+.platen-track-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: clamp(34px, 5.5vh, 42px);
+  padding: 0 2px;
+}
+
+/* Cylindrical Platen Roller Knobs */
+.platen-knob {
+  position: relative;
+  z-index: 4;
+  width: clamp(14px, 2.5vw, 18px);
+  height: clamp(34px, 5.5vh, 42px);
+  background: repeating-linear-gradient(
+    90deg,
+    #141417 0px,
+    #141417 2px,
+    #30303a 3px,
+    #141417 4px
+  );
+  border: 1.5px solid var(--brass-metal);
+  border-radius: 4px;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.knob-left {
+  margin-right: -2px;
+}
+
+.knob-right {
+  margin-left: -2px;
+}
+
+.knob-core {
+  width: 4px;
+  height: 16px;
+  background: linear-gradient(to bottom, var(--brass-light), var(--brass-dark));
+  border-radius: 1px;
+}
+
+/* Interactive Bell / Carriage Return Lever */
+.bell-return-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+  outline: none;
+}
+
+.bell-icon {
+  font-size: clamp(9px, 1.4vw, 11px);
+  line-height: 1;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
+}
+
+.bell-return-btn:hover .bell-icon {
+  transform: scale(1.15);
+}
+
+.bell-return-btn:active .bell-icon {
+  transform: scale(0.95);
+}
+
+/* Platen Roller Slot */
+.platen-roller {
+  position: relative;
+  flex: 1;
+  height: clamp(26px, 4.4vh, 32px);
+  background: linear-gradient(
+    to bottom,
+    #0c0c10 0%,
+    #1e1e26 20%,
+    #343440 45%,
+    #444452 50%,
+    #1b1b22 80%,
+    #09090c 100%
+  );
+  border-radius: 3px;
+  overflow: visible;
+  box-shadow: 
+    inset 0 3px 6px rgba(0, 0, 0, 0.85),
+    inset 0 -2px 4px rgba(255, 255, 255, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.2);
+  border-top: 1px solid var(--brass-metal);
+  border-bottom: 1px solid var(--brass-metal);
+}
+
+/* Polished Guide Wire over the Platen */
+.roller-guide-wire {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(229, 193, 88, 0.2),
+    rgba(229, 193, 88, 0.7) 30%,
+    rgba(229, 193, 88, 0.7) 70%,
+    rgba(229, 193, 88, 0.2)
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Typewriter Ribbon Fill */
+.typewriter-ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  min-width: 0%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  overflow: visible;
+  transition: width 0.08s linear;
+}
+
+/* Dual Bichrome Ribbon: Top Black Ink, Bottom Scarlet Wax Red */
+.ribbon-black-stripe {
+  flex: 1;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    linear-gradient(to bottom, #111010, #222020);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.ribbon-red-stripe {
+  flex: 1;
+  background: 
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    linear-gradient(to bottom, #75221d, var(--accent-wax-red));
+  box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Mechanical Typebar Carriage Guide (Thumb) */
+.carriage-guide {
+  position: absolute;
+  top: 50%;
+  right: -9px;
+  transform: translateY(-50%);
+  width: 18px;
+  height: clamp(32px, 5.2vh, 38px);
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.guide-arm {
+  width: 10px;
+  height: 5px;
+  background: linear-gradient(180deg, var(--brass-light), var(--brass-metal));
+  border: 1px solid var(--brass-dark);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.guide-arm.top-arm {
+  border-radius: 2px 2px 0 0;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+}
+
+.guide-arm.bottom-arm {
+  border-radius: 0 0 2px 2px;
+  clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%);
+}
+
+.guide-needle {
+  width: 3px;
+  height: 16px;
+  background: linear-gradient(
+    90deg,
+    var(--metal-steel) 0%,
+    #ffffff 45%,
+    var(--metal-steel) 100%
+  );
+  border-radius: 1px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+}
+
+.strike-point {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 20%, var(--accent-emerald) 80%);
+  box-shadow: 0 0 5px var(--accent-emerald);
+}
+
+/* Carriage Milestones (Dawn / Noon / Midnight) */
+.carriage-milestones {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.milestone-mark {
+  font-family: var(--font-typewriter);
+  font-size: clamp(7.5px, 1.1vw, 9px);
+  color: var(--text-ink-muted);
+  letter-spacing: 0.8px;
+}
+
+.center-mark {
+  color: var(--accent-emerald);
+  font-weight: 700;
+}
+
+/* Ledger Footer */
+.ledger-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-delicate);
+  padding-top: clamp(4px, 1vh, 8px);
+  margin-top: auto;
+}
+
+.footer-left {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.footer-label {
+  font-family: var(--font-serif);
+  font-size: clamp(8px, 1.2vw, 10px);
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-ink-muted);
+}
+
+.footer-time {
+  font-size: clamp(10px, 1.5vw, 12.5px);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.doll-signature {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(8.5px, 1.3vw, 11px);
+  color: var(--text-ink-muted);
+}
+
+/* Carriage Return Mechanics (Midnight Snap & Test Trigger) */
+.carriage-return-active .typewriter-ribbon {
+  /* Fast mechanical snap curve to left */
+  transition: width 0.38s cubic-bezier(0.15, 0.85, 0.35, 1.2) !important;
+}
+
+.carriage-return-active .bell-return-btn .bell-icon {
+  animation: bellChime 0.45s ease-out;
+}
+
+.carriage-return-active {
+  animation: mechanicalShudder 0.35s ease-in-out;
+}
+
+@keyframes bellChime {
+  0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 0px gold); }
+  25% { transform: scale(1.35) rotate(-20deg); filter: drop-shadow(0 0 8px gold); }
+  50% { transform: scale(1.25) rotate(20deg); filter: drop-shadow(0 0 6px gold); }
+  75% { transform: scale(1.1) rotate(-10deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes mechanicalShudder {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1.5px, 0.5px); }
+  80% { transform: translate(1px, 0); }
+  100% { transform: translate(0, 0); }
+}

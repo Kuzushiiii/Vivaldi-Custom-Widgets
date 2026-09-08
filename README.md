@@ -44,6 +44,7 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 | Widget | Path | Description |
 |---|---|---|
 | **Auto Memory Doll Calendar** | `themes/violet-evergarden/calendar-widget/index.html` | Victorian letterhead stationery calendar, cursive & typewriter typography, sealing wax current date indicator, emerald brooch event indicators, and typewriter torn note popover. |
+| **Day Progression** | `themes/violet-evergarden/day-progression/index.html` | "The Typewriter Carriage" real-time 24-hour day progression meter with platen roller, dual-tone inked ribbon, brass margin scale, and midnight carriage return animation. |
 | **Typing GIF Banner** | `themes/violet-evergarden/gif-widget/index.html` | Atmospheric animated banner featuring Violet typing at her vintage typewriter. |
 | **Flowers GIF Banner** | `themes/violet-evergarden/gif-widget-2/index.html` | Aesthetic animated floral banner inspired by Violet's bougainvillea motifs. |
 
