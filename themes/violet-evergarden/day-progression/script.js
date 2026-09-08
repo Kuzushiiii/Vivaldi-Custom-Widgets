@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   'use strict';
 
   const widget = document.getElementById('dayProgressionWidget');
@@ -68,6 +68,13 @@
   function triggerCarriageReturn() {
     if (isReturning) return;
     isReturning = true;
+
+    // Play typewriter bell ding sound
+    const dingSound = document.getElementById('typewriterDing');
+    if (dingSound) {
+      dingSound.currentTime = 0;
+      dingSound.play().catch(e => console.log('Audio play blocked:', e));
+    }
 
     widget.classList.add('carriage-return-active');
 

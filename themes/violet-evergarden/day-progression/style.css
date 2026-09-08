@@ -1,39 +1,35 @@
-﻿:root {
-  /* Core Theme Palette */
+:root {
+  /* Core Theme Palette (Identical to Calendar Widget) */
   --bg-paper: #F9F6F0;
-  --bg-paper-warm: #F4EFE6;
   --text-ink: #2b2422;
-  --text-ink-muted: rgba(43, 36, 34, 0.68);
-  --text-ink-faint: rgba(43, 36, 34, 0.38);
-  
   --accent-emerald: #3c6e5a;
-  --accent-emerald-glow: rgba(60, 110, 90, 0.35);
   --accent-wax-red: #a63a33;
-  --wax-shadow: rgba(166, 58, 51, 0.4);
-  --wax-deep: #75231e;
-  
-  /* Mechanical & Metal Palette */
+  --border-delicate: rgba(43, 36, 34, 0.15);
+
+  --bg-paper-warm: #F4EFE6;
+  --bg-note-torn: #FBF8F1;
+  --text-ink-muted: rgba(43, 36, 34, 0.65);
+  --text-ink-faint: rgba(43, 36, 34, 0.35);
+  --border-letterhead: rgba(43, 36, 34, 0.25);
+  --brass-accent: #b38b4d;
   --brass-metal: #b38b4d;
   --brass-light: #e8c66a;
   --brass-dark: #6e4e20;
+  --wax-shadow: rgba(166, 58, 51, 0.38);
+  --wax-deep: #782620;
+
   --typewriter-roller: #1e1e24;
   --roller-highlight: #464654;
   --metal-steel: #7d848a;
-  
-  /* Ribbon Inks */
   --ribbon-black: #1a1716;
   --ribbon-red: #8c2b25;
-  
-  /* Delicate Borders */
-  --border-delicate: rgba(43, 36, 34, 0.15);
-  --border-letterhead: rgba(43, 36, 34, 0.25);
-  
-  /* Typography Tokens */
+
+  /* Typography Tokens (Identical to Calendar Widget) */
   --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-typewriter: 'Special Elite', 'Courier Prime', monospace;
-  --font-script: 'Dancing Script', cursive;
+  --font-cursive: 'Great Vibes', 'Dancing Script', cursive;
 
-  --radius-card: 10px;
+  --radius-card: 8px;
 }
 
 *, *::before, *::after {
@@ -58,26 +54,22 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Stationery Parchment Container */
+/* Stationery Card Container (100% matched with Calendar Widget) */
 .stationery-widget {
   position: relative;
   width: 100%;
   height: 100%;
-  max-width: 580px;
-  max-height: 360px;
   background-color: var(--bg-paper);
   border-radius: var(--radius-card);
   overflow: hidden;
   isolation: isolate;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.03), 0 4px 18px rgba(43, 36, 34, 0.12);
   border: 1px solid var(--border-delicate);
-  box-shadow: 
-    inset 0 0 30px rgba(43, 36, 34, 0.05),
-    0 4px 20px rgba(43, 36, 34, 0.12);
   display: flex;
   flex-direction: column;
 }
 
-/* Ruled ledger lines & subtle paper watermark */
+/* Ruled ledger lines & stationery watermark (100% matched with Calendar Widget) */
 .stationery-widget::before {
   content: "";
   position: absolute;
@@ -89,27 +81,27 @@ body {
       to bottom,
       transparent,
       transparent 21px,
-      rgba(43, 36, 34, 0.028) 22px
+      rgba(43, 36, 34, 0.025) 22px
     ),
     radial-gradient(
       ellipse at 50% 50%,
-      rgba(43, 36, 34, 0.02) 0%,
-      transparent 75%
+      rgba(43, 36, 34, 0.015) 0%,
+      transparent 70%
     );
   background-size: 100% 22px, 100% 100%;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
-/* Double-line archival stationery frame */
+/* Double-line letterhead frame (100% matched with Calendar Widget) */
 .stationery-widget::after {
   content: "";
   position: absolute;
   inset: 6px;
   border: 1px solid var(--border-delicate);
-  border-radius: 6px;
+  border-radius: 4px;
   pointer-events: none;
   z-index: 2;
-  box-shadow: inset 0 0 0 1px rgba(249, 246, 240, 0.7);
+  box-shadow: inset 0 0 0 1px rgba(249, 246, 240, 0.6);
 }
 
 .stationery-inner {
@@ -120,7 +112,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: clamp(10px, 2.8vh, 16px) clamp(14px, 3.5vw, 24px) clamp(8px, 2.2vh, 14px);
+  padding: clamp(8px, 2.2vh, 16px) clamp(14px, 3.5vw, 22px) clamp(6px, 1.8vh, 12px);
 }
 
 /* Letterhead Header (C·H Postal Company) */
@@ -155,9 +147,11 @@ body {
 }
 
 .postal-sub {
-  font-size: clamp(7px, 1.1vw, 8.5px);
-  color: var(--text-ink-faint);
+  font-size: clamp(7.5px, 1.1vw, 9px);
+  color: var(--text-ink);
+  opacity: 0.65;
   letter-spacing: 1.6px;
+  font-weight: 500;
 }
 
 .letterhead-rule {
@@ -177,8 +171,8 @@ body {
 .readout-section {
   display: flex;
   flex-direction: column;
-  gap: clamp(6px, 1.5vh, 10px);
-  margin-bottom: clamp(6px, 1.5vh, 12px);
+  gap: clamp(3px, 1.2vh, 8px);
+  margin-bottom: clamp(3px, 1.2vh, 8px);
 }
 
 .phase-container {
@@ -208,7 +202,7 @@ body {
 
 .phase-title {
   font-family: var(--font-serif);
-  font-size: clamp(11px, 1.8vw, 13px);
+  font-size: clamp(10.5px, 1.6vw, 13px);
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -218,8 +212,10 @@ body {
 .phase-desc {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: clamp(10px, 1.6vw, 12.5px);
-  color: var(--text-ink-muted);
+  font-size: clamp(10.5px, 1.5vw, 13px);
+  color: var(--text-ink);
+  opacity: 0.85;
+  font-weight: 500;
 }
 
 .stamped-stats {
@@ -229,7 +225,7 @@ body {
   background: rgba(43, 36, 34, 0.02);
   border: 1px dashed rgba(43, 36, 34, 0.14);
   border-radius: 6px;
-  padding: clamp(6px, 1.4vh, 10px) clamp(8px, 2vw, 16px);
+  padding: clamp(4px, 1.2vh, 9px) clamp(10px, 2.5vw, 16px);
 }
 
 .stat-block {
@@ -241,18 +237,19 @@ body {
 
 .stat-caption {
   font-family: var(--font-serif);
-  font-size: clamp(9px, 1.3vw, 10.5px);
+  font-size: clamp(8.5px, 1.2vw, 10px);
   letter-spacing: 1.5px;
   font-weight: 600;
   text-transform: uppercase;
-  color: var(--text-ink-muted);
-  margin-bottom: 2px;
+  color: var(--text-ink);
+  opacity: 0.72;
+  margin-bottom: 3px;
 }
 
 .stat-value-group {
   display: flex;
   align-items: baseline;
-  gap: 2px;
+  gap: 3px;
 }
 
 .typewriter-ink {
@@ -264,25 +261,26 @@ body {
 }
 
 .time-block .stat-value {
-  font-size: clamp(20px, 4.2vw, 28px);
+  font-size: clamp(18px, 3.8vw, 27px);
   line-height: 1.1;
 }
 
 .percent-block .stat-value {
-  font-size: clamp(22px, 4.6vw, 30px);
+  font-size: clamp(20px, 4.2vw, 29px);
   line-height: 1.1;
   color: var(--accent-wax-red);
 }
 
 .stat-unit {
-  font-size: clamp(13px, 2.4vw, 16px);
+  font-size: clamp(12px, 2.2vw, 16px);
   color: var(--accent-wax-red);
-  font-weight: 600;
+  font-weight: 700;
+  margin-left: 1px;
 }
 
 .stat-separator {
   width: 1px;
-  height: clamp(24px, 4.5vh, 36px);
+  height: clamp(18px, 3.2vh, 32px);
   background: linear-gradient(
     to bottom,
     transparent,
@@ -296,8 +294,8 @@ body {
 .carriage-assembly {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin: clamp(4px, 1vh, 8px) 0;
+  gap: clamp(2px, 0.7vh, 5px);
+  margin: clamp(2px, 0.8vh, 6px) 0;
 }
 
 /* Brass Margin Scale (Paper Bail Ruler) */
@@ -305,47 +303,51 @@ body {
   position: relative;
   background: linear-gradient(
     180deg,
-    var(--brass-light) 0%,
-    var(--brass-metal) 60%,
+    #edd687 0%,
+    var(--brass-light) 25%,
+    var(--brass-metal) 70%,
     var(--brass-dark) 100%
   );
   border-radius: 3px;
-  padding: 2px 14px 1px 14px;
+  padding: 3px 14px 2px 14px;
   box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.2),
-    inset 0 1px 1px rgba(255, 255, 255, 0.5),
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6),
     inset 0 -1px 1px rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--brass-dark);
+  border: 1px solid #5a3d14;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .ruler-numbers {
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-typewriter);
-  font-size: clamp(7.5px, 1.1vw, 9px);
-  color: #1a150e;
+  font-family: var(--font-serif);
+  font-size: clamp(8px, 1.1vw, 9.5px);
+  color: #1a1208;
   font-weight: 700;
   letter-spacing: 0.5px;
   line-height: 1;
-  margin-bottom: 2px;
+  margin-bottom: 0;
 }
 
 .ruler-ticks {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  height: 5px;
+  height: 4px;
 }
 
 .tick {
   width: 1px;
-  height: 3px;
-  background-color: rgba(26, 21, 14, 0.55);
+  height: 2.5px;
+  background-color: rgba(26, 18, 8, 0.65);
 }
 
 .tick.major {
-  height: 5px;
-  background-color: rgba(26, 21, 14, 0.9);
+  height: 4px;
+  background-color: rgba(26, 18, 8, 0.95);
 }
 
 /* Platen Roller Track Container */
@@ -353,7 +355,7 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  height: clamp(34px, 5.5vh, 42px);
+  height: clamp(28px, 4.8vh, 38px);
   padding: 0 2px;
 }
 
@@ -361,8 +363,8 @@ body {
 .platen-knob {
   position: relative;
   z-index: 4;
-  width: clamp(14px, 2.5vw, 18px);
-  height: clamp(34px, 5.5vh, 42px);
+  width: clamp(13px, 2.3vw, 17px);
+  height: clamp(28px, 4.8vh, 38px);
   background: repeating-linear-gradient(
     90deg,
     #141417 0px,
@@ -430,7 +432,7 @@ body {
 .platen-roller {
   position: relative;
   flex: 1;
-  height: clamp(26px, 4.4vh, 32px);
+  height: clamp(22px, 3.8vh, 30px);
   background: linear-gradient(
     to bottom,
     #0c0c10 0%,
@@ -518,10 +520,10 @@ body {
 .carriage-guide {
   position: absolute;
   top: 50%;
-  right: -9px;
+  right: -8px;
   transform: translateY(-50%);
-  width: 18px;
-  height: clamp(32px, 5.2vh, 38px);
+  width: 16px;
+  height: clamp(24px, 4.2vh, 34px);
   z-index: 10;
   pointer-events: none;
   display: flex;
@@ -573,33 +575,14 @@ body {
   box-shadow: 0 0 5px var(--accent-emerald);
 }
 
-/* Carriage Milestones (Dawn / Noon / Midnight) */
-.carriage-milestones {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 4px;
-}
-
-.milestone-mark {
-  font-family: var(--font-typewriter);
-  font-size: clamp(7.5px, 1.1vw, 9px);
-  color: var(--text-ink-muted);
-  letter-spacing: 0.8px;
-}
-
-.center-mark {
-  color: var(--accent-emerald);
-  font-weight: 700;
-}
-
 /* Ledger Footer */
 .ledger-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid var(--border-delicate);
-  padding-top: clamp(4px, 1vh, 8px);
-  margin-top: auto;
+  padding-top: clamp(4px, 1.2vh, 8px);
+  margin-top: clamp(4px, 1.2vh, 8px);
 }
 
 .footer-left {
@@ -610,24 +593,28 @@ body {
 
 .footer-label {
   font-family: var(--font-serif);
-  font-size: clamp(8px, 1.2vw, 10px);
-  letter-spacing: 1px;
+  font-size: clamp(8.5px, 1.2vw, 10px);
+  letter-spacing: 1.2px;
   font-weight: 600;
   text-transform: uppercase;
-  color: var(--text-ink-muted);
+  color: var(--text-ink);
+  opacity: 0.75;
 }
 
 .footer-time {
-  font-size: clamp(10px, 1.5vw, 12.5px);
+  font-size: clamp(10.5px, 1.5vw, 13px);
   font-weight: 700;
   letter-spacing: 1px;
+  color: var(--text-ink);
 }
 
 .doll-signature {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: clamp(8.5px, 1.3vw, 11px);
-  color: var(--text-ink-muted);
+  font-size: clamp(9.5px, 1.4vw, 11.5px);
+  color: var(--text-ink);
+  opacity: 0.85;
+  font-weight: 500;
 }
 
 /* Carriage Return Mechanics (Midnight Snap & Test Trigger) */
@@ -659,4 +646,213 @@ body {
   60% { transform: translate(-1.5px, 0.5px); }
   80% { transform: translate(1px, 0); }
   100% { transform: translate(0, 0); }
+}
+
+/* =========================================================
+   Regular / Compact Height Responsiveness (< 250px)
+   Prevents clipping on standard horizontal Vivaldi tiles
+   ========================================================= */
+@media (max-height: 250px) {
+  .stationery-inner {
+    padding: 5px 12px 4px;
+  }
+
+  .letterhead-header {
+    margin-bottom: 2px;
+  }
+
+  .letterhead-brand {
+    font-size: 8px;
+    letter-spacing: 1.6px;
+  }
+
+  .postal-sub {
+    font-size: 8px;
+    opacity: 0.7;
+  }
+
+  .letterhead-rule {
+    margin-top: 2px;
+  }
+
+  .readout-section {
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .phase-container {
+    gap: 4px;
+  }
+
+  .phase-pill {
+    padding: 1px 8px 1px 6px;
+  }
+
+  .phase-title {
+    font-size: 10.5px;
+    letter-spacing: 1px;
+  }
+
+  .phase-desc {
+    font-size: 10px;
+    color: var(--text-ink);
+    opacity: 0.85;
+    font-weight: 500;
+  }
+
+  .stamped-stats {
+    padding: 2px 10px;
+  }
+
+  .stat-caption {
+    font-size: 8px;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+    color: var(--text-ink);
+    opacity: 0.75;
+  }
+
+  .time-block .stat-value {
+    font-size: 17px;
+  }
+
+  .percent-block .stat-value {
+    font-size: 18px;
+  }
+
+  .stat-unit {
+    font-size: 12px;
+  }
+
+  .stat-separator {
+    height: 18px;
+  }
+
+  .carriage-assembly {
+    gap: 2px;
+    margin: 2px 0;
+  }
+
+  .brass-ruler {
+    padding: 2px 12px 2px 12px;
+    gap: 1.5px;
+  }
+
+  .ruler-numbers {
+    font-family: var(--font-serif);
+    font-size: 8px;
+    font-weight: 700;
+    color: #160f06;
+    margin-bottom: 0;
+  }
+
+  .ruler-ticks {
+    height: 3px;
+    margin-top: 1px;
+  }
+
+  .tick {
+    height: 2px;
+  }
+
+  .tick.major {
+    height: 3px;
+  }
+
+  .platen-track-container {
+    height: 24px;
+  }
+
+  .platen-knob {
+    width: 12px;
+    height: 24px;
+  }
+
+  .knob-core {
+    height: 10px;
+    width: 3px;
+  }
+
+  .platen-roller {
+    height: 18px;
+  }
+
+  .carriage-guide {
+    width: 14px;
+    height: 22px;
+    right: -7px;
+  }
+
+  .guide-arm {
+    width: 8px;
+    height: 3px;
+  }
+
+  .guide-needle {
+    width: 2.5px;
+    height: 11px;
+  }
+
+  .strike-point {
+    width: 5px;
+    height: 5px;
+  }
+
+  .ledger-footer {
+    padding-top: 3px;
+    margin-top: 4px;
+  }
+
+  .footer-label {
+    font-size: 8.5px;
+    color: var(--text-ink);
+    opacity: 0.75;
+    font-weight: 600;
+  }
+
+  .footer-time {
+    font-size: 10px;
+  }
+
+  .doll-signature {
+    font-size: 9.5px;
+    color: var(--text-ink);
+    opacity: 0.85;
+    font-weight: 500;
+  }
+}
+
+/* Extreme Compact Height (< 200px) */
+@media (max-height: 200px) {
+  .stationery-inner {
+    padding: 4px 10px 3px;
+  }
+
+  .phase-desc {
+    display: none;
+  }
+
+  .time-block .stat-value {
+    font-size: 15px;
+  }
+
+  .percent-block .stat-value {
+    font-size: 16px;
+  }
+
+  .platen-track-container {
+    height: 22px;
+  }
+
+  .platen-knob {
+    height: 22px;
+  }
+
+  .platen-roller {
+    height: 17px;
+  }
+
+  .carriage-guide {
+    height: 20px;
+  }
 }
