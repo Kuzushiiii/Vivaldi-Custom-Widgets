@@ -1,0 +1,1349 @@
+/* ==========================================================================
+   VIOLET EVERGARDEN — THE CH POSTAL PHONOGRAPH / NOW PLAYING WIDGET
+   Design System: Victorian Era / CH Postal Company / Vintage Mechanics
+   ========================================================================== */
+
+:root {
+  /* Core Theme Palette */
+  --bg-paper: #F9F6F0;
+  --bg-paper-warm: #F4EFE6;
+  --bg-note-torn: #FBF8F1;
+  --text-ink: #2b2422;
+  --text-ink-muted: rgba(43, 36, 34, 0.68);
+  --text-ink-faint: rgba(43, 36, 34, 0.38);
+  
+  --border-delicate: rgba(43, 36, 34, 0.15);
+  --border-letterhead: rgba(43, 36, 34, 0.25);
+
+  /* Metallic Brass & Gold Accents */
+  --brass-metal: #b38b4d;
+  --brass-light: #edd687;
+  --brass-glow: #fdf2b8;
+  --brass-dark: #6e4e20;
+  --brass-shadow: rgba(84, 58, 21, 0.35);
+
+  /* Gemstone & Wax Accents */
+  --accent-emerald: #3c6e5a;
+  --accent-emerald-bright: #4fa07e;
+  --accent-emerald-deep: #1b4e37;
+  --accent-wax-red: #a63a33;
+  --accent-wax-deep: #782620;
+  --wax-shadow: rgba(166, 58, 51, 0.35);
+
+  /* Phonograph Mechanics */
+  --vinyl-black: #111111;
+  --vinyl-rim: #1f1f23;
+  --plinth-wood: #2a1b14;
+  --plinth-wood-rim: #442a1f;
+
+  /* Typography Tokens */
+  --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-title: 'Playfair Display', Georgia, serif;
+  --font-typewriter: 'Special Elite', 'Courier Prime', monospace;
+  --font-cursive: 'Great Vibes', 'Dancing Script', cursive;
+
+  --radius-card: 8px;
+}
+
+/* ==========================================================================
+   CSS Reset & Base
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  user-select: none;
+  font-family: var(--font-serif);
+  color: var(--text-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   Stationery Card Container (100% matched with VE Calendar & Day Progression)
+   ========================================================================== */
+.stationery-widget {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-paper);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.035), 0 4px 18px rgba(43, 36, 34, 0.12);
+  border: 1px solid var(--border-delicate);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ruled ledger lines & stationery watermark */
+.stationery-widget::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: 
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 21px,
+      rgba(43, 36, 34, 0.025) 22px
+    ),
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(43, 36, 34, 0.018) 0%,
+      transparent 70%
+    );
+  background-size: 100% 22px, 100% 100%;
+  opacity: 0.85;
+}
+
+/* Double-line letterhead frame */
+.stationery-widget::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--border-delicate);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: inset 0 0 0 1px rgba(249, 246, 240, 0.65);
+}
+
+.stationery-inner {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(6px, 1.8vh, 14px) clamp(12px, 3.2vw, 20px) clamp(6px, 1.5vh, 12px);
+}
+
+/* ==========================================================================
+   Letterhead Brand Header
+   ========================================================================== */
+.letterhead-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(3px, 1vh, 8px);
+}
+
+.letterhead-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-title);
+  font-size: clamp(8.5px, 1.25vw, 10.5px);
+  letter-spacing: 2px;
+  color: var(--text-ink);
+  text-transform: uppercase;
+}
+
+.postal-crest {
+  color: var(--brass-metal);
+  font-size: 11px;
+}
+
+.postal-title {
+  font-weight: 700;
+}
+
+.postal-sub {
+  font-family: var(--font-typewriter);
+  font-size: clamp(7.5px, 1.1vw, 9px);
+  color: var(--text-ink);
+  opacity: 0.8;
+  letter-spacing: 1px;
+  transform: translateY(1.5px);
+}
+
+.letterhead-rule {
+  width: 70%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--border-letterhead) 30%,
+    var(--border-letterhead) 70%,
+    transparent 100%
+  );
+  margin-top: 3px;
+}
+
+/* ==========================================================================
+   Main Player Stage (Flexible Side-by-Side Turntable & Plaque)
+   ========================================================================== */
+.player-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(10px, 2.5vw, 22px);
+  min-height: 0;
+  position: relative;
+}
+
+/* ==========================================================================
+   LEFT: The Gramophone Turntable Chassis & Vinyl Assembly
+   ========================================================================== */
+.turntable-chassis {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: clamp(110px, 27vh, 175px);
+  height: clamp(110px, 27vh, 175px);
+}
+
+/* Brass Platter Bed Underneath */
+.platter-rim {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    #25252a 0%,
+    #18181c 65%,
+    var(--brass-dark) 96%,
+    var(--brass-metal) 99%,
+    #edd687 100%
+  );
+  padding: 3px;
+  box-shadow:
+    0 3px 12px rgba(43, 36, 34, 0.32),
+    inset 0 1px 3px rgba(237, 214, 135, 0.5),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Rotating Vinyl Disc */
+.vinyl-disc {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background:
+    /* Specular Reflection Sheen (2-quadrant anisotropic lighting) */
+    conic-gradient(
+      from 45deg,
+      rgba(255, 255, 255, 0.09) 0deg,
+      transparent 45deg,
+      rgba(255, 255, 255, 0.04) 90deg,
+      transparent 135deg,
+      rgba(255, 255, 255, 0.09) 180deg,
+      transparent 225deg,
+      rgba(255, 255, 255, 0.04) 270deg,
+      transparent 315deg,
+      rgba(255, 255, 255, 0.09) 360deg
+    ),
+    /* Concentric Micro-Grooves */
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      #111111 0px,
+      #17171a 1.5px,
+      #0d0d0f 3px,
+      #141417 4.5px
+    );
+  box-shadow:
+    inset 0 0 10px rgba(0, 0, 0, 0.8),
+    0 0 4px rgba(0, 0, 0, 0.4);
+  transition: filter 0.3s ease;
+}
+
+.vinyl-disc:hover {
+  filter: brightness(1.05);
+}
+
+/* Vinyl Rotation Animation */
+@keyframes spinVinylRecord {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.vinyl-disc.is-playing {
+  animation: spinVinylRecord 3.6s linear infinite;
+  animation-play-state: running;
+}
+
+.vinyl-disc.is-paused {
+  animation-play-state: paused;
+}
+
+/* Circular Center Label (Album Art or Emerald Brooch) */
+.vinyl-label {
+  position: relative;
+  z-index: 2;
+  width: 44%;
+  height: 44%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-paper);
+  border: 1.5px solid var(--brass-metal);
+  box-shadow:
+    0 0 6px rgba(0, 0, 0, 0.5),
+    inset 0 0 4px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Album Cover Image */
+.album-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+/* Fallback: Gilbert's Emerald Brooch */
+.emerald-brooch-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, #205c43 0%, #123325 75%, #0a1c14 100%);
+}
+
+.brooch-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
+}
+
+/* Spindle Cap & Hole */
+.spindle-cap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 40%,
+    #fff2b5 0%,
+    var(--brass-light) 30%,
+    var(--brass-metal) 70%,
+    var(--brass-dark) 100%
+  );
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  border: 0.8px solid #5a3d14;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spindle-hole {
+  width: 34%;
+  height: 34%;
+  border-radius: 50%;
+  background: #09090b;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.9);
+}
+
+/* ==========================================================================
+   Mechanical Brass Tonearm (Needle Arm Tracking the Record)
+   ========================================================================== */
+.tonearm-assembly {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  width: 48px;
+  height: 110px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Circular Brass Pivot Base */
+.tonearm-base {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 35%,
+    #fff2b5 0%,
+    var(--brass-light) 30%,
+    var(--brass-metal) 75%,
+    var(--brass-dark) 100%
+  );
+  border: 1px solid #4e3512;
+  box-shadow:
+    0 2px 6px rgba(43, 36, 34, 0.45),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+}
+
+.base-screw {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1f1508;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+/* Counterweight Ring */
+.tonearm-counterweight {
+  position: absolute;
+  top: 1px;
+  right: 13px;
+  width: 12px;
+  height: 10px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    #3f2b10 0px,
+    #edd687 2px,
+    #b38b4d 4px
+  );
+  border: 1px solid #3f2b10;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  z-index: 3;
+}
+
+/* Rest Cradle */
+.tonearm-rest {
+  position: absolute;
+  top: 36px;
+  right: 4px;
+  width: 8px;
+  height: 12px;
+  border-right: 2px solid var(--brass-metal);
+  border-bottom: 2px solid var(--brass-metal);
+  border-radius: 0 0 3px 0;
+  opacity: 0.7;
+}
+
+/* Rotating Arm Rod */
+.tonearm-rod {
+  position: absolute;
+  top: 17px;
+  right: 17px;
+  width: 4px;
+  height: 86px;
+  transform-origin: 2px 0px; /* Pivot on top center */
+  transform: rotate(-12deg);  /* Default Parked Angle in Standby */
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 3;
+}
+
+/* S-Curved Brass Neck */
+.rod-neck {
+  width: 3.5px;
+  height: 74px;
+  background: linear-gradient(
+    90deg,
+    #edd687 0%,
+    var(--brass-light) 25%,
+    var(--brass-metal) 70%,
+    var(--brass-dark) 100%
+  );
+  border-radius: 2px;
+  box-shadow:
+    2px 2px 4px rgba(43, 36, 34, 0.35),
+    inset 0.5px 0 1px rgba(255, 255, 255, 0.7);
+  transform: rotate(6deg);
+}
+
+/* Cartridge Head & Needle Stylus */
+.cartridge-head {
+  position: absolute;
+  bottom: 0;
+  left: -8px;
+  width: 14px;
+  height: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: rotate(-24deg);
+}
+
+.cartridge-shell {
+  width: 12px;
+  height: 11px;
+  background: linear-gradient(
+    135deg,
+    #2a2a30 0%,
+    #141416 60%,
+    var(--brass-metal) 100%
+  );
+  border-radius: 2px;
+  border: 0.8px solid var(--brass-dark);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.stylus-needle {
+  width: 1.5px;
+  height: 5px;
+  background: linear-gradient(to bottom, #d8d8de 0%, #edd687 70%, #ff4d4d 100%);
+  border-radius: 1px;
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.6);
+  margin-top: -1px;
+}
+
+/* ==========================================================================
+   RIGHT: Aesthetic Parchment Track Plaque
+   ========================================================================== */
+.track-plaque {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding-left: clamp(2px, 1vw, 6px);
+}
+
+/* Top Plaque Status Row */
+.plaque-top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: clamp(3px, 1vh, 8px);
+}
+
+.status-seal-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Status Seal (Wax Badge) */
+.status-seal {
+  font-family: var(--font-title);
+  font-size: clamp(8px, 1.1vw, 9.5px);
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 1.5px 7px 1px;
+  border-radius: 3px;
+  background: var(--text-ink);
+  color: var(--bg-paper);
+  border: 1px solid var(--border-delicate);
+  transition: all 0.3s ease;
+}
+
+.status-seal.is-playing {
+  background: var(--accent-wax-red);
+  color: #fff;
+  border-color: var(--accent-wax-deep);
+  box-shadow: 0 1px 4px var(--wax-shadow);
+}
+
+.status-seal.is-paused {
+  background: var(--brass-dark);
+  color: #fff;
+  border-color: #4a3414;
+}
+
+.provider-label {
+  font-family: var(--font-typewriter);
+  font-size: clamp(7.5px, 1.05vw, 8.5px);
+  letter-spacing: 0.8px;
+  color: var(--text-ink-muted);
+}
+
+/* Envelope Config Button (Anchored top-right) */
+.envelope-trigger {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 1px solid var(--border-delicate);
+  border-radius: 4px;
+  padding: 2px 7px 2px 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  color: var(--text-ink);
+  font-family: var(--font-typewriter);
+  font-size: clamp(7.5px, 1vw, 8.5px);
+  letter-spacing: 0.8px;
+  transition: all 0.25s ease;
+}
+
+.envelope-trigger:hover {
+  background: rgba(179, 139, 77, 0.12);
+  border-color: var(--brass-metal);
+  transform: translateY(calc(-50% - 1px));
+  box-shadow: 0 2px 5px rgba(43, 36, 34, 0.1);
+}
+
+.envelope-svg {
+  width: 13px;
+  height: 13px;
+}
+
+.envelope-tag {
+  font-weight: 700;
+}
+
+/* Active Track Details Section */
+.track-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(2px, 0.6vh, 4px);
+  flex: 1;
+  min-height: 0;
+}
+
+.title-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+
+.song-title {
+  font-family: var(--font-title);
+  font-size: clamp(14px, 2.5vh, 18px);
+  font-weight: 700;
+  color: var(--text-ink);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.2px;
+}
+
+.artist-album-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artist-name {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(11.5px, 2vh, 14px);
+  color: var(--accent-wax-red);
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.info-bullet {
+  font-size: 9px;
+  color: var(--text-ink-faint);
+}
+
+.album-name {
+  font-family: var(--font-serif);
+  font-size: clamp(10.5px, 1.8vh, 12.5px);
+  color: var(--text-ink-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Telegram Timecode Row */
+.timecode-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: clamp(2px, 0.8vh, 6px);
+}
+
+.time-readout {
+  font-family: var(--font-typewriter);
+  font-size: clamp(9.5px, 1.5vh, 11px);
+  letter-spacing: 0.8px;
+  color: var(--text-ink);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.time-separator {
+  color: var(--text-ink-faint);
+  margin: 0 1px;
+}
+
+/* Analog Progress Meter */
+.progress-meter-analog {
+  flex: 1;
+  height: 4px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.analog-needle-track {
+  width: 100%;
+  height: 2px;
+  background: rgba(43, 36, 34, 0.18);
+  border-radius: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.analog-needle-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--brass-metal), var(--accent-wax-red));
+  border-radius: 1px;
+  transition: width 0.4s linear;
+}
+
+/* Standby Poetic Telegram State */
+.standby-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(2px, 0.7vh, 5px);
+  flex: 1;
+  min-height: 0;
+}
+
+.standby-flourish {
+  color: var(--accent-emerald);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.standby-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(11.5px, 1.9vh, 13.5px);
+  line-height: 1.35;
+  color: var(--text-ink);
+  opacity: 0.9;
+}
+
+.standby-hint {
+  font-family: var(--font-typewriter);
+  font-size: clamp(8px, 1.1vh, 9.5px);
+  color: var(--text-ink-muted);
+  letter-spacing: 0.4px;
+}
+
+.standby-ledger-btn {
+  background: transparent;
+  border: 1px dashed var(--border-letterhead);
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-family: var(--font-typewriter);
+  font-size: clamp(8px, 1.1vh, 9px);
+  letter-spacing: 1px;
+  color: var(--text-ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 3px;
+  transition: all 0.25s ease;
+}
+
+.standby-ledger-btn:hover {
+  background: rgba(179, 139, 77, 0.12);
+  border-color: var(--brass-metal);
+  transform: translateY(-1px);
+}
+
+.standby-ledger-btn span {
+  color: var(--brass-metal);
+}
+
+/* Plaque Footer */
+.plaque-footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-delicate);
+  padding-top: clamp(2px, 0.8vh, 5px);
+  margin-top: auto;
+}
+
+.telegram-dispatch {
+  font-family: var(--font-typewriter);
+  font-size: clamp(7.5px, 1.05vw, 8.5px);
+  color: var(--text-ink-muted);
+  letter-spacing: 1px;
+}
+
+.doll-signature {
+  font-family: var(--font-cursive);
+  font-size: clamp(13px, 2vh, 16px);
+  color: var(--text-ink);
+  opacity: 0.9;
+}
+
+/* ==========================================================================
+   CH POSTAL COMPANY: Client Request Ledger Modal
+   (Victorian Perforated Ledger Form — Zero modern inputs)
+   ========================================================================== */
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 20, 18, 0.65);
+  backdrop-filter: blur(2px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  animation: fadeInModal 0.25s ease forwards;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ledger-paper-modal {
+  position: relative;
+  width: 94%;
+  max-width: 440px;
+  max-height: 92%;
+  background: var(--bg-paper);
+  border: 1.5px solid var(--border-letterhead);
+  border-radius: 6px;
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.4),
+    inset 0 0 15px rgba(43, 36, 34, 0.05);
+  padding: 18px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Ruled ledger background in modal */
+.ledger-paper-modal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 19px,
+    rgba(43, 36, 34, 0.03) 20px
+  );
+  opacity: 0.8;
+}
+
+/* Wax Seal Embellishment on Top Right */
+.modal-wax-badge {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #c2463e 0%, var(--accent-wax-red) 55%, var(--accent-wax-deep) 100%);
+  border: 1px solid #5a1914;
+  box-shadow: 0 2px 6px var(--wax-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wax-stamp-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 0.8px dashed rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wax-insignia {
+  font-family: var(--font-title);
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+/* Modal Header */
+.modal-header {
+  margin-bottom: 12px;
+  padding-right: 36px;
+}
+
+.modal-postal-mark {
+  font-family: var(--font-typewriter);
+  font-size: 8.5px;
+  letter-spacing: 1.4px;
+  color: var(--accent-emerald);
+  font-weight: 700;
+}
+
+.modal-title {
+  font-family: var(--font-title);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-ink);
+  letter-spacing: 0.8px;
+  margin: 2px 0;
+}
+
+.modal-sub {
+  font-family: var(--font-typewriter);
+  font-size: 8px;
+  letter-spacing: 0.8px;
+  color: var(--text-ink-muted);
+}
+
+.ledger-rule {
+  width: 100%;
+  height: 1px;
+  background: var(--border-letterhead);
+  margin-top: 6px;
+}
+
+/* Service Ribbon Tabs */
+.service-ribbon-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-delicate);
+  padding-bottom: 6px;
+}
+
+.ribbon-tab {
+  background: transparent;
+  border: 1px solid var(--border-delicate);
+  border-radius: 3px;
+  padding: 4px 10px 3px;
+  font-family: var(--font-typewriter);
+  font-size: 9.5px;
+  letter-spacing: 1px;
+  color: var(--text-ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.25s ease;
+}
+
+.ribbon-tab .tab-flourish {
+  font-size: 8px;
+  color: var(--brass-metal);
+}
+
+.ribbon-tab.active {
+  background: rgba(179, 139, 77, 0.16);
+  border-color: var(--brass-metal);
+  font-weight: 700;
+  color: var(--text-ink);
+  box-shadow: inset 0 0 4px rgba(179, 139, 77, 0.2);
+}
+
+/* Ledger Instructions */
+.ledger-instructions {
+  font-family: var(--font-serif);
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--text-ink);
+  background: rgba(43, 36, 34, 0.035);
+  border-left: 2px solid var(--accent-emerald);
+  padding: 6px 10px;
+  margin-bottom: 12px;
+  border-radius: 0 3px 3px 0;
+}
+
+.ledger-link {
+  color: var(--accent-emerald);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* Undercover Form Field (Zero Modern Inputs) */
+.ledger-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ledger-label {
+  font-family: var(--font-typewriter);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-ink-muted);
+}
+
+.perforated-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.ledger-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px dashed rgba(43, 36, 34, 0.45);
+  font-family: var(--font-typewriter);
+  font-size: 13px;
+  color: var(--text-ink);
+  padding: 4px 2px 3px;
+  outline: none;
+  letter-spacing: 0.8px;
+  caret-color: var(--accent-wax-red);
+  transition: all 0.25s ease;
+}
+
+.ledger-input:focus {
+  border-bottom: 1.5px solid var(--brass-metal);
+  background: rgba(179, 139, 77, 0.06);
+}
+
+.ledger-input::placeholder {
+  color: var(--text-ink-faint);
+  font-style: italic;
+  font-size: 11.5px;
+}
+
+/* Modal Action Buttons */
+.ledger-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-delicate);
+}
+
+.actions-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-btn {
+  font-family: var(--font-typewriter);
+  font-size: 9.5px;
+  letter-spacing: 1px;
+  padding: 5px 12px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-demo {
+  background: transparent;
+  border: 1px solid var(--brass-metal);
+  color: var(--text-ink);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-demo:hover {
+  background: rgba(179, 139, 77, 0.15);
+  transform: translateY(-1px);
+}
+
+.btn-dismiss {
+  background: transparent;
+  border: none;
+  color: var(--text-ink-muted);
+  text-decoration: underline;
+  padding: 5px 8px;
+}
+
+.btn-dismiss:hover {
+  color: var(--text-ink);
+}
+
+.btn-seal {
+  background: radial-gradient(circle at 35% 35%, #b93e36 0%, var(--accent-wax-red) 65%, var(--accent-wax-deep) 100%);
+  border: 1px solid #5a1914;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 6px var(--wax-shadow);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-seal:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px var(--wax-shadow);
+}
+
+.seal-icon {
+  font-size: 8px;
+  color: #edd687;
+}
+
+/* ==========================================================================
+   Responsive Adaptations (Vivaldi Start Page Tiles)
+   ========================================================================== */
+
+/* Regular / Compact Tile Height (< 240px) */
+@media (max-height: 240px) {
+  .stationery-inner {
+    padding: 5px 12px 6px;
+  }
+
+  /* Cramped Header Fix: More breathing room below letterhead rule */
+  .letterhead-header {
+    margin-bottom: 4px;
+  }
+
+  .letterhead-brand {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .letterhead-rule {
+    margin-top: 2px;
+  }
+
+  /* Vinyl & Tonearm Scaling: Proportionate downscaling preventing pivot text overlap */
+  .player-stage {
+    gap: clamp(8px, 2vw, 16px);
+  }
+
+  .turntable-chassis {
+    width: clamp(88px, 21.5vh, 108px);
+    height: clamp(88px, 21.5vh, 108px);
+    margin-right: 4px;
+  }
+
+  .tonearm-assembly {
+    top: -4px;
+    right: -5px;
+    width: 38px;
+    height: 76px;
+  }
+
+  .tonearm-base {
+    width: 17px;
+    height: 17px;
+    top: 4px;
+    right: 5px;
+  }
+
+  .base-screw {
+    width: 5px;
+    height: 5px;
+  }
+
+  .tonearm-counterweight {
+    width: 9px;
+    height: 7px;
+    top: 1px;
+    right: 9px;
+  }
+
+  .tonearm-rest {
+    top: 28px;
+    right: 2px;
+    width: 6px;
+    height: 10px;
+  }
+
+  .tonearm-rod {
+    top: 13px;
+    right: 13px;
+    height: 56px;
+    transform-origin: 2px 0px;
+  }
+
+  .rod-neck {
+    width: 2.8px;
+    height: 48px;
+  }
+
+  .cartridge-head {
+    width: 11px;
+    height: 13px;
+    left: -6px;
+  }
+
+  .cartridge-shell {
+    width: 9px;
+    height: 8px;
+  }
+
+  .stylus-needle {
+    height: 4px;
+  }
+
+  /* The Giant Void Fix: Balanced flex distribution & comfortable row spacing */
+  .track-plaque {
+    justify-content: space-between;
+  }
+
+  .plaque-top {
+    margin-top: 2px;
+    margin-bottom: 4px;
+  }
+
+  .track-info {
+    flex: 1;
+    justify-content: center;
+    gap: 3px;
+    margin: 2px 0;
+  }
+
+  .song-title {
+    font-size: 13px;
+  }
+
+  .artist-name {
+    font-size: 11px;
+  }
+
+  .album-name {
+    font-size: 10px;
+  }
+
+  .timecode-row {
+    margin-top: 3px;
+  }
+
+  .standby-card {
+    flex: 1;
+    justify-content: center;
+    gap: 3px;
+    margin: 2px 0;
+  }
+
+  .standby-quote {
+    font-size: 10.5px;
+    line-height: 1.25;
+  }
+
+  .standby-hint {
+    display: none;
+  }
+
+  /* Footer Spacing: Generous bottom clearance for the cursive signature */
+  .plaque-footer {
+    padding-top: 3px;
+    padding-bottom: 2px;
+    margin-top: auto;
+  }
+
+  .telegram-dispatch {
+    font-size: 8px;
+  }
+
+  .doll-signature {
+    font-size: 13px;
+    line-height: 1.1;
+    margin-bottom: 1px;
+  }
+}
+
+/* Extreme Compact Height (< 190px) */
+@media (max-height: 190px) {
+  .letterhead-header {
+    display: none;
+  }
+
+  .turntable-chassis {
+    width: 85px;
+    height: 85px;
+  }
+
+  .tonearm-assembly {
+    display: none; /* Hide tonearm on micro tiles to prevent overlap */
+  }
+
+  .song-title {
+    font-size: 12px;
+  }
+
+  .artist-album-wrap {
+    font-size: 9.5px;
+  }
+
+  .timecode-row {
+    margin-top: 1px;
+  }
+
+  .plaque-footer {
+    display: none;
+  }
+}
+
+/* Square / Narrow Tile (< 340px) */
+@media (max-width: 340px) {
+  .player-stage {
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .turntable-chassis {
+    width: 105px;
+    height: 105px;
+  }
+
+  .track-plaque {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .plaque-top {
+    width: 100%;
+  }
+
+  .artist-album-wrap {
+    justify-content: center;
+  }
+
+  .timecode-row {
+    width: 100%;
+    justify-content: center;
+  }
+}

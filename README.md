@@ -47,6 +47,7 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 | **Day Progression** | `themes/violet-evergarden/day-progression/index.html` | "The Typewriter Carriage" real-time 24-hour day progression meter with platen roller, dual-tone inked ribbon, brass margin scale, and midnight carriage return animation. |
 | **Typing GIF Banner** | `themes/violet-evergarden/gif-widget/index.html` | Atmospheric animated banner featuring Violet typing at her vintage typewriter. |
 | **Flowers GIF Banner** | `themes/violet-evergarden/gif-widget-2/index.html` | Aesthetic animated floral banner inspired by Violet's bougainvillea motifs. |
+| **CH Postal Phonograph** | `themes/violet-evergarden/spotify-widget/index.html` | Vintage mechanical vinyl gramophone music player with spinning textured record, rotating brass tonearm needle tracking, emerald brooch center label, procedural needle-drop audio, and Victorian client request ledger. |
 
 ---
 
