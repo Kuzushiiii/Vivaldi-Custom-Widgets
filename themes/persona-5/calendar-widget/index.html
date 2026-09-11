@@ -3,81 +3,151 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Persona 5 - Calendar & Clock Widget</title>
+  <title>Persona 5 - Calendar HUD Widget</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="p5-banner">
-    <div class="red-shape cal-shape-1"></div>
-    <div class="red-shape cal-shape-2"></div>
-    <div class="red-shape cal-shape-3"></div>
+  <div class="p5-banner p5-calendar-root" id="calendarRoot" data-active-view="hud">
+    
+    <!-- Comic Background Deco & Speed Lines -->
+    <div class="p5-halftone-overlay" aria-hidden="true"></div>
+    <div class="red-shape cal-shard-primary" aria-hidden="true"></div>
+    <div class="red-shape cal-shard-secondary" aria-hidden="true"></div>
+    <div class="red-shape cal-shard-accent" aria-hidden="true"></div>
+    <div class="cal-speed-lines" aria-hidden="true"></div>
 
-    <div class="spike cal-spike-1"></div>
-
-    <div class="mask-container cal-mask">
+    <!-- Hero Mask Motif (Randomized Joker / Ann / Akechi) -->
+    <div class="mask-container cal-mask-wrap" aria-hidden="true">
       <div class="mask-glow"></div>
-      <img class="p5-mask" data-random-mask src="../assets/Akechi Mask.png" alt="Phantom Mask" onerror="this.style.display='none';">
+      <img class="p5-mask" data-random-mask src="../assets/Joker Mask.png" alt="Phantom Mask" onerror="this.style.display='none';">
     </div>
 
-    <div class="cal-calendar-left">
-      <svg width="97" height="95" viewBox="0 0 97 95" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0.575256 5.06L12.7353 5.82V0.5H22.1596V5.82L72.0153 7.34V2.02H81.1353V8.1H91.7753V11.9L94.8422 11.14L95.5753 93.98L14.2553 85.62V81.82L10.6418 81.2785L0.575256 5.06Z" fill="#FF0000" stroke="#FF0000"/>
-        <path d="M15.7753 84.1L15.0153 81.06L3.61526 13.42H93.2953V91.7L15.7753 84.1Z" fill="black"/>
-        <path d="M12.7353 80.3L2.85526 7.34L89.4953 10.38V87.9L12.7353 80.3Z" fill="white" stroke="black" stroke-width="1.5"/>
-        <path d="M12.7267 34.606L12.0218 26.8522C11.9963 26.5717 12.2074 26.3255 12.4886 26.3079L23.6433 25.6107C23.9161 25.5937 24.1521 25.7989 24.1731 26.0714L24.8776 35.2307C24.8888 35.3762 24.8359 35.5194 24.7326 35.6226L24.2817 36.0736C24.1879 36.1673 24.0608 36.22 23.9281 36.22H13.8043C13.6149 36.22 13.4417 36.113 13.3571 35.9436L12.7774 34.7844C12.7496 34.7286 12.7324 34.6681 12.7267 34.606Z" fill="black"/>
-        <path d="M31.7353 35.2529V26.0275C31.7353 25.7727 31.9268 25.5587 32.18 25.5306L44.8959 24.1177C45.179 24.0863 45.4311 24.2972 45.45 24.5814L46.1662 35.3245C46.1721 35.4132 46.1543 35.5019 46.1145 35.5814L45.5534 36.7036C45.4688 36.873 45.2956 36.98 45.1062 36.98H33.4624C33.3298 36.98 33.2026 36.9273 33.1088 36.8336L31.8817 35.6064C31.7879 35.5127 31.7353 35.3855 31.7353 35.2529Z" fill="black"/>
-        <path d="M52.2553 35.2529V25.3786C52.2553 25.0806 52.5143 24.8488 52.8105 24.8817L65.4905 26.2906C65.7437 26.3187 65.9353 26.5327 65.9353 26.7875V36.862C65.9353 36.9396 65.9172 37.0161 65.8825 37.0856L65.3348 38.1808C65.2394 38.3718 65.0332 38.4811 64.8215 38.4528L53.943 37.0024C53.8342 36.9879 53.7332 36.9379 53.6556 36.8603L52.4017 35.6064C52.3079 35.5127 52.2553 35.3855 52.2553 35.2529Z" fill="black"/>
-        <path d="M71.2477 36.1223L70.5389 26.9076C70.5158 26.6067 70.7624 26.3541 71.0637 26.3699L84.4615 27.0751C84.7271 27.089 84.9353 27.3084 84.9353 27.5744V36.862C84.9353 36.9396 84.9172 37.0161 84.8825 37.0856L84.3233 38.2039C84.2335 38.3834 84.0452 38.4919 83.8449 38.4793L72.3025 37.758C72.1247 37.7468 71.9662 37.6419 71.8865 37.4825L71.2991 36.3076C71.2701 36.2497 71.2527 36.1868 71.2477 36.1223Z" fill="black"/>
-        <path d="M14.2553 53.4929V44.3485C14.2553 44.0615 14.4964 43.8334 14.783 43.8493L27.4305 44.552C27.7083 44.5674 27.9201 44.8068 27.9016 45.0844L27.1877 55.7925C27.1797 55.9134 27.128 56.0272 27.0424 56.1128L26.592 56.5632C26.4807 56.6745 26.3236 56.7269 26.1678 56.7046L15.9402 55.2436C15.8331 55.2283 15.7339 55.1786 15.6574 55.1021L14.4017 53.8464C14.3079 53.7527 14.2553 53.6255 14.2553 53.4929Z" fill="black"/>
-        <path d="M33.2553 53.582V45.0515C33.2553 44.7867 33.4616 44.5679 33.7259 44.5523L45.6459 43.8511C45.9331 43.8342 46.1753 44.0626 46.1753 44.3503V55.4478C46.1753 55.7362 45.9319 55.9648 45.6441 55.9468L34.3025 55.238C34.1247 55.2268 33.9662 55.1219 33.8865 54.9625L33.308 53.8056C33.2733 53.7361 33.2553 53.6596 33.2553 53.582Z" fill="black"/>
-        <path d="M53.0028 55.7925L52.2888 45.0828C52.2703 44.8057 52.4811 44.5667 52.7583 44.5504L64.7117 43.8473C64.973 43.8319 65.202 44.0208 65.2366 44.2803L66.6626 54.9751C66.6832 55.1294 66.6307 55.2846 66.5205 55.3947L65.3071 56.6081C65.2221 56.6932 65.1092 56.7447 64.9892 56.7533L54.763 57.4837C54.6183 57.4941 54.4763 57.4411 54.3738 57.3386L53.1481 56.1128C53.0625 56.0272 53.0108 55.9134 53.0028 55.7925Z" fill="black"/>
-        <path d="M71.2643 56.6045L71.9768 45.9168C71.9971 45.6126 72.2824 45.3972 72.5805 45.4611L82.2252 47.5278C82.4711 47.5805 82.6396 47.8077 82.6187 48.0583L81.9033 56.644C81.898 56.7074 81.8806 56.7692 81.8522 56.8261L81.2735 57.9836C81.1888 58.153 81.0156 58.26 80.8262 58.26H72.3243C72.1349 58.26 71.9618 58.153 71.8771 57.9836L71.316 56.8614C71.2762 56.7819 71.2584 56.6932 71.2643 56.6045Z" fill="black"/>
-        <path d="M16.2753 63.58H16.5353L27.402 62.8555C27.6906 62.8363 27.9353 63.0652 27.9353 63.3544V73.342C27.9353 73.4196 27.9172 73.4961 27.8825 73.5656L27.324 74.6826C27.2339 74.8628 27.0445 74.9713 26.8435 74.9579L16.0611 74.2391C15.884 74.2272 15.7265 74.1225 15.6471 73.9638L15.0789 72.8272C15.0373 72.7441 15.0197 72.6509 15.0281 72.5583L15.7753 64.34V64.08C15.7753 63.8039 15.9991 63.58 16.2753 63.58Z" fill="black"/>
-        <path d="M33.9821 74.5156L33.2915 64.8482C33.2716 64.5691 33.4846 64.3279 33.764 64.3132L47.169 63.6077C47.455 63.5926 47.6953 63.8205 47.6953 64.107V73.342C47.6953 73.4196 47.6772 73.4961 47.6425 73.5656L47.0734 74.7036C46.9888 74.873 46.8156 74.98 46.6262 74.98H34.4808C34.2185 74.98 34.0008 74.7773 33.9821 74.5156Z" fill="black"/>
-        <path d="M54.1693 65.7441L65.9634 62.2752C66.3089 62.1736 66.6453 62.4596 66.6006 62.8169L65.1859 74.135C65.1788 74.1913 65.1623 74.2459 65.137 74.2966L64.5535 75.4636C64.4688 75.633 64.2956 75.74 64.1062 75.74H55.6043C55.4149 75.74 55.2418 75.633 55.1571 75.4636L54.5774 74.3044C54.5496 74.2486 54.5324 74.1881 54.5267 74.126L53.8124 66.2691C53.7908 66.0313 53.9403 65.8115 54.1693 65.7441Z" fill="black"/>
-        <path d="M73.5353 75.24V64.84C73.5353 64.5639 73.7591 64.34 74.0353 64.34H83.6753C83.9514 64.34 84.1753 64.5639 84.1753 64.84V74.671C84.1753 74.8604 84.0683 75.0335 83.8989 75.1182L82.7608 75.6872C82.6914 75.7219 82.6148 75.74 82.5372 75.74H74.0353C73.7591 75.74 73.5353 75.5161 73.5353 75.24Z" fill="black"/>
-        <path d="M12.7267 34.606L12.0218 26.8522C11.9963 26.5717 12.2074 26.3255 12.4886 26.3079L23.6433 25.6107C23.9161 25.5937 24.1521 25.7989 24.1731 26.0714L24.8776 35.2307C24.8888 35.3762 24.8359 35.5194 24.7326 35.6226L24.2817 36.0736C24.1879 36.1673 24.0608 36.22 23.9281 36.22H13.8043C13.6149 36.22 13.4417 36.113 13.3571 35.9436L12.7774 34.7844C12.7496 34.7286 12.7324 34.6681 12.7267 34.606Z" stroke="black"/>
-        <path d="M31.7353 35.2529V26.0275C31.7353 25.7727 31.9268 25.5587 32.18 25.5306L44.8959 24.1177C45.179 24.0863 45.4311 24.2972 45.45 24.5814L46.1662 35.3245C46.1721 35.4132 46.1543 35.5019 46.1145 35.5814L45.5534 36.7036C45.4688 36.873 45.2956 36.98 45.1062 36.98H33.4624C33.3298 36.98 33.2026 36.9273 33.1088 36.8336L31.8817 35.6064C31.7879 35.5127 31.7353 35.3855 31.7353 35.2529Z" stroke="black"/>
-        <path d="M52.2553 35.2529V25.3786C52.2553 25.0806 52.5143 24.8488 52.8105 24.8817L65.4905 26.2906C65.7437 26.3187 65.9353 26.5327 65.9353 26.7875V36.862C65.9353 36.9396 65.9172 37.0161 65.8825 37.0856L65.3348 38.1808C65.2394 38.3718 65.0332 38.4811 64.8215 38.4528L53.943 37.0024C53.8342 36.9879 53.7332 36.9379 53.6556 36.8603L52.4017 35.6064C52.3079 35.5127 52.2553 35.3855 52.2553 35.2529Z" stroke="black"/>
-        <path d="M71.2477 36.1223L70.5389 26.9076C70.5158 26.6067 70.7624 26.3541 71.0637 26.3699L84.4615 27.0751C84.7271 27.089 84.9353 27.3084 84.9353 27.5744V36.862C84.9353 36.9396 84.9172 37.0161 84.8825 37.0856L84.3233 38.2039C84.2335 38.3834 84.0452 38.4919 83.8449 38.4793L72.3025 37.758C72.1247 37.7468 71.9662 37.6419 71.8865 37.4825L71.2991 36.3076C71.2701 36.2497 71.2527 36.1868 71.2477 36.1223Z" stroke="black"/>
-        <path d="M14.2553 53.4929V44.3485C14.2553 44.0615 14.4964 43.8334 14.783 43.8493L27.4305 44.552C27.7083 44.5674 27.9201 44.8068 27.9016 45.0844L27.1877 55.7925C27.1797 55.9134 27.128 56.0272 27.0424 56.1128L26.592 56.5632C26.4807 56.6745 26.3236 56.7269 26.1678 56.7046L15.9402 55.2436C15.8331 55.2283 15.7339 55.1786 15.6574 55.1021L14.4017 53.8464C14.3079 53.7527 14.2553 53.6255 14.2553 53.4929Z" stroke="black"/>
-        <path d="M33.2553 53.582V45.0515C33.2553 44.7867 33.4616 44.5679 33.7259 44.5523L45.6459 43.8511C45.9331 43.8342 46.1753 44.0626 46.1753 44.3503V55.4478C46.1753 55.7362 45.9319 55.9648 45.6441 55.9468L34.3025 55.238C34.1247 55.2268 33.9662 55.1219 33.8865 54.9625L33.308 53.8056C33.2733 53.7361 33.2553 53.6596 33.2553 53.582Z" stroke="black"/>
-        <path d="M53.0028 55.7925L52.2888 45.0828C52.2703 44.8057 52.4811 44.5667 52.7583 44.5504L64.7117 43.8473C64.973 43.8319 65.202 44.0208 65.2366 44.2803L66.6626 54.9751C66.6832 55.1294 66.6307 55.2846 66.5205 55.3947L65.3071 56.6081C65.2221 56.6932 65.1092 56.7447 64.9892 56.7533L54.763 57.4837C54.6183 57.4941 54.4763 57.4411 54.3738 57.3386L53.1481 56.1128C53.0625 56.0272 53.0108 55.9134 53.0028 55.7925Z" stroke="black"/>
-        <path d="M71.2643 56.6045L71.9768 45.9168C71.9971 45.6126 72.2824 45.3972 72.5805 45.4611L82.2252 47.5278C82.4711 47.5805 82.6396 47.8077 82.6187 48.0583L81.9033 56.644C81.898 56.7074 81.8806 56.7692 81.8522 56.8261L81.2735 57.9836C81.1888 58.153 81.0156 58.26 80.8262 58.26H72.3243C72.1349 58.26 71.9618 58.153 71.8771 57.9836L71.316 56.8614C71.2762 56.7819 71.2584 56.6932 71.2643 56.6045Z" stroke="black"/>
-        <path d="M16.2753 63.58H16.5353L27.402 62.8555C27.6906 62.8363 27.9353 63.0652 27.9353 63.3544V73.342C27.9353 73.4196 27.9172 73.4961 27.8825 73.5656L27.324 74.6826C27.2339 74.8628 27.0445 74.9713 26.8435 74.9579L16.0611 74.2391C15.884 74.2272 15.7265 74.1225 15.6471 73.9638L15.0789 72.8272C15.0373 72.7441 15.0197 72.6509 15.0281 72.5583L15.7753 64.34V64.08C15.7753 63.8039 15.9991 63.58 16.2753 63.58Z" stroke="black"/>
-        <path d="M33.9821 74.5156L33.2915 64.8482C33.2716 64.5691 33.4846 64.3279 33.764 64.3132L47.169 63.6077C47.455 63.5926 47.6953 63.8205 47.6953 64.107V73.342C47.6953 73.4196 47.6772 73.4961 47.6425 73.5656L47.0734 74.7036C46.9888 74.873 46.8156 74.98 46.6262 74.98H34.4808C34.2185 74.98 34.0008 74.7773 33.9821 74.5156Z" stroke="black"/>
-        <path d="M54.1693 65.7441L65.9634 62.2752C66.3089 62.1736 66.6453 62.4596 66.6006 62.8169L65.1859 74.135C65.1788 74.1913 65.1623 74.2459 65.137 74.2966L64.5535 75.4636C64.4688 75.633 64.2956 75.74 64.1062 75.74H55.6043C55.4149 75.74 55.2418 75.633 55.1571 75.4636L54.5774 74.3044C54.5496 74.2486 54.5324 74.1881 54.5267 74.126L53.8124 66.2691C53.7908 66.0313 53.9403 65.8115 54.1693 65.7441Z" stroke="black"/>
-        <path d="M73.5353 75.24V64.84C73.5353 64.5639 73.7591 64.34 74.0353 64.34H83.6753C83.9514 64.34 84.1753 64.5639 84.1753 64.84V74.671C84.1753 74.8604 84.0683 75.0335 83.8989 75.1182L82.7608 75.6872C82.6914 75.7219 82.6148 75.74 82.5372 75.74H74.0353C73.7591 75.74 73.5353 75.5161 73.5353 75.24Z" stroke="black"/>
-        <ellipse cx="17.2952" cy="11.9" rx="4.56" ry="2.28" fill="black"/>
-        <ellipse cx="76.5753" cy="13.42" rx="4.56" ry="2.28" fill="black"/>
-        <rect x="14.7552" y="2.52" width="5.08" height="9.64" fill="white" stroke="black"/>
-        <rect x="74.0352" y="4.04" width="5.08" height="9.64" fill="white" stroke="black"/>
-      </svg>
-    </div>
-
-    <div class="content">
-      <div class="left-col">
-        <div class="clock ransom-clock">
-          <span id="h1" class="clock-digit r-b">0</span>
-          <span id="h2" class="clock-digit r-w">0</span>
-          <span class="colon">:</span>
-          <span id="m1" class="clock-digit r-r">0</span>
-          <span id="m2" class="clock-digit r-b">0</span>
+    <!-- ======================================================== -->
+    <!-- VIEW 1: PRIMARY IN-GAME DATE HUD (Default Display)       -->
+    <!-- ======================================================== -->
+    <section class="cal-view cal-view-hud" id="hudView" aria-label="Today's Persona 5 Date HUD">
+      
+      <!-- Left Column: Time Phase, Clock, Calling-Card Action Trigger -->
+      <div class="hud-col hud-col-left">
+        
+        <!-- Dynamic Time-of-Day Phase Pill -->
+        <div class="hud-phase-pill" id="timePhasePill" title="Current Daily Period">
+          <span class="hud-phase-prefix">TIME //</span>
+          <span class="hud-phase-text" id="phaseText">AFTER SCHOOL</span>
         </div>
-        <div class="day-text" id="dayLabel">TODAY</div>
+        <div class="hud-phase-desc" id="phaseDesc">FREE TIME // INFILTRATE</div>
+
+        <!-- Ransom Digital Clock -->
+        <div class="hud-clock-row">
+          <div class="clock ransom-clock" id="hudClock" title="Current Time">
+            <span id="h1" class="clock-digit r-b">0</span>
+            <span id="h2" class="clock-digit r-w">0</span>
+            <span class="colon">:</span>
+            <span id="m1" class="clock-digit r-r">0</span>
+            <span id="m2" class="clock-digit r-b">0</span>
+          </div>
+          <span class="hud-ampm" id="ampmBadge">PM</span>
+        </div>
+
+        <!-- Action Bar: Schedule Unfold Trigger & Sound Toggle -->
+        <div class="hud-actions-row">
+          <button class="p5-action-trigger" id="openScheduleBtn" type="button" aria-label="Open Full Month Schedule" title="Click to unfold monthly schedule">
+            <span class="trigger-dagger" aria-hidden="true">♦</span>
+            <span class="trigger-text">SCHEDULE // 展開</span>
+            <span class="trigger-arrow" aria-hidden="true">▶</span>
+          </button>
+          
+          <button class="sound-toggle-btn" id="soundToggleBtn" type="button" aria-label="Toggle Sound Effects" title="Toggle Sound FX (Mute/Unmute)">
+            <span class="sound-icon" id="soundIcon">🔊</span>
+          </button>
+        </div>
+
       </div>
 
-      <div class="right-col">
-        <div class="cal-month-wrap">
-          <span class="cal-month" id="monthName">MONTH YEAR</span>
+      <!-- Right Column: Massive In-Game Date HUD Centerpiece -->
+      <div class="hud-col hud-col-right" id="hudCenterpiece" title="Click to view full calendar grid">
+        
+        <!-- Slashed Month Ribbon with Year & Weather Star -->
+        <div class="hud-month-ribbon">
+          <div class="ribbon-cutout">
+            <span class="ribbon-month" id="hudMonthLabel">SEPTEMBER</span>
+            <span class="ribbon-year" id="hudYearLabel">2026</span>
+          </div>
+          <div class="ribbon-star-wrap" title="Weather Condition">
+            <svg class="p5-star-icon" viewBox="0 0 56 56" aria-hidden="true">
+              <polygon points="28,2 34,20 54,20 38,32 44,52 28,40 12,52 18,32 2,20 22,20" fill="#FFE600" stroke="#000000" stroke-width="3"/>
+            </svg>
+          </div>
         </div>
-        <div class="cal-header">
-          <span class="sun">S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span class="sat">S</span>
+
+        <!-- Massive Staggered Ransom-Note Day Digits -->
+        <div class="hud-day-stage" id="hudDayStage">
+          <div class="ransom-digit-card digit-card-tens" id="dayDigitTens">
+            <span class="digit-val" id="valDigitTens">1</span>
+          </div>
+          <div class="ransom-digit-card digit-card-ones" id="dayDigitOnes">
+            <span class="digit-val" id="valDigitOnes">1</span>
+          </div>
         </div>
-        <div class="cal-body" id="calBody"></div>
+
+        <!-- Slashed Jagged Weekday Banner -->
+        <div class="hud-weekday-slash" id="hudWeekday">
+          <span class="weekday-prefix">//</span>
+          <span class="weekday-name" id="hudWeekdayText">FRIDAY</span>
+          <span class="weekday-exclaim">!</span>
+        </div>
+
       </div>
-    </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 2: INTERACTIVE MONTH SCHEDULE (Unfolds on Click)   -->
+    <!-- ======================================================== -->
+    <section class="cal-view cal-view-schedule" id="scheduleView" aria-label="Monthly Schedule Grid" aria-hidden="true">
+      
+      <!-- Top Navigation Header -->
+      <div class="schedule-header">
+        <button class="sched-nav-btn" id="prevMonthBtn" type="button" title="Previous Month" aria-label="Previous Month">◀</button>
+        <div class="sched-title-wrap">
+          <span class="sched-month-name" id="schedMonthName">SEPTEMBER</span>
+          <span class="sched-year-name" id="schedYearName">2026</span>
+        </div>
+        <button class="sched-nav-btn" id="nextMonthBtn" type="button" title="Next Month" aria-label="Next Month">▶</button>
+        
+        <div class="sched-header-actions">
+          <button class="sched-jump-btn" id="jumpTodayBtn" type="button" title="Jump to Today">TODAY</button>
+          <button class="sched-close-btn" id="closeScheduleBtn" type="button" title="Return to Date HUD" aria-label="Close Schedule">✕</button>
+        </div>
+      </div>
+
+      <!-- Neubrutalist Slanted Weekday Headers -->
+      <div class="schedule-weekdays">
+        <span class="sched-wday sun">SUN</span>
+        <span class="sched-wday">MON</span>
+        <span class="sched-wday">TUE</span>
+        <span class="sched-wday">WED</span>
+        <span class="sched-wday">THU</span>
+        <span class="sched-wday">FRI</span>
+        <span class="sched-wday sat">SAT</span>
+      </div>
+
+      <!-- Dynamic 7-Column Calendar Grid -->
+      <div class="schedule-grid" id="schedCalBody"></div>
+
+      <!-- Schedule Footer Strip -->
+      <div class="schedule-footer">
+        <div class="sched-motto-wrap">
+          <span class="sched-motto-dagger">♦</span>
+          <span class="sched-motto-text">TAKE YOUR TIME</span>
+          <span class="sched-motto-dagger">♦</span>
+        </div>
+        <div class="sched-tip">PRESS [ESC] OR [✕] TO RETURN</div>
+      </div>
+
+    </section>
+
   </div>
 
   <script src="../../../shared/js/calendar-service.js"></script>

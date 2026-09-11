@@ -1,143 +1,243 @@
 @import url("../theme-base.css");
 
-.cal-shape-1 {
-  top: -15%;
+/* ========================================================
+   PERSONA 5 CALENDAR WIDGET: THE PHANTOM HUD
+   Controlled Chaos • Neubrutalism • Snappy Bouncy Physics
+   ======================================================== */
+
+:root {
+  --p5-red-vibrant: #e60012;
+  --p5-red-shadow: #8b000a;
+  --p5-red-glow: rgba(230, 0, 18, 0.75);
+  --p5-black-pure: #000000;
+  --p5-white-pure: #ffffff;
+  --p5-cream-p5: #ece2cf;
+  --p5-cream-bright: #fbf7ee;
+  --p5-yellow-star: #ffe600;
+  --p5-blue-sat: #4aa5ff;
+  --p5-spring-snap: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  --p5-cut-quick: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Base Widget Container */
+.p5-calendar-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  background-color: var(--p5-bg);
+  overflow: hidden;
+  isolation: isolate;
+  user-select: none;
+}
+
+/* Halftone Comic Dot Pattern Overlay */
+.p5-halftone-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.1) 1.5px, transparent 1.6px),
+    radial-gradient(rgba(230, 0, 18, 0.25) 1.4px, transparent 1.5px);
+  background-size: 10px 10px, 14px 14px;
+  background-position: 0 0, 4px 4px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Comic Red Shards & Polygonal Cutouts */
+.cal-shard-primary {
+  top: -20%;
+  right: -10%;
+  width: 55%;
+  height: 70%;
+  clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 65%, 25% 45%, 5% 25%);
+  background: linear-gradient(135deg, var(--p5-red) 0%, var(--p5-red-dark) 100%);
+  transform: rotate(-4deg);
+  opacity: 0.95;
+  z-index: 1;
+}
+
+.cal-shard-secondary {
+  bottom: -25%;
   left: -8%;
-  width: 45%;
-  height: 55%;
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    75% 25%,
-    95% 45%,
-    65% 55%,
-    85% 80%,
-    50% 68%,
-    55% 100%,
-    35% 72%,
-    10% 95%,
-    15% 58%,
-    0 68%,
-    12% 38%,
-    0 22%
+  width: 48%;
+  height: 60%;
+  clip-path: polygon(0 20%, 80% 0, 100% 75%, 65% 100%, 0 100%);
+  background: var(--p5-red-dark);
+  transform: rotate(6deg);
+  opacity: 0.6;
+  z-index: 1;
+}
+
+.cal-shard-accent {
+  top: 40%;
+  left: 36%;
+  width: 14%;
+  height: 45%;
+  clip-path: polygon(50% 0, 100% 60%, 65% 100%, 0 45%);
+  background: var(--p5-red);
+  transform: rotate(-18deg);
+  opacity: 0.35;
+  z-index: 1;
+}
+
+/* Comic Speed Lines Overlay */
+.cal-speed-lines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -35deg,
+    transparent,
+    transparent 18px,
+    rgba(255, 255, 255, 0.02) 18px,
+    rgba(255, 255, 255, 0.02) 20px
   );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hero Mask Motif */
+.cal-mask-wrap {
+  top: -6%;
+  left: 2%;
+  width: clamp(52px, 10vw, 76px);
+  transform: rotate(-8deg);
+  z-index: 3;
+  transition: transform 0.4s var(--p5-spring-snap), filter 0.3s ease;
+}
+
+.p5-calendar-root:hover .cal-mask-wrap {
+  transform: rotate(-12deg) scale(1.08) translateY(-2px);
+}
+
+/* ========================================================
+   VIEW MANAGEMENT & DUAL-STATE ANIMATIONS
+   ======================================================== */
+.cal-view {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  transition: transform 0.46s var(--p5-spring-snap), opacity 0.35s ease;
+}
+
+/* HUD View State */
+.p5-calendar-root[data-active-view="hud"] #hudView {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 4;
+}
+
+.p5-calendar-root[data-active-view="hud"] #scheduleView {
+  transform: translateX(105%) rotate(4deg) scale(0.92);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Schedule View State */
+.p5-calendar-root[data-active-view="schedule"] #hudView {
+  transform: translateX(-38%) scale(0.86) skewX(-4deg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.p5-calendar-root[data-active-view="schedule"] #scheduleView {
+  transform: translateX(0) rotate(0deg) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 5;
+}
+
+/* ========================================================
+   VIEW 1: PRIMARY IN-GAME DATE HUD
+   ======================================================== */
+.cal-view-hud {
+  display: grid;
+  grid-template-columns: 1.15fr 1.35fr;
+  align-items: center;
+  gap: clamp(8px, 2.5vw, 16px);
+  padding: clamp(8px, 2.2vh, 14px) clamp(12px, 3vw, 20px);
+  z-index: 4;
+}
+
+/* Left Column */
+.hud-col-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 3;
+  padding-left: clamp(24px, 6vw, 42px); /* spacing for mask */
+}
+
+/* Time Phase Pill */
+.hud-phase-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--p5-black-pure);
+  border: 2px solid var(--p5-black-pure);
+  box-shadow: 3px 3px 0 var(--p5-black-pure);
+  clip-path: polygon(0 0, 94% 0, 100% 100%, 6% 100%);
+  padding: 3px 12px;
+  transform: rotate(-2deg) skewX(-6deg);
+  transition: transform 0.25s var(--p5-spring-snap);
+}
+
+.p5-calendar-root:hover .hud-phase-pill {
+  transform: rotate(-3deg) skewX(-8deg) scale(1.03);
+}
+
+.hud-phase-prefix {
+  font-family: "Anton", sans-serif;
+  font-size: clamp(10px, 2vw, 13px);
+  color: var(--p5-red-hover);
+  letter-spacing: 1px;
+}
+
+.hud-phase-text {
+  font-family: "Anton", sans-serif;
+  font-size: clamp(11px, 2.3vw, 15px);
+  color: var(--p5-yellow-star);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.hud-phase-desc {
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(8px, 1.8vw, 10px);
+  font-weight: 700;
+  color: var(--p5-cream-bright);
+  letter-spacing: 1.2px;
+  text-shadow: 1.5px 1.5px 0 var(--p5-black-pure);
+  margin-top: 3px;
+  margin-bottom: 6px;
   transform: rotate(-1deg);
   opacity: 0.9;
 }
 
-.cal-shape-2 {
-  top: -10%;
-  right: -8%;
-  width: 46%;
-  height: 55%;
-  clip-path: polygon(
-    35% 0,
-    100% 0,
-    100% 100%,
-    65% 58%,
-    85% 90%,
-    48% 62%,
-    28% 95%,
-    20% 48%,
-    0 38%
-  );
-  transform: rotate(2deg);
-  opacity: 0.85;
-}
-
-.cal-shape-3 {
-  top: 55%;
-  left: 15%;
-  width: 50%;
-  height: 50%;
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    75% 25%,
-    95% 45%,
-    65% 55%,
-    85% 80%,
-    50% 68%,
-    55% 100%,
-    35% 72%,
-    10% 95%,
-    15% 58%,
-    0 68%,
-    12% 38%,
-    0 22%
-  );
-  background: var(--p5-red-dark);
-  transform: rotate(190deg);
-  opacity: 0.45;
-}
-
-.cal-mask {
-  bottom: 78%;
-  left: 5%;
-  width: clamp(50px, 9vw, 76px);
-  transform: rotate(-6deg);
-  z-index: 2;
-}
-
-.cal-spike-1 {
-  top: -2%;
-  left: 36%;
-  width: 5.5%;
-  height: 30%;
-  clip-path: polygon(
-    50% 0,
-    64% 50%,
-    100% 60%,
-    60% 74%,
-    50% 100%,
-    40% 74%,
-    0 60%,
-    36% 50%
-  );
-  transform: rotate(18deg);
-  opacity: 0.85;
-}
-
-.cal-calendar-left {
-  position: absolute;
-  top: 62%;
-  transform: rotate(-20deg) scale(0.45);
-  z-index: 1;
-  pointer-events: none;
-  filter: drop-shadow(2px 2px 0 var(--p5-black));
-}
-
-.content {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  padding: 3% 5% 3% 4%;
-  display: grid;
-  grid-template-columns: 1fr 1.25fr;
-  grid-template-rows: 1fr;
-  gap: 3%;
-  align-content: center;
-  align-items: center;
-}
-
-.left-col {
+/* Digital Clock Row */
+.hud-clock-row {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  position: relative;
+  gap: 6px;
+  margin-bottom: 8px;
 }
 
 .ransom-clock {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 2.5px;
+  transform: rotate(-2deg) skewX(-3deg);
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
-  transform: rotate(-2deg) skewX(-3deg);
 }
 
 .clock-digit {
@@ -145,159 +245,558 @@
   align-items: center;
   justify-content: center;
   font-family: "Anton", sans-serif;
-  font-size: clamp(28px, 7.5vw, 56px);
-  width: clamp(26px, 6vw, 48px);
-  height: clamp(38px, 9vw, 68px);
-  border: 2.5px solid var(--p5-black);
-  box-shadow: 3.5px 3.5px 0 var(--p5-black);
+  font-size: clamp(22px, 5.5vw, 36px);
+  width: clamp(20px, 4.8vw, 32px);
+  height: clamp(28px, 6.8vw, 44px);
+  border: 2px solid var(--p5-black-pure);
+  box-shadow: 2.5px 2.5px 0 var(--p5-black-pure);
   line-height: 1;
   font-weight: bold;
+  transition: transform 0.2s ease;
 }
 
 .clock-digit.r-b {
-  background: var(--p5-black);
-  color: var(--p5-red-hover);
+  background: var(--p5-black-pure);
+  color: var(--p5-white-pure);
   transform: rotate(-3deg);
 }
 
 .clock-digit.r-w {
-  background: var(--p5-cream-light);
-  color: var(--p5-black);
-  transform: rotate(4deg);
+  background: var(--p5-cream-p5);
+  color: var(--p5-black-pure);
+  transform: rotate(3deg);
 }
 
 .clock-digit.r-r {
-  background: var(--p5-red);
-  color: var(--p5-white);
+  background: var(--p5-red-vibrant);
+  color: var(--p5-white-pure);
   transform: rotate(-4deg);
 }
 
-.clock .colon {
-  color: #888888;
-  padding: 0 4px;
+.ransom-clock .colon {
   font-family: "Anton", sans-serif;
-  font-size: clamp(24px, 6vw, 44px);
-  animation: blink 1s step-end infinite;
-  text-shadow: 2px 2px 0 var(--p5-black);
-}
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
-  }
+  font-size: clamp(18px, 4.5vw, 28px);
+  color: #a0a0a0;
+  text-shadow: 2px 2px 0 var(--p5-black-pure);
+  animation: p5-colon-blink 1s step-end infinite;
+  padding: 0 1px;
 }
 
-.day-text {
-  font-family: "Anton", sans-serif;
-  font-size: clamp(14px, 3.2vw, 22px);
-  background: var(--p5-black);
-  color: var(--p5-white);
-  padding: 3px 14px;
-  border: 2px solid var(--p5-black);
-  box-shadow: 3px 3px 0 var(--p5-black);
-  transform: rotate(2deg) skewX(-6deg);
-  margin-top: 8px;
-  text-align: center;
-  width: max-content;
+@keyframes p5-colon-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
 }
 
-.right-col {
+.hud-ampm {
+  font-family: "Anton", sans-serif;
+  font-size: clamp(9px, 2vw, 12px);
+  background: var(--p5-black-pure);
+  color: var(--p5-cream-bright);
+  padding: 2px 6px;
+  border: 1.5px solid var(--p5-black-pure);
+  box-shadow: 2px 2px 0 var(--p5-black-pure);
+  transform: rotate(3deg) skewX(-4deg);
+  letter-spacing: 0.5px;
+}
+
+/* Actions Row: Trigger + Sound Button */
+.hud-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.p5-action-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--p5-black-pure) 0%, #201f24 100%);
+  color: var(--p5-white-pure);
+  border: 2px solid var(--p5-black-pure);
+  box-shadow: 3px 3px 0 var(--p5-black-pure);
+  padding: 4px 12px;
+  cursor: pointer;
+  transform: skewX(-7deg) rotate(-1deg);
+  transition: all 0.2s var(--p5-spring-snap);
+}
+
+.p5-action-trigger:hover {
+  background: var(--p5-red-vibrant);
+  color: var(--p5-white-pure);
+  box-shadow: 4px 4px 0 var(--p5-black-pure), 0 0 10px var(--p5-red-glow);
+  transform: skewX(-8deg) rotate(-2deg) scale(1.05) translateX(3px);
+}
+
+.p5-action-trigger:active {
+  transform: skewX(-5deg) translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--p5-black-pure);
+}
+
+.trigger-dagger {
+  color: var(--p5-yellow-star);
+  font-size: clamp(10px, 2vw, 13px);
+}
+
+.trigger-text {
+  font-family: "Anton", sans-serif;
+  font-size: clamp(10px, 2.2vw, 14px);
+  letter-spacing: 1.2px;
+}
+
+.trigger-arrow {
+  color: var(--p5-red-hover);
+  font-size: clamp(9px, 1.8vw, 11px);
+  transition: transform 0.2s ease;
+}
+
+.p5-action-trigger:hover .trigger-arrow {
+  color: var(--p5-yellow-star);
+  transform: translateX(3px);
+}
+
+.sound-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(24px, 5.5vw, 32px);
+  height: clamp(24px, 5.5vw, 32px);
+  background: var(--p5-black-pure);
+  border: 2px solid var(--p5-black-pure);
+  box-shadow: 2.5px 2.5px 0 var(--p5-black-pure);
+  color: var(--p5-cream-bright);
+  font-size: clamp(11px, 2.4vw, 14px);
+  cursor: pointer;
+  transform: rotate(3deg) skewX(-4deg);
+  transition: all 0.2s var(--p5-spring-snap);
+}
+
+.sound-toggle-btn:hover {
+  background: var(--p5-cream-p5);
+  color: var(--p5-black-pure);
+  transform: rotate(6deg) scale(1.1);
+  box-shadow: 3.5px 3.5px 0 var(--p5-black-pure);
+}
+
+.sound-toggle-btn:active {
+  transform: translate(1.5px, 1.5px);
+  box-shadow: 1px 1px 0 var(--p5-black-pure);
+}
+
+/* Right Column: Hero Date Centerpiece */
+.hud-col-right {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding-left: 2%;
-  width: 100%;
+  position: relative;
+  z-index: 3;
+  cursor: pointer;
 }
 
-.cal-month-wrap {
-  text-align: center;
-  margin-bottom: 4px;
+/* Slashed Month Ribbon */
+.hud-month-ribbon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transform: rotate(-3deg) skewX(-6deg);
+  margin-bottom: 2px;
+  transition: transform 0.25s var(--p5-spring-snap);
 }
 
-.cal-month {
-  display: inline-block;
-  background: var(--p5-cream);
-  color: #1a191b;
+.p5-calendar-root:hover .hud-month-ribbon {
+  transform: rotate(-5deg) skewX(-8deg) scale(1.03);
+}
+
+.ribbon-cutout {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--p5-black-pure);
+  border: 2.5px solid var(--p5-black-pure);
+  box-shadow: 3.5px 3.5px 0 var(--p5-black-pure);
+  padding: 3px 14px;
+}
+
+.ribbon-month {
   font-family: "Anton", sans-serif;
-  font-size: clamp(11px, 2.4vw, 18px);
+  font-size: clamp(12px, 2.8vw, 18px);
+  color: var(--p5-white-pure);
+  letter-spacing: 2px;
+}
+
+.ribbon-year {
+  font-family: "Anton", sans-serif;
+  font-size: clamp(11px, 2.4vw, 16px);
+  color: var(--p5-yellow-star);
+  letter-spacing: 1px;
+}
+
+.ribbon-star-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(20px, 4.5vw, 28px);
+  height: clamp(20px, 4.5vw, 28px);
+  background: var(--p5-black-pure);
+  border: 2px solid var(--p5-black-pure);
+  box-shadow: 2.5px 2.5px 0 var(--p5-black-pure);
+  transform: rotate(8deg);
+  transition: transform 0.3s ease;
+}
+
+.p5-calendar-root:hover .ribbon-star-wrap {
+  transform: rotate(38deg) scale(1.15);
+}
+
+.p5-star-icon {
+  width: 70%;
+  height: 70%;
+}
+
+/* Massive Staggered Ransom-Note Day Digits */
+.hud-day-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(4px, 1.2vw, 8px);
+  margin: 1px 0 3px 0;
+}
+
+.ransom-digit-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(38px, 9vw, 56px);
+  height: clamp(50px, 12vw, 76px);
+  border: 3px solid var(--p5-black-pure);
+  box-shadow: 4px 4px 0 var(--p5-black-pure);
+  padding: 0 4px;
+  line-height: 1;
+  font-weight: 900;
+  transition: transform 0.3s var(--p5-spring-snap), box-shadow 0.3s ease;
+}
+
+.ransom-digit-card .digit-val {
+  font-family: "Anton", "Impact", sans-serif;
+  font-size: clamp(44px, 12.5vw, 72px);
+  line-height: 0.9;
+  letter-spacing: -1px;
+}
+
+/* Staggered Ransom Stylings */
+.digit-card-tens {
+  background: var(--p5-black-pure);
+  color: var(--p5-white-pure);
+  transform: rotate(-6deg) skewX(-4deg) translateY(-2px);
+}
+
+.digit-card-ones {
+  background: var(--p5-red-vibrant);
+  color: var(--p5-white-pure);
+  transform: rotate(5deg) skewX(3deg) translateY(3px);
+}
+
+/* Hover Dynamics on Ransom Digits ("The Juice") */
+.p5-calendar-root:hover .digit-card-tens {
+  transform: rotate(-10deg) skewX(-6deg) scale(1.06) translateY(-4px);
+  box-shadow: 5px 5px 0 var(--p5-black-pure), -2px -2px 0 var(--p5-red-glow);
+}
+
+.p5-calendar-root:hover .digit-card-ones {
+  transform: rotate(9deg) skewX(5deg) scale(1.06) translateY(5px);
+  box-shadow: 5px 5px 0 var(--p5-black-pure), 0 0 12px var(--p5-red-glow);
+}
+
+/* Slashed Weekday Chevron */
+.hud-weekday-slash {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--p5-black-pure);
+  border: 2px solid var(--p5-black-pure);
+  box-shadow: 3px 3px 0 var(--p5-black-pure);
+  clip-path: polygon(0 0, 94% 0, 100% 50%, 94% 100%, 0 100%, 6% 50%);
+  padding: 3px 18px 3px 14px;
+  transform: rotate(2deg) skewX(-6deg);
+  transition: transform 0.25s var(--p5-spring-snap);
+}
+
+.p5-calendar-root:hover .hud-weekday-slash {
+  transform: rotate(4deg) skewX(-8deg) scale(1.04);
+}
+
+.weekday-prefix {
+  font-family: "Anton", sans-serif;
+  font-size: clamp(10px, 2.2vw, 14px);
+  color: var(--p5-red-hover);
+}
+
+.weekday-name {
+  font-family: "Anton", sans-serif;
+  font-size: clamp(12px, 2.8vw, 18px);
+  color: var(--p5-cream-bright);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.weekday-exclaim {
+  font-family: "Anton", sans-serif;
+  font-size: clamp(12px, 2.6vw, 16px);
+  color: var(--p5-yellow-star);
+}
+
+/* ========================================================
+   VIEW 2: INTERACTIVE MONTH SCHEDULE (UNFOLD STATE)
+   Strictly optimized for Vivaldi Regular Tile (200-240px tall)
+   ======================================================== */
+.cal-view-schedule {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: rgba(18, 17, 21, 0.96);
+  z-index: 5;
+  box-sizing: border-box;
+}
+
+/* Schedule Header Strip */
+.schedule-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  height: clamp(24px, 5.5vh, 28px);
+  margin-bottom: 2px;
+}
+
+.sched-title-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--p5-black-pure);
+  border: 2px solid var(--p5-black-pure);
+  box-shadow: 2.5px 2.5px 0 var(--p5-black-pure);
+  padding: 2px 10px;
+  transform: skewX(-5deg);
+}
+
+.sched-month-name {
+  font-family: "Anton", sans-serif;
+  font-size: clamp(11px, 2.4vw, 15px);
+  color: var(--p5-white-pure);
   letter-spacing: 1.5px;
-  padding: 3px 16px;
-  transform: rotate(-2deg) skewX(-6deg);
-  box-shadow: 3px 3px 0 var(--p5-black);
-  border: 2.5px solid var(--p5-black);
-  font-weight: bold;
 }
 
-.cal-header {
+.sched-year-name {
+  font-family: "Anton", sans-serif;
+  font-size: clamp(10px, 2vw, 13px);
+  color: var(--p5-yellow-star);
+  letter-spacing: 1px;
+}
+
+/* Navigation Buttons */
+.sched-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(22px, 4.8vw, 26px);
+  height: clamp(22px, 4.8vw, 26px);
+  background: var(--p5-black-pure);
+  color: var(--p5-cream-bright);
+  border: 2px solid var(--p5-black-pure);
+  box-shadow: 2px 2px 0 var(--p5-black-pure);
+  font-size: clamp(9px, 1.8vw, 11px);
+  cursor: pointer;
+  transform: skewX(-4deg);
+  transition: all 0.15s ease;
+}
+
+.sched-nav-btn:hover {
+  background: var(--p5-red-vibrant);
+  color: var(--p5-white-pure);
+  transform: skewX(-5deg) scale(1.08);
+}
+
+.sched-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sched-jump-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--p5-cream-p5);
+  color: var(--p5-black-pure);
+  border: 1.5px solid var(--p5-black-pure);
+  box-shadow: 2px 2px 0 var(--p5-black-pure);
+  font-family: "Anton", sans-serif;
+  font-size: clamp(9px, 1.8vw, 11px);
+  padding: 2px 6px;
+  cursor: pointer;
+  transform: skewX(-5deg);
+  transition: all 0.15s ease;
+}
+
+.sched-jump-btn:hover {
+  background: var(--p5-white-pure);
+  transform: skewX(-6deg) scale(1.05);
+}
+
+.sched-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(22px, 4.8vw, 26px);
+  height: clamp(22px, 4.8vw, 26px);
+  background: var(--p5-red-vibrant);
+  color: var(--p5-white-pure);
+  border: 2px solid var(--p5-black-pure);
+  box-shadow: 2px 2px 0 var(--p5-black-pure);
+  font-family: "Anton", sans-serif;
+  font-size: clamp(10px, 2vw, 13px);
+  cursor: pointer;
+  transform: rotate(2deg) skewX(-4deg);
+  transition: all 0.15s ease;
+}
+
+.sched-close-btn:hover {
+  background: var(--p5-white-pure);
+  color: var(--p5-black-pure);
+  transform: rotate(5deg) scale(1.1);
+}
+
+/* Weekday Labels Strip */
+.schedule-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
   text-align: center;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
-.cal-header span {
-  font-family: "Bebas Neue", sans-serif;
-  font-size: clamp(10px, 2vw, 15px);
-  color: #ffffff;
+.sched-wday {
+  font-family: "Anton", "Bebas Neue", sans-serif;
+  font-size: clamp(9px, 1.8vw, 12px);
+  color: var(--p5-white-pure);
   letter-spacing: 0.5px;
-  text-shadow: 1.5px 1.5px 0 var(--p5-black);
-  font-weight: bold;
+  text-shadow: 1px 1px 0 var(--p5-black-pure);
 }
 
-.cal-header span.sun {
-  color: #ff5260;
+.sched-wday.sun {
+  color: #ff505d;
 }
 
-.cal-header span.sat {
-  color: #80b5ff;
+.sched-wday.sat {
+  color: var(--p5-blue-sat);
 }
 
-.cal-body {
+/* 7-Column Calendar Grid Body */
+.schedule-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  row-gap: 2px;
-  text-align: center;
+  gap: 2px;
+  flex: 1;
+  max-height: calc(100% - 56px);
+  align-content: stretch;
 }
 
-.cal-day {
+/* Neubrutalist Cell Styling */
+.schedule-grid .cal-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(28, 27, 32, 0.85);
+  border: 1.5px solid var(--p5-black-pure);
+  box-shadow: 1.5px 1.5px 0 var(--p5-black-pure);
+  color: var(--p5-white-pure);
   font-family: "Oswald", sans-serif;
   font-weight: 700;
-  font-size: clamp(11px, 2.4vw, 18px);
-  color: #ffffff;
-  padding: 1px 0;
-  text-shadow: 1.5px 1.5px 0 var(--p5-black);
-}
-
-.cal-day.sun {
-  color: #ff6e7a;
-}
-
-.cal-day.sat {
-  color: #99c4ff;
-}
-
-.cal-day.prev-month {
-  color: rgba(255, 255, 255, 0.28);
-  text-shadow: none;
-}
-
-.cal-day.today {
+  font-size: clamp(10px, 2.1vw, 13px);
+  padding: 0;
+  min-height: clamp(18px, 3.8vh, 23px);
+  cursor: pointer;
   position: relative;
-  color: #ffffff !important;
-  font-weight: 700;
+  transition: all 0.15s var(--p5-spring-snap);
 }
 
-.cal-day.today::after {
+.schedule-grid .cal-day.sun {
+  color: #ff6874;
+}
+
+.schedule-grid .cal-day.sat {
+  color: #8cc3ff;
+}
+
+.schedule-grid .cal-day.prev-month {
+  color: rgba(255, 255, 255, 0.28);
+  background: rgba(16, 15, 18, 0.6);
+  border-color: rgba(0, 0, 0, 0.6);
+  box-shadow: none;
+}
+
+/* Cell Hover "Juice" */
+.schedule-grid .cal-day:not(.prev-month):hover {
+  background: var(--p5-cream-p5);
+  color: var(--p5-black-pure) !important;
+  border-color: var(--p5-black-pure);
+  box-shadow: 3px 3px 0 var(--p5-black-pure);
+  transform: scale(1.15) rotate(2deg);
+  z-index: 5;
+}
+
+/* Today's Cell: In-Game Red Target Accent */
+.schedule-grid .cal-day.today {
+  background: var(--p5-red-vibrant) !important;
+  color: var(--p5-white-pure) !important;
+  border: 2px solid var(--p5-black-pure) !important;
+  box-shadow: 2.5px 2.5px 0 var(--p5-black-pure), 0 0 10px var(--p5-red-glow) !important;
+  font-weight: 900;
+  transform: scale(1.08) rotate(-2deg);
+  z-index: 3;
+}
+
+.schedule-grid .cal-day.today::after {
   content: "";
   position: absolute;
-  inset: -1px;
-  border: 2.5px solid var(--p5-red);
-  box-shadow:
-    0 0 10px rgba(230, 0, 18, 0.8),
-    inset 0 0 4px rgba(230, 0, 18, 0.5);
-  pointer-events: none;
-  border-radius: 3px;
+  top: 1px;
+  right: 1px;
+  width: 4px;
+  height: 4px;
+  background: var(--p5-yellow-star);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
+
+/* Schedule Footer Strip */
+.schedule-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: clamp(14px, 3vh, 18px);
+  margin-top: 2px;
+}
+
+.sched-motto-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Anton", sans-serif;
+  font-size: clamp(8px, 1.6vw, 10px);
+  color: var(--p5-red-hover);
+  letter-spacing: 1px;
+}
+
+.sched-motto-dagger {
+  color: var(--p5-yellow-star);
+  font-size: 8px;
+}
+
+.sched-tip {
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(7px, 1.4vw, 9px);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.5px;
+}
+
