@@ -7,18 +7,14 @@
 (function () {
   'use strict';
 
-  // ==========================================================================
-  // Mechanical Tonearm Geometry Configuration
-  // ==========================================================================
+  // Tonearm geometry angles
   const TONEARM_ANGLES = {
-    REST: -12,       // Parked in the resting cradle
-    TRACK_START: 10,  // Outer lead-in groove (0% progress)
-    TRACK_END: 36,    // Inner run-out groove near label (100% progress)
+    REST: -12,
+    TRACK_START: 10,
+    TRACK_END: 36,
   };
 
-  // ==========================================================================
-  // DOM Elements
-  // ==========================================================================
+  // DOM elements
   const elements = {
     widget: document.getElementById('gramophoneWidget'),
     vinylDisc: document.getElementById('vinylDisc'),
@@ -61,9 +57,7 @@
     needleAudio: document.getElementById('needleDropAudio'),
   };
 
-  // ==========================================================================
-  // Procedural Web Audio API: Vintage Needle Drop & Vinyl Crackle Synthesizer
-  // ==========================================================================
+  // Procedural Web Audio: Needle drop & vinyl crackle synthesizer
   let audioCtx = null;
   let hasPlayedNeedleDrop = false;
 
@@ -80,12 +74,7 @@
     return audioCtx;
   }
 
-  /**
-   * Procedurally synthesizes a tactile vinyl needle landing:
-   * 1. Low-frequency cartridge thud
-   * 2. High-frequency stylus friction rush
-   * 3. Authentic random vinyl micro-pops / dust crackles
-   */
+  // Synthesizes tactile vinyl needle landing: low-end impulse, friction rush, & micro-pops
   function playNeedleDropAudio() {
     // Also try playing HTML audio if source provided
     if (elements.needleAudio && elements.needleAudio.src) {
@@ -161,9 +150,7 @@
     }
   }
 
-  // ==========================================================================
-  // Tonearm & Vinyl Physical State Synchronizer
-  // ==========================================================================
+  // Tonearm & vinyl state
   let isCurrentlyPlaying = false;
   let activeTabProvider = 'discord';
 
@@ -195,9 +182,7 @@
     }
   }
 
-  // ==========================================================================
-  // Initialize Spotify Core Service
-  // ==========================================================================
+  // Spotify service instance
   const spotifyService = new SpotifyService({
 
     // 1. Track Metadata Received / Updated
@@ -354,9 +339,7 @@
     },
   });
 
-  // ==========================================================================
-  // Client Request Ledger (Modal Dialog) Management
-  // ==========================================================================
+  // Modal dialog management
   function switchTab(prov) {
     activeTabProvider = prov;
     if (prov === 'discord') {
@@ -465,9 +448,7 @@
     });
   }
 
-  // ==========================================================================
-  // Bootstrap Widget
-  // ==========================================================================
+  // Initialize
   document.addEventListener('DOMContentLoaded', () => {
     // Start in resting tonearm position
     setTonearmAngle(TONEARM_ANGLES.REST);

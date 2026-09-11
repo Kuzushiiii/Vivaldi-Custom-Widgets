@@ -648,10 +648,7 @@ body {
   100% { transform: translate(0, 0); }
 }
 
-/* =========================================================
-   Regular / Compact Height Responsiveness (< 250px)
-   Prevents clipping on standard horizontal Vivaldi tiles
-   ========================================================= */
+/* Regular / Compact Height Responsiveness (< 250px) - Prevents clipping on standard horizontal Vivaldi tiles */
 @media (max-height: 250px) {
   .stationery-inner {
     padding: 5px 12px 4px;

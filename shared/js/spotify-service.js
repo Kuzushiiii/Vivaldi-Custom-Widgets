@@ -229,9 +229,7 @@ class SpotifyService {
     this.updateProgress();
   }
 
-  // ==========================================
-  // DISCORD LANYARD CONNECTION
-  // ==========================================
+  // Discord Lanyard connection
   connectLanyard() {
     if (!this.discordId || this.isDemoMode) return;
     this.cleanup();
@@ -340,9 +338,7 @@ class SpotifyService {
     this.pollInterval = setInterval(fetchRest, 12000);
   }
 
-  // ==========================================
-  // LAST.FM CONNECTION + DURATION FETCHING
-  // ==========================================
+  // Last.fm connection & duration fetching
   async fetchLastfmTrackDuration(artist, trackName, apiKey) {
     const cacheKey = `${artist}-${trackName}`.toLowerCase();
     if (this.trackInfoCache.has(cacheKey)) {
