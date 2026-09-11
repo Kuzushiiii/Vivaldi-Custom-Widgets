@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  /* ========================================================
+     1. ASSETS & MASK RANDOMIZER
+     ======================================================== */
   const MASKS = [
     '../assets/Joker Mask.png',
     '../assets/Ann Mask.png',
@@ -13,41 +16,153 @@
     mask.src = MASKS[Math.floor(Math.random() * MASKS.length)];
   }
 
+  /* ========================================================
+     2. PROCEDURAL WEB AUDIO SYNTHESIZER ("THE JUICE")
+     ======================================================== */
+  let audioCtx = null;
+  const audioState = {
+    enabled: localStorage.getItem('p5_cal_sound') !== 'false'
+  };
+
+  function getAudioContext() {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        audioCtx = new AudioContextClass();
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
+    return audioCtx;
+  }
+
+  // Persona 5 UI Paper Slash / Blade sound
+  function playSlashSound() {
+    if (!audioState.enabled) return;
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+
+      // Tone oscillator: rapid pitch drop
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(800, now);
+      osc.frequency.exponentialRampToValueAtTime(120, now + 0.09);
+
+      // Lowpass filter for comic blade weight
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(3200, now);
+      filter.frequency.exponentialRampToValueAtTime(400, now + 0.09);
+
+      gain.gain.setValueAtTime(0.22, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.11);
+
+      // Noise burst for paper friction
+      const bufferSize = ctx.sampleRate * 0.05;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.4));
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      const noiseGain = ctx.createGain();
+      noiseGain.gain.setValueAtTime(0.12, now);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+
+      noise.connect(noiseGain);
+      noiseGain.connect(ctx.destination);
+      noise.start(now);
+    } catch (_) {}
+  }
+
+  // Snappy UI Blip on hover / chirp
+  function playBlipSound() {
+    if (!audioState.enabled) return;
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(880, now);
+      osc.frequency.exponentialRampToValueAtTime(1760, now + 0.035);
+
+      gain.gain.setValueAtTime(0.14, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.045);
+    } catch (_) {}
+  }
+
+  /* ========================================================
+     3. DOM CACHING & INITIAL STATE
+     ======================================================== */
   const elements = {
-    p5Banner: document.querySelector('.p5-banner'),
+    musicRoot: document.getElementById('musicRoot'),
     badgePrefix: document.getElementById('badgePrefix'),
     statusBadge: document.getElementById('statusBadge'),
-    songTitle: document.getElementById('songTitle'),
-    artistName: document.getElementById('artistName'),
-    albumName: document.getElementById('albumName'),
+    soundToggleBtn: document.getElementById('soundToggleBtn'),
+    soundIcon: document.getElementById('soundIcon'),
+    openConfigBtn: document.getElementById('openConfigBtn'),
+
+    heroAlbumStage: document.getElementById('heroAlbumStage'),
+    albumArtCard: document.getElementById('albumArtCard'),
     albumImg: document.getElementById('albumImg'),
     artFallback: document.getElementById('artFallback'),
-    artWrap: document.getElementById('artWrap'),
-    infoBot: document.querySelector('.info-bot-centered'),
-    trackProgress: document.getElementById('trackProgress'),
-    timeCurrent: document.getElementById('timeCurrent'),
-    timeDuration: document.getElementById('timeDuration'),
     visOverlay: document.getElementById('visOverlay'),
     visBars: document.querySelectorAll('.vis-bar'),
-    trackInfoSection: document.getElementById('trackInfoSection'),
+
+    trackDetailsBlock: document.getElementById('trackDetailsBlock'),
+    titleMarqueeWindow: document.getElementById('titleMarqueeWindow'),
+    songTitle: document.getElementById('songTitle'),
+    artistRibbon: document.getElementById('artistRibbon'),
+    artistName: document.getElementById('artistName'),
+    albumName: document.getElementById('albumName'),
+
+    progressSection: document.getElementById('progressSection'),
+    barTrack: document.getElementById('barTrack'),
+    trackProgress: document.getElementById('trackProgress'),
+    meterBeacon: document.getElementById('meterBeacon'),
+    timeCurrent: document.getElementById('timeCurrent'),
+    timeDuration: document.getElementById('timeDuration'),
+
     standbySection: document.getElementById('standbySection'),
     standbyHint: document.getElementById('standbyHint'),
+    standbyDemoBtn: document.getElementById('standbyDemoBtn'),
+    standbyConfigBtn: document.getElementById('standbyConfigBtn'),
 
     configModal: document.getElementById('configModal'),
-    openConfigBtn: document.getElementById('openConfigBtn'),
-    standbyConfigBtn: document.getElementById('standbyConfigBtn'),
     closeConfigBtn: document.getElementById('closeConfigBtn'),
     saveConfigBtn: document.getElementById('saveConfigBtn'),
     demoBtn: document.getElementById('demoBtn'),
-    discordIdInput: document.getElementById('discordIdInput'),
-    lastfmUsernameInput: document.getElementById('lastfmUsernameInput'),
-    lastfmApiKeyInput: document.getElementById('lastfmApiKeyInput'),
     tabDiscord: document.getElementById('tabDiscord'),
     tabLastfm: document.getElementById('tabLastfm'),
     discordTabContent: document.getElementById('discordTabContent'),
-    lastfmTabContent: document.getElementById('lastfmTabContent')
+    lastfmTabContent: document.getElementById('lastfmTabContent'),
+    discordIdInput: document.getElementById('discordIdInput'),
+    lastfmUsernameInput: document.getElementById('lastfmUsernameInput'),
+    lastfmApiKeyInput: document.getElementById('lastfmApiKeyInput'),
+    phoneClock: document.getElementById('phoneClock')
   };
 
+  // Graceful fallback if image link fails
   if (elements.albumImg && elements.artFallback) {
     elements.albumImg.onerror = () => {
       elements.albumImg.style.display = 'none';
@@ -55,21 +170,83 @@
     };
   }
 
+  /* ========================================================
+     4. SMARTPHONE CLOCK & SOUND TOGGLE SETUP
+     ======================================================== */
+  function updatePhoneClock() {
+    if (!elements.phoneClock) return;
+    const now = new Date();
+    const hrs = String(now.getHours()).padStart(2, '0');
+    const mins = String(now.getMinutes()).padStart(2, '0');
+    elements.phoneClock.textContent = `${hrs}:${mins}`;
+  }
+
+  function updateSoundIcon() {
+    if (!elements.soundIcon) return;
+    elements.soundIcon.textContent = audioState.enabled ? '🔊' : '🔇';
+  }
+
+  if (elements.soundToggleBtn) {
+    updateSoundIcon();
+    elements.soundToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      audioState.enabled = !audioState.enabled;
+      localStorage.setItem('p5_cal_sound', audioState.enabled ? 'true' : 'false');
+      updateSoundIcon();
+      if (audioState.enabled) playBlipSound();
+    });
+    elements.soundToggleBtn.addEventListener('mouseenter', playBlipSound);
+  }
+
+  /* ========================================================
+     5. DYNAMIC MARQUEE TITLE LOGIC
+     ======================================================== */
+  let currentRawTitle = '';
+  function updateSongTitle(title) {
+    if (!elements.songTitle || !elements.titleMarqueeWindow) return;
+    const cleanTitle = (title || 'Unknown Title').trim().toUpperCase();
+    if (cleanTitle === currentRawTitle && elements.songTitle.classList.contains('is-marquee')) {
+      return;
+    }
+    currentRawTitle = cleanTitle;
+
+    elements.songTitle.classList.remove('is-marquee');
+    elements.songTitle.textContent = cleanTitle;
+
+    // Measure after browser paint to decide if marquee is needed
+    requestAnimationFrame(() => {
+      const windowWidth = elements.titleMarqueeWindow.clientWidth;
+      const titleWidth = elements.songTitle.scrollWidth;
+      if (titleWidth > windowWidth + 6) {
+        elements.songTitle.textContent = `${cleanTitle}   ///   ${cleanTitle}   ///   `;
+        elements.songTitle.classList.add('is-marquee');
+      }
+    });
+  }
+
+  /* ========================================================
+     6. SPOTIFY SERVICE INTEGRATION
+     ======================================================== */
   let activeTabProvider = 'discord';
 
   const spotifyService = new SpotifyService({
     onTrackUpdate: (track) => {
       spotifyService.isLastScrobble = Boolean(track.isLastScrobble);
-      if (elements.p5Banner) elements.p5Banner.classList.add('is-playing');
-      if (elements.infoBot) elements.infoBot.style.display = 'flex';
-      if (elements.artWrap) elements.artWrap.style.display = 'flex';
-      if (elements.trackInfoSection) elements.trackInfoSection.style.display = 'flex';
+
+      if (elements.musicRoot) elements.musicRoot.classList.add('is-playing');
+      if (elements.heroAlbumStage) elements.heroAlbumStage.style.display = 'flex';
+      if (elements.trackDetailsBlock) elements.trackDetailsBlock.style.display = 'flex';
+      if (elements.progressSection) elements.progressSection.style.display = 'flex';
       if (elements.standbySection) elements.standbySection.style.display = 'none';
       if (elements.visOverlay) elements.visOverlay.style.display = 'flex';
 
-      if (elements.songTitle) elements.songTitle.textContent = track.song || 'Unknown Title';
-      if (elements.artistName) elements.artistName.textContent = (track.artist || 'Unknown Artist').replace(/;/g, ',');
-      if (elements.albumName) elements.albumName.textContent = track.album || '';
+      updateSongTitle(track.song);
+      if (elements.artistName) {
+        elements.artistName.textContent = (track.artist || 'Unknown Artist').replace(/;/g, ',');
+      }
+      if (elements.albumName) {
+        elements.albumName.textContent = track.album || 'Persona 5 OST';
+      }
 
       if (track.album_art_url && elements.albumImg && elements.artFallback) {
         elements.albumImg.src = track.album_art_url;
@@ -85,49 +262,79 @@
       }
 
       if (elements.statusBadge) {
-        elements.statusBadge.textContent = track.isLastScrobble
-          ? 'LAST SCROBBLE'
-          : (track.isPaused ? 'PAUSED' : 'ON AIR');
+        if (track.isLastScrobble) {
+          elements.statusBadge.textContent = 'LAST SCROBBLE';
+          elements.statusBadge.classList.add('paused');
+        } else if (track.isPaused) {
+          elements.statusBadge.textContent = 'PAUSED';
+          elements.statusBadge.classList.add('paused');
+        } else {
+          elements.statusBadge.textContent = track.isDemo ? 'TAKEOVER' : 'NOW HIJACKING';
+          elements.statusBadge.classList.remove('paused');
+        }
       }
     },
 
     onProgressUpdate: ({ isStreaming, percentage, currentFormatted, durationFormatted }) => {
-      if (!elements.trackProgress) return;
+      const clampedPct = Math.max(0, Math.min(100, Number(percentage) || 0));
 
       if (isStreaming) {
-        elements.trackProgress.classList.add('streaming');
+        if (elements.trackProgress) elements.trackProgress.classList.add('streaming');
+        if (elements.meterBeacon) elements.meterBeacon.style.left = '100%';
         if (elements.timeCurrent) elements.timeCurrent.textContent = '--:--';
         if (elements.timeDuration) elements.timeDuration.textContent = '--:--';
       } else {
-        elements.trackProgress.classList.remove('streaming');
-        elements.trackProgress.style.width = `${percentage}%`;
-        if (elements.timeCurrent) elements.timeCurrent.textContent = currentFormatted;
-        if (elements.timeDuration) elements.timeDuration.textContent = durationFormatted;
+        if (elements.trackProgress) {
+          elements.trackProgress.classList.remove('streaming');
+          elements.trackProgress.style.width = `${clampedPct}%`;
+        }
+        if (elements.meterBeacon) {
+          elements.meterBeacon.style.left = `${clampedPct}%`;
+        }
+        if (elements.timeCurrent) elements.timeCurrent.textContent = currentFormatted || '00:00';
+        if (elements.timeDuration) elements.timeDuration.textContent = durationFormatted || '00:00';
       }
     },
 
     onStateChange: ({ isPaused }) => {
+      if (elements.musicRoot) {
+        if (isPaused) elements.musicRoot.classList.remove('is-playing');
+        else elements.musicRoot.classList.add('is-playing');
+      }
+
       if (elements.visBars) {
         elements.visBars.forEach((bar) => {
           if (isPaused) bar.classList.add('paused');
           else bar.classList.remove('paused');
         });
       }
+
       if (elements.statusBadge && !spotifyService.isLastScrobble) {
-        elements.statusBadge.textContent = isPaused ? 'PAUSED' : 'ON AIR';
-        if (isPaused) elements.statusBadge.classList.add('paused');
-        else elements.statusBadge.classList.remove('paused');
+        if (isPaused) {
+          elements.statusBadge.textContent = 'PAUSED';
+          elements.statusBadge.classList.add('paused');
+        } else {
+          elements.statusBadge.textContent = 'NOW HIJACKING';
+          elements.statusBadge.classList.remove('paused');
+        }
       }
     },
 
     onStandby: (provider, hintText) => {
       spotifyService.isLastScrobble = false;
-      if (elements.p5Banner) elements.p5Banner.classList.remove('is-playing');
-      if (elements.infoBot) elements.infoBot.style.display = 'none';
-      if (elements.artWrap) elements.artWrap.style.display = 'none';
-      if (elements.trackInfoSection) elements.trackInfoSection.style.display = 'none';
+
+      if (elements.musicRoot) elements.musicRoot.classList.remove('is-playing');
+      if (elements.heroAlbumStage) elements.heroAlbumStage.style.display = 'none';
+      if (elements.trackDetailsBlock) elements.trackDetailsBlock.style.display = 'none';
+      if (elements.progressSection) elements.progressSection.style.display = 'none';
       if (elements.standbySection) elements.standbySection.style.display = 'flex';
       if (elements.visOverlay) elements.visOverlay.style.display = 'none';
+
+      if (elements.badgePrefix) elements.badgePrefix.textContent = 'SIGNAL //';
+      if (elements.statusBadge) {
+        elements.statusBadge.textContent = 'STANDBY';
+        elements.statusBadge.classList.add('paused');
+      }
 
       if (elements.visBars) {
         elements.visBars.forEach((bar) => bar.classList.add('paused'));
@@ -137,17 +344,21 @@
         if (hintText) {
           elements.standbyHint.textContent = hintText;
         } else if (provider === 'discord') {
-          elements.standbyHint.textContent = 'If not detected, make sure you joined discord.gg/lanyard';
+          elements.standbyHint.textContent = 'Ensure Discord & Spotify are active (must join discord.gg/lanyard)';
         } else {
-          elements.standbyHint.textContent = 'Play a track on Spotify to display';
+          elements.standbyHint.textContent = 'Play a track on Spotify to begin infiltration';
         }
       }
     }
   });
 
+  /* ========================================================
+     7. PHAN-SITE SMARTPHONE MODAL CONTROLS
+     ======================================================== */
   function switchTab(prov) {
     activeTabProvider = prov;
     if (!elements.tabDiscord || !elements.tabLastfm) return;
+    playBlipSound();
 
     if (prov === 'discord') {
       elements.tabDiscord.classList.add('active');
@@ -163,18 +374,22 @@
   }
 
   function openModal() {
-    if (elements.discordIdInput) elements.discordIdInput.value = spotifyService.discordId;
-    if (elements.lastfmUsernameInput) elements.lastfmUsernameInput.value = spotifyService.lastfmUser;
-    if (elements.lastfmApiKeyInput) elements.lastfmApiKeyInput.value = spotifyService.lastfmApiKey;
+    playSlashSound();
+    updatePhoneClock();
+    if (elements.discordIdInput) elements.discordIdInput.value = spotifyService.discordId || '';
+    if (elements.lastfmUsernameInput) elements.lastfmUsernameInput.value = spotifyService.lastfmUser || '';
+    if (elements.lastfmApiKeyInput) elements.lastfmApiKeyInput.value = spotifyService.lastfmApiKey || '';
 
     switchTab(spotifyService.provider);
     if (elements.configModal) elements.configModal.style.display = 'flex';
   }
 
   function closeModal() {
+    playBlipSound();
     if (elements.configModal) elements.configModal.style.display = 'none';
   }
 
+  // Event Listeners for Modal
   if (elements.tabDiscord) elements.tabDiscord.addEventListener('click', () => switchTab('discord'));
   if (elements.tabLastfm) elements.tabLastfm.addEventListener('click', () => switchTab('lastfm'));
   if (elements.openConfigBtn) elements.openConfigBtn.addEventListener('click', openModal);
@@ -183,6 +398,7 @@
 
   if (elements.saveConfigBtn) {
     elements.saveConfigBtn.addEventListener('click', () => {
+      playSlashSound();
       spotifyService.saveConfig({
         provider: activeTabProvider,
         discordId: elements.discordIdInput ? elements.discordIdInput.value : '',
@@ -193,13 +409,53 @@
     });
   }
 
+  // Demo playback triggers
   if (elements.demoBtn) {
     elements.demoBtn.addEventListener('click', () => {
+      playSlashSound();
       closeModal();
       spotifyService.runDemoMode();
     });
   }
 
+  if (elements.standbyDemoBtn) {
+    elements.standbyDemoBtn.addEventListener('click', () => {
+      playSlashSound();
+      spotifyService.runDemoMode();
+    });
+  }
+
+  /* ========================================================
+     8. TACTILE AUDIO HOVER TRIGGERS
+     ======================================================== */
+  const hoverElements = [
+    elements.openConfigBtn,
+    elements.standbyConfigBtn,
+    elements.standbyDemoBtn,
+    elements.demoBtn,
+    elements.saveConfigBtn,
+    elements.closeConfigBtn,
+    elements.tabDiscord,
+    elements.tabLastfm,
+    elements.albumArtCard
+  ];
+
+  hoverElements.forEach((el) => {
+    if (el) el.addEventListener('mouseenter', playBlipSound);
+  });
+
+  /* ========================================================
+     9. BOOTSTRAP & INITIALIZATION
+     ======================================================== */
   randomizeMask();
+  updatePhoneClock();
   spotifyService.init();
+
+  // Keep phone clock updated
+  setInterval(updatePhoneClock, 30000);
+
+  // Resize listener to re-evaluate marquee on resize
+  window.addEventListener('resize', () => {
+    if (currentRawTitle) updateSongTitle(currentRawTitle);
+  });
 })();
