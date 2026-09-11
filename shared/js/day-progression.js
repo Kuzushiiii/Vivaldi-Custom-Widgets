@@ -1,39 +1,13 @@
 /**
  * Day Progression Service
- * Shared module for calculating daily progression, remaining time, and time phases.
+ * Core calculation module for daily time progression, remaining hours/minutes, and time phases.
  */
 
 const DEFAULT_TIME_PHASES = [
-  {
-    maxMinutes: 6 * 60, // 00:00 - 05:59
-    title: 'LATE NIGHT',
-    desc: 'DARK HOUR // REST WELL'
-  },
-  {
-    maxMinutes: 8 * 60 + 30, // 06:00 - 08:29
-    title: 'EARLY MORNING',
-    desc: 'MORNING COMMUTE // READY UP'
-  },
-  {
-    maxMinutes: 12 * 60 + 30, // 08:30 - 12:29
-    title: 'DAYTIME',
-    desc: 'CLASS IN SESSION // STAY SHARP'
-  },
-  {
-    maxMinutes: 15 * 60 + 30, // 12:30 - 15:29
-    title: 'AFTERNOON',
-    desc: 'AFTERNOON CLASS // STAY ALERT'
-  },
-  {
-    maxMinutes: 19 * 60, // 15:30 - 18:59
-    title: 'AFTER SCHOOL',
-    desc: 'FREE TIME // INFILTRATE PALACE'
-  },
-  {
-    maxMinutes: 24 * 60, // 19:00 - 23:59
-    title: 'EVENING',
-    desc: 'NIGHT LIFE // CHILL AT LEBLANC'
-  }
+  { maxMinutes: 6 * 60, title: 'NIGHT', desc: 'Rest & recharge' },
+  { maxMinutes: 12 * 60, title: 'MORNING', desc: 'Start the day' },
+  { maxMinutes: 18 * 60, title: 'AFTERNOON', desc: 'Midday focus' },
+  { maxMinutes: 24 * 60, title: 'EVENING', desc: 'Wind down' }
 ];
 
 function padNumber(n) {
@@ -57,9 +31,9 @@ function calculateDayProgression(now = new Date(), phases = DEFAULT_TIME_PHASES)
   const ms = now.getMilliseconds();
 
   const totalSecondsPassed = (h * 3600) + (m * 60) + s + (ms / 1000);
-  const totalSecondsInDay = 86400; // 24 * 3600
+  const totalSecondsInDay = 86400;
 
-  const percent = (totalSecondsPassed / totalSecondsInDay) * 100;
+  const percent = Math.min(100, Math.max(0, (totalSecondsPassed / totalSecondsInDay) * 100));
   const formattedPercent = percent.toFixed(1);
 
   const remainingSeconds = Math.max(0, totalSecondsInDay - totalSecondsPassed);
@@ -82,31 +56,14 @@ function calculateDayProgression(now = new Date(), phases = DEFAULT_TIME_PHASES)
   };
 }
 
-function initDayProgressionWidget(config = {}) {
-  const elements = {
-    phaseTitle: document.getElementById(config.phaseTitleId || 'phaseTitle'),
-    phaseDesc: document.getElementById(config.phaseDescId || 'phaseDesc'),
-    liveTime: document.getElementById(config.liveTimeId || 'liveTime'),
-    percentNum: document.getElementById(config.percentNumId || 'percentNum'),
-    progFill: document.getElementById(config.progFillId || 'progFill'),
-    timeLeft: document.getElementById(config.timeLeftId || 'timeLeft'),
-  };
+const DayProgressionService = {
+  DEFAULT_TIME_PHASES,
+  padNumber,
+  getTimePhase,
+  calculateDayProgression
+};
 
-  function update() {
-    const data = calculateDayProgression(new Date(), config.phases || DEFAULT_TIME_PHASES);
-
-    if (elements.phaseTitle) elements.phaseTitle.textContent = data.phase.title;
-    if (elements.phaseDesc) elements.phaseDesc.textContent = data.phase.desc;
-    if (elements.liveTime) elements.liveTime.textContent = data.timeString;
-    if (elements.percentNum) elements.percentNum.textContent = data.formattedPercent;
-    if (elements.progFill) elements.progFill.style.width = `${data.percent}%`;
-    if (elements.timeLeft) elements.timeLeft.textContent = data.remainingTimeString;
-
-    if (typeof config.onUpdate === 'function') {
-      config.onUpdate(data);
-    }
-  }
-
-  update();
-  return setInterval(update, config.interval || 1000);
+if (typeof window !== 'undefined') {
+  window.DayProgressionService = DayProgressionService;
+  window.calculateDayProgression = calculateDayProgression;
 }

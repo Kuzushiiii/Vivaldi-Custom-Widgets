@@ -29,16 +29,63 @@
     noteBody: document.getElementById('noteBody')
   };
 
+  const DEFAULT_EVENTS = [
+    {
+      day: 4,
+      title: 'Dispatch: Leidenschaftlich Central Station',
+      client: 'Lieutenant Colonel Claudia Hodgins',
+      time: '08:30 AM',
+      tag: 'CH Postal Transit',
+      note: 'Delivery of official maritime treaty missives and express parcels via steam train.'
+    },
+    {
+      day: 9,
+      title: 'Transcription: Royal Letters of Drossel',
+      client: 'Princess Charlotte Eberfreya Drossel',
+      time: '11:00 AM',
+      tag: 'Auto Memory Doll',
+      note: 'Draft public courtship correspondence to Prince Damian of Flugel. Handcrafted on vellum paper.'
+    },
+    {
+      day: 14,
+      title: 'Delivery: Bougainvillea Residence',
+      client: 'Dietfried Bougainvillea',
+      time: '02:15 PM',
+      tag: 'Private Courier',
+      note: 'Personal letter delivery. Package sealed with Gilbert’s emerald brooch motif.'
+    },
+    {
+      day: 19,
+      title: 'Lyrical Transcription: Operetta Manuscript',
+      client: 'Irma the Opera Singer',
+      time: '04:00 PM',
+      tag: 'Song Transcription',
+      note: 'Transcribe melodic libretto and lyrical confessions for the grand Leidenschaftlich Theater opening.'
+    },
+    {
+      day: 25,
+      title: 'Dispatch: Leiden Harbor Maritime Port',
+      client: 'Benedict Blue',
+      time: '09:45 AM',
+      tag: 'Special Courier',
+      note: 'Expedited air-drop parcel sorting and collection from overseas freight steamers.'
+    }
+  ];
+
   async function fetchEventsFromService(year, month) {
+    let serviceEvents = [];
     if (window.CalendarService && typeof window.CalendarService.fetchEvents === 'function') {
       try {
-        return await window.CalendarService.fetchEvents(year, month);
+        serviceEvents = await window.CalendarService.fetchEvents(year, month);
       } catch (err) {
         console.warn('[Violet Calendar] Error fetching events from CalendarService:', err);
-        return [];
       }
-    } else if (typeof getCalendarEvents === 'function') {
-      return getCalendarEvents(year, month);
+    }
+    if (serviceEvents && serviceEvents.length > 0) {
+      return serviceEvents;
+    }
+    if (year === today.getFullYear() && month === today.getMonth()) {
+      return DEFAULT_EVENTS.map(evt => ({ ...evt, year, month }));
     }
     return [];
   }
