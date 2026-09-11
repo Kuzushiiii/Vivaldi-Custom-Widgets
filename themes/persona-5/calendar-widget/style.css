@@ -123,8 +123,8 @@ html, body {
   transition: transform 0.4s var(--p5-spring-snap), filter 0.3s ease;
 }
 
-.p5-calendar-root:hover .cal-mask-wrap {
-  transform: rotate(-12deg) scale(1.08) translateY(-2px);
+.p5-calendar-root[data-active-view="hud"]:hover .cal-mask-wrap {
+  transform: rotate(-12deg) translateY(-2px);
 }
 
 /* ========================================================
@@ -136,6 +136,7 @@ html, body {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  transform-origin: center center;
   transition: transform 0.46s var(--p5-spring-snap), opacity 0.35s ease;
 }
 
@@ -145,6 +146,11 @@ html, body {
   opacity: 1;
   pointer-events: auto;
   z-index: 4;
+}
+
+/* Foreground Uniform Hover Scale for Primary HUD View */
+.p5-calendar-root[data-active-view="hud"]:hover #hudView {
+  transform: translateX(0) scale(1.02);
 }
 
 .p5-calendar-root[data-active-view="hud"] #scheduleView {
@@ -167,6 +173,11 @@ html, body {
   opacity: 1;
   pointer-events: auto;
   z-index: 5;
+}
+
+/* Schedule View Hover: Static and grounded; NO overall container scale */
+.p5-calendar-root[data-active-view="schedule"]:hover #scheduleView {
+  transform: translateX(0) rotate(0deg) scale(1);
 }
 
 /* ========================================================
@@ -205,8 +216,8 @@ html, body {
   transition: transform 0.25s var(--p5-spring-snap);
 }
 
-.p5-calendar-root:hover .hud-phase-pill {
-  transform: rotate(-3deg) skewX(-8deg) scale(1.03);
+.p5-calendar-root[data-active-view="hud"]:hover .hud-phase-pill {
+  transform: rotate(-3deg) skewX(-8deg);
 }
 
 .hud-phase-prefix {
@@ -419,8 +430,8 @@ html, body {
   transition: transform 0.25s var(--p5-spring-snap);
 }
 
-.p5-calendar-root:hover .hud-month-ribbon {
-  transform: rotate(-5deg) skewX(-8deg) scale(1.03);
+.p5-calendar-root[data-active-view="hud"]:hover .hud-month-ribbon {
+  transform: rotate(-5deg) skewX(-8deg);
 }
 
 .ribbon-cutout {
@@ -460,8 +471,8 @@ html, body {
   transition: transform 0.3s ease;
 }
 
-.p5-calendar-root:hover .ribbon-star-wrap {
-  transform: rotate(38deg) scale(1.15);
+.p5-calendar-root[data-active-view="hud"]:hover .ribbon-star-wrap {
+  transform: rotate(38deg);
 }
 
 .p5-star-icon {
@@ -513,13 +524,13 @@ html, body {
 }
 
 /* Hover Dynamics on Ransom Digits ("The Juice") */
-.p5-calendar-root:hover .digit-card-tens {
-  transform: rotate(-10deg) skewX(-6deg) scale(1.06) translateY(-4px);
+.p5-calendar-root[data-active-view="hud"]:hover .digit-card-tens {
+  transform: rotate(-10deg) skewX(-6deg) translateY(-4px);
   box-shadow: 5px 5px 0 var(--p5-black-pure), -2px -2px 0 var(--p5-red-glow);
 }
 
-.p5-calendar-root:hover .digit-card-ones {
-  transform: rotate(9deg) skewX(5deg) scale(1.06) translateY(5px);
+.p5-calendar-root[data-active-view="hud"]:hover .digit-card-ones {
+  transform: rotate(9deg) skewX(5deg) translateY(5px);
   box-shadow: 5px 5px 0 var(--p5-black-pure), 0 0 12px var(--p5-red-glow);
 }
 
@@ -537,8 +548,8 @@ html, body {
   transition: transform 0.25s var(--p5-spring-snap);
 }
 
-.p5-calendar-root:hover .hud-weekday-slash {
-  transform: rotate(4deg) skewX(-8deg) scale(1.04);
+.p5-calendar-root[data-active-view="hud"]:hover .hud-weekday-slash {
+  transform: rotate(4deg) skewX(-8deg);
 }
 
 .weekday-prefix {

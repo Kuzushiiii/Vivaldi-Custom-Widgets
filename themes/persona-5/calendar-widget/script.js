@@ -244,12 +244,6 @@
     const renderOptions = {
       onRenderDay: (dayElement, dayInfo) => {
         dayElement.textContent = dayInfo.day;
-        // Audio blip on hovering over calendar cell
-        dayElement.addEventListener('mouseenter', () => {
-          if (!dayElement.classList.contains('prev-month')) {
-            playBlipSound();
-          }
-        });
         // Day selection feedback
         dayElement.addEventListener('click', (e) => {
           e.stopPropagation();

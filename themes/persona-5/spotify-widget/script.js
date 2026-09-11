@@ -195,7 +195,6 @@
       updateSoundIcon();
       if (audioState.enabled) playBlipSound();
     });
-    elements.soundToggleBtn.addEventListener('mouseenter', playBlipSound);
   }
 
   /* ========================================================
@@ -426,26 +425,7 @@
   }
 
   /* ========================================================
-     8. TACTILE AUDIO HOVER TRIGGERS
-     ======================================================== */
-  const hoverElements = [
-    elements.openConfigBtn,
-    elements.standbyConfigBtn,
-    elements.standbyDemoBtn,
-    elements.demoBtn,
-    elements.saveConfigBtn,
-    elements.closeConfigBtn,
-    elements.tabDiscord,
-    elements.tabLastfm,
-    elements.albumArtCard
-  ];
-
-  hoverElements.forEach((el) => {
-    if (el) el.addEventListener('mouseenter', playBlipSound);
-  });
-
-  /* ========================================================
-     9. BOOTSTRAP & INITIALIZATION
+     8. BOOTSTRAP & INITIALIZATION
      ======================================================== */
   randomizeMask();
   updatePhoneClock();

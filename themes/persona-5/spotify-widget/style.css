@@ -173,15 +173,15 @@ html, body {
 }
 
 .sound-toggle-btn {
-  background: #18171b;
+  background: var(--p5-black);
   border: 2px solid var(--p5-black);
   box-shadow: 2px 2px 0 var(--p5-black);
-  color: var(--p5-white);
+  color: var(--p5-cream-light, #f6efe2);
   font-size: 11px;
   padding: 3px 6px;
   cursor: pointer;
   transform: skewX(-6deg);
-  transition: transform 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28), background 0.15s;
+  transition: transform 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28), background 0.15s, color 0.15s;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -189,7 +189,14 @@ html, body {
 
 .sound-toggle-btn:hover {
   transform: skewX(-6deg) scale(1.12);
-  background: var(--p5-red);
+  background: var(--p5-cream, #ece2cf);
+  color: var(--p5-black);
+  box-shadow: 3px 3px 0 var(--p5-black);
+}
+
+.sound-toggle-btn:active {
+  transform: translate(1px, 1px) skewX(-6deg);
+  box-shadow: 1px 1px 0 var(--p5-black);
 }
 
 .config-dagger-btn {

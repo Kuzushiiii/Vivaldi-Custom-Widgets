@@ -225,11 +225,8 @@
       });
     }
 
-    // Meter Hover Blip & Click Slash
+    // Meter Click Slash
     if (dom.meterTrackFrame) {
-      dom.meterTrackFrame.addEventListener('mouseenter', () => {
-        playBlipSound();
-      });
       dom.meterTrackFrame.addEventListener('click', () => {
         getAudioContext();
         playSlashSound();
@@ -237,9 +234,6 @@
     }
 
     if (dom.percentStage) {
-      dom.percentStage.addEventListener('mouseenter', () => {
-        playBlipSound();
-      });
       dom.percentStage.addEventListener('click', () => {
         getAudioContext();
         playSlashSound();
