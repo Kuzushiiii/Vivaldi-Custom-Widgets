@@ -8,89 +8,103 @@
 </head>
 <body>
 
-  <div class="p5-banner">
-    <div class="red-shape day-shape-1"></div>
-    <div class="red-shape day-shape-2"></div>
-    <div class="red-shape day-shape-3"></div>
+  <div class="p5-banner p5-day-root" id="dayProgRoot">
+    
+    <!-- Comic Background Deco Layers -->
+    <div class="p5-halftone-overlay" aria-hidden="true"></div>
+    <div class="red-shape day-shard-primary" aria-hidden="true"></div>
+    <div class="red-shape day-shard-secondary" aria-hidden="true"></div>
+    <div class="red-shape day-shard-accent" aria-hidden="true"></div>
+    <div class="day-speed-lines" aria-hidden="true"></div>
 
-    <div class="day-speed-lines"></div>
-
-    <div class="spike day-spike-1"></div>
-
-    <div class="day-msg-left">
-      <svg width="93" height="88" viewBox="0 0 93 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12.8193 74.7516L0.593857 15.3105L86.5939 0.555557L88.2801 3.92811L89.5448 5.19281V9.83007L91.6527 11.5163L80.2703 50.7222L81.1135 56.6242L74.3684 66.3203H67.6233L63.4076 68.8497L62.5644 71.3791L26.7311 86.5556L23.7801 81.4967L24.6233 72.2222L12.8193 74.7516Z" fill="#FF0000" stroke="#FF0000" stroke-miterlimit="16"/>
-        <path d="M84.9076 3.08497L3.54485 16.5752L13.6625 69.6928L27.9958 66.7418L26.3096 80.6536L60.035 66.7418L60.8782 62.1046L73.5252 60.4183L87.437 8.56536L84.0645 9.83007L84.9076 3.08497Z" fill="black" stroke="black" stroke-miterlimit="16"/>
-        <path d="M18.7213 61.2614L10.7115 19.5261L81.9566 7.30066L70.5743 54.0948L52.0252 56.2026L54.1331 62.9477L32.6331 76.0163L38.1135 62.9477L33.4762 58.732L18.7213 61.2614Z" fill="white" stroke="white" stroke-miterlimit="16"/>
-        <circle cx="28.839" cy="38.4967" r="3.37255" fill="black"/>
-        <circle cx="44.8586" cy="36.8105" r="3.37255" fill="black"/>
-        <circle cx="59.1919" cy="35.1242" r="3.37255" fill="black"/>
-      </svg>
-    </div>
-
-    <div class="mask-container day-mask">
+    <!-- Hero Mask Motif (Randomized Joker / Ann / Akechi) -->
+    <div class="mask-container day-mask-wrap" aria-hidden="true">
       <div class="mask-glow"></div>
       <img class="p5-mask" data-random-mask src="../assets/Ann Mask.png" alt="Phantom Mask" onerror="this.style.display='none';">
     </div>
 
-    <div class="content">
-      <div class="top-row">
-        <div class="phase-badge">
+    <!-- Main HUD Content Grid (Landscape 400-500px x 200-240px) -->
+    <main class="day-content" id="dayContent">
+      
+      <!-- Top Row: Time Phase Pill, Infiltration Warning Tag, Sound Toggle -->
+      <header class="day-top-row">
+        <div class="phase-pill-wrap" id="phasePill" title="Current Time Period">
           <span class="phase-prefix">TIME //</span>
           <span class="phase-title" id="phaseTitle">AFTER SCHOOL</span>
         </div>
-      </div>
 
-      <div class="mid-row">
-        <div class="slogan-wrap">
-          <div class="slogan-main ransom-title">
-            <span class="ransom-word">
-              <span class="ransom-box r-b">D</span>
-              <span class="ransom-box r-w">A</span>
-              <span class="ransom-box r-r">Y</span>
-            </span>
-            <span class="ransom-word">
-              <span class="ransom-box r-w">P</span>
-              <span class="ransom-box r-b">R</span>
-              <span class="ransom-box r-r">O</span>
-              <span class="ransom-box r-w">G</span>
-              <span class="ransom-box r-b">R</span>
-              <span class="ransom-box r-w">E</span>
-              <span class="ransom-box r-r">S</span>
-              <span class="ransom-box r-b">S</span>
-              <span class="ransom-box r-w">I</span>
-              <span class="ransom-box r-r">O</span>
-              <span class="ransom-box r-b">N</span>
-            </span>
+        <div class="day-status-tag" id="dayStatusTag" title="Day Mission Status">
+          <span class="tag-dagger" aria-hidden="true">♦</span>
+          <span class="tag-label">INFILTRATION RATE</span>
+        </div>
+
+        <button class="sound-toggle-btn" id="soundToggleBtn" type="button" aria-label="Toggle Sound Effects" title="Toggle Sound FX (Mute/Unmute)">
+          <span class="sound-icon" id="soundIcon">🔊</span>
+        </button>
+      </header>
+
+      <!-- Mid Row: Left = Massive Ransom Percentage; Right = Slogan & Countdown -->
+      <section class="day-mid-row">
+        
+        <!-- Left: Ransom Percentage Digits Display -->
+        <div class="ransom-percent-stage" id="percentStage" title="Percentage of day elapsed">
+          <div class="ransom-digit-card r-digit-tens" id="pctTens">
+            <span class="digit-val" id="valPctTens">0</span>
           </div>
-          <div class="slogan-sub" id="phaseDesc">TAKE YOUR TIME • STEAL THE DAY</div>
+          <div class="ransom-digit-card r-digit-ones" id="pctOnes">
+            <span class="digit-val" id="valPctOnes">0</span>
+          </div>
+          <div class="ransom-dot" id="pctDot" aria-hidden="true">♦</div>
+          <div class="ransom-digit-card r-digit-tenths" id="pctTenths">
+            <span class="digit-val" id="valPctTenths">0</span>
+          </div>
+          <div class="ransom-percent-badge" id="pctBadge">%</div>
         </div>
-        <div class="percent-display">
-          <span class="percent-val" id="percentNum">00.0</span>
-          <span class="percent-unit">%</span>
-        </div>
-      </div>
 
-      <div class="bar-section">
-        <div class="bar-track-wrap">
-          <div class="bar-bg-stripe"></div>
-          <div class="bar-fill" id="progFill"></div>
+        <!-- Right: Subtitle Slogan & Time Remaining Counter -->
+        <div class="day-meta-block">
+          <div class="slogan-badge" id="sloganBadge">
+            <span class="slogan-text" id="phaseDesc">FREE TIME // INFILTRATE PALACE</span>
+          </div>
+          <div class="time-left-box" id="timeLeftBox">
+            <span class="time-left-label">TIME LEFT:</span>
+            <span class="time-left-val" id="timeLeft">00H 00M</span>
+          </div>
         </div>
-      </div>
 
-      <div class="bottom-row">
-        <div class="time-remaining">
-          TIME LEFT TODAY: <span id="timeLeft">00H 00M</span>
+      </section>
+
+      <!-- Bottom Row: Aggressive Slanted Palace Security Meter -->
+      <section class="day-meter-section" title="Day Progression Track">
+        <div class="meter-wrapper" id="meterWrapper">
+          <div class="meter-track-frame" id="meterTrackFrame">
+            <!-- Slanted Background with Hazard Stripes -->
+            <div class="meter-bg-hazard" aria-hidden="true"></div>
+            <!-- Moving Slashed Red Paint Fill -->
+            <div class="meter-fill-bar" id="progFill"></div>
+          </div>
+
+          <!-- Dynamic Leading Edge Beacon (Positioned outside overflow: hidden) -->
+          <div class="meter-leading-beacon" id="meterBeacon" aria-hidden="true" title="Progress Beacon">
+            <svg class="beacon-star" viewBox="0 0 56 56">
+              <polygon points="28,2 34,20 54,20 38,32 44,52 28,40 12,52 18,32 2,20 22,20" fill="#FFE600" stroke="#000000" stroke-width="3"/>
+            </svg>
+          </div>
         </div>
-        <div class="p5-motto">
-          <span>TAKE YOUR TIME</span>
-          <svg width="14" height="14" viewBox="0 0 56 56">
-            <polygon points="28,2 34,20 54,20 38,32 44,52 28,40 12,52 18,32 2,20 22,20"
-              fill="#e60012" stroke="#000" stroke-width="3"/>
-          </svg>
+
+        <!-- Meter Footer Labels -->
+        <div class="meter-footer">
+          <span class="meter-edge-label start">00:00 [START]</span>
+          <div class="meter-center-motto">
+            <span class="motto-dagger" aria-hidden="true">♦</span>
+            <span>STEAL THE DAY // TAKE YOUR TIME</span>
+            <span class="motto-dagger" aria-hidden="true">♦</span>
+          </div>
+          <span class="meter-edge-label end">24:00 [DEADLINE]</span>
         </div>
-      </div>
-    </div>
+      </section>
+
+    </main>
   </div>
 
   <script src="script.js"></script>

@@ -19,17 +19,33 @@
   --p5-cut-quick: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
+/* Prevent White Background & Corners Peeking Out */
+html, body {
+  background: transparent !important;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
 /* Base Widget Container */
-.p5-calendar-root {
+.p5-banner.p5-calendar-root {
   position: relative;
   width: 100%;
   height: 100%;
   max-width: 100vw;
   max-height: 100vh;
-  background-color: var(--p5-bg);
+  background-color: var(--p5-bg) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
   overflow: hidden;
   isolation: isolate;
   user-select: none;
+}
+
+.p5-banner.p5-calendar-root::after {
+  display: none !important;
 }
 
 /* Halftone Comic Dot Pattern Overlay */
