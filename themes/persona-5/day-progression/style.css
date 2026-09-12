@@ -20,7 +20,8 @@
 
 /* 1. Prevent White Background & Corners Peeking Out */
 html, body {
-  background: transparent !important;
+  background-color: var(--p5-bg) !important;
+  background: var(--p5-bg) !important;
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -41,7 +42,6 @@ html, body {
   overflow: hidden;
   isolation: isolate;
   user-select: none;
-  transition: transform 0.3s var(--p5-spring-snap);
 }
 
 /* Disable theme-base default rounded corner gradient wedges */
@@ -49,8 +49,27 @@ html, body {
   display: none !important;
 }
 
-.p5-day-root:hover {
-  transform: scale(1.015);
+/* Animate inner content HUD and background shards on hover without pulling the outer container */
+.p5-day-root .day-content {
+  transition: transform 0.3s var(--p5-spring-snap);
+}
+
+.p5-day-root:hover .day-content {
+  transform: scale(1.018);
+}
+
+.p5-day-root .day-shard-primary,
+.p5-day-root .day-shard-secondary,
+.p5-day-root .day-shard-accent {
+  transition: transform 0.3s var(--p5-spring-snap);
+}
+
+.p5-day-root:hover .day-shard-primary {
+  transform: rotate(-5deg) scale(1.03);
+}
+
+.p5-day-root:hover .day-shard-secondary {
+  transform: rotate(6deg) scale(1.03);
 }
 
 /* Halftone Comic Dot Pattern Overlay */

@@ -29,7 +29,7 @@
   padding: 0;
 }
 
-body {
+html, body {
   background: transparent;
   display: flex;
   justify-content: center;
@@ -38,11 +38,19 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: hidden !important;
   user-select: none;
   font-family: var(--font-serif);
   color: var(--text-ink);
   -webkit-font-smoothing: antialiased;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* Stationery Card Container */
@@ -401,6 +409,31 @@ body {
   color: var(--text-ink-muted);
 }
 
+/* Torn Note Backdrop (Cinematic Vintage Warmth & Isolated Hardware Compositor Layer) */
+.torn-note-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(244, 239, 230, 0.72);
+  backdrop-filter: blur(6px) sepia(18%) brightness(0.96);
+  -webkit-backdrop-filter: blur(6px) sepia(18%) brightness(0.96);
+  z-index: 45;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: opacity;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.torn-note-backdrop.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 /* Torn Note Popover */
 .torn-note-card {
   position: absolute;
@@ -431,14 +464,17 @@ body {
   transform: translate(-50%, -50%) scale(1) rotate(-1deg);
 }
 
+/* Organic Torn Paper Top Edge */
 .torn-paper-edge {
-  height: 7px;
-  background: 
-    linear-gradient(135deg, transparent 33.333%, var(--bg-note-torn) 33.333%, var(--bg-note-torn) 66.666%, transparent 66.666%),
-    linear-gradient(45deg, transparent 33.333%, var(--bg-note-torn) 33.333%, var(--bg-note-torn) 66.666%, transparent 66.666%);
-  background-size: 8px 14px;
-  background-position: 0 -7px;
-  border-bottom: 1px dashed rgba(43, 36, 34, 0.15);
+  height: 11px;
+  background-color: var(--bg-note-torn);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 22' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1000,0 L1000,8 Q950,16 900,9 T800,14 T700,7 T600,17 T500,9 T400,15 T300,8 T200,16 T100,9 T0,12 Z' fill='%23000'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 22' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1000,0 L1000,8 Q950,16 900,9 T800,14 T700,7 T600,17 T500,9 T400,15 T300,8 T200,16 T100,9 T0,12 Z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  position: relative;
+  z-index: 1;
+  box-shadow: inset 0 -2px 4px rgba(43, 36, 34, 0.06);
 }
 
 .paper-clip-brass {

@@ -2,9 +2,9 @@
 
 :root {
   --p5-red: #e60012;
-  --p5-red-dark: #b3000e;
-  --p5-red-light: #ff2a3a;
-  --p5-red-hover: #ff4a5a;
+  --p5-red-dark: color-mix(in srgb, var(--p5-red) 78%, black);
+  --p5-red-light: color-mix(in srgb, var(--p5-red) 82%, white);
+  --p5-red-hover: color-mix(in srgb, var(--p5-red) 80%, #ffeedd);
   --p5-cream: #ece2cf;
   --p5-cream-light: #f6efe2;
   --p5-text-light: #f3ede0;
@@ -49,7 +49,7 @@ body {
   isolation: isolate;
 }
 
-/* Halftone dot pattern */
+/* Halftone dot pattern (Comic Manga Screentone Vignette) */
 .p5-banner::before {
   content: "";
   position: absolute;
@@ -61,6 +61,9 @@ body {
   background-position: 0 0, 3px 3px;
   z-index: 0;
   pointer-events: none;
+  mix-blend-mode: overlay;
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, black 25%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, black 25%, transparent 100%);
 }
 
 /* Paper-cutout corner accents: solid painted triangle wedges layered on

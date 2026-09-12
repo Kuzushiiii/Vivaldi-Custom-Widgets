@@ -3,31 +3,31 @@
 :root {
   /* Core Theme Palette */
   --bg-paper: #F9F6F0;
-  --bg-paper-warm: #F4EFE6;
-  --bg-note-torn: #FBF8F1;
+  --bg-paper-warm: color-mix(in srgb, var(--bg-paper) 88%, #eeddc2);
+  --bg-note-torn: color-mix(in srgb, var(--bg-paper) 85%, #ffffff);
   --text-ink: #2b2422;
-  --text-ink-muted: rgba(43, 36, 34, 0.68);
-  --text-ink-faint: rgba(43, 36, 34, 0.38);
+  --text-ink-muted: color-mix(in srgb, var(--text-ink) 68%, transparent);
+  --text-ink-faint: color-mix(in srgb, var(--text-ink) 38%, transparent);
 
   --border-delicate: rgba(43, 36, 34, 0.15);
   --border-letterhead: rgba(43, 36, 34, 0.25);
 
   /* Metallic Brass & Gold Accents */
   --brass-metal: #b38b4d;
-  --brass-accent: #b38b4d;
-  --brass-light: #edd687;
-  --brass-glow: #fdf2b8;
-  --brass-dark: #6e4e20;
+  --brass-accent: var(--brass-metal);
+  --brass-light: color-mix(in srgb, var(--brass-metal) 70%, white);
+  --brass-glow: color-mix(in srgb, var(--brass-metal) 45%, #fffbe6);
+  --brass-dark: color-mix(in srgb, var(--brass-metal) 60%, black);
   --brass-shadow: rgba(84, 58, 21, 0.35);
 
   /* Gemstone & Wax Accents */
   --accent-emerald: #3c6e5a;
-  --accent-emerald-bright: #4fa07e;
-  --accent-emerald-deep: #1b4e37;
+  --accent-emerald-bright: color-mix(in srgb, var(--accent-emerald) 75%, #7efab8);
+  --accent-emerald-deep: color-mix(in srgb, var(--accent-emerald) 65%, black);
   --accent-wax-red: #a63a33;
-  --accent-wax-deep: #782620;
+  --accent-wax-deep: color-mix(in srgb, var(--accent-wax-red) 70%, black);
   --wax-shadow: rgba(166, 58, 51, 0.35);
-  --wax-deep: #782620;
+  --wax-deep: var(--accent-wax-deep);
 
   /* Typography Tokens */
   --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;

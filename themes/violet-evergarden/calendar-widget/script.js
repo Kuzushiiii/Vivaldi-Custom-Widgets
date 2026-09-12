@@ -19,6 +19,7 @@
     todayBtn: document.getElementById('todayBtn'),
     calendarGrid: document.getElementById('calendarGrid'),
 
+    tornNoteBackdrop: document.getElementById('tornNoteBackdrop'),
     tornNoteCard: document.getElementById('tornNoteCard'),
     noteTag: document.getElementById('noteTag'),
     noteCloseBtn: document.getElementById('noteCloseBtn'),
@@ -237,12 +238,18 @@
       elements.noteBody.textContent = eventData.note || 'No additional correspondence recorded.';
     }
 
+    if (elements.tornNoteBackdrop) {
+      elements.tornNoteBackdrop.classList.add('show');
+    }
     elements.tornNoteCard.classList.add('show');
     elements.tornNoteCard.setAttribute('aria-hidden', 'false');
   }
 
   function closeTornNote() {
     if (!elements.tornNoteCard) return;
+    if (elements.tornNoteBackdrop) {
+      elements.tornNoteBackdrop.classList.remove('show');
+    }
     elements.tornNoteCard.classList.remove('show');
     elements.tornNoteCard.setAttribute('aria-hidden', 'true');
     if (activePinnedDay) {

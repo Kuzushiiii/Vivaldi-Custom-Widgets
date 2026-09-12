@@ -52,6 +52,7 @@ html, body {
   height: 45%;
   background: var(--p5-red);
   clip-path: polygon(0 0, 100% 0, 75% 55%, 100% 90%, 45% 75%, 20% 100%, 0 65%);
+  filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.8));
   transform: rotate(-5deg);
   opacity: 0.9;
   z-index: 0;
@@ -65,6 +66,7 @@ html, body {
   height: 35%;
   background: var(--p5-red-dark);
   clip-path: polygon(25% 0, 100% 15%, 85% 100%, 0 100%, 40% 50%);
+  filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.8));
   transform: rotate(-12deg);
   opacity: 0.85;
   z-index: 0;
@@ -247,6 +249,7 @@ html, body {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  filter: drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.7));
 }
 
 .starburst-shard.shard-1 {
@@ -315,6 +318,14 @@ html, body {
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: contrast(108%) saturate(105%);
+  transition: filter 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.album-art-card.p5-duotone .album-img,
+.album-img.p5-duotone {
+  filter: grayscale(100%) contrast(150%) brightness(0.95);
+  mix-blend-mode: luminosity;
 }
 
 /* Comic Halftone Screen Overlay on Top of Album Art */
@@ -757,8 +768,9 @@ html, body {
 .smartphone-modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.88);
-  backdrop-filter: blur(5px);
+  background: rgba(10, 8, 12, 0.82);
+  backdrop-filter: blur(8px) contrast(1.25) brightness(0.75);
+  -webkit-backdrop-filter: blur(8px) contrast(1.25) brightness(0.75);
   z-index: 100;
   display: flex;
   align-items: center;
