@@ -1,3 +1,5 @@
+@import url("../theme-base.css");
+
 :root {
   /* Core Theme Palette (Identical to Calendar Widget) */
   --bg-paper: #F9F6F0;

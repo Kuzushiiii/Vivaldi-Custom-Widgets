@@ -1,3 +1,5 @@
+@import url("../theme-base.css");
+
 :root {
   --bg-paper: #F9F6F0;
   --text-ink: #2b2422;

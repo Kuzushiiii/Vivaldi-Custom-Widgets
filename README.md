@@ -22,7 +22,7 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 - **Lightweight & Fast**: Built with vanilla HTML5, CSS3, and JavaScript with zero external frameworks.
 - **Dynamic & Real-Time**: Live digital clocks, dynamic month calendars, and active time-phase trackers.
 - **Clean Vivaldi Integration**: Includes custom CSS to hide intrusive default widget titles while preserving full access to the 3-dots context menu on hover.
-- **100% Local & Offline**: Runs directly from your local filesystem using the `file:///` protocol.
+- **100% Local & Offline**: Runs directly from your local filesystem using the `file:///` protocol with bundled local WOFF2 web fonts (zero external font network requests).
 
 ---
 

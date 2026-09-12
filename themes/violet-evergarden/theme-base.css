@@ -1,0 +1,39 @@
+@import url('./assets/fonts/fonts.css');
+
+:root {
+  /* Core Theme Palette */
+  --bg-paper: #F9F6F0;
+  --bg-paper-warm: #F4EFE6;
+  --bg-note-torn: #FBF8F1;
+  --text-ink: #2b2422;
+  --text-ink-muted: rgba(43, 36, 34, 0.68);
+  --text-ink-faint: rgba(43, 36, 34, 0.38);
+
+  --border-delicate: rgba(43, 36, 34, 0.15);
+  --border-letterhead: rgba(43, 36, 34, 0.25);
+
+  /* Metallic Brass & Gold Accents */
+  --brass-metal: #b38b4d;
+  --brass-accent: #b38b4d;
+  --brass-light: #edd687;
+  --brass-glow: #fdf2b8;
+  --brass-dark: #6e4e20;
+  --brass-shadow: rgba(84, 58, 21, 0.35);
+
+  /* Gemstone & Wax Accents */
+  --accent-emerald: #3c6e5a;
+  --accent-emerald-bright: #4fa07e;
+  --accent-emerald-deep: #1b4e37;
+  --accent-wax-red: #a63a33;
+  --accent-wax-deep: #782620;
+  --wax-shadow: rgba(166, 58, 51, 0.35);
+  --wax-deep: #782620;
+
+  /* Typography Tokens */
+  --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-title: 'Playfair Display', Georgia, serif;
+  --font-typewriter: 'Special Elite', 'Courier Prime', monospace;
+  --font-cursive: 'Great Vibes', 'Dancing Script', cursive;
+
+  --radius-card: 8px;
+}
