@@ -34,8 +34,8 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden !important;
@@ -58,6 +58,8 @@ html, body {
   position: relative;
   width: 100%;
   height: 100%;
+  container-type: size;
+  container-name: widget;
   background-color: var(--bg-paper);
   border-radius: var(--radius-card);
   overflow: hidden;
@@ -108,7 +110,7 @@ html, body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: clamp(10px, 2.5vw, 16px) clamp(12px, 3.2vw, 22px) clamp(8px, 2vw, 12px);
+  padding: clamp(10px, 2.5cqw, 16px) clamp(12px, 3.2cqw, 22px) clamp(8px, 2cqw, 12px);
 }
 
 /* Header Letterhead */
@@ -116,7 +118,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: clamp(4px, 1.2vh, 8px);
+  margin-bottom: clamp(4px, 1.2cqh, 8px);
 }
 
 .letterhead-brand {
@@ -127,7 +129,7 @@ html, body {
   font-family: var(--font-typewriter);
   color: var(--text-ink-muted);
   letter-spacing: 2.2px;
-  font-size: clamp(8.5px, 1.4vw, 10.5px);
+  font-size: clamp(8.5px, 1.4cqw, 10.5px);
   text-transform: uppercase;
 }
 
@@ -138,7 +140,7 @@ html, body {
 }
 
 .postal-sub {
-  font-size: clamp(7.5px, 1.1vw, 9px);
+  font-size: clamp(7.5px, 1.1cqw, 9px);
   color: var(--text-ink-faint);
   letter-spacing: 1.5px;
 }
@@ -162,7 +164,7 @@ html, body {
   align-items: baseline;
   justify-content: space-between;
   padding: 0 4px;
-  margin-bottom: clamp(4px, 1vh, 8px);
+  margin-bottom: clamp(4px, 1cqh, 8px);
 }
 
 .date-headline {
@@ -173,7 +175,7 @@ html, body {
 
 .cursive-month {
   font-family: var(--font-cursive);
-  font-size: clamp(26px, 5.8vw, 36px);
+  font-size: clamp(26px, 5.8cqw, 36px);
   font-weight: 500;
   color: var(--text-ink);
   line-height: 1;
@@ -183,7 +185,7 @@ html, body {
 
 .typewriter-year {
   font-family: var(--font-typewriter);
-  font-size: clamp(14px, 2.8vw, 18px);
+  font-size: clamp(14px, 2.8cqw, 18px);
   font-weight: normal;
   color: var(--text-ink-muted);
   letter-spacing: 2px;
@@ -207,18 +209,18 @@ html, body {
   transition: all 0.2s ease;
   font-family: var(--font-typewriter);
   padding: 2px 6px;
-  height: clamp(22px, 3.5vh, 26px);
+  height: clamp(22px, 3.5cqh, 26px);
   box-shadow: 0 1px 2px rgba(43, 36, 34, 0.04);
 }
 
 .nav-arrow {
-  font-size: clamp(15px, 2.5vw, 18px);
+  font-size: clamp(15px, 2.5cqw, 18px);
   line-height: 1;
   color: var(--text-ink-muted);
 }
 
 .today-btn {
-  font-size: clamp(8px, 1.2vw, 9.5px);
+  font-size: clamp(8px, 1.2cqw, 9.5px);
   letter-spacing: 1px;
   padding: 2px 8px;
   color: var(--text-ink-muted);
@@ -248,7 +250,7 @@ html, body {
 
 .weekday {
   font-family: var(--font-serif);
-  font-size: clamp(10.5px, 1.8vw, 13.5px);
+  font-size: clamp(10.5px, 1.8cqw, 13.5px);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -296,7 +298,7 @@ html, body {
 
 .day-num {
   font-family: var(--font-serif);
-  font-size: clamp(11.5px, 2.1vw, 15px);
+  font-size: clamp(11.5px, 2.1cqw, 15px);
   font-weight: 500;
   color: var(--text-ink);
   line-height: 1;
@@ -326,8 +328,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(22px, 3.8vw, 28px);
-  height: clamp(22px, 3.8vw, 28px);
+  width: clamp(22px, 3.8cqw, 28px);
+  height: clamp(22px, 3.8cqw, 28px);
   background: radial-gradient(circle at 35% 30%, #c4473f 0%, var(--accent-wax-red) 65%, var(--wax-deep) 100%);
   color: #ffffff !important;
   font-weight: 700;
@@ -394,10 +396,10 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: clamp(4px, 1vh, 6px);
+  margin-top: clamp(4px, 1cqh, 6px);
   padding: 2px 4px 0;
   font-family: var(--font-typewriter);
-  font-size: clamp(7.5px, 1.1vw, 9px);
+  font-size: clamp(7.5px, 1.1cqw, 9px);
   color: var(--text-ink-muted);
   letter-spacing: 0.8px;
 }
@@ -405,7 +407,7 @@ html, body {
 .ledger-meta-right {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: clamp(8.5px, 1.2vw, 10.5px);
+  font-size: clamp(8.5px, 1.2cqw, 10.5px);
   color: var(--text-ink-muted);
 }
 
@@ -926,8 +928,8 @@ html, body {
 .brooch-placeholder {
   top: 8px;
   left: 10px;
-  width: clamp(24px, 4vw, 32px);
-  height: clamp(24px, 4vw, 32px);
+  width: clamp(24px, 4cqw, 32px);
+  height: clamp(24px, 4cqw, 32px);
 }
 .hint-gem {
   color: var(--accent-emerald);
@@ -938,8 +940,8 @@ html, body {
 .postal-stamp-placeholder {
   top: 8px;
   right: 10px;
-  width: clamp(30px, 5vw, 42px);
-  height: clamp(26px, 4.5vw, 36px);
+  width: clamp(30px, 5cqw, 42px);
+  height: clamp(26px, 4.5cqw, 36px);
 }
 .hint-stamp {
   font-family: var(--font-typewriter);
@@ -953,8 +955,8 @@ html, body {
 .flower-placeholder {
   bottom: 6px;
   right: 8px;
-  width: clamp(32px, 5.5vw, 46px);
-  height: clamp(28px, 5vw, 40px);
+  width: clamp(32px, 5.5cqw, 46px);
+  height: clamp(28px, 5cqw, 40px);
 }
 .hint-flora {
   font-size: 15px;
@@ -965,8 +967,8 @@ html, body {
 .typewriter-placeholder {
   bottom: 6px;
   left: 10px;
-  width: clamp(28px, 4.8vw, 38px);
-  height: clamp(20px, 3.8vw, 28px);
+  width: clamp(28px, 4.8cqw, 38px);
+  height: clamp(20px, 3.8cqw, 28px);
 }
 .hint-sign {
   font-family: var(--font-cursive);
@@ -986,7 +988,7 @@ html, body {
 }
 
 /* Responsive Adaptations */
-@media (max-width: 320px) {
+@container (max-width: 320px) {
   .stationery-inner {
     padding: 6px 8px;
   }

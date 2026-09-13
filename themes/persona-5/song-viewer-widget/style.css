@@ -7,13 +7,15 @@ html, body {
   background: transparent !important;
   margin: 0 !important;
   padding: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
+  width: 100% !important;
+  height: 100% !important;
   overflow: hidden !important;
   font-family: 'Oswald', sans-serif;
 }
 
 .p5-banner.p5-music-root {
+  container-type: size;
+  container-name: widget;
   background-color: var(--p5-bg) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -95,7 +97,7 @@ html, body {
   position: absolute;
   right: -2%;
   top: 12%;
-  width: clamp(55px, 15vw, 85px);
+  width: clamp(55px, 15cqw, 85px);
   transform: rotate(14deg);
   z-index: 1;
   pointer-events: none;
@@ -110,7 +112,7 @@ html, body {
   z-index: 2;
   width: 100%;
   height: 100%;
-  padding: clamp(8px, 2.8vw, 14px);
+  padding: clamp(8px, 2.8cqw, 14px);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -146,7 +148,7 @@ html, body {
 
 .badge-prefix {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(10px, 2vw, 13px);
+  font-size: clamp(10px, 2cqw, 13px);
   color: var(--p5-red);
   letter-spacing: 1px;
   flex-shrink: 0;
@@ -154,7 +156,7 @@ html, body {
 
 .badge-title {
   font-family: 'Anton', sans-serif;
-  font-size: clamp(11px, 2.2vw, 14px);
+  font-size: clamp(11px, 2.2cqw, 14px);
   letter-spacing: 1px;
   color: #1a191b;
   text-transform: uppercase;
@@ -239,8 +241,8 @@ html, body {
 
 .starburst-frame-deco {
   position: absolute;
-  width: clamp(118px, 36vw, 150px);
-  height: clamp(118px, 36vw, 150px);
+  width: clamp(118px, 36cqw, 150px);
+  height: clamp(118px, 36cqw, 150px);
   pointer-events: none;
   z-index: 1;
 }
@@ -275,7 +277,7 @@ html, body {
 .album-art-card {
   position: relative;
   z-index: 2;
-  width: clamp(100px, 30vw, 126px);
+  width: clamp(100px, 30cqw, 126px);
   aspect-ratio: 1 / 1;
   background: #08080a;
   border: 3px solid var(--p5-black);
@@ -429,7 +431,7 @@ html, body {
   width: 100%;
   min-width: 0;
   gap: 5px;
-  margin-top: clamp(10px, 2.6vw, 16px);
+  margin-top: clamp(10px, 2.6cqw, 16px);
   margin-bottom: auto;
   flex-shrink: 0;
 }
@@ -448,7 +450,7 @@ html, body {
 
 .song-title {
   font-family: 'Anton', sans-serif;
-  font-size: clamp(16px, 4.8vw, 24px);
+  font-size: clamp(16px, 4.8cqw, 24px);
   color: var(--p5-white);
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -497,7 +499,7 @@ html, body {
 
 .ribbon-tag {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(10px, 1.8vw, 12px);
+  font-size: clamp(10px, 1.8cqw, 12px);
   color: #ffe6e8;
   letter-spacing: 1px;
   flex-shrink: 0;
@@ -506,7 +508,7 @@ html, body {
 .artist-name {
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
-  font-size: clamp(11px, 2.2vw, 13.5px);
+  font-size: clamp(11px, 2.2cqw, 13.5px);
   color: #ffffff;
   text-shadow: 1px 1px 0 var(--p5-black);
   white-space: nowrap;
@@ -522,7 +524,7 @@ html, body {
 .album-name {
   font-family: 'Oswald', sans-serif;
   font-weight: 500;
-  font-size: clamp(10px, 2vw, 12.5px);
+  font-size: clamp(10px, 2cqw, 12.5px);
   color: #f6e6de;
   white-space: nowrap;
   overflow: hidden;
@@ -544,7 +546,7 @@ html, body {
 .meter-wrapper {
   position: relative;
   width: 100%;
-  height: clamp(13px, 2.5vw, 18px);
+  height: clamp(13px, 2.5cqw, 18px);
   margin: 3px 0 2px 0;
 }
 
@@ -624,8 +626,8 @@ html, body {
 }
 
 .beacon-diamond {
-  width: clamp(16px, 3.2vw, 20px);
-  height: clamp(16px, 3.2vw, 20px);
+  width: clamp(16px, 3.2cqw, 20px);
+  height: clamp(16px, 3.2cqw, 20px);
   background: #ffffff;
   border: 2px solid var(--p5-black);
   transform: rotate(45deg);
@@ -649,7 +651,7 @@ html, body {
   justify-content: space-between;
   align-items: center;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(12px, 2.2vw, 15px);
+  font-size: clamp(12px, 2.2cqw, 15px);
   letter-spacing: 1.5px;
   padding: 0 4px;
   line-height: 1;
@@ -706,7 +708,7 @@ html, body {
 
 .standby-headline {
   font-family: 'Anton', sans-serif;
-  font-size: clamp(15px, 4vw, 21px);
+  font-size: clamp(15px, 4cqw, 21px);
   color: var(--p5-white);
   letter-spacing: 1.5px;
   text-shadow: 2px 2px 0 var(--p5-black);
@@ -716,7 +718,7 @@ html, body {
 
 .standby-subtext {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(11px, 2.2vw, 13px);
+  font-size: clamp(11px, 2.2cqw, 13px);
   color: #bbb;
   max-width: 270px;
   line-height: 1.35;
@@ -975,4 +977,26 @@ html, body {
 .btn-demo:hover {
   background: #28a745;
   transform: skewX(-4deg) scale(1.08);
+}
+
+
+/* Compact Container Query Adaptations */
+@container (max-width: 300px) {
+  .song-title-marquee {
+    font-size: clamp(14px, 5cqw, 18px);
+  }
+  .artist-name {
+    font-size: clamp(10px, 3.5cqw, 12px);
+  }
+  .playback-controls {
+    gap: 6px;
+  }
+}
+@container (max-height: 220px) {
+  .music-shard-top, .music-shard-bot {
+    opacity: 0.35;
+  }
+  .player-main-hud {
+    padding: 4px 8px;
+  }
 }

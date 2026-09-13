@@ -24,8 +24,8 @@ html, body {
   background: var(--p5-bg) !important;
   margin: 0;
   padding: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -34,8 +34,10 @@ html, body {
   position: relative;
   width: 100%;
   height: 100%;
-  max-width: 100vw;
-  max-height: 100vh;
+  max-width: 100%;
+  max-height: 100%;
+  container-type: size;
+  container-name: widget;
   background-color: var(--p5-bg) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -141,7 +143,7 @@ html, body {
 .day-mask-wrap {
   top: -6%;
   right: 28%;
-  width: clamp(48px, 9vw, 68px);
+  width: clamp(48px, 9cqw, 68px);
   transform: rotate(-14deg);
   z-index: 2;
   transition: transform 0.35s var(--p5-spring-snap), filter 0.3s ease;
@@ -161,7 +163,7 @@ html, body {
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  padding: clamp(6px, 2vh, 10px) clamp(12px, 3.2vw, 18px);
+  padding: clamp(6px, 2cqh, 10px) clamp(12px, 3.2cqw, 18px);
   box-sizing: border-box;
   z-index: 3;
 }
@@ -174,7 +176,7 @@ html, body {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  height: clamp(22px, 5vh, 26px);
+  height: clamp(22px, 5cqh, 26px);
 }
 
 .phase-pill-wrap {
@@ -196,14 +198,14 @@ html, body {
 
 .phase-prefix {
   font-family: "Anton", sans-serif;
-  font-size: clamp(9.5px, 1.9vw, 12px);
+  font-size: clamp(9.5px, 1.9cqw, 12px);
   color: var(--p5-red-hover);
   letter-spacing: 1px;
 }
 
 .phase-title {
   font-family: "Anton", sans-serif;
-  font-size: clamp(10.5px, 2.1vw, 14px);
+  font-size: clamp(10.5px, 2.1cqw, 14px);
   color: var(--p5-yellow-star);
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -224,12 +226,12 @@ html, body {
 
 .tag-dagger {
   color: var(--p5-red-vibrant);
-  font-size: clamp(9px, 1.8vw, 11px);
+  font-size: clamp(9px, 1.8cqw, 11px);
 }
 
 .tag-label {
   font-family: "Anton", "Bebas Neue", sans-serif;
-  font-size: clamp(9.5px, 1.9vw, 11.5px);
+  font-size: clamp(9.5px, 1.9cqw, 11.5px);
   letter-spacing: 1px;
 }
 
@@ -238,13 +240,13 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(22px, 4.8vw, 28px);
-  height: clamp(22px, 4.8vw, 28px);
+  width: clamp(22px, 4.8cqw, 28px);
+  height: clamp(22px, 4.8cqw, 28px);
   background: var(--p5-black-pure);
   border: 2px solid var(--p5-black-pure);
   box-shadow: 2px 2px 0 var(--p5-black-pure);
   color: var(--p5-cream-bright);
-  font-size: clamp(10px, 2vw, 12px);
+  font-size: clamp(10px, 2cqw, 12px);
   cursor: pointer;
   transform: rotate(3deg) skewX(-4deg);
   transition: all 0.2s var(--p5-spring-snap);
@@ -269,7 +271,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: clamp(6px, 1.8vw, 14px);
+  gap: clamp(6px, 1.8cqw, 14px);
   flex: 1;
   min-height: 0;
 }
@@ -288,8 +290,8 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: clamp(25px, 5.8vw, 36px);
-  height: clamp(36px, 8.4vw, 50px);
+  min-width: clamp(25px, 5.8cqw, 36px);
+  height: clamp(36px, 8.4cqw, 50px);
   border: 2.5px solid var(--p5-black-pure);
   box-shadow: 3px 3px 0 var(--p5-black-pure);
   line-height: 1;
@@ -300,7 +302,7 @@ html, body {
 
 .ransom-digit-card .digit-val {
   font-family: "Anton", "Impact", sans-serif;
-  font-size: clamp(30px, 7.2vw, 44px);
+  font-size: clamp(30px, 7.2cqw, 44px);
   line-height: 0.9;
   letter-spacing: -0.5px;
 }
@@ -326,20 +328,20 @@ html, body {
   background: var(--p5-cream-p5);
   color: var(--p5-black-pure);
   transform: rotate(-4deg) skewX(-2deg);
-  min-width: clamp(21px, 5vw, 30px);
-  height: clamp(30px, 7.2vw, 42px);
+  min-width: clamp(21px, 5cqw, 30px);
+  height: clamp(30px, 7.2cqw, 42px);
   margin-left: -2px;
   margin-right: 1px;
   z-index: 2;
 }
 
 .r-digit-tenths .digit-val {
-  font-size: clamp(22px, 5.8vw, 34px);
+  font-size: clamp(22px, 5.8cqw, 34px);
 }
 
 /* Decimal Diamond Separator */
 .ransom-dot {
-  font-size: clamp(9px, 2vw, 12px);
+  font-size: clamp(9px, 2cqw, 12px);
   color: var(--p5-yellow-star);
   text-shadow: 1.5px 1.5px 0 var(--p5-black-pure);
   margin: 0 1px 0 -1px;
@@ -353,7 +355,7 @@ html, body {
   align-items: center;
   justify-content: center;
   font-family: "Anton", sans-serif;
-  font-size: clamp(12px, 2.8vw, 18px);
+  font-size: clamp(12px, 2.8cqw, 18px);
   background: var(--p5-black-pure);
   color: var(--p5-red-hover);
   padding: 1px 5px;
@@ -405,7 +407,7 @@ html, body {
 
 .slogan-text {
   font-family: "Anton", sans-serif;
-  font-size: clamp(9px, 1.9vw, 12px);
+  font-size: clamp(9px, 1.9cqw, 12px);
   color: var(--p5-white-pure);
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -416,7 +418,7 @@ html, body {
   align-items: center;
   gap: 5px;
   font-family: "Oswald", sans-serif;
-  font-size: clamp(9.5px, 1.9vw, 11.5px);
+  font-size: clamp(9.5px, 1.9cqw, 11.5px);
   font-weight: 700;
   color: var(--p5-cream-bright);
   letter-spacing: 0.8px;
@@ -427,7 +429,7 @@ html, body {
 .time-left-val {
   color: var(--p5-red-hover);
   font-weight: 900;
-  font-size: clamp(10.5px, 2.1vw, 13px);
+  font-size: clamp(10.5px, 2.1cqw, 13px);
   font-family: "Anton", sans-serif;
   letter-spacing: 1px;
 }
@@ -454,7 +456,7 @@ html, body {
 .meter-track-frame {
   position: relative;
   width: 100%;
-  height: clamp(18px, 4.4vh, 24px);
+  height: clamp(18px, 4.4cqh, 24px);
   background: #121115;
   border: 2.5px solid var(--p5-black-pure);
   box-shadow: 3.5px 3.5px 0 var(--p5-black-pure);
@@ -521,8 +523,8 @@ html, body {
   top: 50%;
   left: 0%;
   transform: translate(-50%, -50%) skewX(-12deg);
-  width: clamp(26px, 5.5vw, 32px);
-  height: clamp(26px, 5.5vw, 32px);
+  width: clamp(26px, 5.5cqw, 32px);
+  height: clamp(26px, 5.5cqw, 32px);
   z-index: 10;
   display: flex;
   align-items: center;
@@ -555,10 +557,10 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: clamp(12px, 2.5vh, 15px);
+  height: clamp(12px, 2.5cqh, 15px);
   font-family: "Oswald", sans-serif;
   font-weight: 700;
-  font-size: clamp(8px, 1.6vw, 10px);
+  font-size: clamp(8px, 1.6cqw, 10px);
   color: rgba(255, 255, 255, 0.6);
   letter-spacing: 0.8px;
 }
@@ -566,7 +568,7 @@ html, body {
 .meter-center-motto {
   font-family: "Anton", sans-serif;
   color: var(--p5-red-hover);
-  font-size: clamp(9px, 1.8vw, 11px);
+  font-size: clamp(9px, 1.8cqw, 11px);
   letter-spacing: 1px;
   display: flex;
   align-items: center;
@@ -576,4 +578,25 @@ html, body {
 .motto-dagger {
   color: var(--p5-yellow-star);
   font-size: 8px;
+}
+
+/* Compact Container Query Adaptations */
+@container (max-width: 320px) {
+  .p5-day-title {
+    font-size: clamp(12px, 4cqw, 15px);
+  }
+  .p5-day-phase-text {
+    font-size: clamp(14px, 5cqw, 18px);
+  }
+  .p5-day-stats-grid {
+    gap: 4px;
+  }
+}
+@container (max-height: 220px) {
+  .p5-day-hud {
+    padding: 4px 8px;
+  }
+  .p5-day-progress-track {
+    height: 14px;
+  }
 }

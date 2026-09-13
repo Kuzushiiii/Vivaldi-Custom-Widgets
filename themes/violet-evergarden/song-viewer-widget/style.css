@@ -50,20 +50,28 @@
   padding: 0;
 }
 
-body {
+html, body {
   background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: hidden !important;
   user-select: none;
   font-family: var(--font-serif);
   color: var(--text-ink);
   -webkit-font-smoothing: antialiased;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* Stationery Card Container (100% matched with VE Calendar & Day Progression) */
@@ -71,6 +79,8 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
+  container-type: size;
+  container-name: widget;
   background-color: var(--bg-paper);
   border-radius: var(--radius-card);
   overflow: hidden;
@@ -124,7 +134,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: clamp(6px, 1.8vh, 14px) clamp(12px, 3.2vw, 20px) clamp(6px, 1.5vh, 12px);
+  padding: clamp(6px, 1.8cqh, 14px) clamp(12px, 3.2cqw, 20px) clamp(6px, 1.5cqh, 12px);
 }
 
 /* Letterhead Brand Header */
@@ -132,7 +142,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: clamp(3px, 1vh, 8px);
+  margin-bottom: clamp(3px, 1cqh, 8px);
 }
 
 .letterhead-brand {
@@ -141,7 +151,7 @@ body {
   justify-content: center;
   gap: 8px;
   font-family: var(--font-title);
-  font-size: clamp(8.5px, 1.25vw, 10.5px);
+  font-size: clamp(8.5px, 1.25cqw, 10.5px);
   letter-spacing: 2px;
   color: var(--text-ink);
   text-transform: uppercase;
@@ -158,7 +168,7 @@ body {
 
 .postal-sub {
   font-family: var(--font-typewriter);
-  font-size: clamp(7.5px, 1.1vw, 9px);
+  font-size: clamp(7.5px, 1.1cqw, 9px);
   color: var(--text-ink);
   opacity: 0.8;
   letter-spacing: 1px;
@@ -184,7 +194,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: clamp(10px, 2.5vw, 22px);
+  gap: clamp(10px, 2.5cqw, 22px);
   min-height: 0;
   position: relative;
 }
@@ -196,8 +206,8 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: clamp(110px, 27vh, 175px);
-  height: clamp(110px, 27vh, 175px);
+  width: clamp(110px, 27cqh, 175px);
+  height: clamp(110px, 27cqh, 175px);
 }
 
 /* Brass Platter Bed Underneath */
@@ -515,7 +525,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  padding-left: clamp(2px, 1vw, 6px);
+  padding-left: clamp(2px, 1cqw, 6px);
 }
 
 /* Top Plaque Status Row */
@@ -525,7 +535,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-bottom: clamp(3px, 1vh, 8px);
+  margin-bottom: clamp(3px, 1cqh, 8px);
 }
 
 .status-seal-wrap {
@@ -537,7 +547,7 @@ body {
 /* Status Seal (Wax Badge) */
 .status-seal {
   font-family: var(--font-title);
-  font-size: clamp(8px, 1.1vw, 9.5px);
+  font-size: clamp(8px, 1.1cqw, 9.5px);
   font-weight: 700;
   letter-spacing: 1.2px;
   text-transform: uppercase;
@@ -564,7 +574,7 @@ body {
 
 .provider-label {
   font-family: var(--font-typewriter);
-  font-size: clamp(7.5px, 1.05vw, 8.5px);
+  font-size: clamp(7.5px, 1.05cqw, 8.5px);
   letter-spacing: 0.8px;
   color: var(--text-ink-muted);
 }
@@ -585,7 +595,7 @@ body {
   cursor: pointer;
   color: var(--text-ink);
   font-family: var(--font-typewriter);
-  font-size: clamp(7.5px, 1vw, 8.5px);
+  font-size: clamp(7.5px, 1cqw, 8.5px);
   letter-spacing: 0.8px;
   transition: all 0.25s ease;
 }
@@ -611,7 +621,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(2px, 0.6vh, 4px);
+  gap: clamp(2px, 0.6cqh, 4px);
   flex: 1;
   min-height: 0;
 }
@@ -623,7 +633,7 @@ body {
 
 .song-title {
   font-family: var(--font-title);
-  font-size: clamp(14px, 2.5vh, 18px);
+  font-size: clamp(14px, 2.5cqh, 18px);
   font-weight: 700;
   color: var(--text-ink);
   line-height: 1.25;
@@ -646,7 +656,7 @@ body {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 600;
-  font-size: clamp(11.5px, 2vh, 14px);
+  font-size: clamp(11.5px, 2cqh, 14px);
   color: var(--accent-wax-red);
   letter-spacing: 0.4px;
   white-space: nowrap;
@@ -661,7 +671,7 @@ body {
 
 .album-name {
   font-family: var(--font-serif);
-  font-size: clamp(10.5px, 1.8vh, 12.5px);
+  font-size: clamp(10.5px, 1.8cqh, 12.5px);
   color: var(--text-ink-muted);
   white-space: nowrap;
   overflow: hidden;
@@ -673,12 +683,12 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: clamp(2px, 0.8vh, 6px);
+  margin-top: clamp(2px, 0.8cqh, 6px);
 }
 
 .time-readout {
   font-family: var(--font-typewriter);
-  font-size: clamp(9.5px, 1.5vh, 11px);
+  font-size: clamp(9.5px, 1.5cqh, 11px);
   letter-spacing: 0.8px;
   color: var(--text-ink);
   font-weight: 700;
@@ -722,7 +732,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: clamp(2px, 0.7vh, 5px);
+  gap: clamp(2px, 0.7cqh, 5px);
   flex: 1;
   min-height: 0;
 }
@@ -736,7 +746,7 @@ body {
 .standby-quote {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: clamp(11.5px, 1.9vh, 13.5px);
+  font-size: clamp(11.5px, 1.9cqh, 13.5px);
   line-height: 1.35;
   color: var(--text-ink);
   opacity: 0.9;
@@ -744,7 +754,7 @@ body {
 
 .standby-hint {
   font-family: var(--font-typewriter);
-  font-size: clamp(8px, 1.1vh, 9.5px);
+  font-size: clamp(8px, 1.1cqh, 9.5px);
   color: var(--text-ink-muted);
   letter-spacing: 0.4px;
 }
@@ -755,7 +765,7 @@ body {
   padding: 3px 8px;
   border-radius: 3px;
   font-family: var(--font-typewriter);
-  font-size: clamp(8px, 1.1vh, 9px);
+  font-size: clamp(8px, 1.1cqh, 9px);
   letter-spacing: 1px;
   color: var(--text-ink);
   cursor: pointer;
@@ -783,20 +793,20 @@ body {
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid var(--border-delicate);
-  padding-top: clamp(2px, 0.8vh, 5px);
+  padding-top: clamp(2px, 0.8cqh, 5px);
   margin-top: auto;
 }
 
 .telegram-dispatch {
   font-family: var(--font-typewriter);
-  font-size: clamp(7.5px, 1.05vw, 8.5px);
+  font-size: clamp(7.5px, 1.05cqw, 8.5px);
   color: var(--text-ink-muted);
   letter-spacing: 1px;
 }
 
 .doll-signature {
   font-family: var(--font-cursive);
-  font-size: clamp(13px, 2vh, 16px);
+  font-size: clamp(13px, 2cqh, 16px);
   color: var(--text-ink);
   opacity: 0.9;
 }
@@ -1105,7 +1115,7 @@ body {
 /* Responsive Adaptations (Vivaldi Start Page Tiles) */
 
 /* Regular / Compact Tile Height (< 240px) */
-@media (max-height: 240px) {
+@container (max-height: 240px) {
   .stationery-inner {
     padding: 5px 12px 6px;
   }
@@ -1126,12 +1136,12 @@ body {
 
   /* Vinyl & Tonearm Scaling: Proportionate downscaling preventing pivot text overlap */
   .player-stage {
-    gap: clamp(8px, 2vw, 16px);
+    gap: clamp(8px, 2cqw, 16px);
   }
 
   .turntable-chassis {
-    width: clamp(88px, 21.5vh, 108px);
-    height: clamp(88px, 21.5vh, 108px);
+    width: clamp(88px, 21.5cqh, 108px);
+    height: clamp(88px, 21.5cqh, 108px);
     margin-right: 4px;
   }
 
@@ -1263,7 +1273,7 @@ body {
 }
 
 /* Extreme Compact Height (< 190px) */
-@media (max-height: 190px) {
+@container (max-height: 190px) {
   .letterhead-header {
     display: none;
   }
@@ -1295,7 +1305,7 @@ body {
 }
 
 /* Square / Narrow Tile (< 340px) */
-@media (max-width: 340px) {
+@container (max-width: 340px) {
   .player-stage {
     flex-direction: column;
     justify-content: center;

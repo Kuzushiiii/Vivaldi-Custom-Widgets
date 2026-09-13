@@ -13,9 +13,9 @@
   --p5-black: #000000;
   --p5-white: #ffffff;
 
-  /* ===== Paper-cutout corner accents ===== */
-  --p5-cut: clamp(16px, 4vw, 30px);
-  --p5-cut-sm: clamp(8px, 2vw, 16px);
+  /* ===== Paper-cutout corner accents (Container Responsive) ===== */
+  --p5-cut: clamp(14px, 4cqw, 28px);
+  --p5-cut-sm: clamp(8px, 2cqw, 14px);
 }
 
 * {
@@ -29,8 +29,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   margin: 0;
   overflow: hidden;
   user-select: none;
@@ -40,6 +40,8 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
+  container-type: size;
+  container-name: widget;
   background-color: var(--p5-bg);
   border-radius: 12px;
   box-shadow:

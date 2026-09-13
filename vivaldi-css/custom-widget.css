@@ -77,3 +77,26 @@
     backdrop-filter: blur(8px) !important;
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
+
+/* 6. Suppress unwanted scrollbars in webpage widget frames */
+.dashboard-widget webview,
+.dashboard-widget iframe,
+.dashboard-widget .webview-container {
+    overflow: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+.dashboard-widget webview::-webkit-scrollbar,
+.dashboard-widget iframe::-webkit-scrollbar,
+.dashboard-widget .webview-container::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* 7. Optimize layout containment for smooth Start Page grid resizing */
+.dashboard-widget.Dashboard-Webpage {
+    contain: layout paint;
+}
+

@@ -35,7 +35,7 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 | **Calendar & Clock** | `themes/persona-5/calendar-widget/index.html` | Comic-style digital clock, day indicator, interactive month calendar, stars, and Phantom Thieves mask. |
 | **Day Progression** | `themes/persona-5/day-progression/index.html` | Real-time percentage meter tracking the progression of the day with Persona 5 time-of-day phases. |
 | **GIF Cut-in Banner** | `themes/persona-5/gif-widget/index.html` | Dynamic Persona 5 Royal cut-in character animation banner. |
-| **Spotify Now Playing** | `themes/persona-5/spotify-widget/index.html` | Real-time Spotify music playback widget powered by Discord & Lanyard API. |
+| **Song Viewer (Now Playing)** | `themes/persona-5/song-viewer-widget/index.html` | Real-time song and music playback viewer powered by Discord & Last.fm. |
 
 ---
 
@@ -47,7 +47,7 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 | **Day Progression** | `themes/violet-evergarden/day-progression/index.html` | "The Typewriter Carriage" real-time 24-hour day progression meter with platen roller, dual-tone inked ribbon, brass margin scale, and midnight carriage return animation. |
 | **Typing GIF Banner** | `themes/violet-evergarden/gif-widget/index.html` | Atmospheric animated banner featuring Violet typing at her vintage typewriter. |
 | **Flowers GIF Banner** | `themes/violet-evergarden/gif-widget-2/index.html` | Aesthetic animated floral banner inspired by Violet's bougainvillea motifs. |
-| **CH Postal Phonograph** | `themes/violet-evergarden/spotify-widget/index.html` | Vintage mechanical vinyl gramophone music player with spinning textured record, rotating brass tonearm needle tracking, emerald brooch center label, procedural needle-drop audio, and Victorian client request ledger. |
+| **CH Postal Phonograph (Song Viewer)** | `themes/violet-evergarden/song-viewer-widget/index.html` | Vintage mechanical vinyl gramophone music player with spinning textured record, rotating brass tonearm needle tracking, emerald brooch center label, procedural needle-drop audio, and Victorian client request ledger. |
 
 ---
 
@@ -108,9 +108,9 @@ To remove default white card backgrounds and title bars while keeping access to 
 
 ---
 
-### Spotify Widget Setup
+### Song Viewer Widget Setup
 
-The Spotify widget displays your currently playing track in real-time. You can choose either **Discord (Lanyard)** or **Last.fm** as the data provider.
+The Song Viewer widget displays your currently playing track in real-time. You can choose either **Discord (Lanyard)** or **Last.fm** as the data provider.
 
 ---
 
@@ -148,7 +148,7 @@ If you don't use Discord or prefer scrobbling, you can integrate via Last.fm:
    <img src="docs/assets/last.fm-step1.jpeg" alt="Connect Spotify Last.fm" width="600">
 </p>
 
-3. Click the **CONFIG** button on the top right in Spotify Widget in Vivaldi.
+3. Click the **CONFIG** button on the top right in Song Viewer Widget in Vivaldi.
 4. Switch to the **LAST.FM** tab.
 5. Enter your **Last.fm Username**.
 <p align="center">
@@ -167,7 +167,7 @@ If you don't use Discord or prefer scrobbling, you can integrate via Last.fm:
 
 ### Notes
 
-For Calendar, Day Progression and the Gif widget i suggest resize it to regular and tall only for the Spotify widget, like mine :
+For Calendar, Day Progression and the Gif widget i suggest resize it to regular and tall only for the Song Viewer widget, like mine :
 <p align="center">
    <img src="docs/assets/P5-preview.png" alt="The final preview" width="600">
 </p>

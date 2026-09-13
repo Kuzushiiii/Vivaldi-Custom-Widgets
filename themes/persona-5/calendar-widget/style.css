@@ -24,8 +24,8 @@ html, body {
   background: transparent !important;
   margin: 0;
   padding: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -34,8 +34,10 @@ html, body {
   position: relative;
   width: 100%;
   height: 100%;
-  max-width: 100vw;
-  max-height: 100vh;
+  max-width: 100%;
+  max-height: 100%;
+  container-type: size;
+  container-name: widget;
   background-color: var(--p5-bg) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -117,7 +119,7 @@ html, body {
 .cal-mask-wrap {
   top: -6%;
   left: 2%;
-  width: clamp(52px, 10vw, 76px);
+  width: clamp(52px, 10cqw, 76px);
   transform: rotate(-8deg);
   z-index: 3;
   transition: transform 0.4s var(--p5-spring-snap), filter 0.3s ease;
@@ -187,8 +189,8 @@ html, body {
   display: grid;
   grid-template-columns: 1.15fr 1.35fr;
   align-items: center;
-  gap: clamp(8px, 2.5vw, 16px);
-  padding: clamp(8px, 2.2vh, 14px) clamp(12px, 3vw, 20px);
+  gap: clamp(8px, 2.5cqw, 16px);
+  padding: clamp(8px, 2.2cqh, 14px) clamp(12px, 3cqw, 20px);
   z-index: 4;
 }
 
@@ -199,7 +201,7 @@ html, body {
   justify-content: center;
   align-items: flex-start;
   z-index: 3;
-  padding-left: clamp(24px, 6vw, 42px); /* spacing for mask */
+  padding-left: clamp(24px, 6cqw, 42px); /* spacing for mask */
 }
 
 /* Time Phase Pill */
@@ -222,14 +224,14 @@ html, body {
 
 .hud-phase-prefix {
   font-family: "Anton", sans-serif;
-  font-size: clamp(10px, 2vw, 13px);
+  font-size: clamp(10px, 2cqw, 13px);
   color: var(--p5-red-hover);
   letter-spacing: 1px;
 }
 
 .hud-phase-text {
   font-family: "Anton", sans-serif;
-  font-size: clamp(11px, 2.3vw, 15px);
+  font-size: clamp(11px, 2.3cqw, 15px);
   color: var(--p5-yellow-star);
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -237,7 +239,7 @@ html, body {
 
 .hud-phase-desc {
   font-family: "Oswald", sans-serif;
-  font-size: clamp(8px, 1.8vw, 10px);
+  font-size: clamp(8px, 1.8cqw, 10px);
   font-weight: 700;
   color: var(--p5-cream-bright);
   letter-spacing: 1.2px;
@@ -272,9 +274,9 @@ html, body {
   align-items: center;
   justify-content: center;
   font-family: "Anton", sans-serif;
-  font-size: clamp(22px, 5.5vw, 36px);
-  width: clamp(20px, 4.8vw, 32px);
-  height: clamp(28px, 6.8vw, 44px);
+  font-size: clamp(22px, 5.5cqw, 36px);
+  width: clamp(20px, 4.8cqw, 32px);
+  height: clamp(28px, 6.8cqw, 44px);
   border: 2px solid var(--p5-black-pure);
   box-shadow: 2.5px 2.5px 0 var(--p5-black-pure);
   line-height: 1;
@@ -302,7 +304,7 @@ html, body {
 
 .ransom-clock .colon {
   font-family: "Anton", sans-serif;
-  font-size: clamp(18px, 4.5vw, 28px);
+  font-size: clamp(18px, 4.5cqw, 28px);
   color: #a0a0a0;
   text-shadow: 2px 2px 0 var(--p5-black-pure);
   animation: p5-colon-blink 1s step-end infinite;
@@ -316,7 +318,7 @@ html, body {
 
 .hud-ampm {
   font-family: "Anton", sans-serif;
-  font-size: clamp(9px, 2vw, 12px);
+  font-size: clamp(9px, 2cqw, 12px);
   background: var(--p5-black-pure);
   color: var(--p5-cream-bright);
   padding: 2px 6px;
@@ -361,18 +363,18 @@ html, body {
 
 .trigger-dagger {
   color: var(--p5-yellow-star);
-  font-size: clamp(10px, 2vw, 13px);
+  font-size: clamp(10px, 2cqw, 13px);
 }
 
 .trigger-text {
   font-family: "Anton", sans-serif;
-  font-size: clamp(10px, 2.2vw, 14px);
+  font-size: clamp(10px, 2.2cqw, 14px);
   letter-spacing: 1.2px;
 }
 
 .trigger-arrow {
   color: var(--p5-red-hover);
-  font-size: clamp(9px, 1.8vw, 11px);
+  font-size: clamp(9px, 1.8cqw, 11px);
   transition: transform 0.2s ease;
 }
 
@@ -385,13 +387,13 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(24px, 5.5vw, 32px);
-  height: clamp(24px, 5.5vw, 32px);
+  width: clamp(24px, 5.5cqw, 32px);
+  height: clamp(24px, 5.5cqw, 32px);
   background: var(--p5-black-pure);
   border: 2px solid var(--p5-black-pure);
   box-shadow: 2.5px 2.5px 0 var(--p5-black-pure);
   color: var(--p5-cream-bright);
-  font-size: clamp(11px, 2.4vw, 14px);
+  font-size: clamp(11px, 2.4cqw, 14px);
   cursor: pointer;
   transform: rotate(3deg) skewX(-4deg);
   transition: all 0.2s var(--p5-spring-snap);
@@ -446,14 +448,14 @@ html, body {
 
 .ribbon-month {
   font-family: "Anton", sans-serif;
-  font-size: clamp(12px, 2.8vw, 18px);
+  font-size: clamp(12px, 2.8cqw, 18px);
   color: var(--p5-white-pure);
   letter-spacing: 2px;
 }
 
 .ribbon-year {
   font-family: "Anton", sans-serif;
-  font-size: clamp(11px, 2.4vw, 16px);
+  font-size: clamp(11px, 2.4cqw, 16px);
   color: var(--p5-yellow-star);
   letter-spacing: 1px;
 }
@@ -462,8 +464,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(20px, 4.5vw, 28px);
-  height: clamp(20px, 4.5vw, 28px);
+  width: clamp(20px, 4.5cqw, 28px);
+  height: clamp(20px, 4.5cqw, 28px);
   background: var(--p5-black-pure);
   border: 2px solid var(--p5-black-pure);
   box-shadow: 2.5px 2.5px 0 var(--p5-black-pure);
@@ -485,7 +487,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(4px, 1.2vw, 8px);
+  gap: clamp(4px, 1.2cqw, 8px);
   margin: 1px 0 3px 0;
 }
 
@@ -493,8 +495,8 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: clamp(38px, 9vw, 56px);
-  height: clamp(50px, 12vw, 76px);
+  min-width: clamp(38px, 9cqw, 56px);
+  height: clamp(50px, 12cqw, 76px);
   border: 3px solid var(--p5-black-pure);
   box-shadow: 4px 4px 0 var(--p5-black-pure);
   padding: 0 4px;
@@ -505,7 +507,7 @@ html, body {
 
 .ransom-digit-card .digit-val {
   font-family: "Anton", "Impact", sans-serif;
-  font-size: clamp(44px, 12.5vw, 72px);
+  font-size: clamp(44px, 12.5cqw, 72px);
   line-height: 0.9;
   letter-spacing: -1px;
 }
@@ -554,13 +556,13 @@ html, body {
 
 .weekday-prefix {
   font-family: "Anton", sans-serif;
-  font-size: clamp(10px, 2.2vw, 14px);
+  font-size: clamp(10px, 2.2cqw, 14px);
   color: var(--p5-red-hover);
 }
 
 .weekday-name {
   font-family: "Anton", sans-serif;
-  font-size: clamp(12px, 2.8vw, 18px);
+  font-size: clamp(12px, 2.8cqw, 18px);
   color: var(--p5-cream-bright);
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -568,7 +570,7 @@ html, body {
 
 .weekday-exclaim {
   font-family: "Anton", sans-serif;
-  font-size: clamp(12px, 2.6vw, 16px);
+  font-size: clamp(12px, 2.6cqw, 16px);
   color: var(--p5-yellow-star);
 }
 
@@ -592,7 +594,7 @@ html, body {
   align-items: center;
   justify-content: space-between;
   gap: 6px;
-  height: clamp(24px, 5.5vh, 28px);
+  height: clamp(24px, 5.5cqh, 28px);
   margin-bottom: 2px;
 }
 
@@ -609,14 +611,14 @@ html, body {
 
 .sched-month-name {
   font-family: "Anton", sans-serif;
-  font-size: clamp(11px, 2.4vw, 15px);
+  font-size: clamp(11px, 2.4cqw, 15px);
   color: var(--p5-white-pure);
   letter-spacing: 1.5px;
 }
 
 .sched-year-name {
   font-family: "Anton", sans-serif;
-  font-size: clamp(10px, 2vw, 13px);
+  font-size: clamp(10px, 2cqw, 13px);
   color: var(--p5-yellow-star);
   letter-spacing: 1px;
 }
@@ -626,13 +628,13 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(22px, 4.8vw, 26px);
-  height: clamp(22px, 4.8vw, 26px);
+  width: clamp(22px, 4.8cqw, 26px);
+  height: clamp(22px, 4.8cqw, 26px);
   background: var(--p5-black-pure);
   color: var(--p5-cream-bright);
   border: 2px solid var(--p5-black-pure);
   box-shadow: 2px 2px 0 var(--p5-black-pure);
-  font-size: clamp(9px, 1.8vw, 11px);
+  font-size: clamp(9px, 1.8cqw, 11px);
   cursor: pointer;
   transform: skewX(-4deg);
   transition: all 0.15s ease;
@@ -659,7 +661,7 @@ html, body {
   border: 1.5px solid var(--p5-black-pure);
   box-shadow: 2px 2px 0 var(--p5-black-pure);
   font-family: "Anton", sans-serif;
-  font-size: clamp(9px, 1.8vw, 11px);
+  font-size: clamp(9px, 1.8cqw, 11px);
   padding: 2px 6px;
   cursor: pointer;
   transform: skewX(-5deg);
@@ -675,14 +677,14 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(22px, 4.8vw, 26px);
-  height: clamp(22px, 4.8vw, 26px);
+  width: clamp(22px, 4.8cqw, 26px);
+  height: clamp(22px, 4.8cqw, 26px);
   background: var(--p5-red-vibrant);
   color: var(--p5-white-pure);
   border: 2px solid var(--p5-black-pure);
   box-shadow: 2px 2px 0 var(--p5-black-pure);
   font-family: "Anton", sans-serif;
-  font-size: clamp(10px, 2vw, 13px);
+  font-size: clamp(10px, 2cqw, 13px);
   cursor: pointer;
   transform: rotate(2deg) skewX(-4deg);
   transition: all 0.15s ease;
@@ -705,7 +707,7 @@ html, body {
 
 .sched-wday {
   font-family: "Anton", "Bebas Neue", sans-serif;
-  font-size: clamp(9px, 1.8vw, 12px);
+  font-size: clamp(9px, 1.8cqw, 12px);
   color: var(--p5-white-pure);
   letter-spacing: 0.5px;
   text-shadow: 1px 1px 0 var(--p5-black-pure);
@@ -740,9 +742,9 @@ html, body {
   color: var(--p5-white-pure);
   font-family: "Oswald", sans-serif;
   font-weight: 700;
-  font-size: clamp(10px, 2.1vw, 13px);
+  font-size: clamp(10px, 2.1cqw, 13px);
   padding: 0;
-  min-height: clamp(18px, 3.8vh, 23px);
+  min-height: clamp(18px, 3.8cqh, 23px);
   cursor: pointer;
   position: relative;
   transition: all 0.15s var(--p5-spring-snap);
@@ -800,7 +802,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: clamp(14px, 3vh, 18px);
+  height: clamp(14px, 3cqh, 18px);
   margin-top: 2px;
 }
 
@@ -809,7 +811,7 @@ html, body {
   align-items: center;
   gap: 4px;
   font-family: "Anton", sans-serif;
-  font-size: clamp(8px, 1.6vw, 10px);
+  font-size: clamp(8px, 1.6cqw, 10px);
   color: var(--p5-red-hover);
   letter-spacing: 1px;
 }
@@ -821,9 +823,39 @@ html, body {
 
 .sched-tip {
   font-family: "Oswald", sans-serif;
-  font-size: clamp(7px, 1.4vw, 9px);
+  font-size: clamp(7px, 1.4cqw, 9px);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.45);
   letter-spacing: 0.5px;
 }
 
+
+
+/* Compact Container Query Adaptations */
+@container (max-width: 320px) {
+  .p5-cal-table th {
+    font-size: 8.5px;
+    letter-spacing: 0.5px;
+  }
+  .p5-day-cell {
+    font-size: 10px;
+  }
+  .p5-cal-header {
+    gap: 4px;
+    padding: 6px 10px;
+  }
+  .p5-cal-badge-box {
+    width: clamp(40px, 12cqw, 56px);
+  }
+}
+@container (max-height: 240px) {
+  .p5-cal-header {
+    padding: 4px 8px;
+  }
+  .p5-cal-table-wrap {
+    padding: 2px 4px;
+  }
+  .p5-day-cell {
+    height: clamp(20px, 6cqh, 24px);
+  }
+}

@@ -228,7 +228,7 @@
      ======================================================== */
   let activeTabProvider = 'discord';
 
-  const spotifyService = new SpotifyService({
+  const spotifyService = new (window.SongViewerService || window.SpotifyService)({
     onTrackUpdate: (track) => {
       spotifyService.isLastScrobble = Boolean(track.isLastScrobble);
 
@@ -343,9 +343,9 @@
         if (hintText) {
           elements.standbyHint.textContent = hintText;
         } else if (provider === 'discord') {
-          elements.standbyHint.textContent = 'Ensure Discord & Spotify are active (must join discord.gg/lanyard)';
+          elements.standbyHint.textContent = 'Ensure music playback is active on Discord (must join discord.gg/lanyard)';
         } else {
-          elements.standbyHint.textContent = 'Play a track on Spotify to begin infiltration';
+          elements.standbyHint.textContent = 'Play a track to begin infiltration';
         }
       }
     }

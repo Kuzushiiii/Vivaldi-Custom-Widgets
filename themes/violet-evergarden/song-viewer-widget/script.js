@@ -182,8 +182,8 @@
     }
   }
 
-  // Spotify service instance
-  const spotifyService = new SpotifyService({
+  // Song viewer service instance
+  const spotifyService = new (window.SongViewerService || window.SpotifyService)({
 
     // 1. Track Metadata Received / Updated
     onTrackUpdate: (track) => {
@@ -326,9 +326,9 @@
         if (hintText) {
           elements.standbyHint.textContent = hintText;
         } else if (provider === 'discord') {
-          elements.standbyHint.textContent = 'Ensure Spotify is running and Discord Lanyard is joined.';
+          elements.standbyHint.textContent = 'Ensure music playback is active and Discord Lanyard is joined.';
         } else {
-          elements.standbyHint.textContent = 'Play a melody on Spotify to begin recording.';
+          elements.standbyHint.textContent = 'Play a song to begin recording.';
         }
       }
     },
@@ -453,7 +453,7 @@
     // Start in resting tonearm position
     setTonearmAngle(TONEARM_ANGLES.REST);
 
-    // Initialize Spotify Service
+    // Initialize Song Viewer Service
     spotifyService.init();
   });
 

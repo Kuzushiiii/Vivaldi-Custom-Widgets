@@ -1,13 +1,4 @@
 /**
- * Backward compatibility stub for legacy spotify-service.js
- * Imports / aliases SongViewerService
- */
-(function () {
-  if (typeof window !== 'undefined' && window.SongViewerService) {
-    window.SpotifyService = window.SongViewerService;
-  }
-})();
-/**
  * Song Viewer (Now Playing) Service
  * Shared module supporting Discord Lanyard (WebSocket/REST) and Last.fm (REST with duration fetching).
  */
@@ -283,7 +274,7 @@ class SongViewerService {
               });
             } else {
               if (typeof this.options.onStandby === "function") {
-                this.options.onStandby("discord", "SPOTIFY IS IDLE OR PAUSED");
+                this.options.onStandby("discord", "NO ACTIVE MUSIC DETECTED");
               }
             }
           }
@@ -329,7 +320,7 @@ class SongViewerService {
             });
           } else {
             if (typeof this.options.onStandby === "function") {
-              this.options.onStandby("discord", "SPOTIFY IS IDLE OR PAUSED");
+              this.options.onStandby("discord", "NO ACTIVE MUSIC DETECTED");
             }
           }
         } else if (json.error && json.error.code === "USER_NOT_MONITORED") {
