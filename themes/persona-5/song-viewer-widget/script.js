@@ -224,13 +224,24 @@
   }
 
   /* ========================================================
-     6. SPOTIFY SERVICE INTEGRATION
+     6. SONG VIEWER SERVICE INTEGRATION
      ======================================================== */
   let activeTabProvider = 'discord';
 
-  const spotifyService = new (window.SongViewerService || window.SpotifyService)({
+  const P5_DEMO_TRACK = {
+    song: "Life Will Change",
+    artist: "Lyn, Shoji Meguro",
+    album: "Persona 5 Original Soundtrack",
+    album_art_url:
+      "https://t2.genius.com/unsafe/344x344/https%3A%2F%2Fimages.genius.com%2F29fe123938b00fe1522ca7a8c04ff9b5.1000x1000x1.png",
+    durationMs: 265000,
+    elapsedMs: 74000,
+  };
+
+  const songViewerService = new (window.SongViewerService || window.SpotifyService)({
+    demoTrack: P5_DEMO_TRACK,
     onTrackUpdate: (track) => {
-      spotifyService.isLastScrobble = Boolean(track.isLastScrobble);
+      songViewerService.isLastScrobble = Boolean(track.isLastScrobble);
 
       if (elements.musicRoot) elements.musicRoot.classList.add('is-playing');
       if (elements.heroAlbumStage) elements.heroAlbumStage.style.display = 'flex';
@@ -308,7 +319,7 @@
         });
       }
 
-      if (elements.statusBadge && !spotifyService.isLastScrobble) {
+      if (elements.statusBadge && !songViewerService.isLastScrobble) {
         if (isPaused) {
           elements.statusBadge.textContent = 'PAUSED';
           elements.statusBadge.classList.add('paused');
@@ -320,7 +331,7 @@
     },
 
     onStandby: (provider, hintText) => {
-      spotifyService.isLastScrobble = false;
+      songViewerService.isLastScrobble = false;
 
       if (elements.musicRoot) elements.musicRoot.classList.remove('is-playing');
       if (elements.heroAlbumStage) elements.heroAlbumStage.style.display = 'none';
@@ -375,11 +386,11 @@
   function openModal() {
     playSlashSound();
     updatePhoneClock();
-    if (elements.discordIdInput) elements.discordIdInput.value = spotifyService.discordId || '';
-    if (elements.lastfmUsernameInput) elements.lastfmUsernameInput.value = spotifyService.lastfmUser || '';
-    if (elements.lastfmApiKeyInput) elements.lastfmApiKeyInput.value = spotifyService.lastfmApiKey || '';
+    if (elements.discordIdInput) elements.discordIdInput.value = songViewerService.discordId || '';
+    if (elements.lastfmUsernameInput) elements.lastfmUsernameInput.value = songViewerService.lastfmUser || '';
+    if (elements.lastfmApiKeyInput) elements.lastfmApiKeyInput.value = songViewerService.lastfmApiKey || '';
 
-    switchTab(spotifyService.provider);
+    switchTab(songViewerService.provider);
     if (elements.configModal) elements.configModal.style.display = 'flex';
   }
 
@@ -398,7 +409,7 @@
   if (elements.saveConfigBtn) {
     elements.saveConfigBtn.addEventListener('click', () => {
       playSlashSound();
-      spotifyService.saveConfig({
+      songViewerService.saveConfig({
         provider: activeTabProvider,
         discordId: elements.discordIdInput ? elements.discordIdInput.value : '',
         lastfmUser: elements.lastfmUsernameInput ? elements.lastfmUsernameInput.value : '',
@@ -413,14 +424,14 @@
     elements.demoBtn.addEventListener('click', () => {
       playSlashSound();
       closeModal();
-      spotifyService.runDemoMode();
+      songViewerService.runDemoMode(P5_DEMO_TRACK);
     });
   }
 
   if (elements.standbyDemoBtn) {
     elements.standbyDemoBtn.addEventListener('click', () => {
       playSlashSound();
-      spotifyService.runDemoMode();
+      songViewerService.runDemoMode(P5_DEMO_TRACK);
     });
   }
 
@@ -429,7 +440,7 @@
      ======================================================== */
   randomizeMask();
   updatePhoneClock();
-  spotifyService.init();
+  songViewerService.init();
 
   // Keep phone clock updated
   setInterval(updatePhoneClock, 30000);

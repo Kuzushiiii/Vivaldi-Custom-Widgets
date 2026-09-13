@@ -120,20 +120,20 @@ The Song Viewer widget displays your currently playing track in real-time. You c
 
 1. Connect your Spotify account to Discord (**Discord Settings > Connections > Spotify** and toggle *"Display Spotify as your status"*).
 <p align="center">
-   <img src="docs/assets/spotify-wid-step1.jpeg" alt="Connect Spotify" width="600">
+   <img src="docs/assets/song-viewer-step1.jpeg" alt="Connect Spotify" width="600">
 </p>
 
 2. Get your Discord User ID (**Discord Settings > Developer > Enable Developer Mode** > open your profile > **Copy User ID**).
 <p align="center">
-   <img src="docs/assets/spotify-wid-step2.jpeg" alt="Enable dev" width="600">
+   <img src="docs/assets/song-viewer-step2.jpeg" alt="Enable dev" width="600">
 </p>
 <p align="center">
-   <img src="docs/assets/spotify-wid-step3.png" alt="Copy User ID" width="600">
+   <img src="docs/assets/song-viewer-step3.png" alt="Copy User ID" width="600">
 </p>
 
 3. Click the **CONFIG** button on the widget, select the **DISCORD (LANYARD)** tab, paste your Discord User ID, and click **SAVE**.
 <p align="center">
-   <img src="docs/assets/spotify-wid-step4.png" alt="Paste User ID" width="600">
+   <img src="docs/assets/song-viewer-step4.png" alt="Paste User ID" width="600">
 </p>
 
 ---

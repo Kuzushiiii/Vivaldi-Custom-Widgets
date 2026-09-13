@@ -1,6 +1,6 @@
 /**
  * Violet Evergarden — The CH Postal Phonograph Controller
- * Bridges shared SpotifyService with vintage gramophone animations,
+ * Bridges shared SongViewerService with vintage gramophone animations,
  * physical tonearm mechanics, vinyl needle-drop audio synthesis, and Victorian ledger modal.
  */
 
@@ -182,8 +182,20 @@
     }
   }
 
+  // Violet Evergarden Authentic Demo Cylinder Track
+  const VE_DEMO_TRACK = {
+    song: "Sincerely",
+    artist: "TRUE",
+    album: "VIOLET EVERGARDEN: Automemories",
+    album_art_url:
+      "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/65/2a/92/652a9252-b6a3-d128-5759-a4e9384fa51c/4540774905737.png/600x600bb.jpg",
+    durationMs: 280000,
+    elapsedMs: 68000,
+  };
+
   // Song viewer service instance
-  const spotifyService = new (window.SongViewerService || window.SpotifyService)({
+  const songViewerService = new (window.SongViewerService || window.SpotifyService)({
+    demoTrack: VE_DEMO_TRACK,
 
     // 1. Track Metadata Received / Updated
     onTrackUpdate: (track) => {
@@ -237,7 +249,7 @@
 
       // Provider Label
       if (elements.providerLabel) {
-        elements.providerLabel.textContent = (spotifyService.provider === 'discord' ? 'LANYARD' : 'LAST.FM');
+        elements.providerLabel.textContent = (songViewerService.provider === 'discord' ? 'LANYARD' : 'LAST.FM');
       }
 
       // Mechanical Tonearm & Vinyl Physical State
@@ -281,14 +293,14 @@
 
       if (isPaused) {
         setVinylPaused(true);
-        if (elements.statusBadge && !spotifyService.isLastScrobble) {
+        if (elements.statusBadge && !songViewerService.isLastScrobble) {
           elements.statusBadge.textContent = 'PAUSED';
           elements.statusBadge.className = 'status-seal is-paused';
         }
       } else {
         setVinylPaused(false);
         setVinylSpinning(true);
-        if (elements.statusBadge && !spotifyService.isLastScrobble) {
+        if (elements.statusBadge && !songViewerService.isLastScrobble) {
           elements.statusBadge.textContent = 'ON AIR';
           elements.statusBadge.className = 'status-seal is-playing';
         }
@@ -360,16 +372,16 @@
 
     // Pre-fill inputs with active credentials
     if (elements.discordIdInput) {
-      elements.discordIdInput.value = spotifyService.discordId || '';
+      elements.discordIdInput.value = songViewerService.discordId || '';
     }
     if (elements.lastfmUsernameInput) {
-      elements.lastfmUsernameInput.value = spotifyService.lastfmUser || '';
+      elements.lastfmUsernameInput.value = songViewerService.lastfmUser || '';
     }
     if (elements.lastfmApiKeyInput) {
-      elements.lastfmApiKeyInput.value = spotifyService.lastfmApiKey || '';
+      elements.lastfmApiKeyInput.value = songViewerService.lastfmApiKey || '';
     }
 
-    switchTab(spotifyService.provider || 'discord');
+    switchTab(songViewerService.provider || 'discord');
 
     if (elements.configModal) {
       elements.configModal.style.display = 'flex';
@@ -406,7 +418,7 @@
   if (elements.saveConfigBtn) {
     elements.saveConfigBtn.addEventListener('click', () => {
       hasPlayedNeedleDrop = false;
-      spotifyService.saveConfig({
+      songViewerService.saveConfig({
         provider: activeTabProvider,
         discordId: elements.discordIdInput ? elements.discordIdInput.value.trim() : '',
         lastfmUser: elements.lastfmUsernameInput ? elements.lastfmUsernameInput.value.trim() : '',
@@ -421,7 +433,7 @@
     elements.demoBtn.addEventListener('click', () => {
       hasPlayedNeedleDrop = false;
       closeConfigModal();
-      spotifyService.runDemoMode();
+      songViewerService.runDemoMode(VE_DEMO_TRACK);
     });
   }
 
@@ -454,7 +466,7 @@
     setTonearmAngle(TONEARM_ANGLES.REST);
 
     // Initialize Song Viewer Service
-    spotifyService.init();
+    songViewerService.init();
   });
 
 })();

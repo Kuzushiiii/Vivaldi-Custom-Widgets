@@ -578,20 +578,30 @@ class SongViewerService {
     this.pollInterval = setInterval(() => this.fetchLastfmData(), 8000);
   }
 
-  runDemoMode() {
+  runDemoMode(customTrack = null) {
     this.isDemoMode = true;
     this.cleanup();
 
-    const demoDuration = 265000;
-    const startTime = Date.now() - 74000;
-    const endTime = startTime + demoDuration;
-
-    this.notifyData({
+    const track = customTrack || this.options.demoTrack || {
       song: "Life Will Change",
       artist: "Lyn, Shoji Meguro",
       album: "Persona 5 Original Soundtrack",
       album_art_url:
         "https://t2.genius.com/unsafe/344x344/https%3A%2F%2Fimages.genius.com%2F29fe123938b00fe1522ca7a8c04ff9b5.1000x1000x1.png",
+      durationMs: 265000,
+      elapsedMs: 74000,
+    };
+
+    const demoDuration = track.durationMs || 265000;
+    const elapsed = track.elapsedMs || 74000;
+    const startTime = Date.now() - elapsed;
+    const endTime = startTime + demoDuration;
+
+    this.notifyData({
+      song: track.song || "Unknown Track",
+      artist: track.artist || "Unknown Artist",
+      album: track.album || "Unknown Album",
+      album_art_url: track.album_art_url || "",
       timestamps: {
         start: startTime,
         end: endTime,
