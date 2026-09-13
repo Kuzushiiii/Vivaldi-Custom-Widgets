@@ -145,6 +145,188 @@
   }
 
   /* --------------------------------------------------------
+     1.5 PROCEDURAL PARCHMENT ACOUSTICS (WEB AUDIO API)
+     Pure mathematical sound synthesis for paper friction,
+     page turn, and letter unfolding without external audio files.
+     -------------------------------------------------------- */
+  let audioCtx = null;
+
+  function getAudioContext() {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        audioCtx = new AudioContextClass();
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
+    return audioCtx;
+  }
+
+  // Synthesize realistic vintage parchment rustle / page turn
+  function playPageTurnSound() {
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const duration = 0.17;
+      const sampleRate = ctx.sampleRate;
+      const numSamples = Math.floor(sampleRate * duration);
+
+      const buffer = ctx.createBuffer(1, numSamples, sampleRate);
+      const data = buffer.getChannelData(0);
+
+      // Fibrous paper noise envelope
+      for (let i = 0; i < numSamples; i++) {
+        const t = i / sampleRate;
+        let env = 0;
+        if (t < 0.025) {
+          env = Math.sin((t / 0.025) * (Math.PI / 2));
+        } else {
+          env = Math.pow(1 - (t - 0.025) / (duration - 0.025), 2.2);
+        }
+        const grain = (Math.random() * 2 - 1) * (1 + (Math.random() > 0.93 ? 1.4 : 0));
+        data[i] = grain * env;
+      }
+
+      const noiseSource = ctx.createBufferSource();
+      noiseSource.buffer = buffer;
+
+      const hp = ctx.createBiquadFilter();
+      hp.type = 'highpass';
+      hp.frequency.setValueAtTime(320, now);
+
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.Q.setValueAtTime(1.4, now);
+      bp.frequency.setValueAtTime(1400, now);
+      bp.frequency.exponentialRampToValueAtTime(2600, now + 0.06);
+      bp.frequency.exponentialRampToValueAtTime(1600, now + duration);
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.32, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+      noiseSource.connect(hp);
+      hp.connect(bp);
+      bp.connect(gain);
+      gain.connect(ctx.destination);
+
+      noiseSource.start(now);
+      noiseSource.stop(now + duration);
+    } catch (_) {}
+  }
+
+  // Synthesize letter unfold / memo popover opening
+  function playLetterOpenSound() {
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const duration = 0.24;
+      const sampleRate = ctx.sampleRate;
+      const numSamples = Math.floor(sampleRate * duration);
+
+      const buffer = ctx.createBuffer(1, numSamples, sampleRate);
+      const data = buffer.getChannelData(0);
+
+      // Dual-pulse texture: crease flick (0-60ms) + parchment unfold slide (50-240ms)
+      for (let i = 0; i < numSamples; i++) {
+        const t = i / sampleRate;
+        let env1 = 0;
+        if (t < 0.015) env1 = t / 0.015;
+        else if (t < 0.075) env1 = Math.pow(1 - (t - 0.015) / 0.06, 1.8);
+
+        let env2 = 0;
+        if (t >= 0.04 && t < 0.07) env2 = (t - 0.04) / 0.03;
+        else if (t >= 0.07) env2 = Math.pow(1 - (t - 0.07) / (duration - 0.07), 2.0);
+
+        const grain1 = (Math.random() * 2 - 1) * env1 * 0.45;
+        const grain2 = (Math.random() * 2 - 1) * env2 * 0.35;
+        data[i] = grain1 + grain2;
+      }
+
+      const noiseSource = ctx.createBufferSource();
+      noiseSource.buffer = buffer;
+
+      const hp = ctx.createBiquadFilter();
+      hp.type = 'highpass';
+      hp.frequency.setValueAtTime(380, now);
+
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.Q.setValueAtTime(1.2, now);
+      bp.frequency.setValueAtTime(2400, now);
+      bp.frequency.exponentialRampToValueAtTime(1800, now + duration);
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.38, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+      noiseSource.connect(hp);
+      hp.connect(bp);
+      bp.connect(gain);
+      gain.connect(ctx.destination);
+
+      noiseSource.start(now);
+      noiseSource.stop(now + duration);
+    } catch (_) {}
+  }
+
+  // Synthesize soft parchment tuck / fold sound when closing letter
+  function playLetterCloseSound() {
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const duration = 0.16;
+      const sampleRate = ctx.sampleRate;
+      const numSamples = Math.floor(sampleRate * duration);
+
+      const buffer = ctx.createBuffer(1, numSamples, sampleRate);
+      const data = buffer.getChannelData(0);
+
+      for (let i = 0; i < numSamples; i++) {
+        const t = i / sampleRate;
+        let env = 0;
+        if (t < 0.018) {
+          env = t / 0.018;
+        } else {
+          env = Math.pow(1 - (t - 0.018) / (duration - 0.018), 1.9);
+        }
+        const grain = (Math.random() * 2 - 1) * (1 + (Math.random() > 0.9 ? 1.2 : 0));
+        data[i] = grain * env * 0.45;
+      }
+
+      const noiseSource = ctx.createBufferSource();
+      noiseSource.buffer = buffer;
+
+      const hp = ctx.createBiquadFilter();
+      hp.type = 'highpass';
+      hp.frequency.setValueAtTime(350, now);
+
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.Q.setValueAtTime(1.3, now);
+      bp.frequency.setValueAtTime(1900, now);
+      bp.frequency.exponentialRampToValueAtTime(1000, now + duration);
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.34, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+      noiseSource.connect(hp);
+      hp.connect(bp);
+      bp.connect(gain);
+      gain.connect(ctx.destination);
+
+      noiseSource.start(now);
+      noiseSource.stop(now + duration);
+    } catch (_) {}
+  }
+
+  /* --------------------------------------------------------
      2. DOM ELEMENTS
      -------------------------------------------------------- */
   const elements = {
@@ -339,6 +521,8 @@
       closeAnimationTimeout = null;
     }
 
+    playLetterOpenSound();
+
     currentEvent = eventData;
     currentSelectedDate = { day, month, year };
 
@@ -378,6 +562,8 @@
       clearTimeout(closeAnimationTimeout);
       closeAnimationTimeout = null;
     }
+
+    playLetterOpenSound();
 
     currentEvent = null;
     currentSelectedDate = { day, month, year };
@@ -497,6 +683,11 @@
 
   function closeTornNote() {
     if (!elements.tornNoteCard) return;
+
+    if (elements.tornNoteCard.classList.contains('show')) {
+      playLetterCloseSound();
+    }
+
     if (elements.tornNoteBackdrop) {
       elements.tornNoteBackdrop.classList.remove('show');
     }
@@ -530,6 +721,7 @@
       currentViewingMonth = 11;
       currentViewingYear--;
     }
+    playPageTurnSound();
     loadCurrentCalendarView();
   }
 
@@ -539,12 +731,20 @@
       currentViewingMonth = 0;
       currentViewingYear++;
     }
+    playPageTurnSound();
     loadCurrentCalendarView();
   }
 
   function goToToday() {
+    const isDifferent = (
+      currentViewingYear !== today.getFullYear() ||
+      currentViewingMonth !== today.getMonth()
+    );
     currentViewingYear = today.getFullYear();
     currentViewingMonth = today.getMonth();
+    if (isDifferent) {
+      playPageTurnSound();
+    }
     loadCurrentCalendarView();
   }
 
