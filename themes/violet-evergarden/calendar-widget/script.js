@@ -329,8 +329,15 @@
   /* --------------------------------------------------------
      4. TORN CARD POPOVER INTERACTIONS
      -------------------------------------------------------- */
+  let closeAnimationTimeout = null;
+
   function displayTornNote(eventData, day, month, year) {
     if (!elements.tornNoteCard || !eventData) return;
+
+    if (closeAnimationTimeout) {
+      clearTimeout(closeAnimationTimeout);
+      closeAnimationTimeout = null;
+    }
 
     currentEvent = eventData;
     currentSelectedDate = { day, month, year };
@@ -367,8 +374,21 @@
   function openDraftComposeMode(day, month, year) {
     if (!elements.tornNoteCard) return;
 
+    if (closeAnimationTimeout) {
+      clearTimeout(closeAnimationTimeout);
+      closeAnimationTimeout = null;
+    }
+
     currentEvent = null;
     currentSelectedDate = { day, month, year };
+
+    // Reset view-mode text elements so stale letter content never peeks through
+    if (elements.noteTag) elements.noteTag.textContent = 'CH POSTAL DISPATCH';
+    if (elements.noteDateStamp) elements.noteDateStamp.textContent = `${CURSIVE_MONTHS[month]} ${String(day).padStart(2, '0')}, ${year}`;
+    if (elements.noteTitle) elements.noteTitle.textContent = '';
+    if (elements.noteClient) elements.noteClient.textContent = '—';
+    if (elements.noteTime) elements.noteTime.textContent = '—';
+    if (elements.noteBody) elements.noteBody.textContent = '';
 
     if (elements.composeHeaderTag) {
       elements.composeHeaderTag.textContent = 'DRAFT CORRESPONDENCE';
@@ -399,6 +419,11 @@
 
   function openReviseDraftMode() {
     if (!currentEvent) return;
+
+    if (closeAnimationTimeout) {
+      clearTimeout(closeAnimationTimeout);
+      closeAnimationTimeout = null;
+    }
 
     if (elements.composeHeaderTag) {
       elements.composeHeaderTag.textContent = 'REVISE CORRESPONDENCE';
@@ -481,8 +506,16 @@
       activePinnedDay.classList.remove('active-day');
       activePinnedDay = null;
     }
-    if (elements.noteViewMode) elements.noteViewMode.style.display = 'flex';
-    if (elements.noteEditMode) elements.noteEditMode.style.display = 'none';
+
+    // Do NOT synchronously swap mode while the card is in its 220ms fade-out transition.
+    // Delay the mode reset until the card is completely invisible to avoid flashing existing letters.
+    if (closeAnimationTimeout) clearTimeout(closeAnimationTimeout);
+    closeAnimationTimeout = setTimeout(() => {
+      if (elements.tornNoteCard && !elements.tornNoteCard.classList.contains('show')) {
+        if (elements.noteViewMode) elements.noteViewMode.style.display = 'flex';
+        if (elements.noteEditMode) elements.noteEditMode.style.display = 'none';
+      }
+    }, 240);
   }
 
   function loadCurrentCalendarView() {
