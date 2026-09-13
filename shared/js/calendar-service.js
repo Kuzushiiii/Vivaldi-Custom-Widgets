@@ -30,7 +30,7 @@ function fetchCalendarEvents(year, month) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(getCalendarEvents(year, month));
-    }, 40);
+    }, 20);
   });
 }
 
@@ -41,7 +41,7 @@ function getEventsForDate(year, month, day) {
 }
 
 function addCalendarEvent(event) {
-  if (!event || typeof event.day !== 'number') return;
+  if (!event || typeof event.day !== 'number') return null;
   const now = new Date();
   const newEvt = {
     id: event.id || `evt-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
@@ -140,4 +140,7 @@ const CalendarService = {
 
 if (typeof window !== 'undefined') {
   window.CalendarService = CalendarService;
+}
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = CalendarService;
 }

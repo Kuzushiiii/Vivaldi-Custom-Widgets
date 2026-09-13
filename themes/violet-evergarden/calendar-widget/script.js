@@ -5,12 +5,148 @@
   let currentViewingYear = today.getFullYear();
   let currentViewingMonth = today.getMonth();
   let activePinnedDay = null;
+  let currentEvent = null;
+  let currentSelectedDate = { day: null, month: null, year: null };
+
+  const STORAGE_KEY = 'vcw_ve_calendar_memos';
 
   const CURSIVE_MONTHS = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
+  const DEFAULT_LORE_DISPATCHES = [
+    {
+      id: 've-lore-1',
+      day: 4,
+      title: 'Dispatch: Leidenschaftlich Central Station',
+      client: 'Lieutenant Colonel Claudia Hodgins',
+      time: '08:30 AM',
+      tag: 'CH Postal Transit',
+      note: 'Delivery of official maritime treaty missives and express parcels via steam train.'
+    },
+    {
+      id: 've-lore-2',
+      day: 9,
+      title: 'Transcription: Royal Letters of Drossel',
+      client: 'Princess Charlotte Eberfreya Drossel',
+      time: '11:00 AM',
+      tag: 'Auto Memory Doll',
+      note: 'Draft public courtship correspondence to Prince Damian of Flugel. Handcrafted on vellum paper.'
+    },
+    {
+      id: 've-lore-3',
+      day: 14,
+      title: 'Delivery: Bougainvillea Residence',
+      client: 'Dietfried Bougainvillea',
+      time: '02:15 PM',
+      tag: 'Private Courier',
+      note: 'Personal letter delivery. Package sealed with Gilbert’s emerald brooch motif.'
+    },
+    {
+      id: 've-lore-4',
+      day: 19,
+      title: 'Lyrical Transcription: Operetta Manuscript',
+      client: 'Irma the Opera Singer',
+      time: '04:00 PM',
+      tag: 'Auto Memory Doll',
+      note: 'Transcribe melodic libretto and lyrical confessions for the grand Leidenschaftlich Theater opening.'
+    },
+    {
+      id: 've-lore-5',
+      day: 25,
+      title: 'Dispatch: Leiden Harbor Maritime Port',
+      client: 'Benedict Blue',
+      time: '09:45 AM',
+      tag: 'CH Postal Transit',
+      note: 'Expedited air-drop parcel sorting and collection from overseas freight steamers.'
+    }
+  ];
+
+  /* --------------------------------------------------------
+     1. WIDGET-SPECIFIC LOCAL STORAGE LAYER
+     -------------------------------------------------------- */
+  function getStoredMemos() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch (err) {
+      console.warn('[Violet Calendar] Error reading localStorage memos:', err);
+    }
+
+    // Initialize with default lore dispatches for current month if empty
+    const now = new Date();
+    const initialDispatches = DEFAULT_LORE_DISPATCHES.map(evt => ({
+      ...evt,
+      year: now.getFullYear(),
+      month: now.getMonth()
+    }));
+    saveStoredMemos(initialDispatches);
+    return initialDispatches;
+  }
+
+  function saveStoredMemos(memos) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(memos));
+      // Also synchronize with shared CalendarService if loaded
+      if (window.CalendarService && typeof window.CalendarService.setEvents === 'function') {
+        window.CalendarService.setEvents(memos);
+      }
+    } catch (err) {
+      console.warn('[Violet Calendar] Error persisting memos to localStorage:', err);
+    }
+  }
+
+  function getMemosForMonth(year, month) {
+    const all = getStoredMemos();
+    return all.filter(m => m.year === year && m.month === month);
+  }
+
+  function saveMemo(memoData) {
+    const all = getStoredMemos();
+    const existingIdx = memoData.id ? all.findIndex(m => m.id === memoData.id) : -1;
+
+    const payload = {
+      id: memoData.id || `ve-memo-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+      year: memoData.year,
+      month: memoData.month,
+      day: memoData.day,
+      title: (memoData.title || 'Untitled Correspondence').trim(),
+      client: (memoData.client || 'Personal Dispatch').trim(),
+      time: (memoData.time || 'All Day').trim(),
+      tag: (memoData.tag || 'Auto Memory Doll').trim(),
+      note: (memoData.note || '').trim(),
+      updatedAt: Date.now()
+    };
+
+    if (existingIdx >= 0) {
+      all[existingIdx] = payload;
+    } else {
+      all.push(payload);
+    }
+
+    saveStoredMemos(all);
+    return payload;
+  }
+
+  function deleteMemo(memoId) {
+    if (!memoId) return false;
+    const all = getStoredMemos();
+    const initialLen = all.length;
+    const filtered = all.filter(m => m.id !== memoId);
+    if (filtered.length !== initialLen) {
+      saveStoredMemos(filtered);
+      return true;
+    }
+    return false;
+  }
+
+  /* --------------------------------------------------------
+     2. DOM ELEMENTS
+     -------------------------------------------------------- */
   const elements = {
     cursiveMonth: document.getElementById('cursiveMonth'),
     typewriterYear: document.getElementById('typewriterYear'),
@@ -21,76 +157,36 @@
 
     tornNoteBackdrop: document.getElementById('tornNoteBackdrop'),
     tornNoteCard: document.getElementById('tornNoteCard'),
+
+    // View Mode Elements
+    noteViewMode: document.getElementById('noteViewMode'),
     noteTag: document.getElementById('noteTag'),
     noteCloseBtn: document.getElementById('noteCloseBtn'),
     noteDateStamp: document.getElementById('noteDateStamp'),
     noteTitle: document.getElementById('noteTitle'),
     noteClient: document.getElementById('noteClient'),
     noteTime: document.getElementById('noteTime'),
-    noteBody: document.getElementById('noteBody')
+    noteBody: document.getElementById('noteBody'),
+    btnReviseDraft: document.getElementById('btnReviseDraft'),
+    btnDiscardDispatch: document.getElementById('btnDiscardDispatch'),
+
+    // Draft / Edit Mode Elements
+    noteEditMode: document.getElementById('noteEditMode'),
+    composeHeaderTag: document.getElementById('composeHeaderTag'),
+    editCancelCloseBtn: document.getElementById('editCancelCloseBtn'),
+    editDateStamp: document.getElementById('editDateStamp'),
+    inputNoteTitle: document.getElementById('inputNoteTitle'),
+    selectNoteTag: document.getElementById('selectNoteTag'),
+    inputNoteTime: document.getElementById('inputNoteTime'),
+    inputNoteClient: document.getElementById('inputNoteClient'),
+    textareaNoteBody: document.getElementById('textareaNoteBody'),
+    btnShelveDraft: document.getElementById('btnShelveDraft'),
+    btnSealDispatch: document.getElementById('btnSealDispatch')
   };
 
-  const DEFAULT_EVENTS = [
-    {
-      day: 4,
-      title: 'Dispatch: Leidenschaftlich Central Station',
-      client: 'Lieutenant Colonel Claudia Hodgins',
-      time: '08:30 AM',
-      tag: 'CH Postal Transit',
-      note: 'Delivery of official maritime treaty missives and express parcels via steam train.'
-    },
-    {
-      day: 9,
-      title: 'Transcription: Royal Letters of Drossel',
-      client: 'Princess Charlotte Eberfreya Drossel',
-      time: '11:00 AM',
-      tag: 'Auto Memory Doll',
-      note: 'Draft public courtship correspondence to Prince Damian of Flugel. Handcrafted on vellum paper.'
-    },
-    {
-      day: 14,
-      title: 'Delivery: Bougainvillea Residence',
-      client: 'Dietfried Bougainvillea',
-      time: '02:15 PM',
-      tag: 'Private Courier',
-      note: 'Personal letter delivery. Package sealed with Gilbert’s emerald brooch motif.'
-    },
-    {
-      day: 19,
-      title: 'Lyrical Transcription: Operetta Manuscript',
-      client: 'Irma the Opera Singer',
-      time: '04:00 PM',
-      tag: 'Song Transcription',
-      note: 'Transcribe melodic libretto and lyrical confessions for the grand Leidenschaftlich Theater opening.'
-    },
-    {
-      day: 25,
-      title: 'Dispatch: Leiden Harbor Maritime Port',
-      client: 'Benedict Blue',
-      time: '09:45 AM',
-      tag: 'Special Courier',
-      note: 'Expedited air-drop parcel sorting and collection from overseas freight steamers.'
-    }
-  ];
-
-  async function fetchEventsFromService(year, month) {
-    let serviceEvents = [];
-    if (window.CalendarService && typeof window.CalendarService.fetchEvents === 'function') {
-      try {
-        serviceEvents = await window.CalendarService.fetchEvents(year, month);
-      } catch (err) {
-        console.warn('[Violet Calendar] Error fetching events from CalendarService:', err);
-      }
-    }
-    if (serviceEvents && serviceEvents.length > 0) {
-      return serviceEvents;
-    }
-    if (year === today.getFullYear() && month === today.getMonth()) {
-      return DEFAULT_EVENTS.map(evt => ({ ...evt, year, month }));
-    }
-    return [];
-  }
-
+  /* --------------------------------------------------------
+     3. CALENDAR RENDERING
+     -------------------------------------------------------- */
   function updateHeaderDisplay(year, month) {
     if (elements.cursiveMonth) {
       elements.cursiveMonth.textContent = CURSIVE_MONTHS[month];
@@ -193,22 +289,36 @@
 
       const dot = document.createElement('span');
       dot.className = 'event-dot';
-      dot.title = `${config.events.length} event(s) recorded`;
+      dot.title = `${config.events.length} dispatch(es) recorded`;
       dotWrap.appendChild(dot);
 
       cell.appendChild(dotWrap);
+    }
 
+    // Attach click listener for all active days of current month
+    if (!config.isPrevMonth && !config.isNextMonth) {
       cell.addEventListener('click', (e) => {
         e.stopPropagation();
         if (activePinnedDay === cell) {
-          activePinnedDay = null;
-          cell.classList.remove('active-day');
           closeTornNote();
         } else {
           if (activePinnedDay) activePinnedDay.classList.remove('active-day');
           activePinnedDay = cell;
           cell.classList.add('active-day');
-          displayTornNote(config.events[0], dayNumber, config.month, config.year);
+
+          currentSelectedDate = {
+            day: dayNumber,
+            month: config.month,
+            year: config.year
+          };
+
+          if (config.events && config.events.length > 0) {
+            currentEvent = config.events[0];
+            displayTornNote(currentEvent, dayNumber, config.month, config.year);
+          } else {
+            currentEvent = null;
+            openDraftComposeMode(dayNumber, config.month, config.year);
+          }
         }
       });
     }
@@ -216,8 +326,14 @@
     return cell;
   }
 
+  /* --------------------------------------------------------
+     4. TORN CARD POPOVER INTERACTIONS
+     -------------------------------------------------------- */
   function displayTornNote(eventData, day, month, year) {
     if (!elements.tornNoteCard || !eventData) return;
+
+    currentEvent = eventData;
+    currentSelectedDate = { day, month, year };
 
     if (elements.noteTag) {
       elements.noteTag.textContent = eventData.tag || 'CH POSTAL DISPATCH';
@@ -229,20 +345,129 @@
       elements.noteTitle.textContent = eventData.title || 'Untitled Correspondence';
     }
     if (elements.noteClient) {
-      elements.noteClient.textContent = eventData.client || 'Anonymous';
+      elements.noteClient.textContent = eventData.client || '—';
     }
     if (elements.noteTime) {
-      elements.noteTime.textContent = eventData.time || 'All Day';
+      elements.noteTime.textContent = eventData.time || '—';
     }
     if (elements.noteBody) {
       elements.noteBody.textContent = eventData.note || 'No additional correspondence recorded.';
     }
+
+    if (elements.noteViewMode) elements.noteViewMode.style.display = 'flex';
+    if (elements.noteEditMode) elements.noteEditMode.style.display = 'none';
 
     if (elements.tornNoteBackdrop) {
       elements.tornNoteBackdrop.classList.add('show');
     }
     elements.tornNoteCard.classList.add('show');
     elements.tornNoteCard.setAttribute('aria-hidden', 'false');
+  }
+
+  function openDraftComposeMode(day, month, year) {
+    if (!elements.tornNoteCard) return;
+
+    currentEvent = null;
+    currentSelectedDate = { day, month, year };
+
+    if (elements.composeHeaderTag) {
+      elements.composeHeaderTag.textContent = 'DRAFT CORRESPONDENCE';
+    }
+    if (elements.editDateStamp) {
+      elements.editDateStamp.textContent = `${CURSIVE_MONTHS[month]} ${String(day).padStart(2, '0')}, ${year}`;
+    }
+
+    if (elements.inputNoteTitle) elements.inputNoteTitle.value = '';
+    if (elements.selectNoteTag) elements.selectNoteTag.value = 'Auto Memory Doll';
+    if (elements.inputNoteTime) elements.inputNoteTime.value = '';
+    if (elements.inputNoteClient) elements.inputNoteClient.value = '';
+    if (elements.textareaNoteBody) elements.textareaNoteBody.value = '';
+
+    if (elements.noteViewMode) elements.noteViewMode.style.display = 'none';
+    if (elements.noteEditMode) elements.noteEditMode.style.display = 'flex';
+
+    if (elements.tornNoteBackdrop) {
+      elements.tornNoteBackdrop.classList.add('show');
+    }
+    elements.tornNoteCard.classList.add('show');
+    elements.tornNoteCard.setAttribute('aria-hidden', 'false');
+
+    setTimeout(() => {
+      if (elements.inputNoteTitle) elements.inputNoteTitle.focus();
+    }, 60);
+  }
+
+  function openReviseDraftMode() {
+    if (!currentEvent) return;
+
+    if (elements.composeHeaderTag) {
+      elements.composeHeaderTag.textContent = 'REVISE CORRESPONDENCE';
+    }
+    if (elements.editDateStamp) {
+      elements.editDateStamp.textContent = `${CURSIVE_MONTHS[currentSelectedDate.month]} ${String(currentSelectedDate.day).padStart(2, '0')}, ${currentSelectedDate.year}`;
+    }
+
+    if (elements.inputNoteTitle) elements.inputNoteTitle.value = currentEvent.title || '';
+    if (elements.selectNoteTag) elements.selectNoteTag.value = currentEvent.tag || 'Auto Memory Doll';
+    if (elements.inputNoteTime) elements.inputNoteTime.value = currentEvent.time || '';
+    if (elements.inputNoteClient) elements.inputNoteClient.value = currentEvent.client || '';
+    if (elements.textareaNoteBody) elements.textareaNoteBody.value = currentEvent.note || '';
+
+    if (elements.noteViewMode) elements.noteViewMode.style.display = 'none';
+    if (elements.noteEditMode) elements.noteEditMode.style.display = 'flex';
+
+    setTimeout(() => {
+      if (elements.inputNoteTitle) elements.inputNoteTitle.focus();
+    }, 60);
+  }
+
+  async function handleSaveEvent(e) {
+    if (e) e.preventDefault();
+    if (!currentSelectedDate.day) return;
+
+    const title = (elements.inputNoteTitle && elements.inputNoteTitle.value.trim()) || 'Untitled Correspondence';
+    const tag = (elements.selectNoteTag && elements.selectNoteTag.value) || 'Auto Memory Doll';
+    const time = (elements.inputNoteTime && elements.inputNoteTime.value.trim()) || 'All Day';
+    const client = (elements.inputNoteClient && elements.inputNoteClient.value.trim()) || 'Anonymous Patron';
+    const note = (elements.textareaNoteBody && elements.textareaNoteBody.value.trim()) || '';
+
+    const payload = {
+      id: currentEvent && currentEvent.id ? currentEvent.id : undefined,
+      year: currentSelectedDate.year,
+      month: currentSelectedDate.month,
+      day: currentSelectedDate.day,
+      title,
+      tag,
+      time,
+      client,
+      note
+    };
+
+    const saved = saveMemo(payload);
+    currentEvent = saved;
+
+    closeTornNote();
+    loadCurrentCalendarView();
+  }
+
+  async function handleDiscardEvent(e) {
+    if (e) e.stopPropagation();
+    if (!currentEvent || !currentEvent.id) return;
+
+    deleteMemo(currentEvent.id);
+    currentEvent = null;
+
+    closeTornNote();
+    loadCurrentCalendarView();
+  }
+
+  function handleShelveDraft(e) {
+    if (e) e.stopPropagation();
+    if (currentEvent) {
+      displayTornNote(currentEvent, currentSelectedDate.day, currentSelectedDate.month, currentSelectedDate.year);
+    } else {
+      closeTornNote();
+    }
   }
 
   function closeTornNote() {
@@ -256,11 +481,13 @@
       activePinnedDay.classList.remove('active-day');
       activePinnedDay = null;
     }
+    if (elements.noteViewMode) elements.noteViewMode.style.display = 'flex';
+    if (elements.noteEditMode) elements.noteEditMode.style.display = 'none';
   }
 
-  async function loadCurrentCalendarView() {
+  function loadCurrentCalendarView() {
     updateHeaderDisplay(currentViewingYear, currentViewingMonth);
-    const events = await fetchEventsFromService(currentViewingYear, currentViewingMonth);
+    const events = getMemosForMonth(currentViewingYear, currentViewingMonth);
     renderCalendarGrid(currentViewingYear, currentViewingMonth, events);
   }
 
@@ -292,8 +519,42 @@
     if (elements.prevMonthBtn) elements.prevMonthBtn.addEventListener('click', goToPreviousMonth);
     if (elements.nextMonthBtn) elements.nextMonthBtn.addEventListener('click', goToNextMonth);
     if (elements.todayBtn) elements.todayBtn.addEventListener('click', goToToday);
+
     if (elements.noteCloseBtn) {
       elements.noteCloseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeTornNote();
+      });
+    }
+
+    if (elements.editCancelCloseBtn) {
+      elements.editCancelCloseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeTornNote();
+      });
+    }
+
+    if (elements.btnReviseDraft) {
+      elements.btnReviseDraft.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openReviseDraftMode();
+      });
+    }
+
+    if (elements.btnDiscardDispatch) {
+      elements.btnDiscardDispatch.addEventListener('click', handleDiscardEvent);
+    }
+
+    if (elements.btnShelveDraft) {
+      elements.btnShelveDraft.addEventListener('click', handleShelveDraft);
+    }
+
+    if (elements.noteEditMode) {
+      elements.noteEditMode.addEventListener('submit', handleSaveEvent);
+    }
+
+    if (elements.tornNoteBackdrop) {
+      elements.tornNoteBackdrop.addEventListener('click', (e) => {
         e.stopPropagation();
         closeTornNote();
       });
@@ -307,8 +568,8 @@
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeTornNote();
-      else if (e.key === 'ArrowLeft' && !e.target.matches('input, textarea')) goToPreviousMonth();
-      else if (e.key === 'ArrowRight' && !e.target.matches('input, textarea')) goToNextMonth();
+      else if (e.key === 'ArrowLeft' && !e.target.matches('input, textarea, select')) goToPreviousMonth();
+      else if (e.key === 'ArrowRight' && !e.target.matches('input, textarea, select')) goToNextMonth();
     });
   }
 

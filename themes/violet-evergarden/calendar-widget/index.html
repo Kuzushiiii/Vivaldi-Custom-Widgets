@@ -84,32 +84,96 @@
       <div class="torn-paper-edge"></div>
       <div class="paper-clip-brass" title="Brass Postal Clip"></div>
       <div class="note-inner">
-        <div class="note-header">
-          <span class="note-wax-dot"></span>
-          <span class="note-tag" id="noteTag">CH POSTAL DISPATCH</span>
-          <button type="button" class="note-close-btn" id="noteCloseBtn" title="Close memo" aria-label="Close note">✕</button>
+        <!-- 1. VIEW MODE -->
+        <div class="note-view-mode" id="noteViewMode">
+          <div class="note-header">
+            <div class="note-header-left">
+              <span class="note-wax-dot"></span>
+              <span class="note-tag" id="noteTag">CH POSTAL DISPATCH</span>
+            </div>
+            <button type="button" class="note-close-btn" id="noteCloseBtn" title="Close memo" aria-label="Close note">✕</button>
+          </div>
+
+          <div class="note-date-stamp" id="noteDateStamp">September 09, 2026</div>
+          <h4 class="note-title" id="noteTitle">Letter Transcription</h4>
+
+          <div class="note-meta-row">
+            <span class="note-client-label">Patron:</span>
+            <span class="note-client-val" id="noteClient">—</span>
+            <span class="note-time-label">Time:</span>
+            <span class="note-time-val" id="noteTime">—</span>
+          </div>
+
+          <div class="note-divider" aria-hidden="true"></div>
+
+          <p class="note-body" id="noteBody">
+            Typewritten correspondence notes will appear here.
+          </p>
+
+          <div class="note-footer-bar">
+            <div class="view-actions-bar">
+              <button type="button" class="btn-action-text btn-revise" id="btnReviseDraft" title="Revise this correspondence">✎ Revise</button>
+              <button type="button" class="btn-action-text btn-discard" id="btnDiscardDispatch" title="Discard this correspondence">🗑 Discard</button>
+            </div>
+            <div class="note-signature">
+              <span>Doll in service:</span>
+              <em>Violet Evergarden</em>
+            </div>
+          </div>
         </div>
 
-        <div class="note-date-stamp" id="noteDateStamp">September 09, 2026</div>
-        <h4 class="note-title" id="noteTitle">Letter Transcription</h4>
+        <!-- 2. DRAFT / COMPOSE MODE -->
+        <form class="note-edit-mode" id="noteEditMode" style="display: none;" onsubmit="return false;">
+          <div class="note-header">
+            <div class="note-header-left">
+              <span class="note-wax-dot editing"></span>
+              <span class="note-tag-compose" id="composeHeaderTag">DRAFT CORRESPONDENCE</span>
+            </div>
+            <button type="button" class="note-close-btn" id="editCancelCloseBtn" title="Cancel & Close" aria-label="Close note">✕</button>
+          </div>
 
-        <div class="note-meta-row">
-          <span class="note-client-label">Patron:</span>
-          <span class="note-client-val" id="noteClient">—</span>
-          <span class="note-time-label">Time:</span>
-          <span class="note-time-val" id="noteTime">—</span>
-        </div>
+          <div class="note-date-stamp" id="editDateStamp">September 09, 2026</div>
 
-        <div class="note-divider">----------------------------------------</div>
+          <div class="edit-field-group">
+            <input type="text" class="note-input note-title-input" id="inputNoteTitle" placeholder="Subject / Letter Title..." maxlength="60" required autocomplete="off">
+          </div>
 
-        <p class="note-body" id="noteBody">
-          Typewritten correspondence notes will appear here.
-        </p>
+          <div class="edit-meta-grid">
+            <div class="edit-field-sub">
+              <label for="selectNoteTag" class="note-sub-label">Dispatch Tag</label>
+              <select class="note-select" id="selectNoteTag">
+                <option value="Auto Memory Doll">Auto Memory Doll</option>
+                <option value="CH Postal Transit">CH Postal Transit</option>
+                <option value="Private Courier">Private Courier</option>
+                <option value="Personal Memo">Personal Memo</option>
+                <option value="Urgent Dispatch">Urgent Dispatch</option>
+              </select>
+            </div>
+            <div class="edit-field-sub">
+              <label for="inputNoteTime" class="note-sub-label">Temporal / Time</label>
+              <input type="text" class="note-input note-time-input" id="inputNoteTime" placeholder="e.g. 10:00 AM or All Day" maxlength="30" autocomplete="off">
+            </div>
+          </div>
 
-        <div class="note-signature">
-          <span>Doll in service:</span>
-          <em>Violet Evergarden</em>
-        </div>
+          <div class="edit-field-group">
+            <label for="inputNoteClient" class="note-sub-label">Patron / Recipient</label>
+            <input type="text" class="note-input note-client-input" id="inputNoteClient" placeholder="e.g. Major Gilbert, Self, Client Name..." maxlength="50" autocomplete="off">
+          </div>
+
+          <div class="note-divider" aria-hidden="true"></div>
+
+          <div class="edit-field-group">
+            <textarea class="note-textarea" id="textareaNoteBody" placeholder="Typewritten correspondence notes or to-do items..." rows="3"></textarea>
+          </div>
+
+          <div class="edit-actions-bar">
+            <button type="button" class="btn-action-text btn-shelve" id="btnShelveDraft">Shelve Draft</button>
+            <button type="submit" class="btn-stamp-seal" id="btnSealDispatch">
+              <span class="wax-seal-icon">✉</span>
+              <span class="btn-seal-text">Seal & Dispatch</span>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
 
