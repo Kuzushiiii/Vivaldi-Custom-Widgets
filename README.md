@@ -35,7 +35,7 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 | **Calendar & Clock** | `themes/persona-5/calendar-widget/index.html` | Comic-style digital clock, day indicator, interactive month calendar, stars, and Phantom Thieves mask. |
 | **Day Progression** | `themes/persona-5/day-progression/index.html` | Real-time percentage meter tracking the progression of the day with Persona 5 time-of-day phases. |
 | **GIF Cut-in Banner** | `themes/persona-5/gif-widget/index.html` | Dynamic Persona 5 Royal cut-in character animation banner. |
-| **Song Viewer (Now Playing)** | `themes/persona-5/song-viewer-widget/index.html` | Real-time song and music playback viewer powered by Discord & Last.fm. |
+| **Song Viewer (Now Playing)** | `themes/persona-5/song-viewer-widget/index.html` | Real-time song and music playback viewer powered by Discord Lanyard API & Last.fm. |
 
 ---
 
