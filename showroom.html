@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="en" data-dashboard-theme="obsidian">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vivaldi Custom Widgets Showroom</title>
+    <style>
+    /* ==========================================================================
+       TECHNICAL SPECIFICATION & BRUTAL MINIMALIST STYLESHEET
+       Aesthetic: High-End Developer Sandbox & Exhibition Gallery
+       Rules: 0px Border Radius, Zero Glows, Stark Monochromatic Palette,
+              Crisp 1px Wireframe Borders, Audio Fader Sliders, Monospace Telemetry
+       ========================================================================== */
+
+    :root {
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+      --font-mono: "JetBrains Mono", "Consolas", "SF Mono", "Roboto Mono", Menlo, monospace;
+
+      /* Stark Monochromatic Palette: Obsidian (Default) */
+      --bg-void: #000000;
+      --bg-base: #09090b;
+      --bg-panel: #111114;
+      --bg-panel-elevated: #16161a;
+      --bg-panel-hover: #202026;
+      
+      --border-stark: #27272a;
+      --border-subtle: #18181b;
+      --border-bright: #3f3f46;
+      --border-focus: #ffffff;
+
+      --text-white: #ffffff;
+      --text-primary: #ededed;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+      
+      --accent-active: #ffffff;
+      --accent-active-inv: #000000;
+      --accent-indicator: #e11d48;
+
+      --viewport-width: auto;
+      --viewport-height: 280px;
+    }
+
+    [data-dashboard-theme="persona"] {
+      --bg-void: #000000;
+      --bg-base: #060608;
+      --bg-panel: #0d0c10;
+      --bg-panel-elevated: #131218;
+      --bg-panel-hover: #1b1922;
+      --border-stark: #2c1a1e;
+      --border-subtle: #1b1214;
+      --border-bright: #ff0022;
+      --border-focus: #ff0022;
+      --text-white: #ffffff;
+      --text-primary: #f4f4f5;
+      --text-secondary: #a1a1aa;
+      --accent-indicator: #ff0022;
+    }
+
+    [data-dashboard-theme="violet"] {
+      --bg-void: #000000;
+      --bg-base: #04080e;
+      --bg-panel: #08101a;
+      --bg-panel-elevated: #0f1926;
+      --bg-panel-hover: #152234;
+      --border-stark: #242b36;
+      --border-subtle: #121822;
+      --border-bright: #d4af37;
+      --border-focus: #d4af37;
+      --text-white: #ffffff;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent-indicator: #d4af37;
+    }
+
+    /* Reset & Universal Rules */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important; /* Directive 1: Kill the curves */
+      text-shadow: none !important; /* Directive 1: Kill the glows */
+      box-shadow: none !important;  /* Directive 1: Kill soft drop shadows */
+    }
+
+    html, body {
+      background-color: var(--bg-void);
+      color: var(--text-primary);
+      font-family: var(--font-main);
+      font-size: 13px;
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Technical Grid Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Custom Technical Scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-void);
+      border-left: 1px solid var(--border-subtle);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-stark);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       HEADER & BRAND STRIP
+       ========================================================================== */
+    header.showroom-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg-base);
+      border-bottom: 1px solid var(--border-stark);
+      padding: 12px 24px;
+    }
+
+    .header-container {
+      max-width: 1780px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      background: var(--text-white);
+      color: var(--bg-void);
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--text-white);
+      user-select: none;
+    }
+
+    .brand-titles h1 {
+      font-family: var(--font-main);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-titles .badge-showroom {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 2px 6px;
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-stark);
+      text-transform: uppercase;
+    }
+
+    .brand-titles p {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      margin-top: 1px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Technical Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--border-stark);
+      background: var(--bg-panel);
+      color: var(--text-secondary);
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover {
+      background: var(--text-white);
+      color: var(--bg-void);
+      border-color: var(--text-white);
+    }
+
+    .btn-primary {
+      background: var(--text-white);
+      color: var(--bg-void);
+      border-color: var(--text-white);
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: var(--bg-panel-hover);
+      color: var(--text-white);
+      border-color: var(--border-bright);
+    }
+
+    /* Theme Selector Swatches */
+    .theme-selector-wrap {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border-stark);
+      background: var(--bg-panel);
+      padding: 3px;
+      gap: 3px;
+    }
+
+    .theme-dot-btn {
+      width: 22px;
+      height: 22px;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: border-color 0.15s ease;
+    }
+
+    .theme-dot-btn.active {
+      border-color: var(--text-white);
+      background: var(--bg-panel-elevated);
+    }
+
+    .theme-dot {
+      width: 10px;
+      height: 10px;
+      display: block;
+    }
+
+    .theme-dot.obsidian { background: #52525b; }
+    .theme-dot.persona  { background: #ff0022; }
+    .theme-dot.violet   { background: #d4af37; }
+
+    /* ==========================================================================
+       CONTROLS DECK: WIREFRAME PANELS & TECHNICAL FADERS
+       ========================================================================== */
+    .controls-deck {
+      position: relative;
+      z-index: 10;
+      max-width: 1780px;
+      margin: 16px auto 8px;
+      padding: 0 24px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--bg-base);
+      border: 1px solid var(--border-stark);
+      padding: 10px 16px;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .filter-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-right: 6px;
+    }
+
+    /* Flat Stark Filter Buttons (Replaced pills) */
+    .pill-btn {
+      padding: 5px 11px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border: 1px solid var(--border-stark);
+      background: var(--bg-panel);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .pill-btn:hover {
+      background: var(--bg-panel-hover);
+      color: var(--text-white);
+      border-color: var(--border-bright);
+    }
+
+    /* Inverted Monochromatic Active State */
+    .pill-btn.active {
+      background: var(--text-white);
+      color: var(--bg-void);
+      border-color: var(--text-white);
+      font-weight: 700;
+    }
+
+    .pill-count {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      padding: 1px 4px;
+      border: 1px solid var(--border-stark);
+      background: var(--bg-void);
+      color: var(--text-secondary);
+    }
+
+    .pill-btn.active .pill-count {
+      background: var(--bg-void);
+      color: var(--text-white);
+      border-color: var(--bg-void);
+    }
+
+    /* Search Input (Prompt Style) */
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 220px;
+      max-width: 340px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      font-size: 11px;
+      font-family: var(--font-mono);
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-stark);
+      color: var(--text-white);
+      padding: 6px 30px 6px 28px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      outline: none;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--text-white);
+      background: var(--bg-void);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+
+    .clear-search-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      display: none;
+    }
+    .clear-search-btn:hover {
+      color: var(--text-white);
+    }
+
+    /* Sizing Deck / Technical Fader Controller */
+    .sizing-deck {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      background: var(--bg-base);
+      border: 1px solid var(--border-stark);
+      padding: 10px 16px;
+    }
+
+    .sizing-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .sizing-title {
+      font-family: var(--font-main);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-white);
+    }
+
+    .sizing-desc {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .sizing-presets {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .preset-btn {
+      padding: 4px 9px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--border-stark);
+      background: var(--bg-panel);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .preset-btn:hover {
+      background: var(--bg-panel-hover);
+      color: var(--text-white);
+      border-color: var(--border-bright);
+    }
+
+    .preset-btn.active {
+      background: var(--text-white);
+      color: var(--bg-void);
+      border-color: var(--text-white);
+      font-weight: 700;
+    }
+
+    .slider-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .slider-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slider-item label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Audio-Mixing Fader Styling for Sliders */
+    .slider-item input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100px;
+      height: 2px;
+      background: var(--border-bright);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .slider-item input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 8px;
+      height: 18px;
+      background: var(--text-white);
+      border: 1px solid var(--border-stark);
+      cursor: col-resize;
+      transition: background-color 0.1s ease;
+    }
+
+    .slider-item input[type="range"]::-moz-range-thumb {
+      width: 8px;
+      height: 18px;
+      background: var(--text-white);
+      border: 1px solid var(--border-stark);
+      cursor: col-resize;
+    }
+
+    .slider-item input[type="range"]::-webkit-slider-thumb:hover {
+      background: #cccccc;
+    }
+
+    .dimension-telemetry {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      background: var(--bg-panel);
+      padding: 4px 8px;
+      color: var(--text-white);
+      border: 1px solid var(--border-stark);
+      text-transform: uppercase;
+    }
+
+    /* ==========================================================================
+       MAIN: TECHNICAL SCHEMATIC WIDGET PANES
+       ========================================================================== */
+    main.showroom-main {
+      position: relative;
+      z-index: 1;
+      max-width: 1780px;
+      margin: 8px auto 40px;
+      padding: 0 24px;
+      width: 100%;
+      flex: 1;
+    }
+
+    .widgets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .widgets-grid.fixed-tile-mode {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 16px;
+    }
+
+    /* Brutalist Wireframe Card / Window Pane */
+    .widget-card {
+      background: var(--bg-void);
+      border: 1px solid var(--border-stark);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s ease;
+    }
+
+    .widget-card:hover {
+      border-color: var(--border-bright);
+    }
+
+    /* Card Header */
+    .card-header {
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-stark);
+      background: var(--bg-panel);
+      gap: 8px;
+    }
+
+    .card-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    /* Monospace Sharp Theme Badges */
+    .theme-badge {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 1px 5px;
+      border: 1px solid var(--border-stark);
+      background: transparent;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .theme-badge.persona {
+      border-color: rgba(255, 0, 34, 0.4);
+      color: #ff334b;
+    }
+
+    .theme-badge.violet {
+      border-color: rgba(212, 175, 55, 0.4);
+      color: #d4af37;
+    }
+
+    .card-title {
+      font-family: var(--font-main);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text-primary);
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    /* Sharp Square Action Buttons */
+    .card-action-btn {
+      background: var(--bg-base);
+      border: 1px solid var(--border-stark);
+      color: var(--text-secondary);
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .card-action-btn:hover {
+      background: var(--text-white);
+      color: var(--bg-void);
+      border-color: var(--text-white);
+    }
+
+    /* Viewport Stage */
+    .card-viewport-stage {
+      position: relative;
+      background: #000000;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--viewport-width, 100%);
+      height: var(--viewport-height, 280px);
+      transition: width 0.15s ease, height 0.15s ease;
+    }
+
+    .card-viewport-stage iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: transparent;
+    }
+
+    /* Loader */
+    .card-loader {
+      position: absolute;
+      inset: 0;
+      background: var(--bg-void);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    .card-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-spinner {
+      width: 18px;
+      height: 18px;
+      border: 1px solid var(--border-stark);
+      border-top-color: var(--text-white);
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Card Footer: Stark Monospace Telemetry */
+    .card-footer {
+      padding: 6px 12px;
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border-stark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .card-desc {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+      letter-spacing: 0.02em;
+    }
+
+    .card-dimension-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      background: var(--bg-void);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-stark);
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+    }
+
+    /* Empty State */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--bg-base);
+      border: 1px dashed var(--border-stark);
+      display: none;
+    }
+
+    .empty-state h3 {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-white);
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       MODAL: TECHNICAL WIREFRAME DIALOGUE
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-box {
+      background: var(--bg-base);
+      border: 1px solid var(--border-bright);
+      width: 100%;
+      max-width: 620px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 12px 18px;
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border-stark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h2 {
+      font-family: var(--font-main);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-white);
+    }
+
+    .modal-close-btn {
+      background: transparent;
+      border: 1px solid var(--border-stark);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--text-white);
+      color: var(--bg-void);
+      border-color: var(--text-white);
+    }
+
+    .modal-body {
+      padding: 18px;
+      overflow-y: auto;
+      font-size: 12px;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .guide-step {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-stark);
+      padding: 12px 14px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .step-number {
+      width: 22px;
+      height: 22px;
+      background: var(--text-white);
+      color: var(--bg-void);
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      font-family: var(--font-main);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 3px;
+      color: var(--text-white);
+    }
+
+    .step-content p {
+      color: var(--text-secondary);
+      font-size: 11px;
+    }
+
+    .step-content code {
+      font-family: var(--font-mono);
+      background: var(--bg-void);
+      padding: 1px 4px;
+      border: 1px solid var(--border-stark);
+      color: #fff;
+      font-size: 10px;
+    }
+
+    /* ==========================================================================
+       TOAST NOTIFICATION: HUD POPUP
+       ========================================================================== */
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--bg-base);
+      color: var(--text-white);
+      border: 1px solid var(--text-white);
+      padding: 8px 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transform: translateY(12px);
+      opacity: 0;
+      transition: all 0.15s ease;
+      pointer-events: auto;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      color: #10b981;
+      font-weight: bold;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .header-container { flex-direction: column; align-items: stretch; }
+      .header-actions { justify-content: space-between; }
+      .control-row { flex-direction: column; align-items: stretch; }
+      .search-box { max-width: 100%; }
+      .sizing-deck { flex-direction: column; align-items: stretch; }
+      .widgets-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Technical Vector Icons */
+    .icon {
+      width: 12px;
+      height: 12px;
+      display: inline-block;
+      vertical-align: -1.5px;
+      flex-shrink: 0;
+      stroke: currentColor;
+    }
+    .card-action-btn .icon {
+      width: 12px;
+      height: 12px;
+      vertical-align: middle;
+    }
+    .toast-svg {
+      width: 14px;
+      height: 14px;
+      stroke: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================
+       HEADER
+       ======================================================== -->
+  <header class="showroom-header">
+    <div class="header-container">
+      <div class="brand-section">
+        <div class="brand-logo" title="Vivaldi Custom Widgets">V</div>
+        <div class="brand-titles">
+          <h1>
+            Vivaldi Custom Widgets
+            <span class="badge-showroom">Showroom</span>
+          </h1>
+          <p>Interactive Live Gallery &amp; Container Query Testing Ground</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Theme Switcher for Dashboard Shell -->
+        <div class="theme-selector-wrap" title="Switch Showroom Dashboard Theme">
+          <button class="theme-dot-btn active" data-dashboard="obsidian" title="Obsidian Dark (Vivaldi)">
+            <span class="theme-dot obsidian"></span>
+          </button>
+          <button class="theme-dot-btn" data-dashboard="persona" title="Phantom Velvet (Persona 5)">
+            <span class="theme-dot persona"></span>
+          </button>
+          <button class="theme-dot-btn" data-dashboard="violet" title="CH Postal Navy &amp; Gold (Violet Evergarden)">
+            <span class="theme-dot violet"></span>
+          </button>
+        </div>
+
+        <button class="btn" id="reloadAllBtn" title="Reload all widget iframes simultaneously">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg> Reload All
+        </button>
+
+        <button class="btn btn-primary" id="openGuideBtn">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-18H6.5A2.5 2.5 0 0 0 4 6.5v13z"/></svg> Vivaldi Setup Guide
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================
+       CONTROLS DECK: FILTERS, SEARCH & CONTAINER SIZING
+       ======================================================== -->
+  <section class="controls-deck">
+    
+    <!-- Row 1: Filter Pills & Search -->
+    <div class="control-row">
+      <!-- Theme Filter Pills -->
+      <div class="filter-group">
+        <span class="filter-label">Theme:</span>
+        <button class="pill-btn active" data-filter-theme="all">
+          All Themes <span class="pill-count" id="countAllThemes">10</span>
+        </button>
+        <button class="pill-btn" data-filter-theme="persona-5">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 22,9 18,22 6,22 2,9"/><path d="M7 11c1-1 3-1 4 1M17 11c-1-1-3-1-4 1"/></svg> Persona 5 <span class="pill-count">5</span>
+        </button>
+        <button class="pill-btn" data-filter-theme="violet-evergarden">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14"/><polyline points="3,7 12,13 21,7"/></svg> Violet Evergarden <span class="pill-count">5</span>
+        </button>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="filter-group">
+        <span class="filter-label">Category:</span>
+        <button class="pill-btn active" data-filter-category="all">All</button>
+        <button class="pill-btn" data-filter-category="calendar"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Calendar</button>
+        <button class="pill-btn" data-filter-category="day-progression"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg> Day Progress</button>
+        <button class="pill-btn" data-filter-category="song-viewer"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/></svg> Song Viewer</button>
+        <button class="pill-btn" data-filter-category="gif"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><polyline points="21,15 16,10 5,21"/></svg> Visual / GIF</button>
+      </div>
+
+      <!-- Instant Search Box -->
+      <div class="search-box">
+        <span class="search-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search widget name, feature..." autocomplete="off">
+        <button class="clear-search-btn" id="clearSearchBtn" title="Clear search"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Row 2: Live Container Query & Tile Sizing Engine -->
+    <div class="sizing-deck">
+      <div class="sizing-title-wrap">
+        <div class="sizing-title">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 3H3v18h18V3zM9 3v18M3 9h18"/></svg> Tile Sizing &amp; Container Query Inspector
+        </div>
+        <div class="sizing-desc">
+          Resize tile viewports to verify dynamic CSS Container Queries (<code style="font-family: var(--font-mono); color: var(--accent-vivaldi);">@container</code>, <code style="font-family: var(--font-mono); color: var(--accent-vivaldi);">cqw</code>, <code style="font-family: var(--font-mono); color: var(--accent-vivaldi);">cqh</code>).
+        </div>
+      </div>
+
+      <!-- Presets for Vivaldi Startpage -->
+      <div class="sizing-presets">
+        <button class="preset-btn active" data-preset="responsive">Standard Grid</button>
+        <button class="preset-btn" data-preset="1x1" data-w="320" data-h="320">1×1 Tile (320px)</button>
+        <button class="preset-btn" data-preset="2x1" data-w="500" data-h="250">2×1 Wide (500×250)</button>
+        <button class="preset-btn" data-preset="2x2" data-w="500" data-h="500">2×2 Large (500×500)</button>
+        <button class="preset-btn" data-preset="3x2" data-w="660" data-h="380">3×2 Hero (660×380)</button>
+      </div>
+
+      <!-- Live Sliders -->
+      <div class="slider-controls">
+        <div class="slider-item">
+          <label for="widthSlider">Width</label>
+          <input type="range" id="widthSlider" min="280" max="800" step="10" value="460">
+        </div>
+
+        <div class="slider-item">
+          <label for="heightSlider">Height</label>
+          <input type="range" id="heightSlider" min="180" max="600" step="10" value="280">
+        </div>
+
+        <div class="dimension-telemetry" id="dimensionTelemetry">Auto Grid</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================
+       MAIN: WIDGET SHOWCASE GRID
+       ======================================================== -->
+  <main class="showroom-main">
+    <div class="widgets-grid" id="widgetsGrid">
+
+      <!-- 1. PERSONA 5: CALENDAR WIDGET -->
+      <article class="widget-card" 
+               data-theme="persona-5" 
+               data-category="calendar" 
+               data-title="Persona 5 Calendar &amp; Clock"
+               data-path="themes/persona-5/calendar-widget/index.html">
+        <header class="card-header">
+          <div class="card-header-left">
+            <span class="theme-badge persona">Persona 5</span>
+            <h2 class="card-title">Calendar &amp; Clock</h2>
+          </div>
+          <div class="card-actions">
+            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
+            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
+            <a class="card-action-btn btn-external" target="_blank" href="themes/persona-5/calendar-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+          </div>
+        </header>
+        <div class="card-viewport-stage">
+          <div class="card-loader"><div class="loader-spinner"></div></div>
+          <iframe src="themes/persona-5/calendar-widget/index.html" loading="lazy"></iframe>
+        </div>
+        <footer class="card-footer">
+          <span class="card-desc">Comic digital clock, day indicator &amp; Phantom mask.</span>
+          <span class="card-dimension-badge">380 × 280</span>
+        </footer>
+      </article>
+
+      <!-- 2. PERSONA 5: DAY PROGRESSION -->
+      <article class="widget-card" 
+               data-theme="persona-5" 
+               data-category="day-progression" 
+               data-title="Persona 5 Day Progression"
+               data-path="themes/persona-5/day-progression/index.html">
+        <header class="card-header">
+          <div class="card-header-left">
+            <span class="theme-badge persona">Persona 5</span>
+            <h2 class="card-title">Day Progression</h2>
+          </div>
+          <div class="card-actions">
+            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
+            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
+            <a class="card-action-btn btn-external" target="_blank" href="themes/persona-5/day-progression/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+          </div>
+        </header>
+        <div class="card-viewport-stage">
+          <div class="card-loader"><div class="loader-spinner"></div></div>
+          <iframe src="themes/persona-5/day-progression/index.html" loading="lazy"></iframe>
+        </div>
+        <footer class="card-footer">
+          <span class="card-desc">Meta-Nav daily infiltration percentage &amp; phases.</span>
+          <span class="card-dimension-badge">380 × 280</span>
+        </footer>
+      </article>
+
+      <!-- 3. PERSONA 5: SONG VIEWER WIDGET -->
+      <article class="widget-card" 
+               data-theme="persona-5" 
+               data-category="song-viewer" 
+               data-title="Persona 5 Song Viewer (Phantom Radio HUD)"
+               data-path="themes/persona-5/song-viewer-widget/index.html">
+        <header class="card-header">
+          <div class="card-header-left">
+            <span class="theme-badge persona">Persona 5</span>
+            <h2 class="card-title">Song Viewer (Radio HUD)</h2>
+          </div>
+          <div class="card-actions">
+            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
+            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
+            <a class="card-action-btn btn-external" target="_blank" href="themes/persona-5/song-viewer-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+          </div>
+        </header>
+        <div class="card-viewport-stage">
+          <div class="card-loader"><div class="loader-spinner"></div></div>
+          <iframe src="themes/persona-5/song-viewer-widget/index.html" loading="lazy"></iframe>
+        </div>
+        <footer class="card-footer">
+          <span class="card-desc">Now-Playing HUD with Lanyard, Last.fm &amp; 'Life Will Change'.</span>
+          <span class="card-dimension-badge">380 × 280</span>
+        </footer>
+      </article>
+
+      <!-- 4. PERSONA 5: GIF CUT-IN 1 -->
+      <article class="widget-card" 
+               data-theme="persona-5" 
+               data-category="gif" 
+               data-title="Persona 5 GIF Cut-in Banner"
+               data-path="themes/persona-5/gif-widget/index.html">
+        <header class="card-header">
+          <div class="card-header-left">
+            <span class="theme-badge persona">Persona 5</span>
+            <h2 class="card-title">Royal GIF Cut-In</h2>
+          </div>
+          <div class="card-actions">
+            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
+            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
+            <a class="card-action-btn btn-external" target="_blank" href="themes/persona-5/gif-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+          </div>
+        </header>
+        <div class="card-viewport-stage">
+          <div class="card-loader"><div class="loader-spinner"></div></div>
+          <iframe src="themes/persona-5/gif-widget/index.html" loading="lazy"></iframe>
+        </div>
+        <footer class="card-footer">
+          <span class="card-desc">Dynamic Royal cut-in animation banner.</span>
+          <span class="card-dimension-badge">380 × 280</span>
+        </footer>
+      </article>
+
+      <!-- 5. PERSONA 5: GIF CUT-IN 2 -->
+      <article class="widget-card" 
+               data-theme="persona-5" 
+               data-category="gif" 
+               data-title="Persona 5 Atmospheric Cut-in 2"
+               data-path="themes/persona-5/gif-widget-2/index.html">
+        <header class="card-header">
+          <div class="card-header-left">
+            <span class="theme-badge persona">Persona 5</span>
+            <h2 class="card-title">All-Out Attack GIF</h2>
+          </div>
+          <div class="card-actions">
+            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
+            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
+            <a class="card-action-btn btn-external" target="_blank" href="themes/persona-5/gif-widget-2/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+          </div>
+        </header>
+        <div class="card-viewport-stage">
+          <div class="card-loader"><div class="loader-spinner"></div></div>
+          <iframe src="themes/persona-5/gif-widget-2/index.html" loading="lazy"></iframe>
+        </div>
+        <footer class="card-footer">
+          <span class="card-desc">Aesthetic alternate character cut-in banner.</span>
+          <span class="card-dimension-badge">380 × 280</span>
+        </footer>
+      </article>
+
+      <!-- 6. VIOLET EVERGARDEN: CALENDAR WIDGET -->
+      <article class="widget-card" 
+               data-theme="violet-evergarden" 
+               data-category="calendar" 
+               data-title="Violet Evergarden Auto Memory Doll Calendar"
+               data-path="themes/violet-evergarden/calendar-widget/index.html">
+        <header class="card-header">
+          <div class="card-header-left">
+            <span class="theme-badge violet">Violet Evergarden</span>
+            <h2 class="card-title">Letterhead Calendar</h2>
+          </div>
+          <div class="card-actions">
+            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
+            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
+            <a class="card-action-btn btn-external" target="_blank" href="themes/violet-evergarden/calendar-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+          </div>
+        </header>
+        <div class="card-viewport-stage">
+          <div class="card-loader"><div class="loader-spinner"></div></div>
+          <iframe src="themes/violet-evergarden/calendar-widget/index.html" loading="lazy"></iframe>
+        </div>
+        <footer class="card-footer">
+          <span class="card-desc">Wax seal, typewriter torn notes &amp; paper sound DSP.</span>
+          <span class="card-dimension-badge">380 × 280</span>
+        </footer>
+      </article>
+
+      <!-- 7. VIOLET EVERGARDEN: DAY PROGRESSION -->
+      <article class="widget-card" 
+               data-theme="violet-evergarden" 
+               data-category="day-progression" 
+               data-title="Violet Evergarden Typewriter Carriage Day Progression"
+               data-path="themes/violet-evergarden/day-progression/index.html">
+        <header class="card-header">
+          <div class="card-header-left">
+            <span class="theme-badge violet">Violet Evergarden</span>
+            <h2 class="card-title">Typewriter Carriage</h2>
+          </div>
+          <div class="card-actions">
+            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
+            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
+            <a class="card-action-btn btn-external" target="_blank" href="themes/violet-evergarden/day-progression/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+          </div>
+        </header>
+        <div class="card-viewport-stage">
+          <div class="card-loader"><div class="loader-spinner"></div></div>
+          <iframe src="themes/violet-evergarden/day-progression/index.html" loading="lazy"></iframe>
+        </div>
+        <footer class="card-footer">
+          <span class="card-desc">Platen roller, dual-tone ribbon &amp; brass margin scale.</span>
+          <span class="card-dimension-badge">380 × 280</span>
+        </footer>
+      </article>
+
+      <!-- 8. VIOLET EVERGARDEN: SONG VIEWER WIDGET -->
+      <article class="widget-card" 
+               data-theme="violet-evergarden" 
+               data-category="song-viewer" 
+               data-title="Violet Evergarden CH Postal Phonograph"
+               data-path="themes/violet-evergarden/song-viewer-widget/index.html">
+        <header class="card-header">
+          <div class="card-header-left">
+            <span class="theme-badge violet">Violet Evergarden</span>
+            <h2 class="card-title">Postal Phonograph</h2>
+          </div>
+          <div class="card-actions">
+            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
+            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
+            <a class="card-action-btn btn-external" target="_blank" href="themes/violet-evergarden/song-viewer-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+          </div>
+        </header>
+        <div class="card-viewport-stage">
+          <div class="card-loader"><div class="loader-spinner"></div></div>
+          <iframe src="themes/violet-evergarden/song-viewer-widget/index.html" loading="lazy"></iframe>
+        </div>
+        <footer class="card-footer">
+          <span class="card-desc">Vintage vinyl gramophone, tonearm needle &amp; 'Sincerely'.</span>
+          <span class="card-dimension-badge">380 × 280</span>
+        </footer>
+      </article>
+
+      <!-- 9. VIOLET EVERGARDEN: GIF TYPING BANNER -->
+      <article class="widget-card" 
+               data-theme="violet-evergarden" 
+               data-category="gif" 
+               data-title="Violet Evergarden Typing GIF Banner"
+               data-path="themes/violet-evergarden/gif-widget/index.html">
+        <header class="card-header">
+          <div class="card-header-left">
+            <span class="theme-badge violet">Violet Evergarden</span>
+            <h2 class="card-title">Typing GIF Banner</h2>
+          </div>
+          <div class="card-actions">
+            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
+            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
+            <a class="card-action-btn btn-external" target="_blank" href="themes/violet-evergarden/gif-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+          </div>
+        </header>
+        <div class="card-viewport-stage">
+          <div class="card-loader"><div class="loader-spinner"></div></div>
+          <iframe src="themes/violet-evergarden/gif-widget/index.html" loading="lazy"></iframe>
+        </div>
+        <footer class="card-footer">
+          <span class="card-desc">Atmospheric animated banner of Violet typing letters.</span>
+          <span class="card-dimension-badge">380 × 280</span>
+        </footer>
+      </article>
+
+      <!-- 10. VIOLET EVERGARDEN: GIF FLOWERS BANNER -->
+      <article class="widget-card" 
+               data-theme="violet-evergarden" 
+               data-category="gif" 
+               data-title="Violet Evergarden Bougainvillea Flowers GIF"
+               data-path="themes/violet-evergarden/gif-widget-2/index.html">
+        <header class="card-header">
+          <div class="card-header-left">
+            <span class="theme-badge violet">Violet Evergarden</span>
+            <h2 class="card-title">Bougainvillea Flowers GIF</h2>
+          </div>
+          <div class="card-actions">
+            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
+            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
+            <a class="card-action-btn btn-external" target="_blank" href="themes/violet-evergarden/gif-widget-2/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+          </div>
+        </header>
+        <div class="card-viewport-stage">
+          <div class="card-loader"><div class="loader-spinner"></div></div>
+          <iframe src="themes/violet-evergarden/gif-widget-2/index.html" loading="lazy"></iframe>
+        </div>
+        <footer class="card-footer">
+          <span class="card-desc">Aesthetic anime floral banner with bougainvillea motif.</span>
+          <span class="card-dimension-badge">380 × 280</span>
+        </footer>
+      </article>
+
+      <!-- Empty State when filtering returns nothing -->
+      <div class="empty-state" id="emptyState">
+        <h3>No widgets found</h3>
+        <p>Try clearing your search query or selecting a different theme/category filter.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ========================================================
+       MODAL: VIVALDI SETUP GUIDE
+       ======================================================== -->
+  <div class="modal-backdrop" id="guideModal" aria-hidden="true">
+    <div class="modal-box">
+      <header class="modal-header">
+        <h2><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-18H6.5A2.5 2.5 0 0 0 4 6.5v13z"/></svg> How to Add Widgets to Vivaldi</h2>
+        <button class="modal-close-btn" id="closeGuideBtn" title="Close Guide">&times;</button>
+      </header>
+      <div class="modal-body">
+        <div class="guide-step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Copy the Widget URL</h4>
+            <p>On any card in this Showroom, click the <strong>COPY VIVALDI URL</strong> button. It copies the exact local <code>file:///</code> path to your clipboard.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Open Vivaldi Start Page</h4>
+            <p>Open a New Tab in Vivaldi, click <strong>Add Widget</strong> (or right-click the Start Page) and select <strong>Webpage</strong>.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Paste &amp; Configure</h4>
+            <p>Paste the copied <code>file:///...</code> URL into the address input. <strong>Uncheck</strong> <em>"Share Theme Colors"</em> so the widget displays its authentic custom typography and textures.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4>Recommended: Clean CSS Mod</h4>
+            <p>Apply our bundled CSS in <code>vivaldi-css/</code> to remove default white card backgrounds and title bars while keeping hover access to the 3-dots menu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ========================================================
+       SCRIPT LOGIC: FILTERS, SIZING, COPYING & INTERACTIVITY
+       ======================================================== -->
+  <script>
+    (function () {
+      // DOM Elements
+      const htmlEl = document.documentElement;
+      const themeDotBtns = document.querySelectorAll('.theme-dot-btn');
+      const filterThemeBtns = document.querySelectorAll('[data-filter-theme]');
+      const filterCatBtns = document.querySelectorAll('[data-filter-category]');
+      const searchInput = document.getElementById('searchInput');
+      const clearSearchBtn = document.getElementById('clearSearchBtn');
+      const widgetsGrid = document.getElementById('widgetsGrid');
+      const widgetCards = document.querySelectorAll('.widget-card');
+      const emptyState = document.getElementById('emptyState');
+      const reloadAllBtn = document.getElementById('reloadAllBtn');
+      
+      const presetBtns = document.querySelectorAll('[data-preset]');
+      const widthSlider = document.getElementById('widthSlider');
+      const heightSlider = document.getElementById('heightSlider');
+      const dimensionTelemetry = document.getElementById('dimensionTelemetry');
+
+      const guideModal = document.getElementById('guideModal');
+      const openGuideBtn = document.getElementById('openGuideBtn');
+      const closeGuideBtn = document.getElementById('closeGuideBtn');
+      const toastContainer = document.getElementById('toastContainer');
+
+      // State
+      let activeThemeFilter = 'all';
+      let activeCategoryFilter = 'all';
+      let activeSearchQuery = '';
+
+      /* --------------------------------------------------------
+         1. DASHBOARD SHELL THEME SWITCHER
+         -------------------------------------------------------- */
+      themeDotBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const theme = btn.getAttribute('data-dashboard');
+          themeDotBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          htmlEl.setAttribute('data-dashboard-theme', theme);
+          localStorage.setItem('vcw_showroom_theme', theme);
+        });
+      });
+
+      // Restore saved dashboard theme
+      const savedTheme = localStorage.getItem('vcw_showroom_theme');
+      if (savedTheme) {
+        const targetBtn = document.querySelector(`[data-dashboard="${savedTheme}"]`);
+        if (targetBtn) targetBtn.click();
+      }
+
+      /* --------------------------------------------------------
+         2. FILTERING & SEARCH
+         -------------------------------------------------------- */
+      function applyFilters() {
+        let visibleCount = 0;
+
+        widgetCards.forEach(card => {
+          const theme = card.getAttribute('data-theme');
+          const category = card.getAttribute('data-category');
+          const title = (card.getAttribute('data-title') || '').toLowerCase();
+          const desc = (card.querySelector('.card-desc')?.textContent || '').toLowerCase();
+
+          const matchesTheme = (activeThemeFilter === 'all' || theme === activeThemeFilter);
+          const matchesCategory = (activeCategoryFilter === 'all' || category === activeCategoryFilter);
+          const matchesSearch = !activeSearchQuery || title.includes(activeSearchQuery) || desc.includes(activeSearchQuery);
+
+          if (matchesTheme && matchesCategory && matchesSearch) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (visibleCount === 0) {
+          emptyState.style.display = 'block';
+        } else {
+          emptyState.style.display = 'none';
+        }
+      }
+
+      filterThemeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterThemeBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeThemeFilter = btn.getAttribute('data-filter-theme');
+          applyFilters();
+        });
+      });
+
+      filterCatBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterCatBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeCategoryFilter = btn.getAttribute('data-filter-category');
+          applyFilters();
+        });
+      });
+
+      searchInput.addEventListener('input', () => {
+        activeSearchQuery = searchInput.value.trim().toLowerCase();
+        clearSearchBtn.style.display = activeSearchQuery ? 'block' : 'none';
+        applyFilters();
+      });
+
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        activeSearchQuery = '';
+        clearSearchBtn.style.display = 'none';
+        searchInput.focus();
+        applyFilters();
+      });
+
+      /* --------------------------------------------------------
+         3. CONTAINER QUERY & TILE SIZING ENGINE
+         -------------------------------------------------------- */
+      function setViewportDimensions(width, height, isResponsive = false) {
+        if (isResponsive) {
+          document.documentElement.style.setProperty('--viewport-width', 'auto');
+          document.documentElement.style.setProperty('--viewport-height', '280px');
+          widgetsGrid.classList.remove('fixed-tile-mode');
+          dimensionTelemetry.textContent = 'Auto Grid';
+        } else {
+          document.documentElement.style.setProperty('--viewport-width', `${width}px`);
+          document.documentElement.style.setProperty('--viewport-height', `${height}px`);
+          widgetsGrid.classList.add('fixed-tile-mode');
+          const ratio = (width / height).toFixed(2);
+          dimensionTelemetry.textContent = `${width} × ${height}px (${ratio}:1)`;
+        }
+
+        // Update dimension telemetry on all card badges
+        setTimeout(updateCardDimensionBadges, 220);
+      }
+
+      function updateCardDimensionBadges() {
+        widgetCards.forEach(card => {
+          const stage = card.querySelector('.card-viewport-stage');
+          const badge = card.querySelector('.card-dimension-badge');
+          if (stage && badge) {
+            badge.textContent = `${stage.clientWidth} × ${stage.clientHeight}`;
+          }
+        });
+      }
+
+      window.addEventListener('resize', updateCardDimensionBadges);
+
+      presetBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          presetBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const preset = btn.getAttribute('data-preset');
+          if (preset === 'responsive') {
+            setViewportDimensions(0, 0, true);
+          } else {
+            const w = parseInt(btn.getAttribute('data-w'), 10);
+            const h = parseInt(btn.getAttribute('data-h'), 10);
+            widthSlider.value = w;
+            heightSlider.value = h;
+            setViewportDimensions(w, h, false);
+          }
+        });
+      });
+
+      widthSlider.addEventListener('input', () => {
+        presetBtns.forEach(b => b.classList.remove('active'));
+        setViewportDimensions(parseInt(widthSlider.value, 10), parseInt(heightSlider.value, 10), false);
+      });
+
+      heightSlider.addEventListener('input', () => {
+        presetBtns.forEach(b => b.classList.remove('active'));
+        setViewportDimensions(parseInt(widthSlider.value, 10), parseInt(heightSlider.value, 10), false);
+      });
+
+      /* --------------------------------------------------------
+         4. IFRAME LOADERS & RELOAD
+         -------------------------------------------------------- */
+      widgetCards.forEach(card => {
+        const iframe = card.querySelector('iframe');
+        const loader = card.querySelector('.card-loader');
+
+        if (iframe && loader) {
+          iframe.addEventListener('load', () => {
+            loader.classList.add('hidden');
+            updateCardDimensionBadges();
+          });
+        }
+
+        // Individual reload button
+        const reloadBtn = card.querySelector('.btn-reload');
+        if (reloadBtn && iframe) {
+          reloadBtn.addEventListener('click', () => {
+            if (loader) loader.classList.remove('hidden');
+            iframe.src = iframe.src;
+          });
+        }
+
+        // Copy Vivaldi URL button
+        const copyBtn = card.querySelector('.btn-copy-url');
+        if (copyBtn) {
+          copyBtn.addEventListener('click', () => {
+            const relPath = card.getAttribute('data-path');
+            // Calculate absolute file:/// URL based on showroom location
+            const baseDir = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+            const fullUrl = baseDir + relPath;
+
+            navigator.clipboard.writeText(fullUrl).then(() => {
+              showToast(`Copied Vivaldi URL for ${card.getAttribute('data-title')}!`);
+            }).catch(() => {
+              showToast(`Path: ${fullUrl}`);
+            });
+          });
+        }
+      });
+
+      // Reload All Button
+      reloadAllBtn.addEventListener('click', () => {
+        widgetCards.forEach(card => {
+          const iframe = card.querySelector('iframe');
+          const loader = card.querySelector('.card-loader');
+          if (iframe) {
+            if (loader) loader.classList.remove('hidden');
+            iframe.src = iframe.src;
+          }
+        });
+        showToast('Reloaded all 10 widgets!');
+      });
+
+      /* --------------------------------------------------------
+         5. TOAST NOTIFICATION
+         -------------------------------------------------------- */
+      function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `<svg class="icon toast-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><polyline points="20,6 9,17 4,12"/></svg> <span>${message}</span>`;
+        toastContainer.appendChild(toast);
+
+        // Trigger animation
+        requestAnimationFrame(() => {
+          toast.classList.add('show');
+        });
+
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300);
+        }, 3200);
+      }
+
+      /* --------------------------------------------------------
+         6. VIVALDI SETUP GUIDE MODAL
+         -------------------------------------------------------- */
+      openGuideBtn.addEventListener('click', () => {
+        guideModal.classList.add('active');
+        guideModal.setAttribute('aria-hidden', 'false');
+      });
+
+      closeGuideBtn.addEventListener('click', () => {
+        guideModal.classList.remove('active');
+        guideModal.setAttribute('aria-hidden', 'true');
+      });
+
+      guideModal.addEventListener('click', (e) => {
+        if (e.target === guideModal) {
+          guideModal.classList.remove('active');
+          guideModal.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && guideModal.classList.contains('active')) {
+          guideModal.classList.remove('active');
+          guideModal.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      // Initial dimension calculation
+      setTimeout(updateCardDimensionBadges, 300);
+    })();
+  </script>
+</body>
+</html>

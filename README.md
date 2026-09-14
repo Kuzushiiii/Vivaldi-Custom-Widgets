@@ -10,7 +10,7 @@
 
 A curated collection of aesthetic, lightweight, and interactive custom webpage widgets designed specifically for the **Vivaldi Browser Start Page Dashboard**.
 
-[Installation Guide](#installation-guide) • [Theme Collection](#theme-collection)
+[Live Showroom](#interactive-showroom) • [Themes Overview](#themes-overview) • [Installation Guide](#installation-guide)
 
 </div>
 
@@ -18,36 +18,45 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 
 ## Features
 
-- **Thematic Designs**: Visual styles inspired by popular games and anime (Persona 5, Violet Evergarden, and more).
+- **Interactive Showroom Dashboard**: Preview, filter, and test all widgets live at any tile size via the built-in `showroom.html` without needing to install them first.
+- **Thematic Immersion**: Authentic visual styles inspired by Persona 5 and Violet Evergarden.
+- **CSS Container Queries**: Automatically scales typography, icons, and layouts gracefully across compact, wide, square, and banner tile dimensions.
 - **Lightweight & Fast**: Built with vanilla HTML5, CSS3, and JavaScript with zero external frameworks.
-- **Dynamic & Real-Time**: Live digital clocks, dynamic month calendars, and active time-phase trackers.
+- **Dynamic & Real-Time**: Live digital clocks, interactive calendars, day progress trackers, and real-time music playback visualizers.
 - **Clean Vivaldi Integration**: Includes custom CSS to hide intrusive default widget titles while preserving full access to the 3-dots context menu on hover.
 - **100% Local & Offline**: Runs directly from your local filesystem using the `file:///` protocol with bundled local WOFF2 web fonts (zero external font network requests).
 
 ---
 
-## Theme Collection
+## Interactive Showroom
 
-### Persona 5 Theme (`themes/persona-5/`)
+> **Instant Live Preview:** Open [`showroom.html`](showroom.html) in Vivaldi or any browser to interact with the entire collection in one unified dashboard!
 
-| Widget | Path | Description |
-|---|---|---|
-| **Calendar & Clock** | `themes/persona-5/calendar-widget/index.html` | Comic-style digital clock, day indicator, interactive month calendar, stars, and Phantom Thieves mask. |
-| **Day Progression** | `themes/persona-5/day-progression/index.html` | Real-time percentage meter tracking the progression of the day with Persona 5 time-of-day phases. |
-| **GIF Cut-in Banner** | `themes/persona-5/gif-widget/index.html` | Dynamic Persona 5 Royal cut-in character animation banner. |
-| **Song Viewer (Now Playing)** | `themes/persona-5/song-viewer-widget/index.html` | Real-time song and music playback viewer powered by Discord Lanyard API & Last.fm. |
+- **Live Responsive Testing**: Scale widgets continuously or select standard Vivaldi tile presets (`1×1`, `2×1`, `2×2`, `3×2`) to see CSS Container Queries in action.
+- **One-Click URL Copying**: Click `Copy Vivaldi URL` on any widget card to copy its local path for immediate pasting into Vivaldi Start Page.
+- **Theme & Category Filtering**: Instantly filter between Persona 5 and Violet Evergarden widgets.
 
 ---
 
-### Violet Evergarden Theme (`themes/violet-evergarden/`)
+## Themes Overview
 
-| Widget | Path | Description |
-|---|---|---|
-| **Auto Memory Doll Calendar** | `themes/violet-evergarden/calendar-widget/index.html` | Victorian letterhead stationery calendar, cursive & typewriter typography, sealing wax current date indicator, emerald brooch event indicators, and typewriter torn note popover. |
-| **Day Progression** | `themes/violet-evergarden/day-progression/index.html` | "The Typewriter Carriage" real-time 24-hour day progression meter with platen roller, dual-tone inked ribbon, brass margin scale, and midnight carriage return animation. |
-| **Typing GIF Banner** | `themes/violet-evergarden/gif-widget/index.html` | Atmospheric animated banner featuring Violet typing at her vintage typewriter. |
-| **Flowers GIF Banner** | `themes/violet-evergarden/gif-widget-2/index.html` | Aesthetic animated floral banner inspired by Violet's bougainvillea motifs. |
-| **CH Postal Phonograph (Song Viewer)** | `themes/violet-evergarden/song-viewer-widget/index.html` | Vintage mechanical vinyl gramophone music player with spinning textured record, rotating brass tonearm needle tracking, emerald brooch center label, procedural needle-drop audio, and Victorian client request ledger. |
+Explore the full interactive showcase in **[`showroom.html`](showroom.html)**, or browse the available themes:
+
+### Persona 5 Theme (`themes/persona-5/`)
+- **Aesthetic:** High-contrast Phantom Thieves UI, comic book halftones, dynamic polygon masks, and jagged typography.
+- **Available Widgets:**
+  - *Calendar & Clock*: Comic digital clock with day phase and interactive month calendar.
+  - *Day Progression*: Meta-Nav infiltration tracker measuring the passage of your 24-hour day.
+  - *Song Viewer (Radio HUD)*: Real-time music status via Discord Lanyard or Last.fm (demo track: *"Life Will Change"*).
+  - *Cut-In GIF Banners*: Dynamic animated character banners.
+
+### Violet Evergarden Theme (`themes/violet-evergarden/`)
+- **Aesthetic:** 19th-century Victorian postal stationery, wax seals, brass mechanical scales, textured parchment, and Bougainvillea motifs.
+- **Available Widgets:**
+  - *Auto Memory Doll Calendar*: Letterhead calendar with interactive memo dispatches, wax seal, and procedural paper rustle acoustics.
+  - *Day Progression (Typewriter Carriage)*: Mechanical platen roller with dual-tone ribbon and midnight carriage return.
+  - *CH Postal Phonograph (Song Viewer)*: Spinning vintage gramophone player with rotating brass tonearm (demo track: *"Sincerely"*).
+  - *Atmospheric GIF Banners*: Subtle animated typing and floral banners.
 
 ---
 
@@ -81,6 +90,10 @@ To remove default white card backgrounds and title bars while keeping access to 
 
 ### Step 2: Add Widgets to Vivaldi Start Page
 
+> **Quickest Method via Showroom:**  
+> Open [`showroom.html`](showroom.html) and click the **📋 Copy Vivaldi URL** button on any widget card to copy its exact `file:///` URL directly, then jump straight to step 3 below!
+
+**Manual Method:**
 1. Open the widget file you want to use in Vivaldi:
    - Right-click the widget's `index.html` file (e.g. `themes/persona-5/calendar-widget/index.html`) > **Open with** > **Vivaldi**.
 <p align="center">
