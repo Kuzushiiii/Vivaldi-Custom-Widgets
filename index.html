@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-dashboard-theme="obsidian">
+<html lang="en" data-dashboard-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,22 +16,24 @@
       --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
       --font-mono: "JetBrains Mono", "Consolas", "SF Mono", "Roboto Mono", Menlo, monospace;
 
-      /* Stark Monochromatic Palette: Obsidian (Default) */
+      /* ========================================================
+         HIGH-CONTRAST NIGHT MODE (BRUTALIST DARK - DEFAULT)
+         ======================================================== */
       --bg-void: #000000;
       --bg-base: #09090b;
       --bg-panel: #111114;
-      --bg-panel-elevated: #16161a;
-      --bg-panel-hover: #202026;
+      --bg-panel-elevated: #18181d;
+      --bg-panel-hover: #22222a;
       
-      --border-stark: #27272a;
-      --border-subtle: #18181b;
-      --border-bright: #3f3f46;
+      --border-stark: #3f3f46;      /* High-contrast wireframe */
+      --border-subtle: #27272a;
+      --border-bright: #71717a;
       --border-focus: #ffffff;
 
       --text-white: #ffffff;
-      --text-primary: #ededed;
-      --text-secondary: #a1a1aa;
-      --text-muted: #52525b;
+      --text-primary: #f4f4f6;      /* Crisp high-visibility text */
+      --text-secondary: #d4d4d8;    /* Elevated from #a1a1aa for instant legibility */
+      --text-muted: #a1a1aa;        /* Elevated from #52525b to guarantee WCAG AA contrast! */
       
       --accent-active: #ffffff;
       --accent-active-inv: #000000;
@@ -41,36 +43,39 @@
       --viewport-height: 280px;
     }
 
-    [data-dashboard-theme="persona"] {
-      --bg-void: #000000;
-      --bg-base: #060608;
-      --bg-panel: #0d0c10;
-      --bg-panel-elevated: #131218;
-      --bg-panel-hover: #1b1922;
-      --border-stark: #2c1a1e;
-      --border-subtle: #1b1214;
-      --border-bright: #ff0022;
-      --border-focus: #ff0022;
-      --text-white: #ffffff;
-      --text-primary: #f4f4f5;
-      --text-secondary: #a1a1aa;
-      --accent-indicator: #ff0022;
+    /* ========================================================
+       ARCHITECTURAL LIGHT MODE (BAUHAUS BLUEPRINT)
+       ======================================================== */
+    [data-dashboard-theme="light"] {
+      --bg-void: #e8ecf1;
+      --bg-base: #f8fafc;
+      --bg-panel: #ffffff;
+      --bg-panel-elevated: #f1f5f9;
+      --bg-panel-hover: #e2e8f0;
+      
+      --border-stark: #cbd5e1;
+      --border-subtle: #e2e8f0;
+      --border-bright: #94a3b8;
+      --border-focus: #09090b;
+
+      --text-white: #09090b;         /* Deep high-emphasis black */
+      --text-primary: #09090b;
+      --text-secondary: #334155;     /* High-contrast crisp slate */
+      --text-muted: #64748b;         /* Technical blueprint slate */
+      
+      --accent-active: #09090b;
+      --accent-active-inv: #ffffff;
+      --accent-indicator: #0284c7;
     }
 
-    [data-dashboard-theme="violet"] {
-      --bg-void: #000000;
-      --bg-base: #04080e;
-      --bg-panel: #08101a;
-      --bg-panel-elevated: #0f1926;
-      --bg-panel-hover: #152234;
-      --border-stark: #242b36;
-      --border-subtle: #121822;
-      --border-bright: #d4af37;
-      --border-focus: #d4af37;
-      --text-white: #ffffff;
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --accent-indicator: #d4af37;
+    [data-dashboard-theme="light"] body::before {
+      background-image: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    }
+
+    [data-dashboard-theme="light"] .modal-backdrop {
+      background: rgba(15, 23, 42, 0.65);
     }
 
     /* Reset & Universal Rules */
@@ -219,7 +224,7 @@
       letter-spacing: 0.08em;
       border: 1px solid var(--border-stark);
       background: var(--bg-panel);
-      color: var(--text-secondary);
+      color: var(--text-primary);
       cursor: pointer;
       text-decoration: none;
       user-select: none;
@@ -245,43 +250,19 @@
       border-color: var(--border-bright);
     }
 
-    /* Theme Selector Swatches */
-    .theme-selector-wrap {
-      display: flex;
-      align-items: center;
-      border: 1px solid var(--border-stark);
-      background: var(--bg-panel);
-      padding: 3px;
-      gap: 3px;
-    }
-
-    .theme-dot-btn {
-      width: 22px;
-      height: 22px;
-      border: 1px solid transparent;
-      background: transparent;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
+    /* Night / Light Mode Toggle Button */
+    #themeToggleBtn {
+      min-width: 115px;
       justify-content: center;
-      padding: 0;
-      transition: border-color 0.15s ease;
     }
 
-    .theme-dot-btn.active {
-      border-color: var(--text-white);
-      background: var(--bg-panel-elevated);
+    #themeToggleBtn .icon {
+      transition: transform 0.25s ease;
     }
 
-    .theme-dot {
-      width: 10px;
-      height: 10px;
-      display: block;
+    #themeToggleBtn:hover .icon {
+      transform: rotate(15deg);
     }
-
-    .theme-dot.obsidian { background: #52525b; }
-    .theme-dot.persona  { background: #ff0022; }
-    .theme-dot.violet   { background: #d4af37; }
 
     /* ==========================================================================
        CONTROLS DECK: WIREFRAME PANELS & TECHNICAL FADERS
@@ -1009,8 +990,289 @@
     .toast-svg {
       width: 14px;
       height: 14px;
-      stroke: #ffffff;
+      stroke: currentColor;
     }
+
+    /* ==========================================================================
+       DATA CENTER: BRUTAL MINIMALIST STYLESHEET
+       ========================================================================== */
+    .dc-modal-box {
+      max-width: 740px !important;
+    }
+
+    .dc-modal-body {
+      gap: 16px !important;
+      padding: 20px !important;
+    }
+
+    .dc-telemetry-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 14px;
+      background: var(--bg-void);
+      border: 1px solid var(--border-stark);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .dc-stat-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dc-stat-label {
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 10px;
+    }
+
+    .dc-stat-val {
+      color: var(--text-white);
+      font-weight: 700;
+    }
+
+    .dc-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-stark);
+      padding: 14px;
+    }
+
+    .dc-section-title {
+      font-family: var(--font-main);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dc-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 10px;
+    }
+
+    .dc-card {
+      background: var(--bg-base);
+      border: 1px solid var(--border-stark);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dc-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .dc-card-head h4 {
+      font-family: var(--font-main);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-white);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .dc-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 1px 5px;
+      border: 1px solid var(--border-stark);
+      color: var(--text-secondary);
+      background: var(--bg-panel);
+    }
+
+    .dc-tag.ve {
+      border-color: rgba(212, 175, 55, 0.4);
+      color: #d4af37;
+    }
+
+    .dc-card-desc {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    .dc-action-btn {
+      width: 100%;
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    /* Import Dropzone */
+    .dc-import-zone {
+      border: 1px dashed var(--border-bright);
+      background: var(--bg-base);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .dc-import-zone:hover, .dc-import-zone.dragover {
+      border-color: var(--text-white);
+      background: var(--bg-panel-hover);
+    }
+
+    .dc-dropzone-hint {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* Inspector Box */
+    .dc-inspector {
+      background: var(--bg-base);
+      border: 1px solid var(--text-white);
+      margin-top: 4px;
+    }
+
+    .dc-inspector-head {
+      padding: 8px 12px;
+      background: var(--bg-panel-elevated);
+      border-bottom: 1px solid var(--border-stark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+    }
+
+    .dc-inspector-badge {
+      background: #10b981;
+      color: #000;
+      font-weight: 800;
+      padding: 1px 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .dc-inspector-file {
+      color: var(--text-white);
+      font-weight: 700;
+    }
+
+    .dc-inspector-time {
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
+    .dc-inspector-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .dc-detected-list {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      background: var(--bg-void);
+      padding: 8px 10px;
+      border: 1px solid var(--border-stark);
+    }
+
+    .dc-strategy-selector {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .dc-radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .dc-radio-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      line-height: 1.4;
+    }
+
+    .dc-radio-label input[type="radio"] {
+      margin-top: 2px;
+      accent-color: var(--text-white);
+    }
+
+    .dc-inspector-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    /* Maintenance Row */
+    .dc-maintenance {
+      border-color: rgba(225, 29, 72, 0.3) !important;
+      background: rgba(225, 29, 72, 0.04) !important;
+    }
+
+    .dc-maintenance-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .dc-maintenance-title {
+      font-family: var(--font-main);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #fb7185;
+    }
+
+    .dc-maintenance-desc {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .dc-btn-danger {
+      border-color: rgba(225, 29, 72, 0.6) !important;
+      color: #fb7185 !important;
+    }
+
+    .dc-btn-danger:hover {
+      background: #e11d48 !important;
+      color: #ffffff !important;
+      border-color: #e11d48 !important;
+    }
+
   </style>
 </head>
 <body>
@@ -1029,20 +1291,31 @@
       </div>
 
       <div class="header-actions">
-        <div class="theme-selector-wrap" title="Switch Showroom Dashboard Theme">
-          <button class="theme-dot-btn active" data-dashboard="obsidian" title="Obsidian Dark (Vivaldi)">
-            <span class="theme-dot obsidian"></span>
-          </button>
-          <button class="theme-dot-btn" data-dashboard="persona" title="Phantom Velvet (Persona 5)">
-            <span class="theme-dot persona"></span>
-          </button>
-          <button class="theme-dot-btn" data-dashboard="violet" title="CH Postal Navy &amp; Gold (Violet Evergarden)">
-            <span class="theme-dot violet"></span>
-          </button>
-        </div>
+        <button class="btn" id="themeToggleBtn" title="Switch to Light Mode" aria-label="Toggle Night or Light Mode">
+          <svg class="icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon theme-icon-sun" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <span id="themeToggleText">Night Mode</span>
+        </button>
 
         <button class="btn" id="reloadAllBtn" title="Reload all widget iframes simultaneously">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg> Reload All
+        </button>
+
+        
+        <button class="btn" id="openDataCenterBtn" title="Backup & Restore Widget Data">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg> Data Center
         </button>
 
         <button class="btn btn-primary" id="openGuideBtn">
@@ -1432,13 +1705,146 @@
     </div>
   </div>
 
+
+  <!-- ========================================================
+       MODAL: DATA CENTER (BACKUP & RESTORE)
+       ======================================================== -->
+  <div class="modal-backdrop" id="dataCenterModal" aria-hidden="true">
+    <div class="modal-box dc-modal-box">
+      <header class="modal-header">
+        <h2>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          Data Center // Archival Backup &amp; Restore
+        </h2>
+        <button class="modal-close-btn" id="closeDataCenterBtn" title="Close Data Center">&times;</button>
+      </header>
+
+      <div class="modal-body dc-modal-body">
+        
+        <!-- Live Storage Telemetry -->
+        <div class="dc-telemetry-strip">
+          <div class="dc-stat-item">
+            <span class="dc-stat-label">Violet Letters Stored:</span>
+            <span class="dc-stat-val" id="dcLetterCount">0</span>
+          </div>
+          <div class="dc-stat-item">
+            <span class="dc-stat-label">Active Music Service:</span>
+            <span class="dc-stat-val" id="dcMusicProvider">None</span>
+          </div>
+          <div class="dc-stat-item">
+            <span class="dc-stat-label">Local Storage Payload:</span>
+            <span class="dc-stat-val" id="dcStoragePayload">0 KB</span>
+          </div>
+        </div>
+
+        <!-- Section 1: Export Modules -->
+        <div class="dc-section">
+          <div class="dc-section-title">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export Dispatches &amp; Configuration (.json)
+          </div>
+          <div class="dc-cards-grid">
+            
+            <!-- Master Export Card -->
+            <div class="dc-card">
+              <div class="dc-card-head">
+                <span class="dc-tag">All-in-One</span>
+                <h4>Full System Backup</h4>
+              </div>
+              <p class="dc-card-desc">Exports all calendar missives, song-viewer credentials (Discord/Last.fm), sound toggles, and showroom preferences.</p>
+              <button class="btn btn-primary dc-action-btn" id="exportFullBtn" type="button">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export All Data
+              </button>
+            </div>
+
+            <!-- Violet Letters Archive Card -->
+            <div class="dc-card">
+              <div class="dc-card-head">
+                <span class="dc-tag ve">CH Postal Company</span>
+                <h4>Violet Letters Archive Only</h4>
+              </div>
+              <p class="dc-card-desc">Exports solely the written postal letters, client names, timestamps, and wax seals in a human-readable JSON book.</p>
+              <button class="btn dc-action-btn" id="exportVioletBtn" type="button">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14"/><polyline points="3,7 12,13 21,7"/></svg> Export Letters Only
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 2: Import & Restore -->
+        <div class="dc-section">
+          <div class="dc-section-title">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Import &amp; Restore Archive
+          </div>
+
+          <div class="dc-import-zone" id="dcDropzone">
+            <input type="file" id="backupFileInput" accept=".json" style="display: none;">
+            <button class="btn dc-select-file-btn" id="dcSelectFileBtn" type="button">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Select Backup File (.json)
+            </button>
+            <span class="dc-dropzone-hint">or drop a .json file directly into this zone</span>
+          </div>
+
+          <!-- File Inspector Preview -->
+          <div class="dc-inspector" id="dcInspector" style="display: none;">
+            <div class="dc-inspector-head">
+              <span class="dc-inspector-badge">Archive Verified</span>
+              <span class="dc-inspector-file" id="dcFileName">backup.json</span>
+              <span class="dc-inspector-time" id="dcFileTime">2026-09-15</span>
+            </div>
+            <div class="dc-inspector-body">
+              <div class="dc-detected-list" id="dcDetectedList"></div>
+              
+              <div class="dc-strategy-selector">
+                <span class="filter-label">Restore Strategy for Letters:</span>
+                <div class="dc-radio-group">
+                  <label class="dc-radio-label">
+                    <input type="radio" name="restoreStrategy" value="merge" checked>
+                    <span><strong>Smart Merge (Recommended)</strong> — Merges archived letters without overwriting new unrecorded dates.</span>
+                  </label>
+                  <label class="dc-radio-label">
+                    <input type="radio" name="restoreStrategy" value="overwrite">
+                    <span><strong>Clean Overwrite</strong> — Replaces existing calendar dispatches with the file archive.</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="dc-inspector-actions">
+                <button class="btn btn-primary" id="confirmRestoreBtn" type="button">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Execute Restore
+                </button>
+                <button class="btn" id="cancelRestoreBtn" type="button">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Factory Reset / Maintenance -->
+        <div class="dc-section dc-maintenance">
+          <div class="dc-maintenance-row">
+            <div>
+              <div class="dc-maintenance-title">Factory Reset Local Storage</div>
+              <p class="dc-maintenance-desc">Resets calendar dispatches to default anime lore and purges saved music credentials.</p>
+            </div>
+            <button class="btn dc-btn-danger" id="purgeStorageBtn" type="button">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Reset to Default
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <div class="toast-container" id="toastContainer"></div>
 
   <script>
     (function () {
       // DOM Elements
       const htmlEl = document.documentElement;
-      const themeDotBtns = document.querySelectorAll('.theme-dot-btn');
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
       const filterThemeBtns = document.querySelectorAll('[data-filter-theme]');
       const filterCatBtns = document.querySelectorAll('[data-filter-category]');
       const searchInput = document.getElementById('searchInput');
@@ -1464,24 +1870,45 @@
       let activeSearchQuery = '';
 
       /* --------------------------------------------------------
-         1. DASHBOARD SHELL THEME SWITCHER
+         1. NIGHT / LIGHT MODE THEME SWITCHER
          -------------------------------------------------------- */
-      themeDotBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const theme = btn.getAttribute('data-dashboard');
-          themeDotBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          htmlEl.setAttribute('data-dashboard-theme', theme);
-          localStorage.setItem('vcw_showroom_theme', theme);
-        });
-      });
+      function applyDashboardTheme(mode) {
+        const isLight = (mode === 'light');
+        htmlEl.setAttribute('data-dashboard-theme', isLight ? 'light' : 'dark');
+        
+        if (themeToggleBtn) {
+          const themeIconMoon = themeToggleBtn.querySelector('.theme-icon-moon');
+          const themeIconSun = themeToggleBtn.querySelector('.theme-icon-sun');
+          const themeToggleText = document.getElementById('themeToggleText');
 
-      // Restore saved dashboard theme
-      const savedTheme = localStorage.getItem('vcw_showroom_theme');
-      if (savedTheme) {
-        const targetBtn = document.querySelector(`[data-dashboard="${savedTheme}"]`);
-        if (targetBtn) targetBtn.click();
+          if (themeIconMoon && themeIconSun && themeToggleText) {
+            if (isLight) {
+              themeIconMoon.style.display = 'none';
+              themeIconSun.style.display = 'inline-block';
+              themeToggleText.textContent = 'Light Mode';
+              themeToggleBtn.title = 'Switch to Night Mode';
+            } else {
+              themeIconMoon.style.display = 'inline-block';
+              themeIconSun.style.display = 'none';
+              themeToggleText.textContent = 'Night Mode';
+              themeToggleBtn.title = 'Switch to Light Mode';
+            }
+          }
+        }
+        localStorage.setItem('vcw_dashboard_mode', isLight ? 'light' : 'dark');
       }
+
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+          const current = htmlEl.getAttribute('data-dashboard-theme');
+          applyDashboardTheme(current === 'light' ? 'dark' : 'light');
+        });
+      }
+
+      // Restore saved mode (fallback gracefully from legacy vcw_showroom_theme)
+      const savedMode = localStorage.getItem('vcw_dashboard_mode') || 
+                        (localStorage.getItem('vcw_showroom_theme') === 'light' ? 'light' : 'dark');
+      applyDashboardTheme(savedMode);
 
       /* --------------------------------------------------------
          2. FILTERING & SEARCH
@@ -1747,6 +2174,372 @@
 
       // Initial dimension calculation
       setTimeout(updateCardDimensionBadges, 300);
+
+      /* ========================================================
+         7. DATA CENTER // BACKUP & RESTORE ENGINE
+         ======================================================== */
+      const openDataCenterBtn = document.getElementById('openDataCenterBtn');
+      const closeDataCenterBtn = document.getElementById('closeDataCenterBtn');
+      const dataCenterModal = document.getElementById('dataCenterModal');
+
+      const dcLetterCount = document.getElementById('dcLetterCount');
+      const dcMusicProvider = document.getElementById('dcMusicProvider');
+      const dcStoragePayload = document.getElementById('dcStoragePayload');
+
+      const exportFullBtn = document.getElementById('exportFullBtn');
+      const exportVioletBtn = document.getElementById('exportVioletBtn');
+
+      const dcDropzone = document.getElementById('dcDropzone');
+      const dcSelectFileBtn = document.getElementById('dcSelectFileBtn');
+      const backupFileInput = document.getElementById('backupFileInput');
+
+      const dcInspector = document.getElementById('dcInspector');
+      const dcFileName = document.getElementById('dcFileName');
+      const dcFileTime = document.getElementById('dcFileTime');
+      const dcDetectedList = document.getElementById('dcDetectedList');
+      const confirmRestoreBtn = document.getElementById('confirmRestoreBtn');
+      const cancelRestoreBtn = document.getElementById('cancelRestoreBtn');
+      const purgeStorageBtn = document.getElementById('purgeStorageBtn');
+
+      let parsedImportArchive = null;
+
+      // Storage keys definition
+      const STORAGE_KEYS = {
+        VE_MEMOS: 'vcw_ve_calendar_memos',
+        MUSIC_PROVIDER: 'vcw_music_provider',
+        LANYARD_ID: 'vcw_lanyard_discord_id',
+        LASTFM_USER: 'vcw_lastfm_username',
+        LASTFM_KEY: 'vcw_lastfm_api_key',
+        P5_SOUND: 'p5_cal_sound',
+        SHOWROOM_THEME: 'vcw_showroom_theme'
+      };
+
+      function updateDataCenterTelemetry() {
+        // 1. Letters count
+        let letterCount = 0;
+        try {
+          const rawMemos = localStorage.getItem(STORAGE_KEYS.VE_MEMOS);
+          if (rawMemos) {
+            const memos = JSON.parse(rawMemos);
+            if (Array.isArray(memos)) letterCount = memos.length;
+          }
+        } catch (e) {}
+        if (dcLetterCount) dcLetterCount.textContent = letterCount + ' Missives';
+
+        // 2. Music provider
+        const provider = localStorage.getItem(STORAGE_KEYS.MUSIC_PROVIDER) || 'discord';
+        const discordId = localStorage.getItem(STORAGE_KEYS.LANYARD_ID);
+        const lastfmUser = localStorage.getItem(STORAGE_KEYS.LASTFM_USER);
+
+        let providerStr = 'None Set';
+        if (provider === 'discord' && discordId) {
+          providerStr = 'Discord (' + discordId.slice(0, 6) + '...)';
+        } else if (provider === 'lastfm' && lastfmUser) {
+          providerStr = 'Last.fm (' + lastfmUser + ')';
+        }
+        if (dcMusicProvider) dcMusicProvider.textContent = providerStr;
+
+        // 3. Storage bytes
+        let totalBytes = 0;
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && (key.startsWith('vcw_') || key.startsWith('p5_'))) {
+            totalBytes += (key.length + (localStorage.getItem(key) || '').length) * 2;
+          }
+        }
+        const kb = (totalBytes / 1024).toFixed(2);
+        if (dcStoragePayload) dcStoragePayload.textContent = kb + ' KB';
+      }
+
+      function downloadJSON(filename, dataObj) {
+        const jsonStr = JSON.stringify(dataObj, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      // Master Full System Export
+      if (exportFullBtn) {
+        exportFullBtn.addEventListener('click', () => {
+          let memos = [];
+          try {
+            const raw = localStorage.getItem(STORAGE_KEYS.VE_MEMOS);
+            if (raw) memos = JSON.parse(raw);
+          } catch (e) {}
+
+          const now = new Date();
+          const dateSlug = now.toISOString().split('T')[0];
+
+          const fullArchive = {
+            version: '1.0',
+            appName: 'Vivaldi Custom Widgets',
+            exportedAt: now.toISOString(),
+            summary: {
+              violet_letters_count: Array.isArray(memos) ? memos.length : 0,
+              has_music_config: Boolean(localStorage.getItem(STORAGE_KEYS.LANYARD_ID) || localStorage.getItem(STORAGE_KEYS.LASTFM_USER))
+            },
+            modules: {
+              violet_postal_letters: memos,
+              song_viewer_config: {
+                provider: localStorage.getItem(STORAGE_KEYS.MUSIC_PROVIDER) || 'discord',
+                discord_id: localStorage.getItem(STORAGE_KEYS.LANYARD_ID) || '',
+                lastfm_username: localStorage.getItem(STORAGE_KEYS.LASTFM_USER) || '',
+                lastfm_api_key: localStorage.getItem(STORAGE_KEYS.LASTFM_KEY) || ''
+              },
+              system_preferences: {
+                p5_cal_sound: localStorage.getItem(STORAGE_KEYS.P5_SOUND) !== 'false',
+                showroom_theme: localStorage.getItem(STORAGE_KEYS.SHOWROOM_THEME) || 'obsidian'
+              }
+            }
+          };
+
+          downloadJSON(`vivaldi-widgets-backup-${dateSlug}.json`, fullArchive);
+          showToast('Full system backup archive exported!');
+        });
+      }
+
+      // Dedicated Violet Evergarden Letters Only Export
+      if (exportVioletBtn) {
+        exportVioletBtn.addEventListener('click', () => {
+          let memos = [];
+          try {
+            const raw = localStorage.getItem(STORAGE_KEYS.VE_MEMOS);
+            if (raw) memos = JSON.parse(raw);
+          } catch (e) {}
+
+          const now = new Date();
+          const dateSlug = now.toISOString().split('T')[0];
+
+          const lettersArchive = {
+            version: '1.0',
+            archiveType: 'ch_postal_letters_ledger',
+            appName: 'Violet Evergarden Auto Memory Doll Dispatches',
+            exportedAt: now.toISOString(),
+            totalLetters: Array.isArray(memos) ? memos.length : 0,
+            letters: memos
+          };
+
+          downloadJSON(`ch-postal-letters-${dateSlug}.json`, lettersArchive);
+          showToast(`Exported ${lettersArchive.totalLetters} Violet postal letters!`);
+        });
+      }
+
+      // File Import Handling
+      function processSelectedFile(file) {
+        if (!file) return;
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          try {
+            const parsed = JSON.parse(e.target.result);
+            parsedImportArchive = parsed;
+
+            // Inspect archive contents
+            let detectedLetters = 0;
+            let hasMusic = false;
+            let isDedicatedLetters = false;
+
+            if (parsed.modules && parsed.modules.violet_postal_letters) {
+              detectedLetters = Array.isArray(parsed.modules.violet_postal_letters) ? parsed.modules.violet_postal_letters.length : 0;
+              hasMusic = Boolean(parsed.modules.song_viewer_config && (parsed.modules.song_viewer_config.discord_id || parsed.modules.song_viewer_config.lastfm_username));
+            } else if (parsed.letters && Array.isArray(parsed.letters)) {
+              detectedLetters = parsed.letters.length;
+              isDedicatedLetters = true;
+            } else if (Array.isArray(parsed)) {
+              detectedLetters = parsed.length;
+              isDedicatedLetters = true;
+            }
+
+            // Populate inspector
+            if (dcFileName) dcFileName.textContent = file.name;
+            if (dcFileTime) dcFileTime.textContent = parsed.exportedAt ? new Date(parsed.exportedAt).toLocaleDateString() : 'Unknown Date';
+
+            let descHtml = '<strong>Detected in Archive:</strong><br>';
+            descHtml += `• ${detectedLetters} Violet Evergarden Correspondence Missives<br>`;
+            if (hasMusic) descHtml += '• Song Viewer Configuration (Lanyard / Last.fm)<br>';
+            if (parsed.modules?.system_preferences) descHtml += '• System Sound &amp; Theme Preferences<br>';
+
+            if (dcDetectedList) dcDetectedList.innerHTML = descHtml;
+            if (dcInspector) dcInspector.style.display = 'block';
+
+          } catch (err) {
+            alert('Invalid JSON file. Please provide a valid Vivaldi Custom Widgets backup file.');
+          }
+        };
+
+        reader.readAsText(file);
+      }
+
+      if (dcSelectFileBtn && backupFileInput) {
+        dcSelectFileBtn.addEventListener('click', () => backupFileInput.click());
+        backupFileInput.addEventListener('change', (e) => {
+          if (e.target.files && e.target.files[0]) {
+            processSelectedFile(e.target.files[0]);
+          }
+        });
+      }
+
+      // Dropzone Drag & Drop
+      if (dcDropzone) {
+        ['dragenter', 'dragover'].forEach(name => {
+          dcDropzone.addEventListener(name, (e) => {
+            e.preventDefault();
+            dcDropzone.classList.add('dragover');
+          });
+        });
+
+        ['dragleave', 'drop'].forEach(name => {
+          dcDropzone.addEventListener(name, (e) => {
+            e.preventDefault();
+            dcDropzone.classList.remove('dragover');
+          });
+        });
+
+        dcDropzone.addEventListener('drop', (e) => {
+          if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+            processSelectedFile(e.dataTransfer.files[0]);
+          }
+        });
+      }
+
+      if (cancelRestoreBtn) {
+        cancelRestoreBtn.addEventListener('click', () => {
+          parsedImportArchive = null;
+          if (dcInspector) dcInspector.style.display = 'none';
+          if (backupFileInput) backupFileInput.value = '';
+        });
+      }
+
+      // Execute Restore
+      if (confirmRestoreBtn) {
+        confirmRestoreBtn.addEventListener('click', () => {
+          if (!parsedImportArchive) return;
+
+          const strategyEl = document.querySelector('input[name="restoreStrategy"]:checked');
+          const strategy = strategyEl ? strategyEl.value : 'merge';
+
+          let importedLetters = [];
+          let importedMusic = null;
+          let importedPrefs = null;
+
+          if (parsedImportArchive.modules) {
+            importedLetters = parsedImportArchive.modules.violet_postal_letters || [];
+            importedMusic = parsedImportArchive.modules.song_viewer_config || null;
+            importedPrefs = parsedImportArchive.modules.system_preferences || null;
+          } else if (parsedImportArchive.letters && Array.isArray(parsedImportArchive.letters)) {
+            importedLetters = parsedImportArchive.letters;
+          } else if (Array.isArray(parsedImportArchive)) {
+            importedLetters = parsedImportArchive;
+          }
+
+          // Restore letters logic
+          if (Array.isArray(importedLetters) && importedLetters.length > 0) {
+            if (strategy === 'overwrite') {
+              localStorage.setItem(STORAGE_KEYS.VE_MEMOS, JSON.stringify(importedLetters));
+            } else {
+              // Smart Merge
+              let currentMemos = [];
+              try {
+                const raw = localStorage.getItem(STORAGE_KEYS.VE_MEMOS);
+                if (raw) currentMemos = JSON.parse(raw);
+              } catch (e) {}
+
+              const map = new Map();
+              currentMemos.forEach(m => {
+                const key = `${m.year}-${m.month}-${m.day}`;
+                map.set(key, m);
+              });
+
+              importedLetters.forEach(m => {
+                const key = `${m.year}-${m.month}-${m.day}`;
+                // Imported letters merge into existing dates or add new
+                map.set(key, m);
+              });
+
+              const merged = Array.from(map.values());
+              localStorage.setItem(STORAGE_KEYS.VE_MEMOS, JSON.stringify(merged));
+            }
+          }
+
+          // Restore music config if present
+          if (importedMusic) {
+            if (importedMusic.provider) localStorage.setItem(STORAGE_KEYS.MUSIC_PROVIDER, importedMusic.provider);
+            if (importedMusic.discord_id) localStorage.setItem(STORAGE_KEYS.LANYARD_ID, importedMusic.discord_id);
+            if (importedMusic.lastfm_username) localStorage.setItem(STORAGE_KEYS.LASTFM_USER, importedMusic.lastfm_username);
+            if (importedMusic.lastfm_api_key) localStorage.setItem(STORAGE_KEYS.LASTFM_KEY, importedMusic.lastfm_api_key);
+          }
+
+          // Restore prefs if present
+          if (importedPrefs) {
+            if (typeof importedPrefs.p5_cal_sound !== 'undefined') {
+              localStorage.setItem(STORAGE_KEYS.P5_SOUND, String(importedPrefs.p5_cal_sound));
+            }
+          }
+
+          // Trigger cross-frame storage update
+          window.dispatchEvent(new Event('storage'));
+
+          // Reload all active widgets in showroom
+          if (reloadAllBtn) reloadAllBtn.click();
+
+          updateDataCenterTelemetry();
+          if (dcInspector) dcInspector.style.display = 'none';
+          if (dataCenterModal) dataCenterModal.classList.remove('active');
+
+          showToast(`Archive restored successfully via ${strategy === 'merge' ? 'Smart Merge' : 'Clean Overwrite'}!`);
+        });
+      }
+
+      // Factory Reset / Purge
+      if (purgeStorageBtn) {
+        purgeStorageBtn.addEventListener('click', () => {
+          const confirmed = confirm('WARNING: Are you sure you want to reset all stored memos and credentials to default? This action cannot be undone.');
+          if (confirmed) {
+            localStorage.removeItem(STORAGE_KEYS.VE_MEMOS);
+            localStorage.removeItem(STORAGE_KEYS.MUSIC_PROVIDER);
+            localStorage.removeItem(STORAGE_KEYS.LANYARD_ID);
+            localStorage.removeItem(STORAGE_KEYS.LASTFM_USER);
+            localStorage.removeItem(STORAGE_KEYS.LASTFM_KEY);
+
+            window.dispatchEvent(new Event('storage'));
+            if (reloadAllBtn) reloadAllBtn.click();
+            updateDataCenterTelemetry();
+            showToast('Storage purged to factory defaults.');
+          }
+        });
+      }
+
+      // Data Center Modal Toggles
+      if (openDataCenterBtn && dataCenterModal) {
+        openDataCenterBtn.addEventListener('click', () => {
+          updateDataCenterTelemetry();
+          dataCenterModal.classList.add('active');
+          dataCenterModal.setAttribute('aria-hidden', 'false');
+        });
+      }
+
+      if (closeDataCenterBtn && dataCenterModal) {
+        closeDataCenterBtn.addEventListener('click', () => {
+          dataCenterModal.classList.remove('active');
+          dataCenterModal.setAttribute('aria-hidden', 'true');
+        });
+      }
+
+      if (dataCenterModal) {
+        dataCenterModal.addEventListener('click', (e) => {
+          if (e.target === dataCenterModal) {
+            dataCenterModal.classList.remove('active');
+            dataCenterModal.setAttribute('aria-hidden', 'true');
+          }
+        });
+      }
+
     })();
   </script>
 </body>
