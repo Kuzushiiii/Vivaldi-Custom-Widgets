@@ -53,7 +53,6 @@ html, body {
   height: 0 !important;
 }
 
-/* Stationery Card Container */
 .stationery-widget {
   position: relative;
   width: 100%;
@@ -68,7 +67,6 @@ html, body {
   border: 1px solid var(--border-delicate);
 }
 
-/* Ruled ledger lines & stationery watermark */
 .stationery-widget::before {
   content: "";
   position: absolute;
@@ -91,7 +89,6 @@ html, body {
   opacity: 0.85;
 }
 
-/* Double-line letterhead frame */
 .stationery-widget::after {
   content: "";
   position: absolute;
@@ -113,7 +110,6 @@ html, body {
   padding: clamp(10px, 2.5cqw, 16px) clamp(12px, 3.2cqw, 22px) clamp(8px, 2cqw, 12px);
 }
 
-/* Header Letterhead */
 .letterhead-header {
   display: flex;
   flex-direction: column;
@@ -158,7 +154,6 @@ html, body {
   );
 }
 
-/* Month/Year Navigation Bar */
 .calendar-nav-bar {
   display: flex;
   align-items: baseline;
@@ -238,7 +233,6 @@ html, body {
   background: rgba(43, 36, 34, 0.09);
 }
 
-/* Days of Week */
 .calendar-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -267,7 +261,6 @@ html, body {
   color: var(--text-ink-muted);
 }
 
-/* Calendar Grid */
 .calendar-grid {
   flex: 1;
   display: grid;
@@ -318,7 +311,6 @@ html, body {
   color: var(--accent-wax-red);
 }
 
-/* Current Date Wax Seal Badge */
 .cal-day.today {
   position: relative;
   z-index: 2;
@@ -352,7 +344,6 @@ html, body {
   pointer-events: none;
 }
 
-/* Emerald Event Indicators */
 .event-dot-wrap {
   display: flex;
   align-items: center;
@@ -391,7 +382,6 @@ html, body {
   outline-offset: -1px;
 }
 
-/* Ledger Footer */
 .ledger-footer {
   display: flex;
   align-items: center;
@@ -411,7 +401,6 @@ html, body {
   color: var(--text-ink-muted);
 }
 
-/* Torn Note Backdrop (Cinematic Vintage Warmth & Isolated Hardware Compositor Layer) */
 .torn-note-backdrop {
   position: absolute;
   inset: 0;
@@ -436,8 +425,6 @@ html, body {
   pointer-events: auto;
 }
 
-/* Torn Note Popover */
-/* Torn Note Popover (Enhanced Legibility & Scale) */
 .torn-note-card {
   position: absolute;
   top: 48%;
@@ -482,7 +469,6 @@ html, body {
   transform: translate(-50%, -50%) scale(1) rotate(-0.8deg);
 }
 
-/* Organic Torn Paper Top Edge */
 .torn-paper-edge {
   height: 12px;
   background-color: var(--bg-note-torn);
@@ -495,7 +481,6 @@ html, body {
   box-shadow: inset 0 -2px 4px rgba(43, 36, 34, 0.08);
 }
 
-/* Brass Clip placed cleanly on the top-left edge to avoid collision with top-right actions */
 .paper-clip-brass {
   position: absolute;
   top: -4px;
@@ -753,7 +738,6 @@ html, body {
   color: #221a18;
 }
 
-/* 2. DRAFT / EDIT MODE CONTROLS (Enhanced Visibility) */
 .note-edit-mode {
   display: flex;
   flex-direction: column;
@@ -905,7 +889,6 @@ html, body {
   line-height: 1;
 }
 
-/* Asset Placeholders */
 .figma-placeholder {
   position: absolute;
   z-index: 10;
@@ -987,7 +970,6 @@ html, body {
   display: none;
 }
 
-/* Responsive Adaptations */
 @container (max-width: 320px) {
   .stationery-inner {
     padding: 6px 8px;

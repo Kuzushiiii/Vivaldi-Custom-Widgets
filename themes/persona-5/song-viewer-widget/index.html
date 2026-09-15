@@ -8,25 +8,20 @@
 </head>
 <body>
 
-  <!-- Full-bleed Root Banner Container (Eliminates White Corners) -->
   <div class="p5-banner p5-music-root" id="musicRoot">
     
-    <!-- Comic Background Deco Layers -->
     <div class="p5-halftone-overlay" aria-hidden="true"></div>
     <div class="red-shape music-shard-top" aria-hidden="true"></div>
     <div class="red-shape music-shard-bot" aria-hidden="true"></div>
     <div class="music-speed-lines" aria-hidden="true"></div>
 
-    <!-- Floating Phantom Mask Motif -->
     <div class="mask-container music-mask-wrap" aria-hidden="true">
       <div class="mask-glow"></div>
       <img class="p5-mask" data-random-mask src="../assets/Joker Mask.png" alt="Phantom Mask" onerror="this.style.display='none';">
     </div>
 
-    <!-- Main Vertical Stacked Calling Card Layout (~320-400px x ~320-400px) -->
     <main class="music-vertical-layout" id="mainLayout">
 
-      <!-- 1. Header Bar: Status Badge, Sound FX Toggle, Config Trigger -->
       <header class="music-header-bar">
         <div class="status-badge-wrap" id="statusBadgeWrap">
           <span class="badge-prefix" id="badgePrefix">BGM //</span>
@@ -34,12 +29,10 @@
         </div>
 
         <div class="header-actions">
-          <!-- Web Audio Procedural Sound Toggle -->
           <button class="sound-toggle-btn" id="soundToggleBtn" type="button" aria-label="Toggle Sound" title="Toggle Sound FX">
             <span class="sound-icon" id="soundIcon">🔊</span>
           </button>
           
-          <!-- Dagger / Calling Card Config Trigger -->
           <button class="config-dagger-btn" id="openConfigBtn" type="button" aria-label="Open Phan-Site Settings" title="Phan-Site Setup">
             <svg class="dagger-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
               <path d="M19.07 4.93a10 10 0 0 0-14.14 0L12 12l7.07-7.07zm-8.48 8.48L3.52 20.48l1.41 1.41 7.07-7.07-1.41-1.41z"/>
@@ -49,31 +42,24 @@
         </div>
       </header>
 
-      <!-- 2. Hero Album Art Showcase (Active Playback State) -->
       <section class="hero-album-stage" id="heroAlbumStage">
-        <!-- Aggressive Starburst Shards Framing Album Art -->
         <div class="starburst-frame-deco" aria-hidden="true">
           <div class="starburst-shard shard-1"></div>
           <div class="starburst-shard shard-2"></div>
           <div class="starburst-shard shard-3"></div>
         </div>
 
-        <!-- Album Art Card with Heartbeat Scaling Pulse -->
         <div class="album-art-card" id="albumArtCard">
-          <!-- Live Album Art -->
           <img class="album-img" id="albumImg" src="" alt="Album Art" style="display: none;">
           
-          <!-- Comic Print Halftone Dot Screen Overlay -->
           <div class="album-halftone-screen" aria-hidden="true"></div>
 
-          <!-- Fallback Graphic when no art loaded -->
           <div class="album-fallback" id="artFallback">
             <div class="fallback-vinyl-icon">♦</div>
             <span class="fallback-text">PHANTOM RADIO</span>
             <span class="fallback-sub">TAKEOVER</span>
           </div>
 
-          <!-- P5 Dynamic Equalizer Visualizer Bars -->
           <div class="p5-visualizer" id="visOverlay">
             <span class="vis-bar"></span>
             <span class="vis-bar"></span>
@@ -84,7 +70,6 @@
         </div>
       </section>
 
-      <!-- 3. Track Details Block (Marquee Title & Slanted Artist Ribbon) -->
       <section class="track-details-block" id="trackDetailsBlock">
         <div class="title-marquee-window" id="titleMarqueeWindow">
           <h1 class="song-title" id="songTitle">RIVER IN THE DESERT</h1>
@@ -98,16 +83,13 @@
         </div>
       </section>
 
-      <!-- 4. Slashed Palace Security Progress Bar & Timestamps -->
       <section class="progress-section" id="progressSection">
         <div class="meter-wrapper" id="meterWrapper">
-          <!-- Slanted Track Frame (overflow: hidden masks slanted hazard stripes) -->
           <div class="bar-track" id="barTrack">
             <div class="bar-hazard-bg"></div>
             <div class="bar-fill" id="trackProgress"></div>
           </div>
 
-          <!-- Leading Edge Diamond Beacon (Outside overflow: hidden to guarantee NO clipping) -->
           <div class="meter-beacon" id="meterBeacon" aria-hidden="true">
             <div class="beacon-diamond"></div>
           </div>
@@ -120,7 +102,6 @@
         </div>
       </section>
 
-      <!-- 5. Standby / Idle Calling Card (Displayed when no music detected) -->
       <section class="standby-calling-card" id="standbySection" style="display: none;">
         <div class="calling-card-badge">TARGET NOT FOUND</div>
         <h2 class="standby-headline">WAITING FOR PHANTOM SIGNAL</h2>
@@ -134,30 +115,24 @@
 
     </main>
 
-    <!-- 6. In-Game Smartphone "Phan-Site" Settings Modal -->
     <aside class="smartphone-modal-backdrop" id="configModal" style="display: none;" aria-modal="true" role="dialog">
       <div class="phone-chassis">
-        <!-- Phone Status Bar -->
         <div class="phone-statusbar">
           <span class="status-network">PHAN-SITE NET // 5G</span>
           <span class="status-clock" id="phoneClock">18:00</span>
         </div>
 
-        <!-- Phone App Header -->
         <div class="phone-header">
           <div class="phone-title">PHAN-SITE // TRANSMITTER SETUP</div>
           <button class="phone-close-btn" id="closeConfigBtn" type="button" aria-label="Close Settings">✕</button>
         </div>
 
-        <!-- Service Tabs -->
         <div class="phone-tabs">
           <button class="tab-btn active" id="tabDiscord" type="button">DISCORD (LANYARD)</button>
           <button class="tab-btn" id="tabLastfm" type="button">LAST.FM</button>
         </div>
 
-        <!-- Phone Screen Body -->
         <div class="phone-body">
-          <!-- Discord Lanyard Tab -->
           <div class="tab-pane active" id="discordTabContent">
             <div class="chat-bubble left">
               <span class="chat-sender">FUTABA:</span>
@@ -170,7 +145,6 @@
             <input type="text" class="phone-input" id="discordIdInput" placeholder="e.g. 328901234567890123" spellcheck="false" autocomplete="off">
           </div>
 
-          <!-- Last.fm Tab -->
           <div class="tab-pane" id="lastfmTabContent" style="display: none;">
             <div class="chat-bubble left">
               <span class="chat-sender">MORGANA:</span>
@@ -183,7 +157,6 @@
           </div>
         </div>
 
-        <!-- Action Footer -->
         <footer class="phone-footer">
           <button class="phone-btn btn-demo" id="demoBtn" type="button">TEST DEMO</button>
           <button class="phone-btn btn-save" id="saveConfigBtn" type="button">CONFIRM // SAVE</button>

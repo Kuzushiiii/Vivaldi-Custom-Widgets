@@ -10,35 +10,27 @@
 
   <div class="p5-banner p5-calendar-root" id="calendarRoot" data-active-view="hud">
     
-    <!-- Comic Background Deco & Speed Lines -->
     <div class="p5-halftone-overlay" aria-hidden="true"></div>
     <div class="red-shape cal-shard-primary" aria-hidden="true"></div>
     <div class="red-shape cal-shard-secondary" aria-hidden="true"></div>
     <div class="red-shape cal-shard-accent" aria-hidden="true"></div>
     <div class="cal-speed-lines" aria-hidden="true"></div>
 
-    <!-- Hero Mask Motif (Randomized Joker / Ann / Akechi) -->
     <div class="mask-container cal-mask-wrap" aria-hidden="true">
       <div class="mask-glow"></div>
       <img class="p5-mask" data-random-mask src="../assets/Joker Mask.png" alt="Phantom Mask" onerror="this.style.display='none';">
     </div>
 
-    <!-- ======================================================== -->
-    <!-- VIEW 1: PRIMARY IN-GAME DATE HUD (Default Display)       -->
-    <!-- ======================================================== -->
     <section class="cal-view cal-view-hud" id="hudView" aria-label="Today's Persona 5 Date HUD">
       
-      <!-- Left Column: Time Phase, Clock, Calling-Card Action Trigger -->
       <div class="hud-col hud-col-left">
         
-        <!-- Dynamic Time-of-Day Phase Pill -->
         <div class="hud-phase-pill" id="timePhasePill" title="Current Daily Period">
           <span class="hud-phase-prefix">TIME //</span>
           <span class="hud-phase-text" id="phaseText">AFTER SCHOOL</span>
         </div>
         <div class="hud-phase-desc" id="phaseDesc">FREE TIME // INFILTRATE</div>
 
-        <!-- Ransom Digital Clock -->
         <div class="hud-clock-row">
           <div class="clock ransom-clock" id="hudClock" title="Current Time">
             <span id="h1" class="clock-digit r-b">0</span>
@@ -50,7 +42,6 @@
           <span class="hud-ampm" id="ampmBadge">PM</span>
         </div>
 
-        <!-- Action Bar: Schedule Unfold Trigger & Sound Toggle -->
         <div class="hud-actions-row">
           <button class="p5-action-trigger" id="openScheduleBtn" type="button" aria-label="Open Full Month Schedule" title="Click to unfold monthly schedule">
             <span class="trigger-dagger" aria-hidden="true">♦</span>
@@ -65,10 +56,8 @@
 
       </div>
 
-      <!-- Right Column: Massive In-Game Date HUD Centerpiece -->
       <div class="hud-col hud-col-right" id="hudCenterpiece" title="Click to view full calendar grid">
         
-        <!-- Slashed Month Ribbon with Year & Weather Star -->
         <div class="hud-month-ribbon">
           <div class="ribbon-cutout">
             <span class="ribbon-month" id="hudMonthLabel">SEPTEMBER</span>
@@ -81,7 +70,6 @@
           </div>
         </div>
 
-        <!-- Massive Staggered Ransom-Note Day Digits -->
         <div class="hud-day-stage" id="hudDayStage">
           <div class="ransom-digit-card digit-card-tens" id="dayDigitTens">
             <span class="digit-val" id="valDigitTens">1</span>
@@ -91,7 +79,6 @@
           </div>
         </div>
 
-        <!-- Slashed Jagged Weekday Banner -->
         <div class="hud-weekday-slash" id="hudWeekday">
           <span class="weekday-prefix">//</span>
           <span class="weekday-name" id="hudWeekdayText">FRIDAY</span>
@@ -102,12 +89,8 @@
 
     </section>
 
-    <!-- ======================================================== -->
-    <!-- VIEW 2: INTERACTIVE MONTH SCHEDULE (Unfolds on Click)   -->
-    <!-- ======================================================== -->
     <section class="cal-view cal-view-schedule" id="scheduleView" aria-label="Monthly Schedule Grid" aria-hidden="true">
       
-      <!-- Top Navigation Header -->
       <div class="schedule-header">
         <button class="sched-nav-btn" id="prevMonthBtn" type="button" title="Previous Month" aria-label="Previous Month">◀</button>
         <div class="sched-title-wrap">
@@ -122,7 +105,6 @@
         </div>
       </div>
 
-      <!-- Neubrutalist Slanted Weekday Headers -->
       <div class="schedule-weekdays">
         <span class="sched-wday sun">SUN</span>
         <span class="sched-wday">MON</span>
@@ -133,10 +115,8 @@
         <span class="sched-wday sat">SAT</span>
       </div>
 
-      <!-- Dynamic 7-Column Calendar Grid -->
       <div class="schedule-grid" id="schedCalBody"></div>
 
-      <!-- Schedule Footer Strip -->
       <div class="schedule-footer">
         <div class="sched-motto-wrap">
           <span class="sched-motto-dagger">♦</span>

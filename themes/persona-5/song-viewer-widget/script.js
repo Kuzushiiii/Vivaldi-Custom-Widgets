@@ -1,9 +1,7 @@
 (function () {
   'use strict';
 
-  /* ========================================================
-     1. ASSETS & MASK RANDOMIZER
-     ======================================================== */
+  
   const MASKS = [
     '../assets/Joker Mask.png',
     '../assets/Ann Mask.png',
@@ -16,9 +14,7 @@
     mask.src = MASKS[Math.floor(Math.random() * MASKS.length)];
   }
 
-  /* ========================================================
-     2. PROCEDURAL WEB AUDIO SYNTHESIZER ("THE JUICE")
-     ======================================================== */
+  
   let audioCtx = null;
   const audioState = {
     enabled: localStorage.getItem('p5_cal_sound') !== 'false'
@@ -37,7 +33,6 @@
     return audioCtx;
   }
 
-  // Persona 5 UI Paper Slash / Blade sound
   function playSlashSound() {
     if (!audioState.enabled) return;
     try {
@@ -45,14 +40,12 @@
       if (!ctx) return;
       const now = ctx.currentTime;
 
-      // Tone oscillator: rapid pitch drop
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(800, now);
       osc.frequency.exponentialRampToValueAtTime(120, now + 0.09);
 
-      // Lowpass filter for comic blade weight
       const filter = ctx.createBiquadFilter();
       filter.type = 'lowpass';
       filter.frequency.setValueAtTime(3200, now);
@@ -68,7 +61,6 @@
       osc.start(now);
       osc.stop(now + 0.11);
 
-      // Noise burst for paper friction
       const bufferSize = ctx.sampleRate * 0.05;
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
@@ -87,7 +79,6 @@
     } catch (_) {}
   }
 
-  // Snappy UI Blip on hover / chirp
   function playBlipSound() {
     if (!audioState.enabled) return;
     try {
@@ -111,9 +102,7 @@
     } catch (_) {}
   }
 
-  /* ========================================================
-     3. DOM CACHING & INITIAL STATE
-     ======================================================== */
+  
   const elements = {
     musicRoot: document.getElementById('musicRoot'),
     badgePrefix: document.getElementById('badgePrefix'),
@@ -162,7 +151,6 @@
     phoneClock: document.getElementById('phoneClock')
   };
 
-  // Graceful fallback if image link fails
   if (elements.albumImg && elements.artFallback) {
     elements.albumImg.onerror = () => {
       elements.albumImg.style.display = 'none';
@@ -170,9 +158,7 @@
     };
   }
 
-  /* ========================================================
-     4. SMARTPHONE CLOCK & SOUND TOGGLE SETUP
-     ======================================================== */
+  
   function updatePhoneClock() {
     if (!elements.phoneClock) return;
     const now = new Date();
@@ -197,9 +183,7 @@
     });
   }
 
-  /* ========================================================
-     5. DYNAMIC MARQUEE TITLE LOGIC
-     ======================================================== */
+  
   let currentRawTitle = '';
   function updateSongTitle(title) {
     if (!elements.songTitle || !elements.titleMarqueeWindow) return;
@@ -212,7 +196,6 @@
     elements.songTitle.classList.remove('is-marquee');
     elements.songTitle.textContent = cleanTitle;
 
-    // Measure after browser paint to decide if marquee is needed
     requestAnimationFrame(() => {
       const windowWidth = elements.titleMarqueeWindow.clientWidth;
       const titleWidth = elements.songTitle.scrollWidth;
@@ -223,9 +206,7 @@
     });
   }
 
-  /* ========================================================
-     6. SONG VIEWER SERVICE INTEGRATION
-     ======================================================== */
+  
   let activeTabProvider = 'discord';
 
   const P5_DEMO_TRACK = {
@@ -362,9 +343,7 @@
     }
   });
 
-  /* ========================================================
-     7. PHAN-SITE SMARTPHONE MODAL CONTROLS
-     ======================================================== */
+  
   function switchTab(prov) {
     activeTabProvider = prov;
     if (!elements.tabDiscord || !elements.tabLastfm) return;
@@ -399,7 +378,6 @@
     if (elements.configModal) elements.configModal.style.display = 'none';
   }
 
-  // Event Listeners for Modal
   if (elements.tabDiscord) elements.tabDiscord.addEventListener('click', () => switchTab('discord'));
   if (elements.tabLastfm) elements.tabLastfm.addEventListener('click', () => switchTab('lastfm'));
   if (elements.openConfigBtn) elements.openConfigBtn.addEventListener('click', openModal);
@@ -419,7 +397,6 @@
     });
   }
 
-  // Demo playback triggers
   if (elements.demoBtn) {
     elements.demoBtn.addEventListener('click', () => {
       playSlashSound();
@@ -435,17 +412,13 @@
     });
   }
 
-  /* ========================================================
-     8. BOOTSTRAP & INITIALIZATION
-     ======================================================== */
+  
   randomizeMask();
   updatePhoneClock();
   songViewerService.init();
 
-  // Keep phone clock updated
   setInterval(updatePhoneClock, 30000);
 
-  // Resize listener to re-evaluate marquee on resize
   window.addEventListener('resize', () => {
     if (currentRawTitle) updateSongTitle(currentRawTitle);
   });

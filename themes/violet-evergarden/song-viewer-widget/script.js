@@ -14,7 +14,6 @@
     TRACK_END: 36,
   };
 
-  // DOM elements
   const elements = {
     widget: document.getElementById('gramophoneWidget'),
     vinylDisc: document.getElementById('vinylDisc'),
@@ -22,7 +21,6 @@
     broochFallback: document.getElementById('broochFallback'),
     tonearmRod: document.getElementById('tonearmRod'),
 
-    // Track Info
     statusBadge: document.getElementById('statusBadge'),
     providerLabel: document.getElementById('providerLabel'),
     trackInfoSection: document.getElementById('trackInfoSection'),
@@ -33,11 +31,9 @@
     timeDuration: document.getElementById('timeDuration'),
     analogFill: document.getElementById('analogFill'),
 
-    // Standby Section
     standbySection: document.getElementById('standbySection'),
     standbyHint: document.getElementById('standbyHint'),
 
-    // Modal
     configModal: document.getElementById('configModal'),
     openConfigBtn: document.getElementById('openConfigBtn'),
     standbyConfigBtn: document.getElementById('standbyConfigBtn'),
@@ -74,9 +70,8 @@
     return audioCtx;
   }
 
-  // Synthesizes tactile vinyl needle landing: low-end impulse, friction rush, & micro-pops
   function playNeedleDropAudio() {
-    // Also try playing HTML audio if source provided
+
     if (elements.needleAudio && elements.needleAudio.src) {
       elements.needleAudio.currentTime = 0;
       elements.needleAudio.play().catch(() => {});
@@ -88,7 +83,6 @@
     try {
       const now = ctx.currentTime;
 
-      // 1. Stylus Contact Thud (Gentle mechanical low-end impulse)
       const osc = ctx.createOscillator();
       const oscGain = ctx.createGain();
       osc.type = 'sine';
@@ -103,7 +97,6 @@
       osc.start(now);
       osc.stop(now + 0.13);
 
-      // 2. Stylus Groove Friction Noise (Filtered hiss with warm decay)
       const bufferSize = ctx.sampleRate * 0.45;
       const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const output = noiseBuffer.getChannelData(0);
@@ -128,7 +121,6 @@
       noiseGain.connect(ctx.destination);
       noiseSource.start(now);
 
-      // 3. Vintage Vinyl Micro Pops / Dust clicks
       const popCount = 5;
       for (let p = 0; p < popCount; p++) {
         const popTime = now + 0.05 + Math.random() * 0.7;
@@ -182,7 +174,6 @@
     }
   }
 
-  // Violet Evergarden Authentic Demo Cylinder Track
   const VE_DEMO_TRACK = {
     song: "Sincerely",
     artist: "TRUE",
@@ -193,20 +184,16 @@
     elapsedMs: 68000,
   };
 
-  // Song viewer service instance
   const songViewerService = new (window.SongViewerService || window.SpotifyService)({
     demoTrack: VE_DEMO_TRACK,
 
-    // 1. Track Metadata Received / Updated
     onTrackUpdate: (track) => {
       const isPaused = Boolean(track.isPaused);
       isCurrentlyPlaying = !isPaused;
 
-      // Show Active Track Plaque & Hide Standby Message
       if (elements.trackInfoSection) elements.trackInfoSection.style.display = 'flex';
       if (elements.standbySection) elements.standbySection.style.display = 'none';
 
-      // Update Song Details
       if (elements.songTitle) {
         elements.songTitle.textContent = track.song || 'Untitled Melody';
         elements.songTitle.title = track.song || '';
@@ -218,7 +205,6 @@
         elements.albumName.textContent = track.album || 'Gramophone Master';
       }
 
-      // Center Label: Live Album Art or Emerald Brooch
       if (track.album_art_url && elements.albumImg && elements.broochFallback) {
         elements.albumImg.src = track.album_art_url;
         elements.albumImg.style.display = 'block';
@@ -233,7 +219,6 @@
         elements.broochFallback.style.display = 'flex';
       }
 
-      // Status Seal Badge
       if (elements.statusBadge) {
         if (track.isLastScrobble) {
           elements.statusBadge.textContent = 'LAST SCROBBLE';
@@ -247,12 +232,11 @@
         }
       }
 
-      // Provider Label
       if (elements.providerLabel) {
         elements.providerLabel.textContent = (songViewerService.provider === 'discord' ? 'LANYARD' : 'LAST.FM');
       }
 
-      // Mechanical Tonearm & Vinyl Physical State
+  // Mechanical Tonearm & Vinyl Physical State
       if (!isPaused) {
         setVinylSpinning(true);
         if (!hasPlayedNeedleDrop) {
@@ -264,9 +248,8 @@
       }
     },
 
-    // 2. Real-Time Track Progression Update
     onProgressUpdate: ({ isStreaming, percentage, currentFormatted, durationFormatted }) => {
-      // Numerical Timecode Readout
+
       if (elements.timeCurrent) {
         elements.timeCurrent.textContent = isStreaming ? '--:--' : currentFormatted;
       }
@@ -274,12 +257,11 @@
         elements.timeDuration.textContent = isStreaming ? '--:--' : durationFormatted;
       }
 
-      // Analog Meter Rule
       if (elements.analogFill) {
         elements.analogFill.style.width = isStreaming ? '0%' : `${percentage}%`;
       }
 
-      // Physical Tonearm Needle Tracking
+  // Physical Tonearm Needle Tracking
       if (!isStreaming && isCurrentlyPlaying) {
         const clampedPct = Math.min(100, Math.max(0, percentage));
         const tonearmAngle = TONEARM_ANGLES.TRACK_START + (clampedPct / 100) * (TONEARM_ANGLES.TRACK_END - TONEARM_ANGLES.TRACK_START);
@@ -287,7 +269,6 @@
       }
     },
 
-    // 3. Play / Pause State Change
     onStateChange: ({ isPaused }) => {
       isCurrentlyPlaying = !isPaused;
 
@@ -308,32 +289,27 @@
       }
     },
 
-    // 4. Standby State (Idle, No Music Detected)
     onStandby: (provider, hintText) => {
       isCurrentlyPlaying = false;
       hasPlayedNeedleDrop = false;
 
-      // Stop Vinyl Rotation & Return Tonearm to Rest Cradle
+  // Stop Vinyl Rotation & Return Tonearm to Rest Cradle
       setVinylSpinning(false);
       setTonearmAngle(TONEARM_ANGLES.REST);
 
-      // Display Gilbert's Emerald Brooch on Center Label
       if (elements.albumImg && elements.broochFallback) {
         elements.albumImg.style.display = 'none';
         elements.broochFallback.style.display = 'flex';
       }
 
-      // Show Standby Card & Hide Active Track Section
       if (elements.trackInfoSection) elements.trackInfoSection.style.display = 'none';
       if (elements.standbySection) elements.standbySection.style.display = 'flex';
 
-      // Status Seal
       if (elements.statusBadge) {
         elements.statusBadge.textContent = 'STANDBY';
         elements.statusBadge.className = 'status-seal';
       }
 
-      // Standby Hint
       if (elements.standbyHint) {
         if (hintText) {
           elements.standbyHint.textContent = hintText;
@@ -345,13 +321,11 @@
       }
     },
 
-    // 5. Error Handler
     onError: (err) => {
       console.warn('[Phonograph Widget]', err);
     },
   });
 
-  // Modal dialog management
   function switchTab(prov) {
     activeTabProvider = prov;
     if (prov === 'discord') {
@@ -370,7 +344,6 @@
   function openConfigModal() {
     getAudioContext(); // User gesture unlocks audio context if locked
 
-    // Pre-fill inputs with active credentials
     if (elements.discordIdInput) {
       elements.discordIdInput.value = songViewerService.discordId || '';
     }
@@ -396,7 +369,6 @@
     }
   }
 
-  // Modal Event Listeners
   if (elements.openConfigBtn) {
     elements.openConfigBtn.addEventListener('click', openConfigModal);
   }
@@ -414,7 +386,6 @@
     elements.tabLastfm.addEventListener('click', () => switchTab('lastfm'));
   }
 
-  // Save Settings & Affix Wax Seal
   if (elements.saveConfigBtn) {
     elements.saveConfigBtn.addEventListener('click', () => {
       hasPlayedNeedleDrop = false;
@@ -428,7 +399,6 @@
     });
   }
 
-  // Test Cylinder (Demo Track Mode)
   if (elements.demoBtn) {
     elements.demoBtn.addEventListener('click', () => {
       hasPlayedNeedleDrop = false;
@@ -437,7 +407,6 @@
     });
   }
 
-  // Close modal when clicking backdrop outside paper
   if (elements.configModal) {
     elements.configModal.addEventListener('click', (e) => {
       if (e.target === elements.configModal) {
@@ -446,26 +415,22 @@
     });
   }
 
-  // Keyboard shortcut: Escape key to close modal
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && elements.configModal && elements.configModal.style.display === 'flex') {
       closeConfigModal();
     }
   });
 
-  // Clicking the vinyl disc toggles test needle drop audio
   if (elements.vinylDisc) {
     elements.vinylDisc.addEventListener('click', () => {
       playNeedleDropAudio();
     });
   }
 
-  // Initialize
   document.addEventListener('DOMContentLoaded', () => {
-    // Start in resting tonearm position
+  // Start in resting tonearm position
     setTonearmAngle(TONEARM_ANGLES.REST);
 
-    // Initialize Song Viewer Service
     songViewerService.init();
   });
 

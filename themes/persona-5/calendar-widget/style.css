@@ -1,10 +1,5 @@
 @import url("../theme-base.css");
 
-/* ========================================================
-   PERSONA 5 CALENDAR WIDGET: THE PHANTOM HUD
-   Controlled Chaos • Neubrutalism • Snappy Bouncy Physics
-   ======================================================== */
-
 :root {
   --p5-red-vibrant: #e60012;
   --p5-red-shadow: #8b000a;
@@ -19,7 +14,6 @@
   --p5-cut-quick: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-/* Prevent White Background & Corners Peeking Out */
 html, body {
   background: transparent !important;
   margin: 0;
@@ -29,7 +23,6 @@ html, body {
   overflow: hidden;
 }
 
-/* Base Widget Container */
 .p5-banner.p5-calendar-root {
   position: relative;
   width: 100%;
@@ -50,7 +43,6 @@ html, body {
   display: none !important;
 }
 
-/* Halftone Comic Dot Pattern Overlay */
 .p5-halftone-overlay {
   position: absolute;
   inset: 0;
@@ -63,7 +55,6 @@ html, body {
   z-index: 1;
 }
 
-/* Comic Red Shards & Polygonal Cutouts */
 .cal-shard-primary {
   top: -20%;
   right: -10%;
@@ -100,7 +91,6 @@ html, body {
   z-index: 1;
 }
 
-/* Comic Speed Lines Overlay */
 .cal-speed-lines {
   position: absolute;
   inset: 0;
@@ -115,7 +105,6 @@ html, body {
   z-index: 1;
 }
 
-/* Hero Mask Motif */
 .cal-mask-wrap {
   top: -6%;
   left: 2%;
@@ -129,9 +118,6 @@ html, body {
   transform: rotate(-12deg) translateY(-2px);
 }
 
-/* ========================================================
-   VIEW MANAGEMENT & DUAL-STATE ANIMATIONS
-   ======================================================== */
 .cal-view {
   position: absolute;
   inset: 0;
@@ -142,7 +128,6 @@ html, body {
   transition: transform 0.46s var(--p5-spring-snap), opacity 0.35s ease;
 }
 
-/* HUD View State */
 .p5-calendar-root[data-active-view="hud"] #hudView {
   transform: translateX(0) scale(1);
   opacity: 1;
@@ -150,7 +135,6 @@ html, body {
   z-index: 4;
 }
 
-/* Foreground Uniform Hover Scale for Primary HUD View */
 .p5-calendar-root[data-active-view="hud"]:hover #hudView {
   transform: translateX(0) scale(1.02);
 }
@@ -162,7 +146,6 @@ html, body {
   z-index: 3;
 }
 
-/* Schedule View State */
 .p5-calendar-root[data-active-view="schedule"] #hudView {
   transform: translateX(-38%) scale(0.86) skewX(-4deg);
   opacity: 0;
@@ -177,14 +160,10 @@ html, body {
   z-index: 5;
 }
 
-/* Schedule View Hover: Static and grounded; NO overall container scale */
 .p5-calendar-root[data-active-view="schedule"]:hover #scheduleView {
   transform: translateX(0) rotate(0deg) scale(1);
 }
 
-/* ========================================================
-   VIEW 1: PRIMARY IN-GAME DATE HUD
-   ======================================================== */
 .cal-view-hud {
   display: grid;
   grid-template-columns: 1.15fr 1.35fr;
@@ -194,17 +173,15 @@ html, body {
   z-index: 4;
 }
 
-/* Left Column */
 .hud-col-left {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   z-index: 3;
-  padding-left: clamp(24px, 6cqw, 42px); /* spacing for mask */
+  padding-left: clamp(24px, 6cqw, 42px); 
 }
 
-/* Time Phase Pill */
 .hud-phase-pill {
   display: inline-flex;
   align-items: center;
@@ -250,7 +227,6 @@ html, body {
   opacity: 0.9;
 }
 
-/* Digital Clock Row */
 .hud-clock-row {
   display: flex;
   align-items: center;
@@ -328,7 +304,6 @@ html, body {
   letter-spacing: 0.5px;
 }
 
-/* Actions Row: Trigger + Sound Button */
 .hud-actions-row {
   display: flex;
   align-items: center;
@@ -411,7 +386,6 @@ html, body {
   box-shadow: 1px 1px 0 var(--p5-black-pure);
 }
 
-/* Right Column: Hero Date Centerpiece */
 .hud-col-right {
   display: flex;
   flex-direction: column;
@@ -422,7 +396,6 @@ html, body {
   cursor: pointer;
 }
 
-/* Slashed Month Ribbon */
 .hud-month-ribbon {
   display: inline-flex;
   align-items: center;
@@ -482,7 +455,6 @@ html, body {
   height: 70%;
 }
 
-/* Massive Staggered Ransom-Note Day Digits */
 .hud-day-stage {
   display: flex;
   align-items: center;
@@ -512,7 +484,6 @@ html, body {
   letter-spacing: -1px;
 }
 
-/* Staggered Ransom Stylings */
 .digit-card-tens {
   background: var(--p5-black-pure);
   color: var(--p5-white-pure);
@@ -525,7 +496,6 @@ html, body {
   transform: rotate(5deg) skewX(3deg) translateY(3px);
 }
 
-/* Hover Dynamics on Ransom Digits ("The Juice") */
 .p5-calendar-root[data-active-view="hud"]:hover .digit-card-tens {
   transform: rotate(-10deg) skewX(-6deg) translateY(-4px);
   box-shadow: 5px 5px 0 var(--p5-black-pure), -2px -2px 0 var(--p5-red-glow);
@@ -536,7 +506,6 @@ html, body {
   box-shadow: 5px 5px 0 var(--p5-black-pure), 0 0 12px var(--p5-red-glow);
 }
 
-/* Slashed Weekday Chevron */
 .hud-weekday-slash {
   display: inline-flex;
   align-items: center;
@@ -574,10 +543,6 @@ html, body {
   color: var(--p5-yellow-star);
 }
 
-/* ========================================================
-   VIEW 2: INTERACTIVE MONTH SCHEDULE (UNFOLD STATE)
-   Strictly optimized for Vivaldi Regular Tile (200-240px tall)
-   ======================================================== */
 .cal-view-schedule {
   display: flex;
   flex-direction: column;
@@ -588,7 +553,6 @@ html, body {
   box-sizing: border-box;
 }
 
-/* Schedule Header Strip */
 .schedule-header {
   display: flex;
   align-items: center;
@@ -623,7 +587,6 @@ html, body {
   letter-spacing: 1px;
 }
 
-/* Navigation Buttons */
 .sched-nav-btn {
   display: inline-flex;
   align-items: center;
@@ -696,7 +659,6 @@ html, body {
   transform: rotate(5deg) scale(1.1);
 }
 
-/* Weekday Labels Strip */
 .schedule-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -721,7 +683,6 @@ html, body {
   color: var(--p5-blue-sat);
 }
 
-/* 7-Column Calendar Grid Body */
 .schedule-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -731,7 +692,6 @@ html, body {
   align-content: stretch;
 }
 
-/* Neubrutalist Cell Styling */
 .schedule-grid .cal-day {
   display: flex;
   align-items: center;
@@ -765,7 +725,6 @@ html, body {
   box-shadow: none;
 }
 
-/* Cell Hover "Juice" */
 .schedule-grid .cal-day:not(.prev-month):hover {
   background: var(--p5-cream-p5);
   color: var(--p5-black-pure) !important;
@@ -775,7 +734,6 @@ html, body {
   z-index: 5;
 }
 
-/* Today's Cell: In-Game Red Target Accent */
 .schedule-grid .cal-day.today {
   background: var(--p5-red-vibrant) !important;
   color: var(--p5-white-pure) !important;
@@ -797,7 +755,6 @@ html, body {
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
 
-/* Schedule Footer Strip */
 .schedule-footer {
   display: flex;
   align-items: center;
@@ -829,9 +786,6 @@ html, body {
   letter-spacing: 0.5px;
 }
 
-
-
-/* Compact Container Query Adaptations */
 @container (max-width: 320px) {
   .p5-cal-table th {
     font-size: 8.5px;

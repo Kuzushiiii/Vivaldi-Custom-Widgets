@@ -13,7 +13,6 @@
   --p5-black: #000000;
   --p5-white: #ffffff;
 
-  /* ===== Paper-cutout corner accents (Container Responsive) ===== */
   --p5-cut: clamp(14px, 4cqw, 28px);
   --p5-cut-sm: clamp(8px, 2cqw, 14px);
 }
@@ -51,7 +50,6 @@ body {
   isolation: isolate;
 }
 
-/* Halftone dot pattern (Comic Manga Screentone Vignette) */
 .p5-banner::before {
   content: "";
   position: absolute;
@@ -68,12 +66,6 @@ body {
   mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, black 25%, transparent 100%);
 }
 
-/* Paper-cutout corner accents: solid painted triangle wedges layered on
-   TOP of the opaque card background (not a cut-through hole). Reads as
-   a torn/folded paper corner while the card underneath still fully
-   covers the widget frame at every pixel. Asymmetric sizing (big
-   top-left, small bottom corners, sharp top-right) for that dynamic,
-   non-uniform P5 silhouette. */
 .p5-banner::after {
   content: "";
   position: absolute;
@@ -86,7 +78,6 @@ body {
     linear-gradient(45deg, var(--p5-black) 0 50%, transparent 50%) bottom left / var(--p5-cut-sm) var(--p5-cut-sm) no-repeat;
 }
 
-/* ===== Comic Red Splashes Base ===== */
 .red-shape {
   position: absolute;
   background: var(--p5-red);
@@ -94,7 +85,6 @@ body {
   pointer-events: none;
 }
 
-/* ===== Comic Spikes Base ===== */
 .spike {
   position: absolute;
   background: rgba(255, 255, 255, 0.9);
@@ -102,7 +92,6 @@ body {
   pointer-events: none;
 }
 
-/* ===== Stars Base ===== */
 .star {
   position: absolute;
   z-index: 1;
@@ -110,7 +99,6 @@ body {
   filter: drop-shadow(2px 2px 0 var(--p5-black));
 }
 
-/* ===== MASK CONTAINER (HERO ACCENT) ===== */
 .mask-container {
   position: absolute;
   z-index: 3;
@@ -133,7 +121,6 @@ body {
   opacity: 0.98;
 }
 
-/* ===== P5 RANSOM NOTE / PAPER CUTOUT UTILITIES ===== */
 .p5-tag-black {
   background: var(--p5-black);
   color: var(--p5-white);

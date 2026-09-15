@@ -18,7 +18,6 @@ const STORAGE_KEYS = {
   LASTFM_TRACK_ALBUM: "vcw_lastfm_track_album",
   LASTFM_TRACK_ART: "vcw_lastfm_track_art",
 
-  // Fallback / legacy keys for backward compatibility
   LEGACY_PROVIDER: "p5_music_provider",
   LEGACY_DISCORD: "p5_lanyard_discord_id",
   LEGACY_LASTFM_USER: "p5_lastfm_username",
@@ -229,7 +228,6 @@ class SongViewerService {
     this.updateProgress();
   }
 
-  // Discord Lanyard connection
   connectLanyard() {
     if (!this.discordId || this.isDemoMode) return;
     this.cleanup();
@@ -338,7 +336,6 @@ class SongViewerService {
     this.pollInterval = setInterval(fetchRest, 12000);
   }
 
-  // Last.fm connection & duration fetching
   async fetchLastfmTrackDuration(artist, trackName, apiKey) {
     const cacheKey = `${artist}-${trackName}`.toLowerCase();
     if (this.trackInfoCache.has(cacheKey)) {

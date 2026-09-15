@@ -1,10 +1,5 @@
 @import url("../theme-base.css");
 
-/* ========================================================
-   PERSONA 5 DAY PROGRESSION WIDGET: PALACE SECURITY HUD
-   Controlled Chaos • Neubrutalism • Pixel-Perfect Clean-Up
-   ======================================================== */
-
 :root {
   --p5-red-vibrant: #e60012;
   --p5-red-dark: #8b000a;
@@ -18,7 +13,6 @@
   --p5-spring-snap: cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
-/* 1. Prevent White Background & Corners Peeking Out */
 html, body {
   background-color: var(--p5-bg) !important;
   background: var(--p5-bg) !important;
@@ -29,7 +23,6 @@ html, body {
   overflow: hidden;
 }
 
-/* Base Widget Container (Solid full-bleed rectangle matching Calendar widget) */
 .p5-banner.p5-day-root {
   position: relative;
   width: 100%;
@@ -46,12 +39,10 @@ html, body {
   user-select: none;
 }
 
-/* Disable theme-base default rounded corner gradient wedges */
 .p5-banner.p5-day-root::after {
   display: none !important;
 }
 
-/* Animate inner content HUD and background shards on hover without pulling the outer container */
 .p5-day-root .day-content {
   transition: transform 0.3s var(--p5-spring-snap);
 }
@@ -74,7 +65,6 @@ html, body {
   transform: rotate(6deg) scale(1.03);
 }
 
-/* Halftone Comic Dot Pattern Overlay */
 .p5-halftone-overlay {
   position: absolute;
   inset: 0;
@@ -87,7 +77,6 @@ html, body {
   z-index: 1;
 }
 
-/* Comic Red Shards & Polygonal Cutouts */
 .day-shard-primary {
   top: -22%;
   right: -8%;
@@ -124,7 +113,6 @@ html, body {
   z-index: 1;
 }
 
-/* Comic Speed Lines Overlay */
 .day-speed-lines {
   position: absolute;
   inset: 0;
@@ -139,7 +127,6 @@ html, body {
   z-index: 1;
 }
 
-/* Hero Mask Motif */
 .day-mask-wrap {
   top: -6%;
   right: 28%;
@@ -153,9 +140,6 @@ html, body {
   transform: rotate(-18deg) scale(1.1) translateY(-2px);
 }
 
-/* ========================================================
-   MAIN CONTENT HUD (Landscape 400-500px x 200-240px)
-   ======================================================== */
 .day-content {
   position: relative;
   display: flex;
@@ -168,9 +152,6 @@ html, body {
   z-index: 3;
 }
 
-/* ========================================================
-   TOP ROW: Time Phase, Status Tag, Sound Toggle
-   ======================================================== */
 .day-top-row {
   display: flex;
   align-items: center;
@@ -235,7 +216,6 @@ html, body {
   letter-spacing: 1px;
 }
 
-/* Sound Toggle Button */
 .sound-toggle-btn {
   display: inline-flex;
   align-items: center;
@@ -264,9 +244,6 @@ html, body {
   box-shadow: 1px 1px 0 var(--p5-black-pure);
 }
 
-/* ========================================================
-   MID ROW: Ransom Percentage & Dynamic Slogan Meta
-   ======================================================== */
 .day-mid-row {
   display: flex;
   align-items: center;
@@ -276,7 +253,6 @@ html, body {
   min-height: 0;
 }
 
-/* 2. Tightly Packed Ransom Note Percentage Stage */
 .ransom-percent-stage {
   display: flex;
   align-items: center;
@@ -307,7 +283,6 @@ html, body {
   letter-spacing: -0.5px;
 }
 
-/* Tight / Slightly Overlapping Staggered Cards */
 .r-digit-tens {
   background: var(--p5-black-pure);
   color: var(--p5-white-pure);
@@ -339,7 +314,6 @@ html, body {
   font-size: clamp(22px, 5.8cqw, 34px);
 }
 
-/* Decimal Diamond Separator */
 .ransom-dot {
   font-size: clamp(9px, 2cqw, 12px);
   color: var(--p5-yellow-star);
@@ -349,7 +323,6 @@ html, body {
   transform: rotate(45deg);
 }
 
-/* Percent Symbol Badge */
 .ransom-percent-badge {
   display: inline-flex;
   align-items: center;
@@ -366,7 +339,6 @@ html, body {
   z-index: 1;
 }
 
-/* Hover Dynamics on Percentage Digits ("The Juice") */
 .p5-day-root:hover .r-digit-tens {
   transform: rotate(-10deg) scale(1.08) translateY(-3px);
   box-shadow: 4px 4px 0 var(--p5-black-pure);
@@ -381,7 +353,6 @@ html, body {
   transform: rotate(-7deg) scale(1.08);
 }
 
-/* 3. Right Meta Block: Single-Line Slogan + Time Countdown */
 .day-meta-block {
   display: flex;
   flex-direction: column;
@@ -434,9 +405,6 @@ html, body {
   letter-spacing: 1px;
 }
 
-/* ========================================================
-   4. BOTTOM ROW: SLANTED PALACE SECURITY METER & BEACON
-   ======================================================== */
 .day-meter-section {
   display: flex;
   flex-direction: column;
@@ -446,7 +414,6 @@ html, body {
   overflow: visible;
 }
 
-/* Outer Wrapper holding both Track and Outside Beacon */
 .meter-wrapper {
   position: relative;
   width: 100%;
@@ -461,7 +428,7 @@ html, body {
   border: 2.5px solid var(--p5-black-pure);
   box-shadow: 3.5px 3.5px 0 var(--p5-black-pure);
   transform: skewX(-12deg);
-  overflow: hidden; /* Clips the slanted fill & hazard stripes cleanly */
+  overflow: hidden; 
   cursor: pointer;
   transition: transform 0.25s var(--p5-spring-snap), box-shadow 0.25s ease;
 }
@@ -471,7 +438,6 @@ html, body {
   box-shadow: 4.5px 4.5px 0 var(--p5-black-pure), 0 0 10px var(--p5-red-glow);
 }
 
-/* Slanted Hazard Striped Background */
 .meter-bg-hazard {
   position: absolute;
   inset: 0;
@@ -485,7 +451,6 @@ html, body {
   overflow: hidden;
 }
 
-/* Moving Slashed Red Paint Fill Bar */
 .meter-fill-bar {
   position: absolute;
   top: 0;
@@ -517,7 +482,6 @@ html, body {
   to { background-position: 200px 0; }
 }
 
-/* Dynamic Leading Edge Beacon (Outside overflow: hidden track) */
 .meter-leading-beacon {
   position: absolute;
   top: 50%;
@@ -552,7 +516,6 @@ html, body {
   filter: drop-shadow(0 0 12px var(--p5-red-glow)) drop-shadow(2px 2px 0 var(--p5-black-pure));
 }
 
-/* Meter Footer Labels Strip */
 .meter-footer {
   display: flex;
   align-items: center;
@@ -580,7 +543,6 @@ html, body {
   font-size: 8px;
 }
 
-/* Compact Container Query Adaptations */
 @container (max-width: 320px) {
   .p5-day-title {
     font-size: clamp(12px, 4cqw, 15px);

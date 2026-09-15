@@ -1015,9 +1015,6 @@
 </head>
 <body>
 
-  <!-- ========================================================
-       HEADER
-       ======================================================== -->
   <header class="showroom-header">
     <div class="header-container">
       <div class="brand-section">
@@ -1032,7 +1029,6 @@
       </div>
 
       <div class="header-actions">
-        <!-- Theme Switcher for Dashboard Shell -->
         <div class="theme-selector-wrap" title="Switch Showroom Dashboard Theme">
           <button class="theme-dot-btn active" data-dashboard="obsidian" title="Obsidian Dark (Vivaldi)">
             <span class="theme-dot obsidian"></span>
@@ -1056,14 +1052,9 @@
     </div>
   </header>
 
-  <!-- ========================================================
-       CONTROLS DECK: FILTERS, SEARCH & CONTAINER SIZING
-       ======================================================== -->
   <section class="controls-deck">
     
-    <!-- Row 1: Filter Pills & Search -->
     <div class="control-row">
-      <!-- Theme Filter Pills -->
       <div class="filter-group">
         <span class="filter-label">Theme:</span>
         <button class="pill-btn active" data-filter-theme="all">
@@ -1077,7 +1068,6 @@
         </button>
       </div>
 
-      <!-- Category Filter Pills -->
       <div class="filter-group">
         <span class="filter-label">Category:</span>
         <button class="pill-btn active" data-filter-category="all">All</button>
@@ -1087,7 +1077,6 @@
         <button class="pill-btn" data-filter-category="gif"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><polyline points="21,15 16,10 5,21"/></svg> Visual / GIF</button>
       </div>
 
-      <!-- Instant Search Box -->
       <div class="search-box">
         <span class="search-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
         <input type="text" id="searchInput" class="search-input" placeholder="Search widget name, feature..." autocomplete="off">
@@ -1095,7 +1084,6 @@
       </div>
     </div>
 
-    <!-- Row 2: Live Container Query & Tile Sizing Engine -->
     <div class="sizing-deck">
       <div class="sizing-title-wrap">
         <div class="sizing-title">
@@ -1106,7 +1094,6 @@
         </div>
       </div>
 
-      <!-- Presets for Vivaldi Startpage -->
       <div class="sizing-presets">
         <button class="preset-btn active" data-preset="responsive">Standard Grid</button>
         <button class="preset-btn" data-preset="1x1" data-w="320" data-h="320">1×1 Tile (320px)</button>
@@ -1115,7 +1102,6 @@
         <button class="preset-btn" data-preset="3x2" data-w="660" data-h="380">3×2 Hero (660×380)</button>
       </div>
 
-      <!-- Live Sliders -->
       <div class="slider-controls">
         <div class="slider-item">
           <label for="widthSlider">Width</label>
@@ -1133,13 +1119,9 @@
 
   </section>
 
-  <!-- ========================================================
-       MAIN: WIDGET SHOWCASE GRID
-       ======================================================== -->
   <main class="showroom-main">
     <div class="widgets-grid" id="widgetsGrid">
 
-      <!-- 1. PERSONA 5: CALENDAR WIDGET -->
       <article class="widget-card" 
                data-theme="persona-5" 
                data-category="calendar" 
@@ -1166,7 +1148,6 @@
         </footer>
       </article>
 
-      <!-- 2. PERSONA 5: DAY PROGRESSION -->
       <article class="widget-card" 
                data-theme="persona-5" 
                data-category="day-progression" 
@@ -1193,7 +1174,6 @@
         </footer>
       </article>
 
-      <!-- 3. PERSONA 5: SONG VIEWER WIDGET -->
       <article class="widget-card" 
                data-theme="persona-5" 
                data-category="song-viewer" 
@@ -1220,7 +1200,6 @@
         </footer>
       </article>
 
-      <!-- 4. PERSONA 5: GIF CUT-IN 1 -->
       <article class="widget-card" 
                data-theme="persona-5" 
                data-category="gif" 
@@ -1247,7 +1226,6 @@
         </footer>
       </article>
 
-      <!-- 5. PERSONA 5: GIF CUT-IN 2 -->
       <article class="widget-card" 
                data-theme="persona-5" 
                data-category="gif" 
@@ -1274,7 +1252,6 @@
         </footer>
       </article>
 
-      <!-- 6. VIOLET EVERGARDEN: CALENDAR WIDGET -->
       <article class="widget-card" 
                data-theme="violet-evergarden" 
                data-category="calendar" 
@@ -1301,7 +1278,6 @@
         </footer>
       </article>
 
-      <!-- 7. VIOLET EVERGARDEN: DAY PROGRESSION -->
       <article class="widget-card" 
                data-theme="violet-evergarden" 
                data-category="day-progression" 
@@ -1328,7 +1304,6 @@
         </footer>
       </article>
 
-      <!-- 8. VIOLET EVERGARDEN: SONG VIEWER WIDGET -->
       <article class="widget-card" 
                data-theme="violet-evergarden" 
                data-category="song-viewer" 
@@ -1355,7 +1330,6 @@
         </footer>
       </article>
 
-      <!-- 9. VIOLET EVERGARDEN: GIF TYPING BANNER -->
       <article class="widget-card" 
                data-theme="violet-evergarden" 
                data-category="gif" 
@@ -1382,7 +1356,6 @@
         </footer>
       </article>
 
-      <!-- 10. VIOLET EVERGARDEN: GIF FLOWERS BANNER -->
       <article class="widget-card" 
                data-theme="violet-evergarden" 
                data-category="gif" 
@@ -1409,7 +1382,6 @@
         </footer>
       </article>
 
-      <!-- Empty State when filtering returns nothing -->
       <div class="empty-state" id="emptyState">
         <h3>No widgets found</h3>
         <p>Try clearing your search query or selecting a different theme/category filter.</p>
@@ -1418,9 +1390,6 @@
     </div>
   </main>
 
-  <!-- ========================================================
-       MODAL: VIVALDI SETUP GUIDE
-       ======================================================== -->
   <div class="modal-backdrop" id="guideModal" aria-hidden="true">
     <div class="modal-box">
       <header class="modal-header">
@@ -1463,12 +1432,8 @@
     </div>
   </div>
 
-  <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <!-- ========================================================
-       SCRIPT LOGIC: FILTERS, SIZING, COPYING & INTERACTIVITY
-       ======================================================== -->
   <script>
     (function () {
       // DOM Elements

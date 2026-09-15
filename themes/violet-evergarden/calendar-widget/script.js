@@ -63,9 +63,7 @@
     }
   ];
 
-  /* --------------------------------------------------------
-     1. WIDGET-SPECIFIC LOCAL STORAGE LAYER
-     -------------------------------------------------------- */
+  
   function getStoredMemos() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -77,7 +75,6 @@
       console.warn('[Violet Calendar] Error reading localStorage memos:', err);
     }
 
-    // Initialize with default lore dispatches for current month if empty
     const now = new Date();
     const initialDispatches = DEFAULT_LORE_DISPATCHES.map(evt => ({
       ...evt,
@@ -91,7 +88,7 @@
   function saveStoredMemos(memos) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(memos));
-      // Also synchronize with shared CalendarService if loaded
+
       if (window.CalendarService && typeof window.CalendarService.setEvents === 'function') {
         window.CalendarService.setEvents(memos);
       }
@@ -144,11 +141,7 @@
     return false;
   }
 
-  /* --------------------------------------------------------
-     1.5 PROCEDURAL PARCHMENT ACOUSTICS (WEB AUDIO API)
-     Pure mathematical sound synthesis for paper friction,
-     page turn, and letter unfolding without external audio files.
-     -------------------------------------------------------- */
+  
   let audioCtx = null;
 
   function getAudioContext() {
@@ -177,7 +170,7 @@
       const buffer = ctx.createBuffer(1, numSamples, sampleRate);
       const data = buffer.getChannelData(0);
 
-      // Fibrous paper noise envelope
+  // Fibrous paper noise envelope
       for (let i = 0; i < numSamples; i++) {
         const t = i / sampleRate;
         let env = 0;
@@ -218,7 +211,6 @@
     } catch (_) {}
   }
 
-  // Synthesize letter unfold / memo popover opening
   function playLetterOpenSound() {
     try {
       const ctx = getAudioContext();
@@ -231,7 +223,7 @@
       const buffer = ctx.createBuffer(1, numSamples, sampleRate);
       const data = buffer.getChannelData(0);
 
-      // Dual-pulse texture: crease flick (0-60ms) + parchment unfold slide (50-240ms)
+  // Dual-pulse texture: crease flick (0-60ms) + parchment unfold slide (50-240ms)
       for (let i = 0; i < numSamples; i++) {
         const t = i / sampleRate;
         let env1 = 0;
@@ -326,9 +318,7 @@
     } catch (_) {}
   }
 
-  /* --------------------------------------------------------
-     2. DOM ELEMENTS
-     -------------------------------------------------------- */
+  
   const elements = {
     cursiveMonth: document.getElementById('cursiveMonth'),
     typewriterYear: document.getElementById('typewriterYear'),
@@ -340,7 +330,6 @@
     tornNoteBackdrop: document.getElementById('tornNoteBackdrop'),
     tornNoteCard: document.getElementById('tornNoteCard'),
 
-    // View Mode Elements
     noteViewMode: document.getElementById('noteViewMode'),
     noteTag: document.getElementById('noteTag'),
     noteCloseBtn: document.getElementById('noteCloseBtn'),
@@ -352,7 +341,6 @@
     btnReviseDraft: document.getElementById('btnReviseDraft'),
     btnDiscardDispatch: document.getElementById('btnDiscardDispatch'),
 
-    // Draft / Edit Mode Elements
     noteEditMode: document.getElementById('noteEditMode'),
     composeHeaderTag: document.getElementById('composeHeaderTag'),
     editCancelCloseBtn: document.getElementById('editCancelCloseBtn'),
@@ -366,9 +354,7 @@
     btnSealDispatch: document.getElementById('btnSealDispatch')
   };
 
-  /* --------------------------------------------------------
-     3. CALENDAR RENDERING
-     -------------------------------------------------------- */
+  
   function updateHeaderDisplay(year, month) {
     if (elements.cursiveMonth) {
       elements.cursiveMonth.textContent = CURSIVE_MONTHS[month];
@@ -397,14 +383,12 @@
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const prevMonthDays = new Date(year, month, 0).getDate();
 
-    // Previous month trailing days
     for (let i = 0; i < firstDayIndex; i++) {
       const dayNum = prevMonthDays - firstDayIndex + 1 + i;
       const cell = createDayCell(dayNum, { isPrevMonth: true, isSun: i === 0 });
       grid.appendChild(cell);
     }
 
-    // Current month days
     for (let day = 1; day <= daysInMonth; day++) {
       const colIndex = (firstDayIndex + day - 1) % 7;
       const isToday = (
@@ -426,7 +410,6 @@
       grid.appendChild(cell);
     }
 
-    // Next month leading days
     const totalRendered = firstDayIndex + daysInMonth;
     const remainingCells = (7 - (totalRendered % 7)) % 7;
     for (let i = 1; i <= remainingCells; i++) {
@@ -477,7 +460,6 @@
       cell.appendChild(dotWrap);
     }
 
-    // Attach click listener for all active days of current month
     if (!config.isPrevMonth && !config.isNextMonth) {
       cell.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -508,9 +490,7 @@
     return cell;
   }
 
-  /* --------------------------------------------------------
-     4. TORN CARD POPOVER INTERACTIONS
-     -------------------------------------------------------- */
+  
   let closeAnimationTimeout = null;
 
   function displayTornNote(eventData, day, month, year) {
@@ -568,7 +548,6 @@
     currentEvent = null;
     currentSelectedDate = { day, month, year };
 
-    // Reset view-mode text elements so stale letter content never peeks through
     if (elements.noteTag) elements.noteTag.textContent = 'CH POSTAL DISPATCH';
     if (elements.noteDateStamp) elements.noteDateStamp.textContent = `${CURSIVE_MONTHS[month]} ${String(day).padStart(2, '0')}, ${year}`;
     if (elements.noteTitle) elements.noteTitle.textContent = '';
@@ -698,8 +677,6 @@
       activePinnedDay = null;
     }
 
-    // Do NOT synchronously swap mode while the card is in its 220ms fade-out transition.
-    // Delay the mode reset until the card is completely invisible to avoid flashing existing letters.
     if (closeAnimationTimeout) clearTimeout(closeAnimationTimeout);
     closeAnimationTimeout = setTimeout(() => {
       if (elements.tornNoteCard && !elements.tornNoteCard.classList.contains('show')) {

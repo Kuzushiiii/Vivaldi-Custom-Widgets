@@ -1,7 +1,7 @@
 @import url("../theme-base.css");
 
 :root {
-  /* Core Theme Palette (Identical to Calendar Widget) */
+
   --bg-paper: #F9F6F0;
   --text-ink: #2b2422;
   --accent-emerald: #3c6e5a;
@@ -26,7 +26,6 @@
   --ribbon-black: #1a1716;
   --ribbon-red: #8c2b25;
 
-  /* Typography Tokens (Identical to Calendar Widget) */
   --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-typewriter: 'Special Elite', 'Courier Prime', monospace;
   --font-cursive: 'Great Vibes', 'Dancing Script', cursive;
@@ -64,7 +63,6 @@ html, body {
   height: 0 !important;
 }
 
-/* Stationery Card Container (100% matched with Calendar Widget) */
 .stationery-widget {
   container-type: size;
   container-name: widget;
@@ -81,7 +79,6 @@ html, body {
   flex-direction: column;
 }
 
-/* Ruled ledger lines & stationery watermark (100% matched with Calendar Widget) */
 .stationery-widget::before {
   content: "";
   position: absolute;
@@ -104,7 +101,6 @@ html, body {
   opacity: 0.85;
 }
 
-/* Double-line letterhead frame (100% matched with Calendar Widget) */
 .stationery-widget::after {
   content: "";
   position: absolute;
@@ -127,7 +123,6 @@ html, body {
   padding: clamp(8px, 2.2cqh, 16px) clamp(14px, 3.5cqw, 22px) clamp(6px, 1.8cqh, 12px);
 }
 
-/* Letterhead Header (C·H Postal Company) */
 .letterhead-header {
   display: flex;
   flex-direction: column;
@@ -179,7 +174,6 @@ html, body {
   );
 }
 
-/* Readout Section (Phase Badge & Fresh Inked Readouts) */
 .readout-section {
   display: flex;
   flex-direction: column;
@@ -302,7 +296,6 @@ html, body {
   );
 }
 
-/* Mechanical Typewriter Carriage Assembly */
 .carriage-assembly {
   display: flex;
   flex-direction: column;
@@ -310,7 +303,6 @@ html, body {
   margin: clamp(2px, 0.8cqh, 6px) 0;
 }
 
-/* Brass Margin Scale (Paper Bail Ruler) */
 .brass-ruler {
   position: relative;
   background: linear-gradient(
@@ -362,7 +354,6 @@ html, body {
   background-color: rgba(26, 18, 8, 0.95);
 }
 
-/* Platen Roller Track Container */
 .platen-track-container {
   position: relative;
   display: flex;
@@ -371,7 +362,6 @@ html, body {
   padding: 0 2px;
 }
 
-/* Cylindrical Platen Roller Knobs */
 .platen-knob {
   position: relative;
   z-index: 4;
@@ -411,7 +401,6 @@ html, body {
   border-radius: 1px;
 }
 
-/* Interactive Bell / Carriage Return Lever */
 .bell-return-btn {
   background: transparent;
   border: none;
@@ -440,7 +429,6 @@ html, body {
   transform: scale(0.95);
 }
 
-/* Platen Roller Slot */
 .platen-roller {
   position: relative;
   flex: 1;
@@ -464,7 +452,6 @@ html, body {
   border-bottom: 1px solid var(--brass-metal);
 }
 
-/* Polished Guide Wire over the Platen */
 .roller-guide-wire {
   position: absolute;
   top: 3px;
@@ -482,7 +469,6 @@ html, body {
   pointer-events: none;
 }
 
-/* Typewriter Ribbon Fill */
 .typewriter-ribbon {
   position: absolute;
   top: 0;
@@ -498,7 +484,6 @@ html, body {
   transition: width 0.08s linear;
 }
 
-/* Dual Bichrome Ribbon: Top Black Ink, Bottom Scarlet Wax Red */
 .ribbon-black-stripe {
   flex: 1;
   background: 
@@ -528,7 +513,6 @@ html, body {
   box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* Mechanical Typebar Carriage Guide (Thumb) */
 .carriage-guide {
   position: absolute;
   top: 50%;
@@ -587,7 +571,6 @@ html, body {
   box-shadow: 0 0 5px var(--accent-emerald);
 }
 
-/* Ledger Footer */
 .ledger-footer {
   display: flex;
   align-items: center;
@@ -629,9 +612,8 @@ html, body {
   font-weight: 500;
 }
 
-/* Carriage Return Mechanics (Midnight Snap & Test Trigger) */
 .carriage-return-active .typewriter-ribbon {
-  /* Fast mechanical snap curve to left */
+
   transition: width 0.38s cubic-bezier(0.15, 0.85, 0.35, 1.2) !important;
 }
 
@@ -660,7 +642,6 @@ html, body {
   100% { transform: translate(0, 0); }
 }
 
-/* Regular / Compact Height Responsiveness (< 250px) - Prevents clipping on standard horizontal Vivaldi tiles */
 @container (max-height: 250px) {
   .stationery-inner {
     padding: 5px 12px 4px;
@@ -831,7 +812,6 @@ html, body {
   }
 }
 
-/* Extreme Compact Height (< 200px) */
 @container (max-height: 200px) {
   .stationery-inner {
     padding: 4px 10px 3px;

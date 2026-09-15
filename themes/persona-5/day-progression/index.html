@@ -10,23 +10,19 @@
 
   <div class="p5-banner p5-day-root" id="dayProgRoot">
     
-    <!-- Comic Background Deco Layers -->
     <div class="p5-halftone-overlay" aria-hidden="true"></div>
     <div class="red-shape day-shard-primary" aria-hidden="true"></div>
     <div class="red-shape day-shard-secondary" aria-hidden="true"></div>
     <div class="red-shape day-shard-accent" aria-hidden="true"></div>
     <div class="day-speed-lines" aria-hidden="true"></div>
 
-    <!-- Hero Mask Motif (Randomized Joker / Ann / Akechi) -->
     <div class="mask-container day-mask-wrap" aria-hidden="true">
       <div class="mask-glow"></div>
       <img class="p5-mask" data-random-mask src="../assets/Ann Mask.png" alt="Phantom Mask" onerror="this.style.display='none';">
     </div>
 
-    <!-- Main HUD Content Grid (Landscape 400-500px x 200-240px) -->
     <main class="day-content" id="dayContent">
       
-      <!-- Top Row: Time Phase Pill, Infiltration Warning Tag, Sound Toggle -->
       <header class="day-top-row">
         <div class="phase-pill-wrap" id="phasePill" title="Current Time Period">
           <span class="phase-prefix">TIME //</span>
@@ -43,10 +39,8 @@
         </button>
       </header>
 
-      <!-- Mid Row: Left = Massive Ransom Percentage; Right = Slogan & Countdown -->
       <section class="day-mid-row">
         
-        <!-- Left: Ransom Percentage Digits Display -->
         <div class="ransom-percent-stage" id="percentStage" title="Percentage of day elapsed">
           <div class="ransom-digit-card r-digit-tens" id="pctTens">
             <span class="digit-val" id="valPctTens">0</span>
@@ -61,7 +55,6 @@
           <div class="ransom-percent-badge" id="pctBadge">%</div>
         </div>
 
-        <!-- Right: Subtitle Slogan & Time Remaining Counter -->
         <div class="day-meta-block">
           <div class="slogan-badge" id="sloganBadge">
             <span class="slogan-text" id="phaseDesc">FREE TIME // INFILTRATE PALACE</span>
@@ -74,17 +67,13 @@
 
       </section>
 
-      <!-- Bottom Row: Aggressive Slanted Palace Security Meter -->
       <section class="day-meter-section" title="Day Progression Track">
         <div class="meter-wrapper" id="meterWrapper">
           <div class="meter-track-frame" id="meterTrackFrame">
-            <!-- Slanted Background with Hazard Stripes -->
             <div class="meter-bg-hazard" aria-hidden="true"></div>
-            <!-- Moving Slashed Red Paint Fill -->
             <div class="meter-fill-bar" id="progFill"></div>
           </div>
 
-          <!-- Dynamic Leading Edge Beacon (Positioned outside overflow: hidden) -->
           <div class="meter-leading-beacon" id="meterBeacon" aria-hidden="true" title="Progress Beacon">
             <svg class="beacon-star" viewBox="0 0 56 56">
               <polygon points="28,2 34,20 54,20 38,32 44,52 28,40 12,52 18,32 2,20 22,20" fill="#FFE600" stroke="#000000" stroke-width="3"/>
@@ -92,7 +81,6 @@
           </div>
         </div>
 
-        <!-- Meter Footer Labels -->
         <div class="meter-footer">
           <span class="meter-edge-label start">00:00 [START]</span>
           <div class="meter-center-motto">

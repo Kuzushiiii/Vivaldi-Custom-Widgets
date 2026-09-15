@@ -2,6 +2,9 @@
 
 <div align="center">
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Interactive_Showroom-EF3939?style=for-the-badge&logo=vivaldi&logoColor=white)](https://kuzushiiii.github.io/Vivaldi-Custom-Widgets/)
+<br>
+
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
@@ -10,7 +13,7 @@
 
 A curated collection of aesthetic, lightweight, and interactive custom webpage widgets designed specifically for the **Vivaldi Browser Start Page Dashboard**.
 
-[Live Showroom](#interactive-showroom) • [Themes Overview](#themes-overview) • [Installation Guide](#installation-guide)
+[Live Demo Showroom](https://kuzushiiii.github.io/Vivaldi-Custom-Widgets/) • [Themes Overview](#themes-overview) • [Installation Guide](#installation-guide)
 
 </div>
 
@@ -18,7 +21,7 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 
 ## Features
 
-- **Interactive Showroom Dashboard**: Preview, filter, and test all widgets live at any tile size via the built-in `showroom.html` without needing to install them first.
+- **Interactive Showroom Dashboard**: Preview, filter, and test all widgets live at any tile size via the [Live Demo Showroom](https://kuzushiiii.github.io/Vivaldi-Custom-Widgets/) (or local `index.html`) without needing to install them first.
 - **Thematic Immersion**: Authentic visual styles inspired by Persona 5 and Violet Evergarden.
 - **CSS Container Queries**: Automatically scales typography, icons, and layouts gracefully across compact, wide, square, and banner tile dimensions.
 - **Lightweight & Fast**: Built with vanilla HTML5, CSS3, and JavaScript with zero external frameworks.
@@ -30,17 +33,17 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 
 ## Interactive Showroom
 
-> **Instant Live Preview:** Open [`showroom.html`](showroom.html) in Vivaldi or any browser to interact with the entire collection in one unified dashboard!
+> **Instant Live Preview:** Visit the [**Live Demo Showroom**](https://kuzushiiii.github.io/Vivaldi-Custom-Widgets/) (or open [`index.html`](index.html) locally) to interact with the entire collection in one unified dashboard!
 
 - **Live Responsive Testing**: Scale widgets continuously or select standard Vivaldi tile presets (`1×1`, `2×1`, `2×2`, `3×2`) to see CSS Container Queries in action.
-- **One-Click URL Copying**: Click `Copy Vivaldi URL` on any widget card to copy its local path for immediate pasting into Vivaldi Start Page.
+- **One-Click URL Copying**: Click `Copy Vivaldi URL` on any widget card to copy its URL for immediate pasting into Vivaldi Start Page.
 - **Theme & Category Filtering**: Instantly filter between Persona 5 and Violet Evergarden widgets.
 
 ---
 
 ## Themes Overview
 
-Explore the full interactive showcase in **[`showroom.html`](showroom.html)**, or browse the available themes:
+Explore the full interactive showcase in the [**Live Demo Showroom**](https://kuzushiiii.github.io/Vivaldi-Custom-Widgets/) (or [`index.html`](index.html)), or browse the available themes:
 
 ### Persona 5 Theme (`themes/persona-5/`)
 - **Aesthetic:** High-contrast Phantom Thieves UI, comic book halftones, dynamic polygon masks, and jagged typography.
@@ -91,7 +94,7 @@ To remove default white card backgrounds and title bars while keeping access to 
 ### Step 2: Add Widgets to Vivaldi Start Page
 
 > **Quickest Method via Showroom:**  
-> Open [`showroom.html`](showroom.html) and click the **📋 Copy Vivaldi URL** button on any widget card to copy its exact `file:///` URL directly, then jump straight to step 3 below!
+> Open the [**Live Demo Showroom**](https://kuzushiiii.github.io/Vivaldi-Custom-Widgets/) (or local [`index.html`](index.html)) and click the **📋 Copy Vivaldi URL** button on any widget card to copy its exact URL directly, then jump straight to step 3 below!
 
 **Manual Method:**
 1. Open the widget file you want to use in Vivaldi:

@@ -1,26 +1,24 @@
-/* VIOLET EVERGARDEN — THE CH POSTAL PHONOGRAPH / NOW PLAYING WIDGET - Design System: Victorian Era / CH Postal Company / Vintage Mechanics */
+
 @import url("../theme-base.css");
 
 :root {
-  /* Core Theme Palette */
+
   --bg-paper: #F9F6F0;
   --bg-paper-warm: #F4EFE6;
   --bg-note-torn: #FBF8F1;
   --text-ink: #2b2422;
   --text-ink-muted: rgba(43, 36, 34, 0.68);
   --text-ink-faint: rgba(43, 36, 34, 0.38);
-  
+
   --border-delicate: rgba(43, 36, 34, 0.15);
   --border-letterhead: rgba(43, 36, 34, 0.25);
 
-  /* Metallic Brass & Gold Accents */
   --brass-metal: #b38b4d;
   --brass-light: #edd687;
   --brass-glow: #fdf2b8;
   --brass-dark: #6e4e20;
   --brass-shadow: rgba(84, 58, 21, 0.35);
 
-  /* Gemstone & Wax Accents */
   --accent-emerald: #3c6e5a;
   --accent-emerald-bright: #4fa07e;
   --accent-emerald-deep: #1b4e37;
@@ -28,13 +26,11 @@
   --accent-wax-deep: #782620;
   --wax-shadow: rgba(166, 58, 51, 0.35);
 
-  /* Phonograph Mechanics */
   --vinyl-black: #111111;
   --vinyl-rim: #1f1f23;
   --plinth-wood: #2a1b14;
   --plinth-wood-rim: #442a1f;
 
-  /* Typography Tokens */
   --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-title: 'Playfair Display', Georgia, serif;
   --font-typewriter: 'Special Elite', 'Courier Prime', monospace;
@@ -43,7 +39,6 @@
   --radius-card: 8px;
 }
 
-/* CSS Reset & Base */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -74,7 +69,6 @@ html, body {
   height: 0 !important;
 }
 
-/* Stationery Card Container (100% matched with VE Calendar & Day Progression) */
 .stationery-widget {
   position: relative;
   width: 100%;
@@ -91,7 +85,6 @@ html, body {
   flex-direction: column;
 }
 
-/* Ruled ledger lines & stationery watermark */
 .stationery-widget::before {
   content: "";
   position: absolute;
@@ -114,7 +107,6 @@ html, body {
   opacity: 0.85;
 }
 
-/* Double-line letterhead frame */
 .stationery-widget::after {
   content: "";
   position: absolute;
@@ -137,7 +129,6 @@ html, body {
   padding: clamp(6px, 1.8cqh, 14px) clamp(12px, 3.2cqw, 20px) clamp(6px, 1.5cqh, 12px);
 }
 
-/* Letterhead Brand Header */
 .letterhead-header {
   display: flex;
   flex-direction: column;
@@ -188,7 +179,6 @@ html, body {
   margin-top: 3px;
 }
 
-/* Main Player Stage (Flexible Side-by-Side Turntable & Plaque) */
 .player-stage {
   flex: 1;
   display: flex;
@@ -199,7 +189,6 @@ html, body {
   position: relative;
 }
 
-/* LEFT: The Gramophone Turntable Chassis & Vinyl Assembly */
 .turntable-chassis {
   position: relative;
   display: flex;
@@ -210,7 +199,6 @@ html, body {
   height: clamp(110px, 27cqh, 175px);
 }
 
-/* Brass Platter Bed Underneath */
 .platter-rim {
   position: relative;
   width: 100%;
@@ -234,7 +222,6 @@ html, body {
   justify-content: center;
 }
 
-/* Rotating Vinyl Disc */
 .vinyl-disc {
   position: relative;
   width: 100%;
@@ -246,7 +233,7 @@ html, body {
   justify-content: center;
   cursor: pointer;
   background:
-    /* Specular Reflection Sheen (2-quadrant anisotropic lighting) */
+
     conic-gradient(
       from 45deg,
       rgba(255, 255, 255, 0.09) 0deg,
@@ -259,7 +246,7 @@ html, body {
       transparent 315deg,
       rgba(255, 255, 255, 0.09) 360deg
     ),
-    /* Concentric Micro-Grooves */
+
     repeating-radial-gradient(
       circle at 50% 50%,
       #111111 0px,
@@ -277,7 +264,6 @@ html, body {
   filter: brightness(1.05);
 }
 
-/* Vinyl Rotation Animation */
 @keyframes spinVinylRecord {
   from {
     transform: rotate(0deg);
@@ -296,7 +282,6 @@ html, body {
   animation-play-state: paused;
 }
 
-/* Circular Center Label (Album Art or Emerald Brooch) */
 .vinyl-label {
   position: relative;
   z-index: 2;
@@ -314,7 +299,6 @@ html, body {
   justify-content: center;
 }
 
-/* Album Cover Image */
 .album-cover {
   width: 100%;
   height: 100%;
@@ -323,7 +307,6 @@ html, body {
   display: block;
 }
 
-/* Fallback: Gilbert's Emerald Brooch */
 .emerald-brooch-fallback {
   width: 100%;
   height: 100%;
@@ -340,7 +323,6 @@ html, body {
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
 }
 
-/* Spindle Cap & Hole */
 .spindle-cap {
   position: absolute;
   top: 50%;
@@ -374,7 +356,6 @@ html, body {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.9);
 }
 
-/* Mechanical Brass Tonearm (Needle Arm Tracking the Record) */
 .tonearm-assembly {
   position: absolute;
   top: -6px;
@@ -385,7 +366,6 @@ html, body {
   z-index: 10;
 }
 
-/* Circular Brass Pivot Base */
 .tonearm-base {
   position: absolute;
   top: 6px;
@@ -418,7 +398,6 @@ html, body {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
 }
 
-/* Counterweight Ring */
 .tonearm-counterweight {
   position: absolute;
   top: 1px;
@@ -437,7 +416,6 @@ html, body {
   z-index: 3;
 }
 
-/* Rest Cradle */
 .tonearm-rest {
   position: absolute;
   top: 36px;
@@ -450,20 +428,18 @@ html, body {
   opacity: 0.7;
 }
 
-/* Rotating Arm Rod */
 .tonearm-rod {
   position: absolute;
   top: 17px;
   right: 17px;
   width: 4px;
   height: 86px;
-  transform-origin: 2px 0px; /* Pivot on top center */
-  transform: rotate(-12deg);  /* Default Parked Angle in Standby */
+  transform-origin: 2px 0px; 
+  transform: rotate(-12deg);  
   transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 3;
 }
 
-/* S-Curved Brass Neck */
 .rod-neck {
   width: 3.5px;
   height: 74px;
@@ -481,7 +457,6 @@ html, body {
   transform: rotate(6deg);
 }
 
-/* Cartridge Head & Needle Stylus */
 .cartridge-head {
   position: absolute;
   bottom: 0;
@@ -517,7 +492,6 @@ html, body {
   margin-top: -1px;
 }
 
-/* RIGHT: Aesthetic Parchment Track Plaque */
 .track-plaque {
   flex: 1;
   min-width: 0;
@@ -528,7 +502,6 @@ html, body {
   padding-left: clamp(2px, 1cqw, 6px);
 }
 
-/* Top Plaque Status Row */
 .plaque-top {
   position: relative;
   display: flex;
@@ -544,7 +517,6 @@ html, body {
   gap: 6px;
 }
 
-/* Status Seal (Wax Badge) */
 .status-seal {
   font-family: var(--font-title);
   font-size: clamp(8px, 1.1cqw, 9.5px);
@@ -579,7 +551,6 @@ html, body {
   color: var(--text-ink-muted);
 }
 
-/* Envelope Config Button (Anchored top-right) */
 .envelope-trigger {
   position: absolute;
   right: 0;
@@ -616,7 +587,6 @@ html, body {
   font-weight: 700;
 }
 
-/* Active Track Details Section */
 .track-info {
   display: flex;
   flex-direction: column;
@@ -678,7 +648,6 @@ html, body {
   text-overflow: ellipsis;
 }
 
-/* Telegram Timecode Row */
 .timecode-row {
   display: flex;
   align-items: center;
@@ -700,7 +669,6 @@ html, body {
   margin: 0 1px;
 }
 
-/* Analog Progress Meter */
 .progress-meter-analog {
   flex: 1;
   height: 4px;
@@ -726,7 +694,6 @@ html, body {
   transition: width 0.4s linear;
 }
 
-/* Standby Poetic Telegram State */
 .standby-card {
   display: flex;
   flex-direction: column;
@@ -786,7 +753,6 @@ html, body {
   color: var(--brass-metal);
 }
 
-/* Plaque Footer */
 .plaque-footer {
   width: 100%;
   display: flex;
@@ -811,7 +777,6 @@ html, body {
   opacity: 0.9;
 }
 
-/* CH POSTAL COMPANY: Client Request Ledger Modal - (Victorian Perforated Ledger Form — Zero modern inputs) */
 .modal-backdrop {
   position: absolute;
   inset: 0;
@@ -849,7 +814,6 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Ruled ledger background in modal */
 .ledger-paper-modal::before {
   content: "";
   position: absolute;
@@ -864,7 +828,6 @@ html, body {
   opacity: 0.8;
 }
 
-/* Wax Seal Embellishment on Top Right */
 .modal-wax-badge {
   position: absolute;
   top: 12px;
@@ -898,7 +861,6 @@ html, body {
   letter-spacing: 0.5px;
 }
 
-/* Modal Header */
 .modal-header {
   margin-bottom: 12px;
   padding-right: 36px;
@@ -935,7 +897,6 @@ html, body {
   margin-top: 6px;
 }
 
-/* Service Ribbon Tabs */
 .service-ribbon-tabs {
   display: flex;
   gap: 8px;
@@ -973,7 +934,6 @@ html, body {
   box-shadow: inset 0 0 4px rgba(179, 139, 77, 0.2);
 }
 
-/* Ledger Instructions */
 .ledger-instructions {
   font-family: var(--font-serif);
   font-size: 11.5px;
@@ -992,7 +952,6 @@ html, body {
   font-weight: 600;
 }
 
-/* Undercover Form Field (Zero Modern Inputs) */
 .ledger-field-group {
   display: flex;
   flex-direction: column;
@@ -1038,7 +997,6 @@ html, body {
   font-size: 11.5px;
 }
 
-/* Modal Action Buttons */
 .ledger-actions {
   display: flex;
   align-items: center;
@@ -1112,15 +1070,11 @@ html, body {
   color: #edd687;
 }
 
-/* Responsive Adaptations (Vivaldi Start Page Tiles) */
-
-/* Regular / Compact Tile Height (< 240px) */
 @container (max-height: 240px) {
   .stationery-inner {
     padding: 5px 12px 6px;
   }
 
-  /* Cramped Header Fix: More breathing room below letterhead rule */
   .letterhead-header {
     margin-bottom: 4px;
   }
@@ -1134,7 +1088,6 @@ html, body {
     margin-top: 2px;
   }
 
-  /* Vinyl & Tonearm Scaling: Proportionate downscaling preventing pivot text overlap */
   .player-stage {
     gap: clamp(8px, 2cqw, 16px);
   }
@@ -1205,7 +1158,6 @@ html, body {
     height: 4px;
   }
 
-  /* The Giant Void Fix: Balanced flex distribution & comfortable row spacing */
   .track-plaque {
     justify-content: space-between;
   }
@@ -1254,7 +1206,6 @@ html, body {
     display: none;
   }
 
-  /* Footer Spacing: Generous bottom clearance for the cursive signature */
   .plaque-footer {
     padding-top: 3px;
     padding-bottom: 2px;
@@ -1272,7 +1223,6 @@ html, body {
   }
 }
 
-/* Extreme Compact Height (< 190px) */
 @container (max-height: 190px) {
   .letterhead-header {
     display: none;
@@ -1284,7 +1234,7 @@ html, body {
   }
 
   .tonearm-assembly {
-    display: none; /* Hide tonearm on micro tiles to prevent overlap */
+    display: none; 
   }
 
   .song-title {
@@ -1304,7 +1254,6 @@ html, body {
   }
 }
 
-/* Square / Narrow Tile (< 340px) */
 @container (max-width: 340px) {
   .player-stage {
     flex-direction: column;

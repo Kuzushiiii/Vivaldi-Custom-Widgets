@@ -1,8 +1,5 @@
 @import url('../theme-base.css');
 
-/* ==========================================================================
-   0. ROOT RESETS & ZERO WHITE CORNERS OVERRIDE
-   ========================================================================== */
 html, body {
   background: transparent !important;
   margin: 0 !important;
@@ -32,9 +29,6 @@ html, body {
   display: none !important;
 }
 
-/* ==========================================================================
-   1. BACKGROUND COMIC DECORATIONS & ACTION SPEED LINES
-   ========================================================================== */
 .p5-halftone-overlay {
   position: absolute;
   inset: 0;
@@ -104,9 +98,6 @@ html, body {
   opacity: 0.85;
 }
 
-/* ==========================================================================
-   2. VERTICAL CALLING CARD LAYOUT CONTAINER (~320-400px x ~320-400px)
-   ========================================================================== */
 .music-vertical-layout {
   position: relative;
   z-index: 2;
@@ -120,9 +111,6 @@ html, body {
   box-sizing: border-box;
 }
 
-/* ==========================================================================
-   3. TOP HEADER BAR: STATUS BADGE & ACTIONS
-   ========================================================================== */
 .music-header-bar {
   display: flex;
   justify-content: space-between;
@@ -225,9 +213,6 @@ html, body {
   transform: skewX(-6deg) scale(1.08) translateY(-1px);
 }
 
-/* ==========================================================================
-   4. HERO ALBUM ART STAGE & HEARTBEAT PULSE
-   ========================================================================== */
 .hero-album-stage {
   position: relative;
   width: 100%;
@@ -296,7 +281,6 @@ html, body {
   box-shadow: 7px 7px 0 var(--p5-black);
 }
 
-/* Two-Beat Persona 5 Heartbeat Animation */
 @keyframes p5HeartbeatPulse {
   0%, 100% {
     transform: rotate(-3deg) skewX(-3deg) scale(1);
@@ -330,7 +314,6 @@ html, body {
   mix-blend-mode: luminosity;
 }
 
-/* Comic Halftone Screen Overlay on Top of Album Art */
 .album-halftone-screen {
   position: absolute;
   inset: 0;
@@ -377,7 +360,6 @@ html, body {
   color: var(--p5-red);
 }
 
-/* P5 Equalizer Visualizer Overlay */
 .p5-visualizer {
   position: absolute;
   bottom: 4px;
@@ -418,9 +400,6 @@ html, body {
   100% { height: 14px; }
 }
 
-/* ==========================================================================
-   5. TRACK DETAILS: MARQUEE TITLE & SLANTED RIBBON
-   ========================================================================== */
 .track-details-block {
   position: relative;
   z-index: 3;
@@ -531,9 +510,6 @@ html, body {
   text-overflow: ellipsis;
 }
 
-/* ==========================================================================
-   6. PALACE SECURITY PROGRESS BAR & UNCLIPPED DIAMOND BEACON
-   ========================================================================== */
 .progress-section {
   width: 100%;
   display: flex;
@@ -614,7 +590,6 @@ html, body {
   ) !important;
 }
 
-/* Leading Edge Beacon (Kept outside .bar-track overflow: hidden!) */
 .meter-beacon {
   position: absolute;
   top: 50%;
@@ -677,9 +652,6 @@ html, body {
   text-shadow: 1.5px 1.5px 0 var(--p5-black);
 }
 
-/* ==========================================================================
-   7. STANDBY / IDLE CALLING CARD (WAITING FOR SIGNAL)
-   ========================================================================== */
 .standby-calling-card {
   position: relative;
   z-index: 5;
@@ -764,9 +736,6 @@ html, body {
   transform: skewX(-6deg) scale(1.08) translateY(-2px);
 }
 
-/* ==========================================================================
-   8. IN-GAME SMARTPHONE "PHAN-SITE" SETTINGS MODAL
-   ========================================================================== */
 .smartphone-modal-backdrop {
   position: absolute;
   inset: 0;
@@ -979,8 +948,6 @@ html, body {
   transform: skewX(-4deg) scale(1.08);
 }
 
-
-/* Compact Container Query Adaptations */
 @container (max-width: 300px) {
   .song-title-marquee {
     font-size: clamp(14px, 5cqw, 18px);

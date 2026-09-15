@@ -1,9 +1,7 @@
 (function () {
   'use strict';
 
-  /* ========================================================
-     1. ASSETS & MASK RANDOMIZER
-     ======================================================== */
+  
   const MASKS = [
     '../assets/Joker Mask.png',
     '../assets/Ann Mask.png',
@@ -17,9 +15,7 @@
     mask.src = randomChoice;
   }
 
-  /* ========================================================
-     2. PROCEDURAL WEB AUDIO SYNTHESIZER ("THE JUICE")
-     ======================================================== */
+  
   let audioCtx = null;
   const audioState = {
     enabled: localStorage.getItem('p5_cal_sound') !== 'false'
@@ -38,7 +34,6 @@
     return audioCtx;
   }
 
-  // Persona 5 UI Paper Slash / Transition Sound
   function playSlashSound() {
     if (!audioState.enabled) return;
     try {
@@ -46,14 +41,12 @@
       if (!ctx) return;
       const now = ctx.currentTime;
 
-      // Tone oscillator: rapid pitch drop
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(800, now);
       osc.frequency.exponentialRampToValueAtTime(120, now + 0.09);
 
-      // Lowpass filter for comic weight
       const filter = ctx.createBiquadFilter();
       filter.type = 'lowpass';
       filter.frequency.setValueAtTime(3200, now);
@@ -69,7 +62,6 @@
       osc.start(now);
       osc.stop(now + 0.11);
 
-      // Noise burst for paper friction
       const bufferSize = ctx.sampleRate * 0.05;
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
@@ -88,7 +80,6 @@
     } catch (_) {}
   }
 
-  // Snappy UI Blip for day hover / clicks
   function playBlipSound() {
     if (!audioState.enabled) return;
     try {
@@ -112,7 +103,6 @@
     } catch (_) {}
   }
 
-  // Low-tone cancel thud when closing schedule
   function playCancelSound() {
     if (!audioState.enabled) return;
     try {
@@ -141,9 +131,7 @@
     } catch (_) {}
   }
 
-  /* ========================================================
-     3. PERSONA 5 TIME-OF-DAY DAILY PHASES
-     ======================================================== */
+  
   const P5_PHASES = [
     { maxMinutes: 6 * 60, title: 'LATE NIGHT', desc: 'DARK HOUR // REST WELL' },
     { maxMinutes: 8 * 60 + 30, title: 'EARLY MORNING', desc: 'MORNING COMMUTE // READY UP' },
@@ -162,12 +150,10 @@
     'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'
   ];
 
-  /* ========================================================
-     4. DOM ELEMENTS
-     ======================================================== */
+  
   const dom = {
     root: document.getElementById('calendarRoot'),
-    // HUD Elements
+
     phaseText: document.getElementById('phaseText'),
     phaseDesc: document.getElementById('phaseDesc'),
     h1: document.getElementById('h1'),
@@ -184,7 +170,7 @@
     valDigitTens: document.getElementById('valDigitTens'),
     valDigitOnes: document.getElementById('valDigitOnes'),
     hudWeekdayText: document.getElementById('hudWeekdayText'),
-    // Schedule Elements
+
     prevMonthBtn: document.getElementById('prevMonthBtn'),
     nextMonthBtn: document.getElementById('nextMonthBtn'),
     schedMonthName: document.getElementById('schedMonthName'),
@@ -194,9 +180,7 @@
     schedCalBody: document.getElementById('schedCalBody')
   };
 
-  /* ========================================================
-     5. STATE & CONTROLLER
-     ======================================================== */
+  
   const today = new Date();
   let displayedYear = today.getFullYear();
   let displayedMonth = today.getMonth();
@@ -206,14 +190,12 @@
     return String(n).padStart(2, '0');
   }
 
-  // Update sound icon state
   function updateSoundUI() {
     if (dom.soundIcon) {
       dom.soundIcon.textContent = audioState.enabled ? '🔊' : '🔇';
     }
   }
 
-  // View Switcher (HUD <-> Schedule)
   function switchView(viewName) {
     if (!dom.root) return;
     const currentView = dom.root.dataset.activeView;
@@ -230,7 +212,6 @@
     }
   }
 
-  // Render Schedule Grid
   function renderScheduleGrid() {
     if (!dom.schedCalBody) return;
 
@@ -244,7 +225,7 @@
     const renderOptions = {
       onRenderDay: (dayElement, dayInfo) => {
         dayElement.textContent = dayInfo.day;
-        // Day selection feedback
+
         dayElement.addEventListener('click', (e) => {
           e.stopPropagation();
           playBlipSound();
@@ -261,14 +242,13 @@
         renderOptions
       );
     } else {
-      // Standalone Fallback Generator
+
       dom.schedCalBody.innerHTML = '';
       const firstDayIndex = new Date(displayedYear, displayedMonth, 1).getDay();
       const daysInMonth = new Date(displayedYear, displayedMonth + 1, 0).getDate();
       const prevDaysCount = new Date(displayedYear, displayedMonth, 0).getDate();
       const now = new Date();
 
-      // Trailing previous month days
       for (let i = 0; i < firstDayIndex; i++) {
         const d = document.createElement('div');
         d.className = 'cal-day prev-month' + (i === 0 ? ' sun' : '');
@@ -276,7 +256,6 @@
         dom.schedCalBody.appendChild(d);
       }
 
-      // Current month days
       for (let day = 1; day <= daysInMonth; day++) {
         const d = document.createElement('div');
         const col = (firstDayIndex + day - 1) % 7;
@@ -288,7 +267,6 @@
         dom.schedCalBody.appendChild(d);
       }
 
-      // Leading next month days
       const totalCells = firstDayIndex + daysInMonth;
       const remainingCells = (7 - (totalCells % 7)) % 7;
       for (let i = 1; i <= remainingCells; i++) {
@@ -301,26 +279,22 @@
     }
   }
 
-  // Real-time Update Loop
   function update() {
     const now = new Date();
     const h = now.getHours();
     const m = now.getMinutes();
 
-    // 12-hour or 24-hour format
     const displayH = h % 12 || 12;
     const ampm = h >= 12 ? 'PM' : 'AM';
     const hStr = padZero(displayH);
     const mStr = padZero(m);
 
-    // Update Clock Digits
     if (dom.h1) dom.h1.textContent = hStr[0];
     if (dom.h2) dom.h2.textContent = hStr[1];
     if (dom.m1) dom.m1.textContent = mStr[0];
     if (dom.m2) dom.m2.textContent = mStr[1];
     if (dom.ampmBadge) dom.ampmBadge.textContent = ampm;
 
-    // Time-of-Day Phase
     const curMinutes = h * 60 + m;
     let phase = P5_PHASES[P5_PHASES.length - 1];
     for (let i = 0; i < P5_PHASES.length; i++) {
@@ -333,7 +307,6 @@
     if (dom.phaseText) dom.phaseText.textContent = phase.title;
     if (dom.phaseDesc) dom.phaseDesc.textContent = phase.desc;
 
-    // Massive HUD Date Display
     const dateNum = now.getDate();
     const dateStr = padZero(dateNum);
 
@@ -344,7 +317,6 @@
     if (dom.hudYearLabel) dom.hudYearLabel.textContent = now.getFullYear();
     if (dom.hudWeekdayText) dom.hudWeekdayText.textContent = DAY_NAMES[now.getDay()];
 
-    // Midnight Check & Grid Refresh
     const dateKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
     if (dateKey !== lastDateKey) {
       lastDateKey = dateKey;
@@ -354,11 +326,9 @@
     }
   }
 
-  /* ========================================================
-     6. EVENT LISTENERS
-     ======================================================== */
+  
   function initEvents() {
-    // Unfold Schedule
+
     if (dom.openScheduleBtn) {
       dom.openScheduleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -372,7 +342,6 @@
       });
     }
 
-    // Close Schedule
     if (dom.closeScheduleBtn) {
       dom.closeScheduleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -380,14 +349,12 @@
       });
     }
 
-    // Keyboard ESC to Close
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && dom.root && dom.root.dataset.activeView === 'schedule') {
         switchView('hud');
       }
     });
 
-    // Month Navigation
     if (dom.prevMonthBtn) {
       dom.prevMonthBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -425,7 +392,6 @@
       });
     }
 
-    // Sound Toggle
     if (dom.soundToggleBtn) {
       dom.soundToggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -440,9 +406,7 @@
     }
   }
 
-  /* ========================================================
-     7. INITIALIZATION
-     ======================================================== */
+  
   randomizeMask();
   updateSoundUI();
   initEvents();

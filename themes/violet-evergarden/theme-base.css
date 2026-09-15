@@ -1,7 +1,7 @@
 @import url('./assets/fonts/fonts.css');
 
 :root {
-  /* Core Theme Palette */
+
   --bg-paper: #F9F6F0;
   --bg-paper-warm: color-mix(in srgb, var(--bg-paper) 88%, #eeddc2);
   --bg-note-torn: color-mix(in srgb, var(--bg-paper) 85%, #ffffff);
@@ -12,7 +12,6 @@
   --border-delicate: rgba(43, 36, 34, 0.15);
   --border-letterhead: rgba(43, 36, 34, 0.25);
 
-  /* Metallic Brass & Gold Accents */
   --brass-metal: #b38b4d;
   --brass-accent: var(--brass-metal);
   --brass-light: color-mix(in srgb, var(--brass-metal) 70%, white);
@@ -20,7 +19,6 @@
   --brass-dark: color-mix(in srgb, var(--brass-metal) 60%, black);
   --brass-shadow: rgba(84, 58, 21, 0.35);
 
-  /* Gemstone & Wax Accents */
   --accent-emerald: #3c6e5a;
   --accent-emerald-bright: color-mix(in srgb, var(--accent-emerald) 75%, #7efab8);
   --accent-emerald-deep: color-mix(in srgb, var(--accent-emerald) 65%, black);
@@ -29,7 +27,6 @@
   --wax-shadow: rgba(166, 58, 51, 0.35);
   --wax-deep: var(--accent-wax-deep);
 
-  /* Typography Tokens */
   --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-title: 'Playfair Display', Georgia, serif;
   --font-typewriter: 'Special Elite', 'Courier Prime', monospace;
