@@ -1140,7 +1140,7 @@
         </header>
         <div class="card-viewport-stage">
           <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe src="themes/persona-5/calendar-widget/index.html" loading="lazy"></iframe>
+          <iframe data-src="themes/persona-5/calendar-widget/index.html" src="about:blank"></iframe>
         </div>
         <footer class="card-footer">
           <span class="card-desc">Comic digital clock, day indicator &amp; Phantom mask.</span>
@@ -1166,7 +1166,7 @@
         </header>
         <div class="card-viewport-stage">
           <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe src="themes/persona-5/day-progression/index.html" loading="lazy"></iframe>
+          <iframe data-src="themes/persona-5/day-progression/index.html" src="about:blank"></iframe>
         </div>
         <footer class="card-footer">
           <span class="card-desc">Meta-Nav daily infiltration percentage &amp; phases.</span>
@@ -1192,7 +1192,7 @@
         </header>
         <div class="card-viewport-stage">
           <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe src="themes/persona-5/song-viewer-widget/index.html" loading="lazy"></iframe>
+          <iframe data-src="themes/persona-5/song-viewer-widget/index.html" src="about:blank"></iframe>
         </div>
         <footer class="card-footer">
           <span class="card-desc">Now-Playing HUD with Lanyard, Last.fm &amp; 'Life Will Change'.</span>
@@ -1218,7 +1218,7 @@
         </header>
         <div class="card-viewport-stage">
           <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe src="themes/persona-5/gif-widget/index.html" loading="lazy"></iframe>
+          <iframe data-src="themes/persona-5/gif-widget/index.html" src="about:blank"></iframe>
         </div>
         <footer class="card-footer">
           <span class="card-desc">Dynamic Royal cut-in animation banner.</span>
@@ -1244,7 +1244,7 @@
         </header>
         <div class="card-viewport-stage">
           <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe src="themes/persona-5/gif-widget-2/index.html" loading="lazy"></iframe>
+          <iframe data-src="themes/persona-5/gif-widget-2/index.html" src="about:blank"></iframe>
         </div>
         <footer class="card-footer">
           <span class="card-desc">Aesthetic alternate character cut-in banner.</span>
@@ -1270,7 +1270,7 @@
         </header>
         <div class="card-viewport-stage">
           <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe src="themes/violet-evergarden/calendar-widget/index.html" loading="lazy"></iframe>
+          <iframe data-src="themes/violet-evergarden/calendar-widget/index.html" src="about:blank"></iframe>
         </div>
         <footer class="card-footer">
           <span class="card-desc">Wax seal, typewriter torn notes &amp; paper sound DSP.</span>
@@ -1296,7 +1296,7 @@
         </header>
         <div class="card-viewport-stage">
           <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe src="themes/violet-evergarden/day-progression/index.html" loading="lazy"></iframe>
+          <iframe data-src="themes/violet-evergarden/day-progression/index.html" src="about:blank"></iframe>
         </div>
         <footer class="card-footer">
           <span class="card-desc">Platen roller, dual-tone ribbon &amp; brass margin scale.</span>
@@ -1322,7 +1322,7 @@
         </header>
         <div class="card-viewport-stage">
           <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe src="themes/violet-evergarden/song-viewer-widget/index.html" loading="lazy"></iframe>
+          <iframe data-src="themes/violet-evergarden/song-viewer-widget/index.html" src="about:blank"></iframe>
         </div>
         <footer class="card-footer">
           <span class="card-desc">Vintage vinyl gramophone, tonearm needle &amp; 'Sincerely'.</span>
@@ -1348,7 +1348,7 @@
         </header>
         <div class="card-viewport-stage">
           <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe src="themes/violet-evergarden/gif-widget/index.html" loading="lazy"></iframe>
+          <iframe data-src="themes/violet-evergarden/gif-widget/index.html" src="about:blank"></iframe>
         </div>
         <footer class="card-footer">
           <span class="card-desc">Atmospheric animated banner of Violet typing letters.</span>
@@ -1374,7 +1374,7 @@
         </header>
         <div class="card-viewport-stage">
           <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe src="themes/violet-evergarden/gif-widget-2/index.html" loading="lazy"></iframe>
+          <iframe data-src="themes/violet-evergarden/gif-widget-2/index.html" src="about:blank"></iframe>
         </div>
         <footer class="card-footer">
           <span class="card-desc">Aesthetic anime floral banner with bougainvillea motif.</span>
@@ -1610,14 +1610,43 @@
       /* --------------------------------------------------------
          4. IFRAME LOADERS & RELOAD
          -------------------------------------------------------- */
+      // 4. INTERSECTION OBSERVER LAZY LOADING
+      function loadIframe(iframe) {
+        if (iframe && iframe.dataset.src) {
+          iframe.src = iframe.dataset.src;
+          delete iframe.dataset.src;
+        }
+      }
+
+      const iframeObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const card = entry.target;
+            const iframe = card.querySelector('iframe');
+            if (iframe) {
+              loadIframe(iframe);
+            }
+            observer.unobserve(card);
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '200px 0px',
+        threshold: 0.01
+      });
+
       widgetCards.forEach(card => {
+        iframeObserver.observe(card);
+
         const iframe = card.querySelector('iframe');
         const loader = card.querySelector('.card-loader');
 
         if (iframe && loader) {
           iframe.addEventListener('load', () => {
-            loader.classList.add('hidden');
-            updateCardDimensionBadges();
+            if (iframe.src && !iframe.src.endsWith('about:blank')) {
+              loader.classList.add('hidden');
+              updateCardDimensionBadges();
+            }
           });
         }
 
@@ -1626,7 +1655,11 @@
         if (reloadBtn && iframe) {
           reloadBtn.addEventListener('click', () => {
             if (loader) loader.classList.remove('hidden');
-            iframe.src = iframe.src;
+            if (iframe.dataset.src) {
+              loadIframe(iframe);
+            } else {
+              iframe.src = iframe.src;
+            }
           });
         }
 
@@ -1655,7 +1688,11 @@
           const loader = card.querySelector('.card-loader');
           if (iframe) {
             if (loader) loader.classList.remove('hidden');
-            iframe.src = iframe.src;
+            if (iframe.dataset.src) {
+              loadIframe(iframe);
+            } else {
+              iframe.src = iframe.src;
+            }
           }
         });
         showToast('Reloaded all 10 widgets!');

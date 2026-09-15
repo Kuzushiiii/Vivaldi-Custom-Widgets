@@ -178,8 +178,7 @@
     song: "Sincerely",
     artist: "TRUE",
     album: "VIOLET EVERGARDEN: Automemories",
-    album_art_url:
-      "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/65/2a/92/652a9252-b6a3-d128-5759-a4e9384fa51c/4540774905737.png/600x600bb.jpg",
+    album_art_url: "../assets/ve-demo-cover.jpg",
     durationMs: 280000,
     elapsedMs: 68000,
   };

@@ -213,8 +213,7 @@
     song: "Life Will Change",
     artist: "Lyn, Shoji Meguro",
     album: "Persona 5 Original Soundtrack",
-    album_art_url:
-      "https://t2.genius.com/unsafe/344x344/https%3A%2F%2Fimages.genius.com%2F29fe123938b00fe1522ca7a8c04ff9b5.1000x1000x1.png",
+    album_art_url: "../assets/p5-demo-cover.png",
     durationMs: 265000,
     elapsedMs: 74000,
   };

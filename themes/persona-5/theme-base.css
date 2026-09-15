@@ -1,5 +1,3 @@
-@import url('./assets/fonts/fonts.css');
-
 :root {
   --p5-red: #e60012;
   --p5-red-dark: color-mix(in srgb, var(--p5-red) 78%, black);
