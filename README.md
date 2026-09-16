@@ -41,28 +41,6 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 
 ---
 
-## Themes Overview
-
-Explore the full interactive showcase in the [**Live Demo Showroom**](https://kuzushiiii.github.io/Vivaldi-Custom-Widgets/) (or [`index.html`](index.html)), or browse the available themes:
-
-### Persona 5 Theme (`themes/persona-5/`)
-- **Aesthetic:** High-contrast Phantom Thieves UI, comic book halftones, dynamic polygon masks, and jagged typography.
-- **Available Widgets:**
-  - *Calendar & Clock*: Comic digital clock with day phase and interactive month calendar.
-  - *Day Progression*: Meta-Nav infiltration tracker measuring the passage of your 24-hour day.
-  - *Song Viewer (Radio HUD)*: Real-time music status via Discord Lanyard or Last.fm (demo track: *"Life Will Change"*).
-  - *Cut-In GIF Banners*: Dynamic animated character banners.
-
-### Violet Evergarden Theme (`themes/violet-evergarden/`)
-- **Aesthetic:** 19th-century Victorian postal stationery, wax seals, brass mechanical scales, textured parchment, and Bougainvillea motifs.
-- **Available Widgets:**
-  - *Auto Memory Doll Calendar*: Letterhead calendar with interactive memo dispatches, wax seal, and procedural paper rustle acoustics.
-  - *Day Progression (Typewriter Carriage)*: Mechanical platen roller with dual-tone ribbon and midnight carriage return.
-  - *CH Postal Phonograph (Song Viewer)*: Spinning vintage gramophone player with rotating brass tonearm (demo track: *"Sincerely"*).
-  - *Atmospheric GIF Banners*: Subtle animated typing and floral banners.
-
----
-
 ## Installation Guide
 
 ### Step 1: Apply Vivaldi Custom CSS (Recommended)
