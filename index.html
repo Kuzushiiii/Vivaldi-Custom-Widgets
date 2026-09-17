@@ -2251,22 +2251,77 @@
         if (dcStoragePayload) dcStoragePayload.textContent = kb + ' KB';
       }
 
-      function downloadJSON(filename, dataObj) {
+      async function downloadJSON(filename, dataObj) {
         const jsonStr = JSON.stringify(dataObj, null, 2);
-        const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+
+        // 1. Modern File System Access API (Native Windows "Save As" Dialog)
+        if (window.showSaveFilePicker) {
+          try {
+            const handle = await window.showSaveFilePicker({
+              suggestedName: filename,
+              types: [{
+                description: 'JSON Backup Archive',
+                accept: { 'application/json': ['.json'] }
+              }]
+            });
+            const writable = await handle.createWritable();
+            await writable.write(jsonStr);
+            await writable.close();
+            showToast(`Saved as ${handle.name || filename}!`);
+            return true;
+          } catch (err) {
+            // User cancelled the file picker dialog
+            if (err.name === 'AbortError') return false;
+            // Otherwise fall back to anchor click
+          }
+        }
+
+        // 2. Standard Blob Object URL with Delayed Cleanup
+        try {
+          const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          
+          // Delay revoking URL so browser download process can complete streaming
+          setTimeout(() => {
+            if (document.body.contains(a)) {
+              document.body.removeChild(a);
+            }
+            URL.revokeObjectURL(url);
+          }, 4000);
+
+          showToast(`Downloaded ${filename} to Downloads folder!`);
+          return true;
+        } catch (e) {
+          // 3. Ultra-safe Fallback: Data URI
+          try {
+            const dataUrl = 'data:application/json;charset=utf-8,' + encodeURIComponent(jsonStr);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = dataUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+              if (document.body.contains(a)) document.body.removeChild(a);
+            }, 4000);
+            showToast(`Downloaded ${filename}!`);
+            return true;
+          } catch (err) {
+            showToast('Download failed. Please check browser permissions.');
+            return false;
+          }
+        }
       }
 
       // Master Full System Export
       if (exportFullBtn) {
-        exportFullBtn.addEventListener('click', () => {
+        exportFullBtn.addEventListener('click', async () => {
           let memos = [];
           try {
             const raw = localStorage.getItem(STORAGE_KEYS.VE_MEMOS);
@@ -2294,19 +2349,18 @@
               },
               system_preferences: {
                 p5_cal_sound: localStorage.getItem(STORAGE_KEYS.P5_SOUND) !== 'false',
-                showroom_theme: localStorage.getItem(STORAGE_KEYS.SHOWROOM_THEME) || 'obsidian'
+                dashboard_mode: localStorage.getItem('vcw_dashboard_mode') || 'dark'
               }
             }
           };
 
-          downloadJSON(`vivaldi-widgets-backup-${dateSlug}.json`, fullArchive);
-          showToast('Full system backup archive exported!');
+          await downloadJSON(`vivaldi-widgets-backup-${dateSlug}.json`, fullArchive);
         });
       }
 
       // Dedicated Violet Evergarden Letters Only Export
       if (exportVioletBtn) {
-        exportVioletBtn.addEventListener('click', () => {
+        exportVioletBtn.addEventListener('click', async () => {
           let memos = [];
           try {
             const raw = localStorage.getItem(STORAGE_KEYS.VE_MEMOS);
@@ -2325,8 +2379,7 @@
             letters: memos
           };
 
-          downloadJSON(`ch-postal-letters-${dateSlug}.json`, lettersArchive);
-          showToast(`Exported ${lettersArchive.totalLetters} Violet postal letters!`);
+          await downloadJSON(`ch-postal-letters-${dateSlug}.json`, lettersArchive);
         });
       }
 
