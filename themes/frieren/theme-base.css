@@ -1,0 +1,133 @@
+/* ==========================================================================
+   FRIEREN: BEYOND JOURNEY'S END — UNIVERSAL THEME BASE
+   Aesthetic: Serene Fantasy, Ancient Grimoire Artifacts, & Eternal Time
+   ========================================================================== */
+
+:root {
+  /* --- PALETTE 1: ANCIENT GRIMOIRE (Parchment, Brass, & Deep Ink - Default) --- */
+  --frieren-bg: #F4EFE6;
+  --frieren-bg-warm: #EADFC9;
+  --frieren-bg-surface: #FAF6EE;
+  --frieren-bg-panel: rgba(250, 246, 238, 0.78);
+  --frieren-bg-vignette: rgba(138, 102, 53, 0.28);
+  --frieren-parchment-fiber: rgba(107, 78, 38, 0.05);
+  --frieren-parchment-stain: rgba(184, 137, 72, 0.12);
+
+  --frieren-text-ink: #2C3E50;
+  --frieren-text-secondary: #4A5568;
+  --frieren-text-muted: #627282;
+  --frieren-text-faint: rgba(44, 62, 80, 0.35);
+
+  --frieren-border-grimoire: rgba(44, 62, 80, 0.2);
+  --frieren-border-delicate: rgba(44, 62, 80, 0.1);
+  --frieren-border-gold: rgba(194, 155, 56, 0.55);
+
+  /* --- METALLIC CAST BRASS / ANTIQUE GOLD TOKENS --- */
+  --brass-metal: #C29B38;
+  --brass-light: #FDE68A;
+  --brass-mid: #D97706;
+  --brass-dark: #6B4E12;
+  --brass-shadow: rgba(43, 31, 10, 0.55);
+  --brass-highlight: rgba(255, 255, 255, 0.75);
+
+  --frieren-gold-accent: #C29B38;
+  --frieren-gold-light: #DFC27D;
+  --frieren-gold-glow: rgba(194, 155, 56, 0.35);
+
+  /* --- THE MANA STREAM (Elven Cyan / Mist & Particle Luminescence) --- */
+  --mana-core: #E0F7FA;
+  --mana-cyan-light: #A5F3FC;
+  --mana-stream-cyan: #38BDF8;
+  --mana-stream-deep: #0284C7;
+  --mana-stream-aura: rgba(56, 189, 248, 0.55);
+  --mana-stream-soft-glow: rgba(56, 189, 248, 0.28);
+  --mana-flower-petal: #7DD3FC;
+
+  /* --- TYPOGRAPHY --- */
+  --font-cinzel: 'Cinzel', 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-serif: 'EB Garamond', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-display: 'Playfair Display', 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+
+  /* --- GEOMETRY & RADIUS --- */
+  --radius-card: 10px;
+  --radius-pill: 9999px;
+  --grimoire-card-shadow: 
+    0 4px 20px rgba(44, 34, 20, 0.18),
+    inset 0 0 45px rgba(168, 130, 80, 0.32),
+    inset 0 0 110px rgba(115, 80, 35, 0.2);
+
+  /* --- BREATHING TRANSITIONS --- */
+  --transition-serene: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-breathing: 4.8s ease-in-out infinite;
+}
+
+/* --- PALETTE 2: DEEP NIGHT SKY (Cosmic Void & Nebula Mode) --- */
+[data-theme="night"],
+.frieren-night-mode {
+  --frieren-bg: #0C101A;
+  --frieren-bg-warm: #080B12;
+  --frieren-bg-surface: #141B2B;
+  --frieren-bg-panel: rgba(20, 27, 43, 0.82);
+  --frieren-bg-vignette: rgba(0, 0, 0, 0.75);
+
+  --frieren-text-ink: #F8FAFC;
+  --frieren-text-secondary: #CBD5E1;
+  --frieren-text-muted: #94A3B8;
+  --frieren-text-faint: rgba(248, 250, 252, 0.32);
+
+  --frieren-border-grimoire: rgba(248, 250, 252, 0.16);
+  --frieren-border-delicate: rgba(248, 250, 252, 0.08);
+  --frieren-border-gold: rgba(229, 192, 123, 0.55);
+
+  --brass-metal: #E5C07B;
+  --brass-light: #FEF3C7;
+  --brass-mid: #D97706;
+  --brass-dark: #451A03;
+  --brass-shadow: rgba(0, 0, 0, 0.7);
+  --brass-highlight: rgba(255, 255, 255, 0.5);
+
+  --frieren-gold-accent: #E5C07B;
+  --frieren-gold-light: #F6E0A4;
+  --frieren-gold-glow: rgba(229, 192, 123, 0.45);
+
+  --mana-core: #F0FDFA;
+  --mana-cyan-light: #67E8F9;
+  --mana-stream-cyan: #38BDF8;
+  --mana-stream-deep: #0369A1;
+  --mana-stream-aura: rgba(56, 189, 248, 0.7);
+  --mana-stream-soft-glow: rgba(56, 189, 248, 0.35);
+  --mana-flower-petal: #38BDF8;
+
+  --grimoire-card-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.7),
+    inset 0 0 50px rgba(0, 0, 0, 0.85),
+    inset 0 0 100px rgba(3, 105, 161, 0.18);
+}
+
+/* Base resets for seamless Start Page integration */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important;
+  user-select: none;
+  font-family: var(--font-serif);
+  color: var(--frieren-text-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hide scrollbars strictly across all browsers */
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}

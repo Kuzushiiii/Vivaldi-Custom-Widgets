@@ -1,0 +1,709 @@
+/* ==========================================================================
+   FRIEREN: BEYOND JOURNEY'S END — CALENDAR WIDGET
+   Aesthetic: Flamme's Ancient Grimoire, Open Manuscript Board, & Zoltraak Magic
+   Performance: GPU-Accelerated 60fps Transitions, Zero Math Grid Patterns
+   ========================================================================== */
+
+@import '../theme-base.css';
+
+/* --- 1. ROOT CONTAINER: PURE ORGANIC PARCHMENT & COSMIC VOID CANVAS --- */
+.frieren-calendar-root {
+  container-type: size;
+  container-name: widget;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  /* Elegant breathing room away from the dual-line borders */
+  padding: clamp(10px, 2.2cqh + 4px, 18px) clamp(14px, 2.6cqw + 4px, 22px);
+  box-sizing: border-box;
+  color: var(--frieren-text-ink);
+  transition: background 0.8s ease, color 0.8s ease;
+
+  /* --- DAYLIGHT CANVAS: Pure Organic Manuscript Parchment (Zero Math Grid) --- */
+  background-color: #F7F3EB;
+  background-image:
+    /* Soft perimeter aging vignette: darkens edges, leaves center luminous */
+    radial-gradient(ellipse at 50% 0%, rgba(214, 197, 168, 0.35) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(198, 178, 144, 0.4) 0%, transparent 65%),
+    radial-gradient(ellipse at 0% 50%, rgba(210, 192, 160, 0.28) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 50%, rgba(210, 192, 160, 0.28) 0%, transparent 50%),
+    /* Irregular antique parchment tea washes in corners */
+    radial-gradient(circle at 8% 12%, rgba(184, 155, 110, 0.16) 0%, transparent 45%),
+    radial-gradient(circle at 92% 88%, rgba(184, 155, 110, 0.16) 0%, transparent 45%),
+    /* Warm manuscript core base */
+    linear-gradient(135deg, #FAF7F0 0%, #F5F0E6 48%, #EBE3D3 100%);
+  box-shadow:
+    0 4px 20px rgba(44, 34, 20, 0.12),
+    inset 0 0 35px rgba(168, 140, 95, 0.22),
+    inset 0 0 80px rgba(135, 105, 65, 0.14);
+}
+
+/* --- NOCTURNE CANVAS: Deep Starry Void & Glowing Nebula Clouds --- */
+[data-theme="night"] .frieren-calendar-root,
+.frieren-calendar-root[data-theme="night"] {
+  background-color: #0B0F19;
+  background-image:
+    /* Glowing celestial nebula clouds */
+    radial-gradient(ellipse at 80% 20%, rgba(56, 189, 248, 0.22) 0%, transparent 60%),
+    radial-gradient(circle at 20% 80%, rgba(129, 140, 248, 0.16) 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 70%),
+    /* Micro Star Field / Stardust speckles across the cosmos */
+    radial-gradient(circle at 12% 28%, rgba(255, 255, 255, 0.85) 0.8px, transparent 1.6px),
+    radial-gradient(circle at 35% 72%, rgba(255, 255, 255, 0.65) 0.6px, transparent 1.2px),
+    radial-gradient(circle at 68% 18%, rgba(255, 255, 255, 0.75) 0.7px, transparent 1.4px),
+    radial-gradient(circle at 84% 64%, rgba(255, 255, 255, 0.6) 0.5px, transparent 1.2px),
+    radial-gradient(circle at 45% 35%, rgba(125, 211, 252, 0.8) 0.8px, transparent 1.6px),
+    radial-gradient(circle at 92% 88%, rgba(255, 255, 255, 0.65) 0.7px, transparent 1.3px),
+    radial-gradient(circle at 24% 48%, rgba(254, 240, 138, 0.7) 0.6px, transparent 1.2px),
+    /* Deep cosmic void background */
+    linear-gradient(135deg, #070A12 0%, #0D1220 50%, #111728 100%);
+  box-shadow: var(--grimoire-card-shadow);
+}
+
+/* --- 2. THE ETCHED ZOLTRAAK / ELVEN MAGIC CIRCLE WATERMARK (GPU) --- */
+.grimoire-texture-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: clamp(280px, 72cqw, 460px);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' width='500' height='500'%3E%3Cg fill='none' stroke='%23C29B38' stroke-width='1.5'%3E%3Ccircle cx='250' cy='250' r='238' stroke-width='2'/%3E%3Ccircle cx='250' cy='250' r='224' stroke-width='1' stroke-dasharray='4,4'/%3E%3Ccircle cx='250' cy='250' r='212' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='12' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='250' cy='488' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='12' cy='250' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='488' cy='250' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='82' cy='82' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='418' cy='82' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='82' cy='418' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='418' cy='418' r='4.5' fill='%23C29B38'/%3E%3Crect x='97' y='97' width='306' height='306' stroke-width='1.4'/%3E%3Crect x='97' y='97' width='306' height='306' transform='rotate(45 250 250)' stroke-width='1.4'/%3E%3Ccircle cx='250' cy='250' r='168' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='250' r='148' stroke-dasharray='6,6' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='128' stroke-width='1.5'/%3E%3Cpolygon points='250,128 285,215 372,250 285,285 250,372 215,285 128,250 215,215' stroke-width='1.2'/%3E%3Cpolygon points='250,142 275,225 358,250 275,275 250,358 225,275 142,250 225,225' stroke-width='1' transform='rotate(22.5 250 250)' stroke-dasharray='3,3'/%3E%3Ccircle cx='250' cy='250' r='62' stroke-width='1.8'/%3E%3Ccircle cx='250' cy='250' r='36' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='10' fill='%23C29B38'/%3E%3Cline x1='250' y1='12' x2='250' y2='488' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='12' y1='250' x2='488' y2='250' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='82' y1='82' x2='418' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='418' y1='82' x2='82' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.038;
+  mix-blend-mode: multiply;
+  will-change: transform;
+  transform: translateZ(0);
+  animation: zoltraakOrbit 240s linear infinite;
+  transition: opacity var(--transition-serene);
+}
+
+[data-theme="night"] .grimoire-texture-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' width='500' height='500'%3E%3Cg fill='none' stroke='%2338BDF8' stroke-width='1.5'%3E%3Ccircle cx='250' cy='250' r='238' stroke-width='2'/%3E%3Ccircle cx='250' cy='250' r='224' stroke-width='1' stroke-dasharray='4,4'/%3E%3Ccircle cx='250' cy='250' r='212' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='12' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='250' cy='488' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='12' cy='250' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='488' cy='250' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='82' cy='82' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='418' cy='82' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='82' cy='418' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='418' cy='418' r='4.5' fill='%2338BDF8'/%3E%3Crect x='97' y='97' width='306' height='306' stroke-width='1.4'/%3E%3Crect x='97' y='97' width='306' height='306' transform='rotate(45 250 250)' stroke-width='1.4'/%3E%3Ccircle cx='250' cy='250' r='168' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='250' r='148' stroke-dasharray='6,6' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='128' stroke-width='1.5'/%3E%3Cpolygon points='250,128 285,215 372,250 285,285 250,372 215,285 128,250 215,215' stroke-width='1.2'/%3E%3Cpolygon points='250,142 275,225 358,250 275,275 250,358 225,275 142,250 225,225' stroke-width='1' transform='rotate(22.5 250 250)' stroke-dasharray='3,3'/%3E%3Ccircle cx='250' cy='250' r='62' stroke-width='1.8'/%3E%3Ccircle cx='250' cy='250' r='36' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='10' fill='%2338BDF8'/%3E%3Cline x1='250' y1='12' x2='250' y2='488' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='12' y1='250' x2='488' y2='250' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='82' y1='82' x2='418' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='418' y1='82' x2='82' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.065;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.45));
+}
+
+@keyframes zoltraakOrbit {
+  0%   { transform: rotate3d(0, 0, 1, 0deg); }
+  100% { transform: rotate3d(0, 0, 1, 360deg); }
+}
+
+/* --- 3. DUAL-LINE GRIMOIRE BINDING & BRASS BOOK CORNERS --- */
+.grimoire-frame {
+  position: absolute;
+  inset: 5px;
+  pointer-events: none;
+  z-index: 2;
+  border: 2px double var(--frieren-gold-accent);
+  border-radius: calc(var(--radius-card) - 3px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+    inset 0 0 0 2px var(--frieren-border-grimoire),
+    0 0 0 1px rgba(44, 34, 20, 0.06);
+  transition: border-color var(--transition-serene), box-shadow var(--transition-serene);
+}
+
+[data-theme="night"] .grimoire-frame {
+  border-color: var(--frieren-gold-accent);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 0 0 2px rgba(0, 0, 0, 0.65),
+    0 0 10px rgba(229, 192, 123, 0.2);
+}
+
+.grimoire-inner-border {
+  position: absolute;
+  inset: 3px;
+  border: 1px dashed var(--frieren-border-delicate);
+  border-radius: calc(var(--radius-card) - 5px);
+  box-shadow: inset 0 0 10px rgba(194, 155, 56, 0.06);
+}
+
+.corner-filigree {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  z-index: 5;
+  background: linear-gradient(
+    135deg,
+    var(--brass-light) 0%,
+    #F59E0B 28%,
+    var(--brass-mid) 52%,
+    #B45309 78%,
+    var(--brass-dark) 100%
+  );
+  box-shadow:
+    0 1.5px 3px rgba(0, 0, 0, 0.4),
+    inset 0.8px 0.8px 0.8px rgba(255, 255, 255, 0.8),
+    inset -0.8px -0.8px 1px rgba(0, 0, 0, 0.6);
+  border: 0.5px solid #78350F;
+  transition: all var(--transition-serene);
+}
+
+.corner-filigree.top-left {
+  top: -1px;
+  left: -1px;
+  clip-path: polygon(0 0, 100% 0, 75% 25%, 35% 25%, 25% 35%, 25% 75%, 0 100%);
+}
+
+.corner-filigree.top-right {
+  top: -1px;
+  right: -1px;
+  clip-path: polygon(100% 0, 0 0, 25% 25%, 65% 25%, 75% 35%, 75% 75%, 100% 100%);
+}
+
+.corner-filigree.bottom-left {
+  bottom: -1px;
+  left: -1px;
+  clip-path: polygon(0 100%, 100% 100%, 75% 75%, 35% 75%, 25% 65%, 25% 25%, 0 0);
+}
+
+.corner-filigree.bottom-right {
+  bottom: -1px;
+  right: -1px;
+  clip-path: polygon(100% 100%, 0 100%, 25% 75%, 65% 75%, 75% 65%, 75% 25%, 100% 0);
+}
+
+.corner-filigree::after {
+  content: "";
+  position: absolute;
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFFFFF 0%, #FBBF24 45%, #78350F 100%);
+  box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.6);
+  z-index: 6;
+}
+
+.corner-filigree.top-left::after     { top: 3.5px; left: 3.5px; }
+.corner-filigree.top-right::after    { top: 3.5px; right: 3.5px; }
+.corner-filigree.bottom-left::after  { bottom: 3.5px; left: 3.5px; }
+.corner-filigree.bottom-right::after { bottom: 3.5px; right: 3.5px; }
+
+.corner-filigree .filigree-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: #451A03;
+  filter: drop-shadow(0 0.5px 0.5px rgba(255, 255, 255, 0.5));
+  opacity: 0.85;
+}
+
+[data-theme="night"] .corner-filigree .filigree-svg {
+  color: #1A1005;
+  filter: drop-shadow(0 0.5px 0.5px rgba(254, 240, 138, 0.45));
+}
+
+/* --- 4. MAIN CONTENT CANVAS & BALANCED VERTICAL BREATHING ROOM --- */
+.grimoire-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* --- TOP HEADER BAR --- */
+.calendar-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--frieren-border-delicate);
+  padding-bottom: clamp(2px, 0.6cqh, 4px);
+}
+
+.grimoire-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-cinzel);
+  font-size: clamp(0.56rem, 1.2cqw, 0.66rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--frieren-text-secondary);
+  text-transform: uppercase;
+}
+
+.rune-glyph {
+  color: var(--frieren-gold-accent);
+  font-size: 0.85em;
+  filter: drop-shadow(0 0 3px var(--frieren-gold-glow));
+}
+
+/* --- MONTH NAVIGATION BAR --- */
+.month-navigation-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(1px, 0.4cqh, 3px) 0;
+}
+
+.month-headline {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.current-month-label {
+  font-family: var(--font-cinzel), 'Cinzel', 'Times New Roman', serif;
+  font-size: clamp(0.95rem, 2.6cqw + 0.25rem, 1.3rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--frieren-text-ink);
+  margin: 0;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9), 0 0 1px rgba(139, 90, 43, 0.2);
+  transition: color var(--transition-serene), text-shadow var(--transition-serene);
+}
+
+[data-theme="night"] .current-month-label {
+  color: #F8FAFC;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.4), 0 0 2px rgba(254, 240, 138, 0.6);
+}
+
+.current-year-label {
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+  font-size: clamp(0.72rem, 1.6cqw, 0.88rem);
+  font-weight: 600;
+  color: var(--frieren-gold-accent);
+  letter-spacing: 0.1em;
+  opacity: 0.9;
+}
+
+/* Nav Controls: Calligraphic Stamped Elven Seals (No heavy pill borders) */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.nav-divider {
+  color: var(--frieren-gold-accent);
+  font-size: 0.7rem;
+  opacity: 0.55;
+  margin: 0 1px;
+  user-select: none;
+  line-height: 1;
+}
+
+/* Compact Brass Theme Switcher Button - subtle stamped seal without jarring borders */
+.theme-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--frieren-gold-accent);
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: transform 0.25s ease, filter 0.25s ease, opacity 0.25s ease;
+  outline: none;
+  padding: 0;
+  opacity: 0.82;
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.15);
+  opacity: 1;
+  color: var(--frieren-gold-light);
+  filter: drop-shadow(0 0 6px var(--frieren-gold-glow));
+}
+
+.theme-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* Stamped Elven Seal Nav Buttons */
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--frieren-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.25s ease, transform 0.25s ease, filter 0.25s ease;
+  outline: none;
+  padding: 2px 4px;
+  position: relative;
+}
+
+.nav-btn.prev-btn,
+.nav-btn.next-btn {
+  width: 20px;
+  height: 20px;
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--frieren-text-muted);
+}
+
+.nav-btn.prev-btn:hover,
+.nav-btn.next-btn:hover {
+  color: var(--frieren-gold-accent);
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 4px var(--frieren-gold-glow));
+}
+
+.nav-btn.prev-btn:active {
+  transform: translateX(-1px) scale(1.05);
+}
+
+.nav-btn.next-btn:active {
+  transform: translateX(1px) scale(1.05);
+}
+
+.nav-btn.today-btn {
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+  font-size: clamp(0.56rem, 1.2cqw, 0.64rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--frieren-text-secondary);
+  padding: 2px 5px;
+}
+
+.nav-btn.today-btn::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--frieren-gold-accent), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-btn.today-btn:hover {
+  color: var(--frieren-gold-accent);
+  filter: drop-shadow(0 0 5px var(--frieren-gold-glow));
+}
+
+.nav-btn.today-btn:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-btn.today-btn:active {
+  transform: scale(0.96);
+}
+
+/* --- 5. OPEN MANUSCRIPT CALENDAR BOARD (VERTICALLY CENTERED) --- */
+.calendar-board-section {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+}
+
+/* Weekday Header Row */
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+  font-size: clamp(0.54rem, 1.2cqw, 0.65rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--frieren-text-muted);
+  /* Delicate 1px dotted gold line separating header from grid */
+  border-bottom: 1px dotted rgba(194, 155, 56, 0.35);
+  padding-bottom: 3px;
+  margin-bottom: 2px;
+}
+
+.weekday-col.weekend-col {
+  color: var(--frieren-gold-accent);
+  opacity: 0.9;
+}
+
+/* 7-Column Date Grid (Open Manuscript Layout) */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: clamp(1px, 0.4cqh, 3px) clamp(2px, 0.6cqw, 6px);
+  width: 100%;
+  align-items: center;
+}
+
+/* Date Cell: Perfectly centered open manuscript cell */
+.cal-day {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: clamp(24px, 4cqh, 32px);
+  height: clamp(20px, 3.6cqh, 30px);
+  margin: 0 auto;
+  cursor: pointer;
+  border-radius: 50%;
+  user-select: none;
+  color: var(--frieren-text-ink);
+  transition: color 0.25s ease;
+  box-sizing: border-box;
+}
+
+/* Adjacent Month Padding Days (Muted antique ink) */
+.cal-day.cal-day-other {
+  opacity: 0.25;
+  color: var(--frieren-text-muted);
+}
+
+/* Weekend Accent */
+.cal-day.cal-day-weekend:not(.cal-day-other) {
+  color: var(--frieren-text-secondary);
+}
+
+/* Day Number Typography: Dead-centered, lining roman numerals */
+.day-num {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-size: clamp(0.72rem, 1.8cqw + 0.12rem, 0.92rem);
+  font-weight: 600;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s ease;
+}
+
+/* --- 6. THE ZOLTRAAK HOVER INTERACTION (GPU 60FPS) --- */
+.day-magic-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(24px, 4.2cqh, 34px);
+  height: clamp(24px, 4.2cqh, 34px);
+  color: var(--frieren-gold-accent);
+  opacity: 0;
+  /* Hardware-accelerated translate3d + rotate around exact geometric center */
+  transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  transform-origin: center center;
+  pointer-events: none;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  z-index: 1;
+  transition: 
+    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* On Day Hover: Smooth fade-in & 90-degree elven rotation */
+.cal-day:hover .day-magic-circle {
+  opacity: 0.85;
+  transform: translate3d(-50%, -50%, 0) rotate(90deg);
+}
+
+.cal-day:hover .day-num {
+  transform: scale(1.08);
+  color: var(--frieren-text-ink);
+}
+
+[data-theme="night"] .day-magic-circle {
+  color: var(--mana-stream-cyan);
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.7));
+}
+
+/* --- 7. CURRENT DAY HIGHLIGHT (MANA AURA & BLUE MOON WEED) --- */
+.cal-day.cal-day-today {
+  color: var(--frieren-text-ink);
+}
+
+[data-theme="night"] .cal-day.cal-day-today {
+  color: #FFFFFF;
+}
+
+/* Soft breathing cyan mana aura: Dead-centered */
+.cal-day.cal-day-today .today-mana-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(20px, 3.6cqh, 28px);
+  height: clamp(20px, 3.6cqh, 28px);
+  transform: translate3d(-50%, -50%, 0);
+  transform-origin: center center;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(224, 247, 250, 0.6) 0%, rgba(56, 189, 248, 0.24) 55%, transparent 75%);
+  border: 1px solid rgba(56, 189, 248, 0.55);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.5), inset 0 0 5px rgba(125, 211, 252, 0.35);
+  animation: todayManaBreathing 4.8s ease-in-out infinite;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes todayManaBreathing {
+  0% {
+    opacity: 0.7;
+    transform: translate3d(-50%, -50%, 0) scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0) scale(1.06);
+  }
+  100% {
+    opacity: 0.7;
+    transform: translate3d(-50%, -50%, 0) scale(0.94);
+  }
+}
+
+/* Tiny Blue Moon Weed sprout marker */
+.cal-day.cal-day-today .today-flora-marker {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  z-index: 3;
+  filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.8));
+}
+
+.cal-day.cal-day-today .day-num {
+  font-weight: 700;
+}
+
+/* --- 8. CHRONICLE FOOTER --- */
+.calendar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-top: 1px solid var(--frieren-border-delicate);
+  padding-top: clamp(2px, 0.8cqh, 5px);
+  text-align: center;
+}
+
+.chronicle-star {
+  color: var(--frieren-gold-accent);
+  font-size: 0.75rem;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 3px var(--frieren-gold-glow));
+}
+
+.footer-lore-text {
+  font-family: var(--font-serif);
+  font-size: clamp(0.62rem, 1.4cqw, 0.74rem);
+  font-style: italic;
+  letter-spacing: 0.03em;
+  color: var(--frieren-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+}
+
+/* --- 9. RESPONSIVE CONTAINER QUERIES (VIVALDI TILE PRESETS) --- */
+
+/* COMPACT TILE (1x1 / Mini: Width <= 280px or Height <= 220px) */
+@container widget (max-width: 280px), widget (max-height: 220px) {
+  .frieren-calendar-root {
+    padding: 8px 12px;
+  }
+  .grimoire-frame {
+    inset: 3px;
+    border-width: 1.5px;
+  }
+  .grimoire-inner-border {
+    display: none;
+  }
+  .corner-filigree {
+    width: 15px;
+    height: 15px;
+  }
+  .corner-filigree::after {
+    display: none;
+  }
+  .grimoire-brand {
+    font-size: 0.52rem;
+  }
+  .current-month-label {
+    font-size: 0.95rem;
+  }
+  .current-year-label {
+    font-size: 0.75rem;
+  }
+  .calendar-weekdays {
+    font-size: 0.52rem;
+    padding-bottom: 2px;
+  }
+  .cal-day {
+    height: 20px;
+    font-size: 0.68rem;
+  }
+  .day-magic-circle {
+    width: 20px;
+    height: 20px;
+  }
+  .cal-day.cal-day-today .today-mana-aura {
+    width: 18px;
+    height: 18px;
+  }
+  .cal-day.cal-day-today .today-flora-marker {
+    width: 10px;
+    height: 10px;
+  }
+  .footer-lore-text {
+    font-size: 0.58rem;
+  }
+}
+
+/* ULTRA COMPACT TILE (Width <= 220px) */
+@container widget (max-width: 220px) {
+  .calendar-top-bar {
+    display: none;
+  }
+  .nav-btn.today-btn {
+    display: none;
+  }
+  .chronicle-star {
+    display: none;
+  }
+}
+
+/* WIDE TILE (2x1, 3x1, 3x2: Width >= 460px) */
+@container widget (min-width: 460px) {
+  .grimoire-content {
+    gap: 8px;
+  }
+  .current-month-label {
+    font-size: 1.45rem;
+  }
+  .current-year-label {
+    font-size: 1.05rem;
+  }
+  .calendar-weekdays {
+    font-size: 0.72rem;
+  }
+  .cal-day {
+    height: 34px;
+    font-size: 0.98rem;
+  }
+  .footer-lore-text {
+    font-size: 0.8rem;
+  }
+}

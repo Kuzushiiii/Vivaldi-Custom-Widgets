@@ -1,0 +1,762 @@
+/* ==========================================================================
+   FRIEREN: BEYOND JOURNEY'S END — DAY PROGRESSION WIDGET
+   Aesthetic: Ancient Grimoire Artifact, Cast Brass Mounts, & The Mana Stream
+   Performance: GPU-Accelerated 60fps Compositing, Pure Organic Textures
+   ========================================================================== */
+
+@import '../theme-base.css';
+
+/* --- 1. ROOT CONTAINER: PURE ORGANIC PARCHMENT & COSMIC VOID CANVAS --- */
+.frieren-widget {
+  container-type: size;
+  container-name: widget;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  /* Generous breathing room (16px to 24px) away from outer borders */
+  padding: clamp(16px, 3cqh + 8px, 24px) clamp(20px, 3.5cqw + 8px, 32px);
+  box-sizing: border-box;
+  color: var(--frieren-text-ink);
+  transition: background 0.8s ease, color 0.8s ease;
+
+  /* --- DAYLIGHT CANVAS: Pure Organic Grimoire Page (Zero Math Grid) --- */
+  background-color: #F7F3EB;
+  background-image:
+    /* Soft perimeter aging vignette: darkens edges, leaves center pristine */
+    radial-gradient(ellipse at 50% 0%, rgba(214, 197, 168, 0.35) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(198, 178, 144, 0.4) 0%, transparent 65%),
+    radial-gradient(ellipse at 0% 50%, rgba(210, 192, 160, 0.28) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 50%, rgba(210, 192, 160, 0.28) 0%, transparent 50%),
+    /* Irregular antique parchment tea washes in corners */
+    radial-gradient(circle at 8% 12%, rgba(184, 155, 110, 0.16) 0%, transparent 45%),
+    radial-gradient(circle at 92% 88%, rgba(184, 155, 110, 0.16) 0%, transparent 45%),
+    /* Luminous warm manuscript core base */
+    linear-gradient(135deg, #FAF7F0 0%, #F5F0E6 48%, #EBE3D3 100%);
+  box-shadow:
+    0 4px 20px rgba(44, 34, 20, 0.12),
+    inset 0 0 35px rgba(168, 140, 95, 0.22),
+    inset 0 0 80px rgba(135, 105, 65, 0.14);
+}
+
+/* --- NOCTURNE CANVAS: Deep Starry Void & Glowing Nebula Clouds --- */
+[data-theme="night"] .frieren-widget,
+.frieren-widget[data-theme="night"] {
+  background-color: #0B0F19;
+  background-image:
+    /* Glowing celestial nebula clouds */
+    radial-gradient(ellipse at 80% 20%, rgba(56, 189, 248, 0.22) 0%, transparent 60%),
+    radial-gradient(circle at 20% 80%, rgba(129, 140, 248, 0.16) 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 70%),
+    /* Micro Star Field / Stardust speckles across the cosmos */
+    radial-gradient(circle at 12% 28%, rgba(255, 255, 255, 0.85) 0.8px, transparent 1.6px),
+    radial-gradient(circle at 35% 72%, rgba(255, 255, 255, 0.65) 0.6px, transparent 1.2px),
+    radial-gradient(circle at 68% 18%, rgba(255, 255, 255, 0.75) 0.7px, transparent 1.4px),
+    radial-gradient(circle at 84% 64%, rgba(255, 255, 255, 0.6) 0.5px, transparent 1.2px),
+    radial-gradient(circle at 45% 35%, rgba(125, 211, 252, 0.8) 0.8px, transparent 1.6px),
+    radial-gradient(circle at 92% 88%, rgba(255, 255, 255, 0.65) 0.7px, transparent 1.3px),
+    radial-gradient(circle at 24% 48%, rgba(254, 240, 138, 0.7) 0.6px, transparent 1.2px),
+    /* Deep cosmic void background */
+    linear-gradient(135deg, #070A12 0%, #0D1220 50%, #111728 100%);
+  box-shadow: var(--grimoire-card-shadow);
+}
+
+/* --- 2. THE ETCHED ZOLTRAAK / ELVEN MAGIC CIRCLE WATERMARK (GPU-ACCELERATED) --- */
+.grimoire-texture-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: clamp(260px, 68cqw, 420px);
+  /* Faint antique gold/sepia runic matrix etched into parchment */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' width='500' height='500'%3E%3Cg fill='none' stroke='%23C29B38' stroke-width='1.5'%3E%3Ccircle cx='250' cy='250' r='238' stroke-width='2'/%3E%3Ccircle cx='250' cy='250' r='224' stroke-width='1' stroke-dasharray='4,4'/%3E%3Ccircle cx='250' cy='250' r='212' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='12' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='250' cy='488' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='12' cy='250' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='488' cy='250' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='82' cy='82' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='418' cy='82' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='82' cy='418' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='418' cy='418' r='4.5' fill='%23C29B38'/%3E%3Crect x='97' y='97' width='306' height='306' stroke-width='1.4'/%3E%3Crect x='97' y='97' width='306' height='306' transform='rotate(45 250 250)' stroke-width='1.4'/%3E%3Ccircle cx='250' cy='250' r='168' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='250' r='148' stroke-dasharray='6,6' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='128' stroke-width='1.5'/%3E%3Cpolygon points='250,128 285,215 372,250 285,285 250,372 215,285 128,250 215,215' stroke-width='1.2'/%3E%3Cpolygon points='250,142 275,225 358,250 275,275 250,358 225,275 142,250 225,225' stroke-width='1' transform='rotate(22.5 250 250)' stroke-dasharray='3,3'/%3E%3Ccircle cx='250' cy='250' r='62' stroke-width='1.8'/%3E%3Ccircle cx='250' cy='250' r='36' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='10' fill='%23C29B38'/%3E%3Cline x1='250' y1='12' x2='250' y2='488' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='12' y1='250' x2='488' y2='250' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='82' y1='82' x2='418' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='418' y1='82' x2='82' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.038;
+  mix-blend-mode: multiply;
+  will-change: transform;
+  transform: translateZ(0);
+  animation: zoltraakOrbit 240s linear infinite;
+  transition: opacity var(--transition-serene);
+}
+
+[data-theme="night"] .grimoire-texture-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' width='500' height='500'%3E%3Cg fill='none' stroke='%2338BDF8' stroke-width='1.5'%3E%3Ccircle cx='250' cy='250' r='238' stroke-width='2'/%3E%3Ccircle cx='250' cy='250' r='224' stroke-width='1' stroke-dasharray='4,4'/%3E%3Ccircle cx='250' cy='250' r='212' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='12' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='250' cy='488' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='12' cy='250' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='488' cy='250' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='82' cy='82' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='418' cy='82' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='82' cy='418' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='418' cy='418' r='4.5' fill='%2338BDF8'/%3E%3Crect x='97' y='97' width='306' height='306' stroke-width='1.4'/%3E%3Crect x='97' y='97' width='306' height='306' transform='rotate(45 250 250)' stroke-width='1.4'/%3E%3Ccircle cx='250' cy='250' r='168' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='250' r='148' stroke-dasharray='6,6' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='128' stroke-width='1.5'/%3E%3Cpolygon points='250,128 285,215 372,250 285,285 250,372 215,285 128,250 215,215' stroke-width='1.2'/%3E%3Cpolygon points='250,142 275,225 358,250 275,275 250,358 225,275 142,250 225,225' stroke-width='1' transform='rotate(22.5 250 250)' stroke-dasharray='3,3'/%3E%3Ccircle cx='250' cy='250' r='62' stroke-width='1.8'/%3E%3Ccircle cx='250' cy='250' r='36' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='10' fill='%2338BDF8'/%3E%3Cline x1='250' y1='12' x2='250' y2='488' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='12' y1='250' x2='488' y2='250' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='82' y1='82' x2='418' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='418' y1='82' x2='82' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.065;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.45));
+}
+
+@keyframes zoltraakOrbit {
+  0%   { transform: rotate3d(0, 0, 1, 0deg); }
+  100% { transform: rotate3d(0, 0, 1, 360deg); }
+}
+
+/* --- 3. ORNATE ELVEN FRAMING & COMPACT METALLIC BRASS BOOK CORNERS --- */
+
+/* Dual-Line Grimoire Binding Border */
+.grimoire-frame {
+  position: absolute;
+  inset: 5px;
+  pointer-events: none;
+  z-index: 2;
+  border: 2px double var(--frieren-gold-accent);
+  border-radius: calc(var(--radius-card) - 3px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+    inset 0 0 0 2px var(--frieren-border-grimoire),
+    0 0 0 1px rgba(44, 34, 20, 0.06);
+  transition: border-color var(--transition-serene), box-shadow var(--transition-serene);
+}
+
+[data-theme="night"] .grimoire-frame {
+  border-color: var(--frieren-gold-accent);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 0 0 2px rgba(0, 0, 0, 0.65),
+    0 0 10px rgba(229, 192, 123, 0.2);
+}
+
+/* Inner Cartographic Guideline Margin */
+.grimoire-inner-border {
+  position: absolute;
+  inset: 3px;
+  border: 1px dashed var(--frieren-border-delicate);
+  border-radius: calc(var(--radius-card) - 5px);
+  box-shadow: inset 0 0 10px rgba(194, 155, 56, 0.06);
+}
+
+/* Proportional Cast Brass Book Corner Brackets */
+.corner-filigree {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  z-index: 5;
+  background: linear-gradient(
+    135deg,
+    var(--brass-light) 0%,
+    #F59E0B 28%,
+    var(--brass-mid) 52%,
+    #B45309 78%,
+    var(--brass-dark) 100%
+  );
+  box-shadow:
+    0 1.5px 3px rgba(0, 0, 0, 0.4),
+    inset 0.8px 0.8px 0.8px rgba(255, 255, 255, 0.8),
+    inset -0.8px -0.8px 1px rgba(0, 0, 0, 0.6);
+  border: 0.5px solid #78350F;
+  transition: all var(--transition-serene);
+}
+
+/* Stepped Elven Corner Braces via CSS Clip-Path */
+.corner-filigree.top-left {
+  top: -1px;
+  left: -1px;
+  clip-path: polygon(0 0, 100% 0, 75% 25%, 35% 25%, 25% 35%, 25% 75%, 0 100%);
+}
+
+.corner-filigree.top-right {
+  top: -1px;
+  right: -1px;
+  clip-path: polygon(100% 0, 0 0, 25% 25%, 65% 25%, 75% 35%, 75% 75%, 100% 100%);
+}
+
+.corner-filigree.bottom-left {
+  bottom: -1px;
+  left: -1px;
+  clip-path: polygon(0 100%, 100% 100%, 75% 75%, 35% 75%, 25% 65%, 25% 25%, 0 0);
+}
+
+.corner-filigree.bottom-right {
+  bottom: -1px;
+  right: -1px;
+  clip-path: polygon(100% 100%, 0 100%, 25% 75%, 65% 75%, 75% 65%, 75% 25%, 100% 0);
+}
+
+/* Compact Brass Rivet Studs on Each Corner Plate */
+.corner-filigree::after {
+  content: "";
+  position: absolute;
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFFFFF 0%, #FBBF24 45%, #78350F 100%);
+  box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.6);
+  z-index: 6;
+}
+
+.corner-filigree.top-left::after     { top: 3.5px; left: 3.5px; }
+.corner-filigree.top-right::after    { top: 3.5px; right: 3.5px; }
+.corner-filigree.bottom-left::after  { bottom: 3.5px; left: 3.5px; }
+.corner-filigree.bottom-right::after { bottom: 3.5px; right: 3.5px; }
+
+/* Engraved Elven Glyphs Etched Deep into Brass */
+.corner-filigree .filigree-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: #451A03;
+  filter: drop-shadow(0 0.5px 0.5px rgba(255, 255, 255, 0.5));
+  opacity: 0.85;
+}
+
+[data-theme="night"] .corner-filigree .filigree-svg {
+  color: #1A1005;
+  filter: drop-shadow(0 0.5px 0.5px rgba(254, 240, 138, 0.45));
+}
+
+/* --- 4. MAIN CONTENT CANVAS & BREATHING ROOM --- */
+.grimoire-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* Balanced vertical distribution with clear breathing whitespace */
+  gap: clamp(6px, 1.8cqh, 14px);
+}
+
+/* --- TEMPORAL HEADER --- */
+.temporal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px solid var(--frieren-border-delicate);
+  padding-bottom: clamp(4px, 1.2cqh, 8px);
+}
+
+.epoch-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-cinzel);
+  font-size: clamp(0.58rem, 1.4cqw, 0.68rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--frieren-text-secondary);
+  background: linear-gradient(135deg, rgba(194, 155, 56, 0.12) 0%, rgba(194, 155, 56, 0.03) 100%);
+  border: 1px solid var(--frieren-border-gold);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 1px 2px rgba(44, 34, 20, 0.04);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.rune-glyph {
+  color: var(--frieren-gold-accent);
+  font-size: 0.9em;
+  filter: drop-shadow(0 0 3px var(--frieren-gold-glow));
+}
+
+.temporal-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Compact Brass Celestial Seal Toggle Button (No Audio) */
+.theme-toggle-btn {
+  background: linear-gradient(135deg, var(--frieren-bg-surface) 0%, var(--frieren-bg-warm) 100%);
+  border: 1px solid var(--frieren-gold-accent);
+  color: var(--frieren-gold-accent);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.72rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  padding: 0;
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 8px var(--frieren-gold-glow), 0 2px 4px rgba(0, 0, 0, 0.18);
+}
+
+.chronos-stats {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-family: var(--font-serif);
+  white-space: nowrap;
+}
+
+.live-clock {
+  font-size: clamp(0.72rem, 1.8cqw, 0.86rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--frieren-text-ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="night"] .live-clock {
+  text-shadow: 0 0 6px rgba(56, 189, 248, 0.35);
+}
+
+.stat-divider {
+  color: var(--frieren-gold-accent);
+  font-size: 0.85rem;
+}
+
+.percent-readout {
+  font-size: clamp(0.68rem, 1.6cqw, 0.8rem);
+  color: var(--frieren-text-muted);
+}
+
+.percent-readout strong {
+  font-family: var(--font-cinzel);
+  color: var(--frieren-text-ink);
+  font-weight: 700;
+}
+
+/* --- 5. THE CORE LORE SUBTITLE (HIMMEL CHRONOLOGY) --- */
+.himmel-chronicle-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2px 0;
+  flex-grow: 1;
+}
+
+.himmel-ribbon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 1.5cqw, 10px);
+  position: relative;
+  max-width: 100%;
+}
+
+.chronicle-flourish {
+  color: var(--frieren-gold-accent);
+  font-size: clamp(0.68rem, 1.5cqw, 0.82rem);
+  opacity: 0.85;
+  filter: drop-shadow(0 0 3px var(--frieren-gold-glow));
+  transition: color var(--transition-serene);
+  flex-shrink: 0;
+}
+
+.himmel-text {
+  font-family: var(--font-display);
+  font-size: clamp(0.8rem, 1.8cqw + 0.22rem, 1.06rem);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+  color: var(--frieren-text-ink);
+  margin: 0;
+  white-space: nowrap;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85), 0 -1px 0 rgba(0, 0, 0, 0.06);
+  transition: color var(--transition-serene), text-shadow var(--transition-serene);
+}
+
+[data-theme="night"] .himmel-text {
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.4), 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.phase-desc {
+  font-family: var(--font-serif);
+  font-size: clamp(0.64rem, 1.4cqw, 0.74rem);
+  font-style: italic;
+  color: var(--frieren-text-muted);
+  margin-top: 3px;
+  letter-spacing: 0.02em;
+  opacity: 0.88;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 95%;
+}
+
+/* --- 6. OVERHAULED PROGRESS BAR: THE CARTOGRAPHER'S JOURNEY --- */
+.mana-stream-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 1.2cqh, 8px);
+}
+
+.stream-track-container {
+  position: relative;
+  width: 100%;
+  height: 18px;
+  display: flex;
+  align-items: center;
+}
+
+/* Antique Expedition Map Route Line */
+.stream-track-line {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+  /* Ancient map expedition route track: 2px dotted gold */
+  border-bottom: 2px dotted var(--frieren-gold-accent);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+  transition: border-color var(--transition-serene);
+}
+
+[data-theme="night"] .stream-track-line {
+  border-bottom: 2px dotted rgba(229, 192, 123, 0.75);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Navigational Sextant Compass Nodes (Brass Diamonds) */
+.track-node {
+  position: absolute;
+  top: 100%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 4px;
+  height: 4px;
+  background: linear-gradient(
+    135deg,
+    var(--brass-light) 0%,
+    var(--brass-mid) 50%,
+    var(--brass-dark) 100%
+  );
+  border: 0.5px solid #78350F;
+  box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.35);
+  z-index: 2;
+}
+
+.track-node.node-0   { left: 0%; }
+.track-node.node-25  { left: 25%; }
+.track-node.node-50  { left: 50%; width: 5.5px; height: 5.5px; border-color: #533C0D; }
+.track-node.node-75  { left: 75%; }
+.track-node.node-100 { left: 100%; }
+
+/* The Mana Fill: Flowing Magical Mist & Constellation Stream (GPU-Accelerated) */
+.mana-stream-fill {
+  position: absolute;
+  left: 0;
+  top: -2px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(2, 132, 199, 0.25) 15%,
+    rgba(14, 165, 233, 0.55) 45%,
+    rgba(56, 189, 248, 0.85) 80%,
+    rgba(224, 247, 250, 0.98) 100%
+  );
+  box-shadow:
+    0 0 6px rgba(56, 189, 248, 0.65),
+    0 0 14px rgba(56, 189, 248, 0.35);
+  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.6));
+  animation: manaMistBreath 4.8s ease-in-out infinite alternate;
+}
+
+/* Constellation Starlight Embedded in the Mist */
+.mana-inner-glint {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  background-image:
+    radial-gradient(circle at 18% 50%, rgba(255, 255, 255, 0.95) 1px, transparent 1.6px),
+    radial-gradient(circle at 45% 40%, rgba(255, 255, 255, 0.9) 1.2px, transparent 2px),
+    radial-gradient(circle at 72% 60%, rgba(255, 255, 255, 0.9) 1.1px, transparent 1.8px),
+    radial-gradient(circle at 94% 50%, #FFFFFF 1.5px, transparent 2.8px),
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.45) 85%, #FFFFFF 100%);
+  opacity: 0.85;
+  animation: constellationTwinkle 3.6s ease-in-out infinite alternate;
+}
+
+@keyframes manaMistBreath {
+  0% {
+    filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.45));
+    opacity: 0.85;
+  }
+  100% {
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.85)) drop-shadow(0 0 16px rgba(224, 247, 250, 0.5));
+    opacity: 1;
+  }
+}
+
+@keyframes constellationTwinkle {
+  0%   { opacity: 0.65; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.75; }
+}
+
+/* --- 7. THE BEACON: BLUE MOON WEED & CALM ELVEN MANA WAKE (GPU 60FPS) --- */
+.mana-beacon {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate3d(-50%, -50%, 0);
+  will-change: left;
+  width: 26px;
+  height: 26px;
+  pointer-events: none;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Soft, Trailing Mana Wake: situated gracefully in the flower's trail */
+.beacon-halo {
+  position: absolute;
+  top: 50%;
+  right: 13px; /* Anchors right behind the flower center */
+  transform: translate3d(0, -50%, 0);
+  width: 90px; /* Elegant, calm tail length */
+  height: 18px;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+
+  /* Gentle gradient alpha mask: fades out smoothly to the left */
+  -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.8) 35%, rgba(0, 0, 0, 0.25) 70%, transparent 100%);
+  mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.8) 35%, rgba(0, 0, 0, 0.25) 70%, transparent 100%);
+}
+
+/* Sparse, Calm Elven Mana Motes (Layer 1 - Gentle forward drift) */
+.beacon-halo::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Exactly 3 delicate, sparse glowing motes */
+  background-image:
+    radial-gradient(circle at 74px 9px, rgba(224, 247, 250, 0.95) 0.8px, rgba(56, 189, 248, 0.6) 2px, transparent 4px),
+    radial-gradient(circle at 45px 12px, rgba(186, 230, 253, 0.85) 0.6px, rgba(14, 165, 233, 0.45) 1.8px, transparent 3.6px),
+    radial-gradient(circle at 18px 7px, rgba(125, 211, 252, 0.6) 0.5px, rgba(2, 132, 199, 0.3) 1.6px, transparent 3.2px);
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  animation: elvenManaDriftPrimary 6.2s ease-in-out infinite alternate;
+}
+
+/* Sparse, Delicate Stardust (Layer 2 - Subtle secondary float) */
+.beacon-halo::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Exactly 2 faint stardust embers */
+  background-image:
+    radial-gradient(circle at 62px 6px, rgba(255, 255, 255, 0.9) 0.5px, rgba(125, 211, 252, 0.5) 1.4px, transparent 2.8px),
+    radial-gradient(circle at 30px 13px, rgba(224, 247, 250, 0.7) 0.5px, rgba(56, 189, 248, 0.4) 1.4px, transparent 2.6px);
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  animation: elvenManaDriftSecondary 7.8s ease-in-out infinite alternate;
+}
+
+/* GPU-Accelerated 60fps Gentle Forward Drift (Moving in the direction of the journey) */
+@keyframes elvenManaDriftPrimary {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(6px, -1.2px, 0);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(12px, 0.8px, 0);
+    opacity: 0.45;
+  }
+}
+
+@keyframes elvenManaDriftSecondary {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate3d(5px, 1.2px, 0);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(10px, -0.8px, 0);
+    opacity: 0.35;
+  }
+}
+
+/* Steady Luminous Ambient Core for the Flower Itself */
+.beacon-glow-ring {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(224, 247, 250, 0.45) 0%, rgba(56, 189, 248, 0.2) 55%, transparent 75%);
+  border: 1px solid rgba(224, 247, 250, 0.65);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.5), inset 0 0 5px rgba(125, 211, 252, 0.35);
+  opacity: 0.85;
+  z-index: 2;
+}
+
+.mana-beacon .flower-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  position: relative;
+  z-index: 3;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.85));
+}
+
+/* Hover State: Expanding Mana Radiance (Strictly Visual, NO Audio) */
+.frieren-widget:hover .mana-stream-fill {
+  filter:
+    drop-shadow(0 0 12px rgba(56, 189, 248, 0.95))
+    drop-shadow(0 0 22px rgba(224, 247, 250, 0.7));
+}
+
+.frieren-widget:hover .beacon-halo {
+  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.9));
+  transition: filter 1.2s ease-in-out;
+}
+
+/* --- 8. TELEMETRY FOOTER --- */
+.stream-telemetry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-serif);
+  font-size: clamp(0.62rem, 1.4cqw, 0.72rem);
+  color: var(--frieren-text-muted);
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--frieren-border-delicate);
+  padding-top: 4px;
+}
+
+.telemetry-point {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.tel-glyph {
+  color: var(--frieren-gold-accent);
+  font-size: 0.85em;
+  filter: drop-shadow(0 0 3px var(--frieren-gold-glow));
+}
+
+.telemetry-countdown {
+  font-family: var(--font-cinzel);
+  font-weight: 600;
+  color: var(--frieren-text-secondary);
+  letter-spacing: 0.05em;
+}
+
+/* --- 9. RESPONSIVE CONTAINER QUERIES (VIVALDI TILE PRESETS) --- */
+
+/* COMPACT TILE (1x1: Width <= 280px or Height <= 170px) */
+@container widget (max-width: 280px), widget (max-height: 170px) {
+  .frieren-widget {
+    padding: 10px 14px;
+  }
+  .grimoire-frame {
+    inset: 3px;
+    border-width: 1.5px;
+  }
+  .grimoire-inner-border {
+    display: none;
+  }
+  .corner-filigree {
+    width: 15px;
+    height: 15px;
+  }
+  .corner-filigree::after {
+    display: none;
+  }
+  .phase-desc {
+    display: none;
+  }
+  .epoch-badge {
+    font-size: 0.55rem;
+    letter-spacing: 0.05em;
+    padding: 1px 5px;
+  }
+  .telemetry-point.start,
+  .telemetry-point.end {
+    display: none;
+  }
+  .stream-telemetry {
+    justify-content: center;
+  }
+  .mana-beacon {
+    width: 22px;
+    height: 22px;
+  }
+  .beacon-halo {
+    width: 60px;
+    right: 11px;
+  }
+  .mana-beacon .flower-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ULTRA COMPACT TILE (Square Mini: Width <= 220px) */
+@container widget (max-width: 220px) {
+  .corner-filigree {
+    display: none;
+  }
+  .epoch-badge {
+    display: none;
+  }
+  .temporal-header {
+    justify-content: center;
+  }
+  .chronicle-flourish {
+    display: none;
+  }
+  .himmel-text {
+    font-size: 0.74rem;
+  }
+}
+
+/* WIDE TILE (2x1, 3x1: Width >= 450px) */
+@container widget (min-width: 450px) {
+  .grimoire-content {
+    gap: 12px;
+  }
+  .himmel-text {
+    font-size: 1.05rem;
+  }
+  .phase-desc {
+    font-size: 0.78rem;
+  }
+}
+
+/* EXPANDED TILE (2x2, 3x2: Width >= 560px and Height >= 240px) */
+@container widget (min-width: 560px) and (min-height: 240px) {
+  .frieren-widget {
+    padding: 22px 34px;
+  }
+  .corner-filigree {
+    width: 28px;
+    height: 28px;
+  }
+  .himmel-text {
+    font-size: 1.2rem;
+  }
+}
