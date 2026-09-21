@@ -22,7 +22,7 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 ## Features
 
 - **Interactive Showroom Dashboard**: Preview, filter, and test all widgets live at any tile size via the [Live Demo Showroom](https://kuzushiiii.github.io/Vivaldi-Custom-Widgets/) (or local `index.html`) without needing to install them first.
-- **Thematic Immersion**: Authentic visual styles inspired by Persona 5 and Violet Evergarden.
+- **Thematic Immersion**: Authentic visual styles inspired by Persona 5, Violet Evergarden, and Sousou no Frieren.
 - **CSS Container Queries**: Automatically scales typography, icons, and layouts gracefully across compact, wide, square, and banner tile dimensions.
 - **Lightweight & Fast**: Built with vanilla HTML5, CSS3, and JavaScript with zero external frameworks.
 - **Dynamic & Real-Time**: Live digital clocks, interactive calendars, day progress trackers, and real-time music playback visualizers.

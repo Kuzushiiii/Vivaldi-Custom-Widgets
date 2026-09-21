@@ -54,7 +54,7 @@ const WIDGETS_REGISTRY = [
     title: "Song Viewer (Radio HUD)",
     fullName: "Persona 5 Song Viewer (Phantom Radio HUD)",
     desc: "Now-Playing HUD with Lanyard, Last.fm & 'Life Will Change'.",
-    path: "themes/persona-5/song-viewer-widget/index.html"
+    path: "themes/persona-5/song-viewer/index.html"
   },
   {
     theme: "persona-5",
@@ -98,7 +98,7 @@ const WIDGETS_REGISTRY = [
     title: "Postal Phonograph",
     fullName: "Violet Evergarden CH Postal Phonograph",
     desc: "Vintage vinyl gramophone, tonearm needle & 'Sincerely'.",
-    path: "themes/violet-evergarden/song-viewer-widget/index.html"
+    path: "themes/violet-evergarden/song-viewer/index.html"
   },
   {
     theme: "violet-evergarden",
@@ -115,7 +115,32 @@ const WIDGETS_REGISTRY = [
     fullName: "Violet Evergarden Bougainvillea Flowers GIF",
     desc: "Aesthetic anime floral banner with bougainvillea motif.",
     path: "themes/violet-evergarden/gif-widget-2/index.html"
-  }
+  },
+  {
+    theme: "frieren",
+    category: "calendar",
+    title: "Grimoire Calendar",
+    fullName: "Frieren Flamme's Grimoire Calendar",
+    desc: "Zoltraak runes, Blue Moon Weed markers & ancient parchment memo notes.",
+    path: "themes/frieren/calendar-widget/index.html"
+  },
+  {
+    theme: "frieren",
+    category: "day-progression",
+    title: "Era of Peace Day Progression",
+    fullName: "Frieren Era of Peace Day Progression",
+    desc: "Temporal chronometer, daily phase tracker & starlight night sky toggle.",
+    path: "themes/frieren/day-progression/index.html"
+  },
+  {
+    theme: "frieren",
+    category: "song-viewer",
+    title: "Elven Staff Crystal",
+    fullName: "Frieren Elven Staff Crystal Song Viewer",
+    desc: "Zoltraak magic circles visualizer, Lanyard, Last.fm & 'Anytime Anywhere'.",
+    path: "themes/frieren/song-viewer/index.html"
+  },
+
 ];
 
 if (typeof window !== "undefined") {
