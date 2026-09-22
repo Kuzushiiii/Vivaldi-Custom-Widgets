@@ -72,17 +72,71 @@ class SongViewerService {
 
   bindVisibilityHandler() {
     document.addEventListener("visibilitychange", () => {
-      if (!document.hidden && !this.isDemoMode) {
-        if (this.provider === "lastfm") {
-          this.fetchLastfmData();
-        } else if (this.provider === "discord") {
-          if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
-            this.connectLanyard();
+      if (document.hidden) {
+        this.pauseProgressTimer();
+        this.pausePolling();
+      } else {
+        this.resumeProgressTimer();
+        this.resumePolling();
+        if (!this.isDemoMode) {
+          if (this.provider === "lastfm") {
+            this.fetchLastfmData();
+          } else if (this.provider === "discord") {
+            if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
+              this.connectLanyard();
+            }
           }
         }
         this.updateProgress();
       }
     });
+    // Fallback for file:// iframes where visibilitychange may not fire reliably
+    window.addEventListener("blur", () => {
+      this.pauseProgressTimer();
+    });
+    window.addEventListener("focus", () => {
+      this.resumeProgressTimer();
+      this.updateProgress();
+    });
+  }
+
+  pauseProgressTimer() {
+    if (this.progressTimer) {
+      clearInterval(this.progressTimer);
+      this.progressTimer = null;
+    }
+  }
+
+  resumeProgressTimer() {
+    if (!this.progressTimer) {
+      this.startProgressTimer();
+    }
+  }
+
+  pausePolling() {
+    // Pause Last.fm / Discord REST polling while hidden to save CPU/battery
+    if (this._pollingPaused) return;
+    if (this.pollInterval) {
+      clearInterval(this.pollInterval);
+      this._pausedPollInterval = this.pollInterval;
+      this.pollInterval = null;
+      this._pollingPaused = true;
+    }
+  }
+
+  resumePolling() {
+    if (!this._pollingPaused) return;
+    this._pollingPaused = false;
+    this._pausedPollInterval = null;
+    // Re-establish correct polling for current provider
+    if (this.isDemoMode) return;
+    if (this.provider === "lastfm" && this.lastfmUser) {
+      this.fetchLastfmData();
+      this.pollInterval = setInterval(() => this.fetchLastfmData(), 8000);
+    } else if (this.provider === "discord" && this.discordId && !this.socket) {
+      // Discord primarily uses WebSocket; fallback polling will be re-created on demand
+      this.fallbackRestPolling();
+    }
   }
 
   saveConfig({ provider, discordId, lastfmUser, lastfmApiKey }) {
@@ -130,6 +184,12 @@ class SongViewerService {
       clearInterval(this.pollInterval);
       this.pollInterval = null;
     }
+    this._pollingPaused = false;
+    this._pausedPollInterval = null;
+    if (this.progressTimer) {
+      clearInterval(this.progressTimer);
+      this.progressTimer = null;
+    }
     if (this.heartbeatInterval) {
       clearInterval(this.heartbeatInterval);
       this.heartbeatInterval = null;
@@ -146,7 +206,9 @@ class SongViewerService {
 
   startProgressTimer() {
     if (this.progressTimer) clearInterval(this.progressTimer);
-    this.progressTimer = setInterval(() => this.updateProgress(), 500);
+    // Throttled from 500ms -> 800ms: 37.5% fewer wakeups, still smooth for MM:SS + tonearm/progress bar
+    // 1000ms would be max saving (50%) but 800ms keeps per-second tick visually in sync without visible 1s stutter on vinyl needle / progress bar
+    this.progressTimer = setInterval(() => this.updateProgress(), 800);
   }
 
   updateProgress() {
