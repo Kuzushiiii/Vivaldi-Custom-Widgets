@@ -3,165 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Frieren: Beyond Journey's End — Calendar Widget</title>
+  <title>Frieren: Beyond Journey's End — Calendar</title>
 
-  <!-- Typography: Online Google Fonts + Local Offline Fallbacks -->
+  <!-- Typography: Majestic Fantasy Serif (Cinzel) + Clean Rounded Modern Numerals (Quicksand) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../violet-evergarden/assets/fonts/fonts.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Marcellus&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="../theme-base.css">
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Reusable SVG Symbols: Zoltraak Magic Circle & Blue Moon Weed Marker -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;" aria-hidden="true">
-    <symbol id="zoltraakCircle" viewBox="0 0 100 100">
-      <g fill="none" stroke="currentColor" stroke-width="1.2">
-        <!-- Outer runic ring -->
-        <circle cx="50" cy="50" r="47" stroke-width="1.5" />
-        <circle cx="50" cy="50" r="44" stroke-width="0.8" stroke-dasharray="2,2" />
-        <circle cx="50" cy="50" r="41" stroke-width="1" />
-        <!-- 4 cardinal beads -->
-        <circle cx="50" cy="3" r="1.6" fill="currentColor" />
-        <circle cx="50" cy="97" r="1.6" fill="currentColor" />
-        <circle cx="3" cy="50" r="1.6" fill="currentColor" />
-        <circle cx="97" cy="50" r="1.6" fill="currentColor" />
-        <!-- 4 diagonal corner beads -->
-        <circle cx="16" cy="16" r="1.4" fill="currentColor" />
-        <circle cx="84" cy="16" r="1.4" fill="currentColor" />
-        <circle cx="16" cy="84" r="1.4" fill="currentColor" />
-        <circle cx="84" cy="84" r="1.4" fill="currentColor" />
-        <!-- Intersecting octagram squares -->
-        <rect x="20" y="20" width="60" height="60" stroke-width="0.9" />
-        <rect x="20" y="20" width="60" height="60" transform="rotate(45 50 50)" stroke-width="0.9" />
-        <!-- Mid concentric rings -->
-        <circle cx="50" cy="50" r="32" stroke-width="1" />
-        <circle cx="50" cy="50" r="26" stroke-width="0.8" stroke-dasharray="2,2" />
-        <!-- Inner star -->
-        <polygon points="50,26 56,44 74,50 56,56 50,74 44,56 26,50 44,44" stroke-width="0.9" />
-        <!-- Core eye -->
-        <circle cx="50" cy="50" r="12" stroke-width="1.2" />
-        <circle cx="50" cy="50" r="3.5" fill="currentColor" />
-      </g>
-    </symbol>
+  <div class="frieren-calendar-root" id="frierenCalendarRoot">
 
-    <symbol id="miniMoonWeed" viewBox="0 0 24 24">
-      <path d="M12 2 C11 5 9 7 9 10 C9 12 10.5 13.5 12 13.5 C13.5 13.5 15 12 15 10 C15 7 13 5 12 2 Z" fill="#7DD3FC" opacity="0.95"/>
-      <path d="M12 10 C16 8 18 10 19 9 C17 12 16 13 12 10 Z" fill="#38BDF8" opacity="0.85"/>
-      <path d="M12 10 C8 8 6 10 5 9 C7 12 8 13 12 10 Z" fill="#38BDF8" opacity="0.85"/>
-      <circle cx="12" cy="10" r="1.6" fill="#FEF08A" stroke="#CA8A04" stroke-width="0.5"/>
-      <path d="M12 13.5 V19" stroke="#0284C7" stroke-width="1.1" stroke-linecap="round"/>
-      <path d="M12 16 Q14 14.5 15 16" stroke="#38BDF8" stroke-width="0.8" stroke-linecap="round"/>
-    </symbol>
-  </svg>
-
-  <div class="frieren-widget frieren-calendar-root" id="frierenCalendarRoot" data-theme="parchment">
-    
-    <!-- Grimoire Ancient Parchment Filter & Background Texture Layer -->
-    <div class="grimoire-texture-overlay" aria-hidden="true"></div>
-
-    <!-- Delicate Grimoire Frame with Elven Corner Filigrees -->
-    <div class="grimoire-frame" aria-hidden="true">
-      <div class="corner-filigree top-left">
-        <svg viewBox="0 0 32 32" class="filigree-svg">
-          <path d="M2,2 L14,2 C8,2 2,8 2,14 Z M2,2 L2,24 M2,2 L24,2 M6,6 L16,6 M6,6 L6,16" stroke="currentColor" fill="none" stroke-width="1"/>
-          <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
-        </svg>
+    <!-- Header Section: Subtitle & Majestic Month Title + Controls -->
+    <header class="calendar-header">
+      <div class="brand-subtext" aria-label="Frieren: Beyond Journey's End">
+        <span class="sparkle" aria-hidden="true">✦</span>
+        <span>FRIEREN · CHRONICLES OF TIME</span>
+        <span class="sparkle" aria-hidden="true">✦</span>
       </div>
-      <div class="corner-filigree top-right">
-        <svg viewBox="0 0 32 32" class="filigree-svg">
-          <path d="M30,2 L18,2 C24,2 30,8 30,14 Z M30,2 L30,24 M30,2 L8,2 M26,6 L16,6 M26,6 L26,16" stroke="currentColor" fill="none" stroke-width="1"/>
-          <circle cx="24" cy="8" r="1.5" fill="currentColor"/>
-        </svg>
-      </div>
-      <div class="corner-filigree bottom-left">
-        <svg viewBox="0 0 32 32" class="filigree-svg">
-          <path d="M2,30 L14,30 C8,30 2,24 2,18 Z M2,30 L2,8 M2,30 L24,30 M6,26 L16,26 M6,26 L6,16" stroke="currentColor" fill="none" stroke-width="1"/>
-          <circle cx="8" cy="24" r="1.5" fill="currentColor"/>
-        </svg>
-      </div>
-      <div class="corner-filigree bottom-right">
-        <svg viewBox="0 0 32 32" class="filigree-svg">
-          <path d="M30,30 L18,30 C24,30 30,24 30,18 Z M30,30 L30,8 M30,30 L8,30 M26,26 L16,26 M26,26 L26,16" stroke="currentColor" fill="none" stroke-width="1"/>
-          <circle cx="24" cy="24" r="1.5" fill="currentColor"/>
-        </svg>
-      </div>
-      <div class="grimoire-inner-border"></div>
-    </div>
 
-    <!-- Main Widget Surface -->
-    <main class="grimoire-content" id="grimoireContent">
-      
-      <!-- Top Header: Grimoire Brand (No controls in top-right to prevent Vivaldi 3-dots collision) -->
-      <header class="calendar-top-bar">
-        <div class="grimoire-brand" aria-label="Flamme's Ancient Grimoire">
-          <span class="rune-glyph">✧</span>
-          <span class="brand-text">FLAMME'S GRIMOIRE · CHRONICLES OF TIME</span>
-          <span class="rune-glyph">✧</span>
-        </div>
-      </header>
-
-      <!-- Month Navigation Bar (Theme toggle integrated into nav controls) -->
-      <section class="month-navigation-section">
-        
-        <div class="month-headline">
+      <div class="month-row">
+        <div class="month-title">
           <h2 class="current-month-label" id="currentMonthLabel">SEPTEMBER</h2>
           <span class="current-year-label" id="currentYearLabel">2026</span>
         </div>
 
         <nav class="nav-controls" aria-label="Calendar Navigation">
-          <button class="theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle Grimoire / Night Sky Theme">
-            <span class="theme-icon" id="themeIcon">☽</span>
+          <button type="button" class="nav-arrow-btn" id="prevMonthBtn" aria-label="Previous Month">&#x2039;</button>
+          
+          <button type="button" class="today-btn" id="todayBtn" aria-label="Jump to Current Date">
+            <span>TODAY</span>
           </button>
-          <span class="nav-divider" aria-hidden="true">·</span>
-          <button type="button" class="nav-btn prev-btn" id="prevMonthBtn" aria-label="Previous Month">
-            <span class="nav-arrow" aria-hidden="true">&#x2039;</span>
-          </button>
-          <button type="button" class="nav-btn today-btn" id="todayBtn" aria-label="Jump to Current Date">
-            <span class="today-label">TODAY</span>
-          </button>
-          <button type="button" class="nav-btn next-btn" id="nextMonthBtn" aria-label="Next Month">
-            <span class="nav-arrow" aria-hidden="true">&#x203A;</span>
-          </button>
+
+          <button type="button" class="nav-arrow-btn" id="nextMonthBtn" aria-label="Next Month">&#x203A;</button>
         </nav>
+      </div>
+    </header>
 
-      </section>
+    <section class="calendar-board" aria-label="Calendar Board">
+      
+      <!-- Faint Teal Magic Circle SVG Watermark (Fixed Background Motif) -->
+      <div class="magic-circle-bg" aria-hidden="true">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" stroke="currentColor" stroke-width="1.2">
+            <circle cx="200" cy="200" r="188" stroke-width="1.6" />
+            <circle cx="200" cy="200" r="176" stroke-dasharray="4 4" />
+            <circle cx="200" cy="200" r="162" />
+            <circle cx="200" cy="12" r="5" fill="currentColor" />
+            <circle cx="200" cy="388" r="5" fill="currentColor" />
+            <circle cx="12" cy="200" r="5" fill="currentColor" />
+            <circle cx="388" cy="200" r="5" fill="currentColor" />
+            <rect x="85" y="85" width="230" height="230" stroke-width="1.2" />
+            <rect x="85" y="85" width="230" height="230" transform="rotate(45 200 200)" stroke-width="1.2" />
+            <circle cx="200" cy="200" r="120" stroke-dasharray="6 6" />
+            <circle cx="200" cy="200" r="90" stroke-width="1.4" />
+            <polygon points="200,90 224,166 300,200 224,234 200,310 176,234 100,200 176,166" stroke-width="1.2" />
+            <circle cx="200" cy="200" r="42" stroke-width="1.4" />
+            <circle cx="200" cy="200" r="10" fill="currentColor" opacity="0.6" />
+          </g>
+        </svg>
+      </div>
 
-      <!-- Open Manuscript Calendar Board -->
-      <section class="calendar-board-section" aria-label="Monthly Calendar Days">
-        
-        <!-- Weekday Headers -->
-        <div class="calendar-weekdays" aria-hidden="true">
-          <span class="weekday-col weekend-col">Sun</span>
-          <span class="weekday-col">Mon</span>
-          <span class="weekday-col">Tue</span>
-          <span class="weekday-col">Wed</span>
-          <span class="weekday-col">Thu</span>
-          <span class="weekday-col">Fri</span>
-          <span class="weekday-col weekend-col">Sat</span>
-        </div>
+      <!-- Weekday Headers (Muted Gold/Grey) -->
+      <div class="calendar-weekdays" aria-hidden="true">
+        <span class="weekday weekend">SUN</span>
+        <span class="weekday">MON</span>
+        <span class="weekday">TUE</span>
+        <span class="weekday">WED</span>
+        <span class="weekday">THU</span>
+        <span class="weekday">FRI</span>
+        <span class="weekday weekend">SAT</span>
+      </div>
 
-        <!-- 7-Column Date Grid (Generated Dynamically via JS) -->
-        <div class="calendar-grid" id="calendarGrid" role="grid" aria-label="Day Cells">
-          <!-- Dynamically populated by script.js -->
-        </div>
+      <!-- 7-Column Floating Date Grid (Populated via JS) -->
+      <div class="calendar-grid" id="calendarGrid" role="grid" aria-label="Days Matrix"></div>
 
-      </section>
+    </section>
 
-      <!-- Chronicle Footer: Himmel Lore Tag -->
-      <footer class="calendar-footer">
-        <span class="chronicle-star" aria-hidden="true">✦</span>
-        <span class="footer-lore-text" id="footerLoreText">
-          Day 261 after the passing of Hero Himmel · The journey continues
-        </span>
-        <span class="chronicle-star" aria-hidden="true">✦</span>
-      </footer>
-
-    </main>
+    <!-- Poetic Footer Quote with Side Sparkle Divisors -->
+    <footer class="calendar-footer">
+      <span class="footer-sparkle" aria-hidden="true">✦</span>
+      <span class="footer-quote" id="footerLoreText">
+        Day 265 after the passing of Hero Himmel
+      </span>
+      <span class="footer-sparkle" aria-hidden="true">✦</span>
+    </footer>
 
   </div>
 
