@@ -1,709 +1,654 @@
 /* ==========================================================================
    FRIEREN: BEYOND JOURNEY'S END — CALENDAR WIDGET
-   Aesthetic: Flamme's Ancient Grimoire, Open Manuscript Board, & Zoltraak Magic
-   Performance: GPU-Accelerated 60fps Transitions, Zero Math Grid Patterns
+   Design System: White Robes, Gold Trims, Teal Magic Circles & Ruby Gem
    ========================================================================== */
 
-@import '../theme-base.css';
+/* --- 1. DESIGN SYSTEM & CSS VARIABLES --- */
+:root {
+  /* Core Frieren Palette */
+  --bg-color: #F9F9F6;
+  --bg-gradient: linear-gradient(145deg, #FCFCFA 0%, #F8FAF8 50%, #F0F6F5 100%);
+  --gold-accent: #D4AF37;
+  --gold-light: #F3E5AB;
+  --gold-border: rgba(212, 175, 55, 0.45);
+  --gold-glow: rgba(212, 175, 55, 0.35);
 
-/* --- 1. ROOT CONTAINER: PURE ORGANIC PARCHMENT & COSMIC VOID CANVAS --- */
+  --teal-accent: #88D4D0;
+  --teal-soft: rgba(136, 212, 208, 0.16);
+  --teal-glow: rgba(136, 212, 208, 0.45);
+
+  --ruby-accent: #8B0000;
+  --ruby-bright: #C5162E;
+  --ruby-glow: rgba(197, 22, 46, 0.4);
+
+  --text-main: #2C2C2C;
+  --text-muted: #7E7870;
+  --text-faint: #A8A39C;
+
+  /* Typography */
+  --font-serif: 'Cinzel', 'Marcellus', 'Times New Roman', serif;
+  --font-sans: 'Quicksand', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Radii & Shadows */
+  --radius-card: 14px;
+  --radius-pill: 9999px;
+  --card-shadow: 
+    0 8px 30px rgba(44, 44, 44, 0.06),
+    0 0 20px rgba(136, 212, 208, 0.08);
+}
+
+/* Base Resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important;
+  background: transparent;
+  user-select: none;
+  font-family: var(--font-sans);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  scrollbar-width: none !important;
+}
+
+/* Hide scrollbars strictly across all browsers */
+::-webkit-scrollbar, *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* ==========================================================================
+   2. MAIN CONTAINER (PALE FABRIC CANVAS & THIN DOUBLE GOLD BORDER)
+   ========================================================================== */
 .frieren-calendar-root {
   container-type: size;
   container-name: widget;
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: hidden !important;
   border-radius: var(--radius-card);
+
+  /* Bone white background with very light teal/mint gradient */
+  background-color: var(--bg-color);
+  background-image: var(--bg-gradient);
+
+  /* Elegant thin double-line border in soft gold */
+  border: 3px double var(--gold-accent);
+  box-shadow: var(--card-shadow);
+
+  /* Layout Distribution */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-  /* Elegant breathing room away from the dual-line borders */
-  padding: clamp(10px, 2.2cqh + 4px, 18px) clamp(14px, 2.6cqw + 4px, 22px);
+  padding: clamp(6px, 1.6cqh, 12px) clamp(10px, 2.2cqw, 18px);
   box-sizing: border-box;
-  color: var(--frieren-text-ink);
-  transition: background 0.8s ease, color 0.8s ease;
-
-  /* --- DAYLIGHT CANVAS: Pure Organic Manuscript Parchment (Zero Math Grid) --- */
-  background-color: #F7F3EB;
-  background-image:
-    /* Soft perimeter aging vignette: darkens edges, leaves center luminous */
-    radial-gradient(ellipse at 50% 0%, rgba(214, 197, 168, 0.35) 0%, transparent 60%),
-    radial-gradient(ellipse at 50% 100%, rgba(198, 178, 144, 0.4) 0%, transparent 65%),
-    radial-gradient(ellipse at 0% 50%, rgba(210, 192, 160, 0.28) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 50%, rgba(210, 192, 160, 0.28) 0%, transparent 50%),
-    /* Irregular antique parchment tea washes in corners */
-    radial-gradient(circle at 8% 12%, rgba(184, 155, 110, 0.16) 0%, transparent 45%),
-    radial-gradient(circle at 92% 88%, rgba(184, 155, 110, 0.16) 0%, transparent 45%),
-    /* Warm manuscript core base */
-    linear-gradient(135deg, #FAF7F0 0%, #F5F0E6 48%, #EBE3D3 100%);
-  box-shadow:
-    0 4px 20px rgba(44, 34, 20, 0.12),
-    inset 0 0 35px rgba(168, 140, 95, 0.22),
-    inset 0 0 80px rgba(135, 105, 65, 0.14);
 }
 
-/* --- NOCTURNE CANVAS: Deep Starry Void & Glowing Nebula Clouds --- */
-[data-theme="night"] .frieren-calendar-root,
-.frieren-calendar-root[data-theme="night"] {
-  background-color: #0B0F19;
-  background-image:
-    /* Glowing celestial nebula clouds */
-    radial-gradient(ellipse at 80% 20%, rgba(56, 189, 248, 0.22) 0%, transparent 60%),
-    radial-gradient(circle at 20% 80%, rgba(129, 140, 248, 0.16) 0%, transparent 55%),
-    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 70%),
-    /* Micro Star Field / Stardust speckles across the cosmos */
-    radial-gradient(circle at 12% 28%, rgba(255, 255, 255, 0.85) 0.8px, transparent 1.6px),
-    radial-gradient(circle at 35% 72%, rgba(255, 255, 255, 0.65) 0.6px, transparent 1.2px),
-    radial-gradient(circle at 68% 18%, rgba(255, 255, 255, 0.75) 0.7px, transparent 1.4px),
-    radial-gradient(circle at 84% 64%, rgba(255, 255, 255, 0.6) 0.5px, transparent 1.2px),
-    radial-gradient(circle at 45% 35%, rgba(125, 211, 252, 0.8) 0.8px, transparent 1.6px),
-    radial-gradient(circle at 92% 88%, rgba(255, 255, 255, 0.65) 0.7px, transparent 1.3px),
-    radial-gradient(circle at 24% 48%, rgba(254, 240, 138, 0.7) 0.6px, transparent 1.2px),
-    /* Deep cosmic void background */
-    linear-gradient(135deg, #070A12 0%, #0D1220 50%, #111728 100%);
-  box-shadow: var(--grimoire-card-shadow);
-}
-
-/* --- 2. THE ETCHED ZOLTRAAK / ELVEN MAGIC CIRCLE WATERMARK (GPU) --- */
-.grimoire-texture-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: clamp(280px, 72cqw, 460px);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' width='500' height='500'%3E%3Cg fill='none' stroke='%23C29B38' stroke-width='1.5'%3E%3Ccircle cx='250' cy='250' r='238' stroke-width='2'/%3E%3Ccircle cx='250' cy='250' r='224' stroke-width='1' stroke-dasharray='4,4'/%3E%3Ccircle cx='250' cy='250' r='212' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='12' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='250' cy='488' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='12' cy='250' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='488' cy='250' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='82' cy='82' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='418' cy='82' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='82' cy='418' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='418' cy='418' r='4.5' fill='%23C29B38'/%3E%3Crect x='97' y='97' width='306' height='306' stroke-width='1.4'/%3E%3Crect x='97' y='97' width='306' height='306' transform='rotate(45 250 250)' stroke-width='1.4'/%3E%3Ccircle cx='250' cy='250' r='168' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='250' r='148' stroke-dasharray='6,6' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='128' stroke-width='1.5'/%3E%3Cpolygon points='250,128 285,215 372,250 285,285 250,372 215,285 128,250 215,215' stroke-width='1.2'/%3E%3Cpolygon points='250,142 275,225 358,250 275,275 250,358 225,275 142,250 225,225' stroke-width='1' transform='rotate(22.5 250 250)' stroke-dasharray='3,3'/%3E%3Ccircle cx='250' cy='250' r='62' stroke-width='1.8'/%3E%3Ccircle cx='250' cy='250' r='36' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='10' fill='%23C29B38'/%3E%3Cline x1='250' y1='12' x2='250' y2='488' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='12' y1='250' x2='488' y2='250' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='82' y1='82' x2='418' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='418' y1='82' x2='82' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3E%3C/g%3E%3C/svg%3E");
-  opacity: 0.038;
-  mix-blend-mode: multiply;
-  will-change: transform;
-  transform: translateZ(0);
-  animation: zoltraakOrbit 240s linear infinite;
-  transition: opacity var(--transition-serene);
-}
-
-[data-theme="night"] .grimoire-texture-overlay {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' width='500' height='500'%3E%3Cg fill='none' stroke='%2338BDF8' stroke-width='1.5'%3E%3Ccircle cx='250' cy='250' r='238' stroke-width='2'/%3E%3Ccircle cx='250' cy='250' r='224' stroke-width='1' stroke-dasharray='4,4'/%3E%3Ccircle cx='250' cy='250' r='212' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='12' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='250' cy='488' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='12' cy='250' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='488' cy='250' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='82' cy='82' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='418' cy='82' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='82' cy='418' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='418' cy='418' r='4.5' fill='%2338BDF8'/%3E%3Crect x='97' y='97' width='306' height='306' stroke-width='1.4'/%3E%3Crect x='97' y='97' width='306' height='306' transform='rotate(45 250 250)' stroke-width='1.4'/%3E%3Ccircle cx='250' cy='250' r='168' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='250' r='148' stroke-dasharray='6,6' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='128' stroke-width='1.5'/%3E%3Cpolygon points='250,128 285,215 372,250 285,285 250,372 215,285 128,250 215,215' stroke-width='1.2'/%3E%3Cpolygon points='250,142 275,225 358,250 275,275 250,358 225,275 142,250 225,225' stroke-width='1' transform='rotate(22.5 250 250)' stroke-dasharray='3,3'/%3E%3Ccircle cx='250' cy='250' r='62' stroke-width='1.8'/%3E%3Ccircle cx='250' cy='250' r='36' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='10' fill='%2338BDF8'/%3E%3Cline x1='250' y1='12' x2='250' y2='488' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='12' y1='250' x2='488' y2='250' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='82' y1='82' x2='418' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='418' y1='82' x2='82' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3E%3C/g%3E%3C/svg%3E");
-  opacity: 0.065;
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.45));
-}
-
-@keyframes zoltraakOrbit {
-  0%   { transform: rotate3d(0, 0, 1, 0deg); }
-  100% { transform: rotate3d(0, 0, 1, 360deg); }
-}
-
-/* --- 3. DUAL-LINE GRIMOIRE BINDING & BRASS BOOK CORNERS --- */
-.grimoire-frame {
-  position: absolute;
-  inset: 5px;
-  pointer-events: none;
-  z-index: 2;
-  border: 2px double var(--frieren-gold-accent);
-  border-radius: calc(var(--radius-card) - 3px);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
-    inset 0 0 0 2px var(--frieren-border-grimoire),
-    0 0 0 1px rgba(44, 34, 20, 0.06);
-  transition: border-color var(--transition-serene), box-shadow var(--transition-serene);
-}
-
-[data-theme="night"] .grimoire-frame {
-  border-color: var(--frieren-gold-accent);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-    inset 0 0 0 2px rgba(0, 0, 0, 0.65),
-    0 0 10px rgba(229, 192, 123, 0.2);
-}
-
-.grimoire-inner-border {
-  position: absolute;
-  inset: 3px;
-  border: 1px dashed var(--frieren-border-delicate);
-  border-radius: calc(var(--radius-card) - 5px);
-  box-shadow: inset 0 0 10px rgba(194, 155, 56, 0.06);
-}
-
-.corner-filigree {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  z-index: 5;
-  background: linear-gradient(
-    135deg,
-    var(--brass-light) 0%,
-    #F59E0B 28%,
-    var(--brass-mid) 52%,
-    #B45309 78%,
-    var(--brass-dark) 100%
-  );
-  box-shadow:
-    0 1.5px 3px rgba(0, 0, 0, 0.4),
-    inset 0.8px 0.8px 0.8px rgba(255, 255, 255, 0.8),
-    inset -0.8px -0.8px 1px rgba(0, 0, 0, 0.6);
-  border: 0.5px solid #78350F;
-  transition: all var(--transition-serene);
-}
-
-.corner-filigree.top-left {
-  top: -1px;
-  left: -1px;
-  clip-path: polygon(0 0, 100% 0, 75% 25%, 35% 25%, 25% 35%, 25% 75%, 0 100%);
-}
-
-.corner-filigree.top-right {
-  top: -1px;
-  right: -1px;
-  clip-path: polygon(100% 0, 0 0, 25% 25%, 65% 25%, 75% 35%, 75% 75%, 100% 100%);
-}
-
-.corner-filigree.bottom-left {
-  bottom: -1px;
-  left: -1px;
-  clip-path: polygon(0 100%, 100% 100%, 75% 75%, 35% 75%, 25% 65%, 25% 25%, 0 0);
-}
-
-.corner-filigree.bottom-right {
-  bottom: -1px;
-  right: -1px;
-  clip-path: polygon(100% 100%, 0 100%, 25% 75%, 65% 75%, 75% 65%, 75% 25%, 100% 0);
-}
-
-.corner-filigree::after {
-  content: "";
-  position: absolute;
-  width: 3.5px;
-  height: 3.5px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #FFFFFF 0%, #FBBF24 45%, #78350F 100%);
-  box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.6);
-  z-index: 6;
-}
-
-.corner-filigree.top-left::after     { top: 3.5px; left: 3.5px; }
-.corner-filigree.top-right::after    { top: 3.5px; right: 3.5px; }
-.corner-filigree.bottom-left::after  { bottom: 3.5px; left: 3.5px; }
-.corner-filigree.bottom-right::after { bottom: 3.5px; right: 3.5px; }
-
-.corner-filigree .filigree-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  color: #451A03;
-  filter: drop-shadow(0 0.5px 0.5px rgba(255, 255, 255, 0.5));
-  opacity: 0.85;
-}
-
-[data-theme="night"] .corner-filigree .filigree-svg {
-  color: #1A1005;
-  filter: drop-shadow(0 0.5px 0.5px rgba(254, 240, 138, 0.45));
-}
-
-/* --- 4. MAIN CONTENT CANVAS & BALANCED VERTICAL BREATHING ROOM --- */
-.grimoire-content {
-  position: relative;
-  z-index: 3;
-  width: 100%;
-  height: 100%;
+/* ==========================================================================
+   3. HEADER: MAJESTIC MONTH TITLE & STYLIZED TODAY PILL
+   ========================================================================== */
+.calendar-header {
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 3px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.28);
+  padding-bottom: clamp(4px, 1cqh, 8px);
 }
 
-/* --- TOP HEADER BAR --- */
-.calendar-top-bar {
+.brand-subtext {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid var(--frieren-border-delicate);
-  padding-bottom: clamp(2px, 0.6cqh, 4px);
-}
-
-.grimoire-brand {
-  display: flex;
-  align-items: center;
   gap: 6px;
-  font-family: var(--font-cinzel);
-  font-size: clamp(0.56rem, 1.2cqw, 0.66rem);
+  font-family: var(--font-serif);
+  font-size: clamp(0.50rem, 1.1cqw, 0.60rem);
   font-weight: 600;
-  letter-spacing: 0.12em;
-  color: var(--frieren-text-secondary);
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
   text-transform: uppercase;
 }
 
-.rune-glyph {
-  color: var(--frieren-gold-accent);
-  font-size: 0.85em;
-  filter: drop-shadow(0 0 3px var(--frieren-gold-glow));
+.brand-subtext .sparkle {
+  color: var(--gold-accent);
+  font-size: 0.8em;
+  filter: drop-shadow(0 0 2px var(--gold-glow));
 }
 
-/* --- MONTH NAVIGATION BAR --- */
-.month-navigation-section {
+.month-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: clamp(1px, 0.4cqh, 3px) 0;
+  padding-top: 2px;
 }
 
-.month-headline {
+.month-title {
   display: flex;
   align-items: baseline;
   gap: 8px;
 }
 
 .current-month-label {
-  font-family: var(--font-cinzel), 'Cinzel', 'Times New Roman', serif;
-  font-size: clamp(0.95rem, 2.6cqw + 0.25rem, 1.3rem);
+  font-family: var(--font-serif);
+  font-size: clamp(0.96rem, 2.6cqw + 0.22rem, 1.30rem);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--frieren-text-ink);
-  margin: 0;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9), 0 0 1px rgba(139, 90, 43, 0.2);
-  transition: color var(--transition-serene), text-shadow var(--transition-serene);
-}
-
-[data-theme="night"] .current-month-label {
-  color: #F8FAFC;
-  text-shadow: 0 0 10px rgba(56, 189, 248, 0.4), 0 0 2px rgba(254, 240, 138, 0.6);
+  color: var(--text-main);
+  line-height: 1;
 }
 
 .current-year-label {
-  font-family: var(--font-cinzel), 'Cinzel', serif;
-  font-size: clamp(0.72rem, 1.6cqw, 0.88rem);
+  font-family: var(--font-serif);
+  font-size: clamp(0.72rem, 1.6cqw, 0.86rem);
   font-weight: 600;
-  color: var(--frieren-gold-accent);
   letter-spacing: 0.1em;
-  opacity: 0.9;
+  color: var(--gold-accent);
+  opacity: 0.95;
 }
 
-/* Nav Controls: Calligraphic Stamped Elven Seals (No heavy pill borders) */
+/* Navigation Controls: Adjusted to the left away from widget boundary */
 .nav-controls {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 8px;
+  margin-right: clamp(12px, 3cqw, 24px);
 }
 
-.nav-divider {
-  color: var(--frieren-gold-accent);
-  font-size: 0.7rem;
-  opacity: 0.55;
-  margin: 0 1px;
-  user-select: none;
-  line-height: 1;
-}
-
-/* Compact Brass Theme Switcher Button - subtle stamped seal without jarring borders */
-.theme-toggle-btn {
-  background: transparent;
+/* Nav Arrow (< >): Minimalist, No Circle, Glowing on Hover, Fixed Size */
+.nav-arrow-btn {
+  width: 20px;
+  height: 24px;
   border: none;
-  color: var(--frieren-gold-accent);
-  width: 22px;
-  height: 22px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 0.85rem;
-  transition: transform 0.25s ease, filter 0.25s ease, opacity 0.25s ease;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
   outline: none;
   padding: 0;
-  opacity: 0.82;
+  user-select: none;
 }
 
-.theme-toggle-btn:hover {
-  transform: scale(1.15);
-  opacity: 1;
-  color: var(--frieren-gold-light);
-  filter: drop-shadow(0 0 6px var(--frieren-gold-glow));
-}
-
-.theme-toggle-btn:active {
-  transform: scale(0.95);
-}
-
-/* Stamped Elven Seal Nav Buttons */
-.nav-btn {
+.nav-arrow-btn:hover {
   background: transparent;
   border: none;
-  color: var(--frieren-text-secondary);
-  cursor: pointer;
+  box-shadow: none;
+  transform: none; /* Never grows or shifts size */
+  color: var(--gold-accent);
+  text-shadow: 
+    0 0 6px var(--gold-glow),
+    0 0 12px rgba(212, 175, 55, 0.55);
+}
+
+.nav-arrow-btn:active {
+  transform: none;
+  color: #B38F24;
+}
+
+/* Minimalist TODAY Button with Staff Icon & Magic Dot-to-Line Underline */
+.today-btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  transition: color 0.25s ease, transform 0.25s ease, filter 0.25s ease;
-  outline: none;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
   padding: 2px 4px;
+  font-family: var(--font-serif);
+  font-size: clamp(0.58rem, 1.2cqw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-main);
+  cursor: pointer;
+  box-shadow: none;
+  transition: color 0.25s ease;
+  outline: none;
   position: relative;
 }
 
-.nav-btn.prev-btn,
-.nav-btn.next-btn {
-  width: 20px;
-  height: 20px;
-  font-family: var(--font-cinzel), 'Cinzel', serif;
-  font-size: 1.1rem;
-  line-height: 1;
-  color: var(--frieren-text-muted);
+.today-btn .staff-icon {
+  width: 13px;
+  height: 13px;
+  color: var(--gold-accent);
+  display: block;
+  transition: color 0.25s ease, filter 0.25s ease;
 }
 
-.nav-btn.prev-btn:hover,
-.nav-btn.next-btn:hover {
-  color: var(--frieren-gold-accent);
-  transform: scale(1.15);
-  filter: drop-shadow(0 0 4px var(--frieren-gold-glow));
+.today-btn .staff-gem {
+  fill: var(--ruby-bright);
 }
 
-.nav-btn.prev-btn:active {
-  transform: translateX(-1px) scale(1.05);
+/* Word Container with Animated Dot-to-Line Pseudo Element */
+.today-btn span {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 2px;
 }
 
-.nav-btn.next-btn:active {
-  transform: translateX(1px) scale(1.05);
-}
-
-.nav-btn.today-btn {
-  font-family: var(--font-cinzel), 'Cinzel', serif;
-  font-size: clamp(0.56rem, 1.2cqw, 0.64rem);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--frieren-text-secondary);
-  padding: 2px 5px;
-}
-
-.nav-btn.today-btn::after {
-  content: "";
+.today-btn span::after {
+  content: '';
   position: absolute;
   bottom: 0;
-  left: 8%;
-  right: 8%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--frieren-gold-accent), transparent);
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1.5px;
+  background: var(--gold-accent);
+  border-radius: 1px;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 0 6px var(--gold-glow);
 }
 
-.nav-btn.today-btn:hover {
-  color: var(--frieren-gold-accent);
-  filter: drop-shadow(0 0 5px var(--frieren-gold-glow));
+/* Hover State: No pill/circle, text glows, and underline expands from a dot */
+.today-btn:hover {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transform: none;
+  color: var(--gold-accent);
 }
 
-.nav-btn.today-btn:hover::after {
-  transform: scaleX(1);
+.today-btn:hover .staff-icon {
+  color: var(--gold-accent);
+  filter: drop-shadow(0 0 4px var(--gold-glow));
 }
 
-.nav-btn.today-btn:active {
-  transform: scale(0.96);
+.today-btn:hover span::after {
+  opacity: 1;
+  animation: dotToFullLine 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* --- 5. OPEN MANUSCRIPT CALENDAR BOARD (VERTICALLY CENTERED) --- */
-.calendar-board-section {
+@keyframes dotToFullLine {
+  0% {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    opacity: 0.8;
+    box-shadow: 0 0 5px var(--gold-glow);
+  }
+  35% {
+    width: 8px;
+    height: 2px;
+    border-radius: 2px;
+    opacity: 1;
+    box-shadow: 0 0 7px var(--gold-glow);
+  }
+  100% {
+    width: 100%;
+    height: 1.5px;
+    border-radius: 1px;
+    opacity: 1;
+    box-shadow: 0 0 8px var(--gold-glow), 0 0 12px rgba(212, 175, 55, 0.45);
+  }
+}
+
+.today-btn:active {
+  transform: none;
+}
+
+/* ==========================================================================
+   4. CALENDAR BOARD & SUBTLE TEAL MAGIC CIRCLE WATERMARK
+   ========================================================================== */
+.calendar-board {
+  position: relative;
   width: 100%;
-  flex-grow: 1;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: stretch;
+  min-height: 0;
   margin: 0;
+  padding: clamp(4px, 1.2cqh, 8px) 0;
 }
 
-/* Weekday Header Row */
+/* Subtle, Low-Opacity Teal Magic Circle Inline SVG Motif */
+.magic-circle-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(210px, 48cqw + 22cqh, 320px);
+  height: clamp(210px, 48cqw + 22cqh, 320px);
+  pointer-events: none;
+  z-index: 0;
+  color: var(--teal-accent);
+  opacity: 0.16; /* Soft and subtle magical presence */
+  animation: slowMagicOrbit 240s linear infinite;
+}
+
+.magic-circle-bg svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@keyframes slowMagicOrbit {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Weekday Labels (Muted Gold/Grey) */
 .calendar-weekdays {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  font-family: var(--font-cinzel), 'Cinzel', serif;
-  font-size: clamp(0.54rem, 1.2cqw, 0.65rem);
+  font-family: var(--font-serif);
+  font-size: clamp(0.50rem, 1.1cqw, 0.62rem);
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--frieren-text-muted);
-  /* Delicate 1px dotted gold line separating header from grid */
-  border-bottom: 1px dotted rgba(194, 155, 56, 0.35);
-  padding-bottom: 3px;
-  margin-bottom: 2px;
+  color: var(--text-muted);
+  padding-bottom: clamp(4px, 0.9cqh, 7px);
+  margin-bottom: clamp(6px, 1.5cqh, 12px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+  flex: 0 0 auto;
 }
 
-.weekday-col.weekend-col {
-  color: var(--frieren-gold-accent);
-  opacity: 0.9;
+.calendar-weekdays .weekday.weekend {
+  color: var(--gold-accent);
+  opacity: 0.95;
 }
 
-/* 7-Column Date Grid (Open Manuscript Layout) */
+/* 7-Column Date Grid: Generous Vertical Spacing Between Rows */
 .calendar-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: clamp(1px, 0.4cqh, 3px) clamp(2px, 0.6cqw, 6px);
+  row-gap: clamp(8px, 2.2cqh, 16px);
+  column-gap: clamp(2px, 0.6cqw, 6px);
   width: 100%;
   align-items: center;
+  justify-items: center;
+  flex: 1 1 auto;
+  align-content: space-evenly;
 }
 
-/* Date Cell: Perfectly centered open manuscript cell */
+/* Floating Date Cell */
 .cal-day {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: clamp(24px, 4cqh, 32px);
-  height: clamp(20px, 3.6cqh, 30px);
+  max-width: clamp(28px, 5.2cqh, 36px);
+  height: clamp(28px, 5.2cqh, 36px);
+  aspect-ratio: 1 / 1;
   margin: 0 auto;
   cursor: pointer;
   border-radius: 50%;
   user-select: none;
-  color: var(--frieren-text-ink);
-  transition: color 0.25s ease;
+  border: 1px solid transparent;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
 }
 
-/* Adjacent Month Padding Days (Muted antique ink) */
-.cal-day.cal-day-other {
-  opacity: 0.25;
-  color: var(--frieren-text-muted);
-}
-
-/* Weekend Accent */
-.cal-day.cal-day-weekend:not(.cal-day-other) {
-  color: var(--frieren-text-secondary);
-}
-
-/* Day Number Typography: Dead-centered, lining roman numerals */
+/* Regular Day Number Typography (Cinzel Fantasy Serif) */
 .day-num {
   position: relative;
   z-index: 2;
-  font-family: var(--font-cinzel), 'Cinzel', serif;
-  font-variant-numeric: lining-nums tabular-nums;
-  font-size: clamp(0.72rem, 1.8cqw + 0.12rem, 0.92rem);
+  font-family: var(--font-serif);
+  font-size: clamp(0.85rem, 2cqw + 0.15rem, 1.1rem);
   font-weight: 600;
   line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  color: var(--text-main);
+  transition: color 0.2s ease;
+}
+
+/* Overflow / Adjacent Month Days */
+.cal-day.cal-day-other {
+  opacity: 0.28;
+}
+
+.cal-day.cal-day-other .day-num {
+  color: var(--text-faint);
+}
+
+/* Weekend Date Tint */
+.cal-day.cal-day-weekend:not(.cal-day-other) .day-num {
+  color: #4A463F;
+}
+
+/* ==========================================================================
+   4. "THE FLOWER-BLOOMING SPELL" INLINE SVG STROKE ANIMATION
+   ========================================================================== */
+.bloom-magic {
+  position: absolute;
+  inset: -3px;
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+
+.bloom-magic path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 0 3px var(--teal-glow));
+}
+
+/* Hide bloom magic on Today's Ruby Gem cell */
+.cal-day.cal-day-today .bloom-magic {
+  display: none;
+}
+
+/* Date Hover: Gentle Magical Aura and Real-Time Vine Drawing (Stationary size) */
+.cal-day:not(.cal-day-today):hover {
+  background: var(--teal-soft);
+  border-color: rgba(136, 212, 208, 0.65);
+  box-shadow: 0 0 12px var(--teal-glow);
+  /* Keep size rock-solid: no transform scale */
+}
+
+.cal-day:not(.cal-day-today):hover .bloom-magic path {
+  stroke-dashoffset: 0;
+}
+
+.cal-day:not(.cal-day-today):hover .day-num {
+  color: #173B39;
+}
+
+/* ==========================================================================
+   5. TODAY INDICATOR: HIMMEL'S SILVER LOTUS RING (MITHRIL)
+   ========================================================================== */
+.cal-day.cal-day-today {
+  position: relative;
+  background: transparent;
+  border: 1px solid rgba(210, 218, 226, 0.95);
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 0 0 1px rgba(255, 255, 255, 0.75),
+    0 2px 4px rgba(160, 170, 180, 0.4),
+    0 0 10px rgba(136, 212, 208, 0.6),
+    0 0 20px rgba(136, 212, 208, 0.3);
+  animation: silverRingManaPulse 3.5s ease-in-out infinite;
+}
+
+/* Symmetrical Mirrored Lotus Engraving on the Mithril Band */
+.silver-lotus-magic {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
   pointer-events: none;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s ease;
-}
-
-/* --- 6. THE ZOLTRAAK HOVER INTERACTION (GPU 60FPS) --- */
-.day-magic-circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: clamp(24px, 4.2cqh, 34px);
-  height: clamp(24px, 4.2cqh, 34px);
-  color: var(--frieren-gold-accent);
-  opacity: 0;
-  /* Hardware-accelerated translate3d + rotate around exact geometric center */
-  transform: translate3d(-50%, -50%, 0) rotate(0deg);
-  transform-origin: center center;
-  pointer-events: none;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
   z-index: 1;
-  transition: 
-    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
+  filter: drop-shadow(0 0 2px rgba(136, 212, 208, 0.5));
 }
 
-/* On Day Hover: Smooth fade-in & 90-degree elven rotation */
-.cal-day:hover .day-magic-circle {
-  opacity: 0.85;
-  transform: translate3d(-50%, -50%, 0) rotate(90deg);
-}
-
-.cal-day:hover .day-num {
-  transform: scale(1.08);
-  color: var(--frieren-text-ink);
-}
-
-[data-theme="night"] .day-magic-circle {
-  color: var(--mana-stream-cyan);
-  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.7));
-}
-
-/* --- 7. CURRENT DAY HIGHLIGHT (MANA AURA & BLUE MOON WEED) --- */
-.cal-day.cal-day-today {
-  color: var(--frieren-text-ink);
-}
-
-[data-theme="night"] .cal-day.cal-day-today {
-  color: #FFFFFF;
-}
-
-/* Soft breathing cyan mana aura: Dead-centered */
-.cal-day.cal-day-today .today-mana-aura {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: clamp(20px, 3.6cqh, 28px);
-  height: clamp(20px, 3.6cqh, 28px);
-  transform: translate3d(-50%, -50%, 0);
-  transform-origin: center center;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(224, 247, 250, 0.6) 0%, rgba(56, 189, 248, 0.24) 55%, transparent 75%);
-  border: 1px solid rgba(56, 189, 248, 0.55);
-  box-shadow: 0 0 8px rgba(56, 189, 248, 0.5), inset 0 0 5px rgba(125, 211, 252, 0.35);
-  animation: todayManaBreathing 4.8s ease-in-out infinite;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-
-@keyframes todayManaBreathing {
-  0% {
-    opacity: 0.7;
-    transform: translate3d(-50%, -50%, 0) scale(0.94);
-  }
-  50% {
-    opacity: 1;
-    transform: translate3d(-50%, -50%, 0) scale(1.06);
-  }
-  100% {
-    opacity: 0.7;
-    transform: translate3d(-50%, -50%, 0) scale(0.94);
-  }
-}
-
-/* Tiny Blue Moon Weed sprout marker */
-.cal-day.cal-day-today .today-flora-marker {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 12px;
-  height: 12px;
-  pointer-events: none;
-  z-index: 3;
-  filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.8));
+.silver-lotus-magic path {
+  fill: none;
+  stroke: rgba(136, 212, 208, 0.85);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .cal-day.cal-day-today .day-num {
+  position: relative;
+  z-index: 2;
+  color: var(--text-main);
   font-weight: 700;
+  text-shadow: 
+    0 1px 2px rgba(255, 255, 255, 0.95),
+    0 0 4px rgba(255, 255, 255, 0.85);
 }
 
-/* --- 8. CHRONICLE FOOTER --- */
+/* Polished Mithril Lotus Ring: Animates Glow Intensity Without Altering Ring Thickness */
+@keyframes silverRingManaPulse {
+  0%, 100% {
+    box-shadow: 
+      inset 0 0 0 1px rgba(255, 255, 255, 0.75),
+      0 2px 4px rgba(160, 170, 180, 0.4),
+      0 0 8px rgba(136, 212, 208, 0.45),
+      0 0 16px rgba(136, 212, 208, 0.2);
+  }
+  50% {
+    box-shadow: 
+      inset 0 0 0 1px rgba(255, 255, 255, 0.9),
+      0 2px 4px rgba(160, 170, 180, 0.45),
+      0 0 14px rgba(136, 212, 208, 0.8),
+      0 0 24px rgba(136, 212, 208, 0.4);
+  }
+}
+
+/* ==========================================================================
+   6. FOOTER QUOTE: POETIC HIMMEL INSCRIPTION
+   ========================================================================== */
 .calendar-footer {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  border-top: 1px solid var(--frieren-border-delicate);
-  padding-top: clamp(2px, 0.8cqh, 5px);
+  gap: 7px;
+  border-top: 1px solid rgba(212, 175, 55, 0.28);
+  padding-top: clamp(4px, 0.9cqh, 6px);
   text-align: center;
 }
 
-.chronicle-star {
-  color: var(--frieren-gold-accent);
-  font-size: 0.75rem;
+.footer-sparkle {
+  color: var(--gold-accent);
+  font-size: 0.72rem;
   opacity: 0.85;
-  filter: drop-shadow(0 0 3px var(--frieren-gold-glow));
+  filter: drop-shadow(0 0 2px var(--gold-glow));
 }
 
-.footer-lore-text {
+.footer-quote {
   font-family: var(--font-serif);
-  font-size: clamp(0.62rem, 1.4cqw, 0.74rem);
+  font-size: clamp(0.58rem, 1.3cqw, 0.70rem);
   font-style: italic;
-  letter-spacing: 0.03em;
-  color: var(--frieren-text-muted);
+  letter-spacing: 0.04em;
+  color: #6C7D7B; /* Soft poetic grey-teal */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 90%;
 }
 
-/* --- 9. RESPONSIVE CONTAINER QUERIES (VIVALDI TILE PRESETS) --- */
-
-/* COMPACT TILE (1x1 / Mini: Width <= 280px or Height <= 220px) */
+/* ==========================================================================
+   7. RESPONSIVE CONTAINER QUERIES (VIVALDI TILE COMPATIBILITY)
+   ========================================================================== */
 @container widget (max-width: 280px), widget (max-height: 220px) {
   .frieren-calendar-root {
     padding: 8px 12px;
+    border-width: 2px;
   }
-  .grimoire-frame {
-    inset: 3px;
-    border-width: 1.5px;
-  }
-  .grimoire-inner-border {
-    display: none;
-  }
-  .corner-filigree {
-    width: 15px;
-    height: 15px;
-  }
-  .corner-filigree::after {
-    display: none;
-  }
-  .grimoire-brand {
-    font-size: 0.52rem;
+  .brand-subtext {
+    font-size: 0.48rem;
   }
   .current-month-label {
-    font-size: 0.95rem;
+    font-size: 0.90rem;
   }
   .current-year-label {
-    font-size: 0.75rem;
+    font-size: 0.70rem;
+  }
+  .today-btn {
+    padding: 2px 7px;
+    font-size: 0.52rem;
   }
   .calendar-weekdays {
-    font-size: 0.52rem;
+    font-size: 0.48rem;
     padding-bottom: 2px;
   }
+  .calendar-grid {
+    row-gap: 4px;
+  }
   .cal-day {
-    height: 20px;
+    height: 22px;
+    max-width: 24px;
+  }
+  .day-num {
     font-size: 0.68rem;
   }
-  .day-magic-circle {
-    width: 20px;
-    height: 20px;
+  .magic-circle-bg {
+    width: 170px;
+    height: 170px;
   }
-  .cal-day.cal-day-today .today-mana-aura {
-    width: 18px;
-    height: 18px;
-  }
-  .cal-day.cal-day-today .today-flora-marker {
-    width: 10px;
-    height: 10px;
-  }
-  .footer-lore-text {
-    font-size: 0.58rem;
+  .footer-quote {
+    font-size: 0.54rem;
   }
 }
 
-/* ULTRA COMPACT TILE (Width <= 220px) */
 @container widget (max-width: 220px) {
-  .calendar-top-bar {
+  .brand-subtext {
     display: none;
   }
-  .nav-btn.today-btn {
+  .today-btn span {
     display: none;
   }
-  .chronicle-star {
+  .footer-sparkle {
     display: none;
   }
 }
 
-/* WIDE TILE (2x1, 3x1, 3x2: Width >= 460px) */
-@container widget (min-width: 460px) {
-  .grimoire-content {
-    gap: 8px;
-  }
+@container widget (min-width: 440px) {
   .current-month-label {
-    font-size: 1.45rem;
+    font-size: 1.40rem;
   }
   .current-year-label {
     font-size: 1.05rem;
   }
   .calendar-weekdays {
-    font-size: 0.72rem;
+    font-size: 0.70rem;
+    margin-bottom: 12px;
+  }
+  .calendar-grid {
+    row-gap: clamp(14px, 2.8cqh, 20px);
   }
   .cal-day {
-    height: 34px;
+    height: 36px;
+    max-width: 36px;
+  }
+  .day-num {
     font-size: 0.98rem;
   }
-  .footer-lore-text {
-    font-size: 0.8rem;
+  .footer-quote {
+    font-size: 0.78rem;
   }
 }

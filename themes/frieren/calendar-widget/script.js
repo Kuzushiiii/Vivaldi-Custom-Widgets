@@ -1,14 +1,12 @@
 /**
  * FRIEREN: BEYOND JOURNEY'S END — CALENDAR WIDGET CONTROLLER
- * Aesthetic: Flamme's Ancient Grimoire, Open Manuscript Board, & Zoltraak Magic
+ * Aesthetic: Frieren Adventuring Outfit (White Robe, Gold Trim, Teal Magic, Ruby Gem)
  *
  * Architecture:
- * - Dynamic Calendar Matrix: Generates 7-column calendar grid with accurate leap year & overflow calculation.
- * - Current Day Highlight: Tags today with a breathing cyan mana aura and Blue Moon Weed sprout.
- * - Zoltraak Hover: Injects the SVG magic circle symbol into each day cell for 60fps GPU rotation.
- * - Shared Theme Persistence: Syncs 'frieren_day_theme' via localStorage with Day Progression widget.
- * - Zero Browser Tooltips: Strictly removes OS tooltips to preserve the ancient manuscript immersion.
- * - Zero Audio: Strictly peaceful, silent elven navigation.
+ * - Dynamic Calendar Matrix: Computes accurate 7-column calendar with leap year & overflow calculation.
+ * - Navigation: Jump to today, navigate previous/next months.
+ * - Himmel Chronometry: Accurately computes days elapsed since the passing of Hero Himmel.
+ * - Clean DOM: Zero unnecessary wrapper bloat, 100% vanilla JS.
  */
 
 (function () {
@@ -22,15 +20,12 @@
   ];
 
   // --- DOM REFERENCES ---
-  const rootEl = document.getElementById('frierenCalendarRoot');
   const currentMonthLabel = document.getElementById('currentMonthLabel');
   const currentYearLabel = document.getElementById('currentYearLabel');
   const prevMonthBtn = document.getElementById('prevMonthBtn');
   const nextMonthBtn = document.getElementById('nextMonthBtn');
   const todayBtn = document.getElementById('todayBtn');
   const calendarGrid = document.getElementById('calendarGrid');
-  const themeToggleBtn = document.getElementById('themeToggleBtn');
-  const themeIconEl = document.getElementById('themeIcon');
   const footerLoreText = document.getElementById('footerLoreText');
 
   // --- STATE ---
@@ -48,7 +43,7 @@
     const daysPassed = Math.max(1, Math.round(diffMs / MS_PER_DAY) + 1);
 
     if (footerLoreText) {
-      footerLoreText.textContent = `Day ${daysPassed} after the passing of Hero Himmel · The journey continues`;
+      footerLoreText.textContent = `Day ${daysPassed} after the passing of Hero Himmel`;
     }
   }
 
@@ -59,11 +54,11 @@
     const year = displayedDate.getFullYear();
     const month = displayedDate.getMonth();
 
-    // 1. Update Month and Year Header
+    // 1. Update Month and Year Header Inscriptions
     if (currentMonthLabel) currentMonthLabel.textContent = MONTH_NAMES[month];
     if (currentYearLabel) currentYearLabel.textContent = String(year);
 
-    // 2. Calendar Calculations
+    // 2. Calendar Date Calculations
     const firstDayIndex = new Date(year, month, 1).getDay(); // 0 = Sun, 1 = Mon...
     const daysInCurrentMonth = new Date(year, month + 1, 0).getDate();
     const daysInPrevMonth = new Date(year, month, 0).getDate();
@@ -126,7 +121,8 @@
   }
 
   /**
-   * Constructs individual day cell with NO title attributes to kill native OS browser tooltips.
+   * Constructs individual floating day cell.
+   * Special days like today receive .cal-day-today (styled as glowing ruby gem).
    */
   function createDayCell(dayNumber, meta) {
     const cell = document.createElement('div');
@@ -141,40 +137,20 @@
     const padMonth = String(meta.month + 1).padStart(2, '0');
     const padDay = String(meta.day).padStart(2, '0');
     cell.dataset.date = `${meta.year}-${padMonth}-${padDay}`;
-    // NOTE: Strictly NO cell.title attribute to prevent modern OS tooltip interruption!
 
-    // 1. Injected SVG Zoltraak Magic Circle (for smooth GPU-accelerated hover rotation)
-    const magicSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    magicSvg.setAttribute('class', 'day-magic-circle');
-    magicSvg.setAttribute('aria-hidden', 'true');
-    const useEl = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-    useEl.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#zoltraakCircle');
-    useEl.setAttribute('href', '#zoltraakCircle');
-    magicSvg.appendChild(useEl);
-    cell.appendChild(magicSvg);
+    // Inline SVG: Himmel's Mirrored Lotus Ring for Today, or Blooming Spell for regular days
+    const svgHtml = meta.isToday
+      ? `<svg class="silver-lotus-magic" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M 20 34 Q 6 20 20 6 Q 34 20 20 34 M 20 30 Q 12 20 20 10 Q 28 20 20 30" fill="none" stroke="rgba(136, 212, 208, 0.85)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>`
+      : `<svg class="bloom-magic" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M 20 35 C 11 35 5 28 5 20 C 5 11 11 5 20 5 C 22 1 27 2 26 6 C 25 8 22 7 20 5 C 29 5 35 11 35 20 C 35 28 29 35 21 35 C 17 35 15 31 18 29 C 21 27 24 30 22 33" pathLength="100" fill="none" stroke="var(--teal-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>`;
 
-    // 2. Day Number Label
-    const numSpan = document.createElement('span');
-    numSpan.className = 'day-num';
-    numSpan.textContent = String(dayNumber);
-    cell.appendChild(numSpan);
-
-    // 3. Current Day Special Markers (Mana Stream Aura & Blue Moon Weed Sprout)
-    if (meta.isToday) {
-      const aura = document.createElement('div');
-      aura.className = 'today-mana-aura';
-      aura.setAttribute('aria-hidden', 'true');
-      cell.appendChild(aura);
-
-      const flowerSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      flowerSvg.setAttribute('class', 'today-flora-marker');
-      flowerSvg.setAttribute('aria-hidden', 'true');
-      const flowerUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-      flowerUse.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#miniMoonWeed');
-      flowerUse.setAttribute('href', '#miniMoonWeed');
-      flowerSvg.appendChild(flowerUse);
-      cell.appendChild(flowerSvg);
-    }
+    cell.innerHTML = `
+      ${svgHtml}
+      <span class="day-num">${dayNumber}</span>
+    `;
 
     return cell;
   }
@@ -203,38 +179,7 @@
     }
   }
 
-  // --- SHARED THEME PERSISTENCE ---
-  function initTheme() {
-    const savedTheme = localStorage.getItem('frieren_day_theme') || 'parchment';
-    setTheme(savedTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = rootEl.getAttribute('data-theme') || 'parchment';
-        const nextTheme = currentTheme === 'parchment' ? 'night' : 'parchment';
-        setTheme(nextTheme);
-      });
-    }
-
-    // Synchronize if Day Progression widget switches theme in another tile
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'frieren_day_theme' && e.newValue) {
-        setTheme(e.newValue);
-      }
-    });
-  }
-
-  function setTheme(theme) {
-    rootEl.setAttribute('data-theme', theme);
-    localStorage.setItem('frieren_day_theme', theme);
-
-    if (themeIconEl) {
-      themeIconEl.textContent = theme === 'night' ? '☀' : '☽';
-    }
-  }
-
   // --- INITIALIZATION ---
-  initTheme();
   initNavigation();
   updateHimmelLoreFooter();
   renderCalendar();
