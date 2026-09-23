@@ -10,6 +10,9 @@
 
   const STORAGE_KEY = 'vcw_ve_calendar_memos';
 
+  let _memoCache = null;
+  let _memoCacheDirty = true;
+
   const CURSIVE_MONTHS = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
@@ -63,13 +66,26 @@
     }
   ];
 
+  window.addEventListener('storage', (e) => {
+    if (!e.key || e.key === STORAGE_KEY) {
+      _memoCacheDirty = true;
+    }
+  });
   
   function getStoredMemos() {
+    if (!_memoCacheDirty && Array.isArray(_memoCache)) {
+      return _memoCache;
+    }
+
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) return parsed;
+        if (Array.isArray(parsed)) { 
+          _memoCache = parsed;
+          _memoCacheDirty = false;
+          return _memoCache;
+        }
       }
     } catch (err) {
       console.warn('[Violet Calendar] Error reading localStorage memos:', err);
@@ -82,15 +98,17 @@
       month: now.getMonth()
     }));
     saveStoredMemos(initialDispatches);
-    return initialDispatches;
+    return _memoCache;
   }
 
   function saveStoredMemos(memos) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(memos));
+      _memoCache = Array.isArray(memos) ? [...memos] : [];
+      _memoCacheDirty = false;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(_memoCache));
 
       if (window.CalendarService && typeof window.CalendarService.setEvents === 'function') {
-        window.CalendarService.setEvents(memos);
+        window.CalendarService.setEvents(_memoCache);
       }
     } catch (err) {
       console.warn('[Violet Calendar] Error persisting memos to localStorage:', err);
@@ -368,7 +386,6 @@
     const grid = elements.calendarGrid;
     if (!grid) return;
 
-    grid.innerHTML = '';
     closeTornNote();
 
     const eventsMap = new Map();
@@ -382,11 +399,12 @@
     const firstDayIndex = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const prevMonthDays = new Date(year, month, 0).getDate();
+    const frag = document.createDocumentFragment();
 
     for (let i = 0; i < firstDayIndex; i++) {
       const dayNum = prevMonthDays - firstDayIndex + 1 + i;
       const cell = createDayCell(dayNum, { isPrevMonth: true, isSun: i === 0 });
-      grid.appendChild(cell);
+      frag.appendChild(cell);
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
@@ -407,7 +425,7 @@
         month
       });
 
-      grid.appendChild(cell);
+      frag.appendChild(cell);
     }
 
     const totalRendered = firstDayIndex + daysInMonth;
@@ -419,8 +437,12 @@
         isSun: colIndex === 0,
         isSat: colIndex === 6
       });
-      grid.appendChild(cell);
+      frag.appendChild(cell);
     }
+
+    // Single DOM write: clear and append fragment at once
+    grid.innerHTML = '';
+    grid.appendChild(frag);
   }
 
   function createDayCell(dayNumber, config = {}) {
@@ -461,30 +483,11 @@
     }
 
     if (!config.isPrevMonth && !config.isNextMonth) {
-      cell.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (activePinnedDay === cell) {
-          closeTornNote();
-        } else {
-          if (activePinnedDay) activePinnedDay.classList.remove('active-day');
-          activePinnedDay = cell;
-          cell.classList.add('active-day');
+      cell.dataset.day = String(dayNumber);
+      cell.dataset.month = String(config.month);
+      cell.dataset.year = String(config.year);
 
-          currentSelectedDate = {
-            day: dayNumber,
-            month: config.month,
-            year: config.year
-          };
-
-          if (config.events && config.events.length > 0) {
-            currentEvent = config.events[0];
-            displayTornNote(currentEvent, dayNumber, config.month, config.year);
-          } else {
-            currentEvent = null;
-            openDraftComposeMode(dayNumber, config.month, config.year);
-          }
-        }
-      });
+      cell.classList.add('is-selectable');
     }
 
     return cell;
@@ -767,6 +770,39 @@
       elements.tornNoteBackdrop.addEventListener('click', (e) => {
         e.stopPropagation();
         closeTornNote();
+      });
+    }
+
+    if (elements.calendarGrid) {
+      elements.calendarGrid.addEventListener('click', (e) => {
+        const cell = e.target.closest('.cal-day.is-selectable');
+        if (!cell || !elements.calendarGrid.contains(cell)) return;
+        e.stopPropagation();
+
+        const dayNumber = parseInt(cell.dataset.day, 10);
+        const month = parseInt(cell.dataset.month, 10);
+        const year = parseInt(cell.dataset.year, 10);
+        if (Number.isNaN(dayNumber)) return;
+
+        if (activePinnedDay === cell) {
+          closeTornNote();
+          return;
+        }
+        if (activePinnedDay) activePinnedDay.classList.remove('active-day');
+        activePinnedDay = cell;
+        cell.classList.add('active-day');
+
+        currentSelectedDate = {day: dayNumber, month, year};
+
+        const dayEvents = getMemosForMonth(year, month).filter(evt => evt.day === dayNumber);
+
+        if (dayEvents.length > 0) {
+          currentEvent = dayEvents[0];
+          displayTornNote(currentEvent, dayNumber, month, year);
+        } else {
+          currentEvent = null;
+          openDraftComposeMode(dayNumber, month, year);
+        }
       });
     }
 
