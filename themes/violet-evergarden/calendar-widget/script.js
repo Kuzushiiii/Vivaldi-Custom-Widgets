@@ -159,10 +159,21 @@
     return false;
   }
 
+  const audioState = {
+    get enabled() {
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+      return localStorage.getItem('p5_cal_sound') !== 'false';
+    },
+    set enabled(val) {
+      localStorage.setItem('p5_cal_sound', val ? 'true' : 'false');
+    }
+  };
   
   let audioCtx = null;
 
   function getAudioContext() {
+    if (!audioState.enabled) return null;
+    if (document.hidden) return null;
     if (!audioCtx) {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
       if (AudioContextClass) {
@@ -177,6 +188,7 @@
 
   // Synthesize realistic vintage parchment rustle / page turn
   function playPageTurnSound() {
+    if (!audioState.enabled) return;
     try {
       const ctx = getAudioContext();
       if (!ctx) return;
@@ -230,6 +242,7 @@
   }
 
   function playLetterOpenSound() {
+    if (!audioState.enabled) return;
     try {
       const ctx = getAudioContext();
       if (!ctx) return;
@@ -286,6 +299,7 @@
 
   // Synthesize soft parchment tuck / fold sound when closing letter
   function playLetterCloseSound() {
+    if (!audioState.enabled) return;
     try {
       const ctx = getAudioContext();
       if (!ctx) return;
