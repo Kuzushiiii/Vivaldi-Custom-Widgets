@@ -23,7 +23,6 @@
   const TOTAL_MS_IN_DAY = 86400000;
   let isReturning = false;
   let lastMsPassed = null;
-  let lastUpdateTimestamp = 0;
 
   function pad(num, size = 2) {
     return String(num).padStart(size, '0');
@@ -77,7 +76,6 @@
     }
 
     widget.classList.add('carriage-return-active');
-
     ribbonFillEl.style.width = '0%';
 
     setTimeout(() => {
@@ -94,7 +92,6 @@
     if (liveClockEl) liveClockEl.textContent = data.clockString;
     if (percentNumEl) percentNumEl.textContent = data.formattedPercent;
     if (timeRemainingEl) timeRemainingEl.textContent = data.remainingString;
-
     if (phaseTitleEl) phaseTitleEl.textContent = data.phase.title;
     if (phaseDescEl) phaseDescEl.textContent = data.phase.desc;
 
@@ -108,21 +105,47 @@
     lastMsPassed = data.msPassed;
   }
 
-  function tick(timestamp) {
-    if (timestamp - lastUpdateTimestamp >= 50) {
+  let tickerId = null;
+
+  function startTicker() {
+    if (tickerId) return;
+    
+    const now = new Date();
+    const msToNextSecond = 1000 - now.getMilliseconds();
+
+    setTimeout(() => {
       updateWidget();
-      lastUpdateTimestamp = timestamp;
-    }
-    requestAnimationFrame(tick);
+      tickerId = setInterval(updateWidget, 1000);
+    }, msToNextSecond);
   }
 
+  function stopTicker() {
+    if (tickerId) {
+      clearInterval(tickerId);
+      tickerId = null;
+    }
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopTicker();
+    } else {
+      updateWidget();
+      startTicker();
+    }
+  });
+
+  window.addEventListener('blur', stopTicker);
+  window.addEventListener('focus', () => {
+    updateWidget();
+    startTicker();
+  });
+
   if (carriageReturnBtn) {
-    carriageReturnBtn.addEventListener('click', () => {
-      triggerCarriageReturn();
-    });
+    carriageReturnBtn.addEventListener('click', triggerCarriageReturn);
   }
 
   updateWidget();
-  requestAnimationFrame(tick);
+  startTicker();
 
 })();
