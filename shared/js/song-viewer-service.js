@@ -67,22 +67,114 @@ class SongViewerService {
     this.currentTrackId = null;
 
     this.trackInfoCache = new Map();
+    this._lanyardRetryCount = 0;
+    this._lanyardRetryTimer = null;
+    this._lastfmRetryCount = 0;
     this.bindVisibilityHandler();
+    this.bindOnlineHandlers();
   }
 
   bindVisibilityHandler() {
     document.addEventListener("visibilitychange", () => {
-      if (!document.hidden && !this.isDemoMode) {
-        if (this.provider === "lastfm") {
-          this.fetchLastfmData();
-        } else if (this.provider === "discord") {
-          if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
-            this.connectLanyard();
+      if (document.hidden) {
+        this.pauseProgressTimer();
+        this.pausePolling();
+      } else {
+        this.resumeProgressTimer();
+        this.resumePolling();
+        if (!this.isDemoMode) {
+          if (this.provider === "lastfm") {
+            this.fetchLastfmData();
+          } else if (this.provider === "discord") {
+            if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
+              this.connectLanyard();
+            }
           }
         }
         this.updateProgress();
       }
     });
+    // Fallback for file:// iframes where visibilitychange may not fire reliably
+    window.addEventListener("blur", () => {
+      this.pauseProgressTimer();
+    });
+    window.addEventListener("focus", () => {
+      this.resumeProgressTimer();
+      this.updateProgress();
+    });
+  }
+
+  isOnline() {
+    return typeof navigator === 'undefined' ? true : navigator.onLine !== false;
+  }
+
+  bindOnlineHandlers() {
+    window.addEventListener('online', () => {
+      this._lanyardRetryCount = 0;
+      this._lastfmRetryCount = 0;
+      if (!this.isDemoMode) {
+        if (this.provider === 'lastfm' && this.lastfmUser) this.connectLastfm();
+        else if (this.provider === 'discord' && this.discordId) this.connectLanyard();
+        this.updateProgress();
+      }
+    });
+    window.addEventListener('offline', () => {
+      if (this.socket) {
+        try { 
+          this.socket.onclose = null; this.socket.close(); 
+        } 
+        catch(e){}
+        this.socket = null;
+      }
+
+      if (this._lanyardRetryTimer) {
+        clearTimeout(this._lanyardRetryTimer); 
+        this._lanyardRetryTimer = null;
+      }
+    });
+  }
+
+  getBackoffDelay(baseMs, retryCount, maxMs=60000) {
+    return Math.min(maxMs, Math.round(baseMs * Math.pow(1.5, retryCount)));
+  }
+
+  pauseProgressTimer() {
+    if (this.progressTimer) {
+      clearInterval(this.progressTimer);
+      this.progressTimer = null;
+    }
+  }
+
+  resumeProgressTimer() {
+    if (!this.progressTimer) {
+      this.startProgressTimer();
+    }
+  }
+
+  pausePolling() {
+    // Pause Last.fm / Discord REST polling while hidden to save CPU/battery
+    if (this._pollingPaused) return;
+    if (this.pollInterval) {
+      clearInterval(this.pollInterval);
+      this._pausedPollInterval = this.pollInterval;
+      this.pollInterval = null;
+      this._pollingPaused = true;
+    }
+  }
+
+  resumePolling() {
+    if (!this._pollingPaused) return;
+    this._pollingPaused = false;
+    this._pausedPollInterval = null;
+    // Re-establish correct polling for current provider
+    if (this.isDemoMode) return;
+    if (this.provider === "lastfm" && this.lastfmUser) {
+      this.fetchLastfmData();
+      this.pollInterval = setInterval(() => this.fetchLastfmData(), 8000);
+    } else if (this.provider === "discord" && this.discordId && !this.socket) {
+      // Discord primarily uses WebSocket; fallback polling will be re-created on demand
+      this.fallbackRestPolling();
+    }
   }
 
   saveConfig({ provider, discordId, lastfmUser, lastfmApiKey }) {
@@ -130,6 +222,16 @@ class SongViewerService {
       clearInterval(this.pollInterval);
       this.pollInterval = null;
     }
+    if (this._lanyardRetryTimer) {
+      clearTimeout(this._lanyardRetryTimer);
+      this._lanyardRetryTimer = null;
+    }
+    this._pollingPaused = false;
+    this._pausedPollInterval = null;
+    if (this.progressTimer) {
+      clearInterval(this.progressTimer);
+      this.progressTimer = null;
+    }
     if (this.heartbeatInterval) {
       clearInterval(this.heartbeatInterval);
       this.heartbeatInterval = null;
@@ -146,7 +248,9 @@ class SongViewerService {
 
   startProgressTimer() {
     if (this.progressTimer) clearInterval(this.progressTimer);
-    this.progressTimer = setInterval(() => this.updateProgress(), 500);
+    // Throttled from 500ms -> 800ms: 37.5% fewer wakeups, still smooth for MM:SS + tonearm/progress bar
+    // 1000ms would be max saving (50%) but 800ms keeps per-second tick visually in sync without visible 1s stutter on vinyl needle / progress bar
+    this.progressTimer = setInterval(() => this.updateProgress(), 800);
   }
 
   updateProgress() {
@@ -230,18 +334,27 @@ class SongViewerService {
 
   connectLanyard() {
     if (!this.discordId || this.isDemoMode) return;
+    if (!this.isOnline()) {
+      if (typeof this.options.onStandby === 'function') {
+        this.options.onStandby('discord', 'OFFLINE - WAITING FOR CONNECTION');
+      }
+
+      const delay = this.getBackoffDelay(8000, this._lanyardRetryCount);
+      this._lanyardRetryCount++;
+      if (this._lanyardRetryTimer) clearTimeout(this._lanyardRetryTimer);
+      this._lanyardRetryTimer = setTimeout(()=> this.connectLanyard(), delay);
+
+      return;
+    }
     this.cleanup();
 
     try {
       this.socket = new WebSocket("wss://api.lanyard.rest/socket");
 
       this.socket.onopen = () => {
+        this._lanyardRetryCount = 0;
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-          this.socket.send(JSON.stringify({
-              op: 2,
-              d: { subscribe_to_id: this.discordId },
-            }),
-          );
+          this.socket.send(JSON.stringify({ op:2, d:{ subscribe_to_id: this.discordId}}));
         }
       };
 
@@ -280,14 +393,25 @@ class SongViewerService {
       };
 
       this.socket.onerror = () => {
+        if(!this.isOnline()) return;
         this.fallbackRestPolling();
       };
 
       this.socket.onclose = () => {
-        setTimeout(() => {
-          if (this.provider === "discord" && !this.isDemoMode)
-            this.connectLanyard();
-        }, 8000);
+        if (this.isDemoMode || this.provider !== 'discord') return;
+        if (!this.isOnline()) {
+          const delay = this.getBackoffDelay(8000, this._lanyardRetryCount);
+          this._lanyardRetryCount++;
+          if (this._lanyardRetryTimer) clearTimeout(this._lanyardRetryTimer);
+          this._lanyardRetryTimer = setTimeout(()=> this.connectLanyard(), delay);
+          return;
+        }
+        const delay = this.getBackoffDelay(8000, this._lanyardRetryCount);
+        this._lanyardRetryCount = Math.min(this._lanyardRetryCount + 1, 6);
+        if (this._lanyardRetryTimer) clearTimeout(this._lanyardRetryTimer);
+        this._lanyardRetryTimer = setTimeout(() => {
+          if (this.provider==='discord' && !this.isDemoMode) this.connectLanyard();
+        }, delay);
       };
     } catch (err) {
       this.fallbackRestPolling();
@@ -295,17 +419,24 @@ class SongViewerService {
   }
 
   fallbackRestPolling() {
-    if (!this.discordId || this.isDemoMode || this.provider !== "discord")
-      return;
+    if (!this.discordId || this.isDemoMode || this.provider !== "discord") return;
+    if (!this.isOnline()) return;
     if (this.pollInterval) clearInterval(this.pollInterval);
 
+    let retryCount = 0;
     const fetchRest = async () => {
       if (this.provider !== "discord" || this.isDemoMode) return;
+      if (!this.isOnline()) return;
+      const controller = new AbortController();
+      const t = setTimeout(()=> controller.abort(), 5500);
       try {
         const res = await fetch(
           `https://api.lanyard.rest/v1/users/${this.discordId}`,
+          { signal: controller.signal }
         );
+        clearTimeout(t);
         const json = await res.json();
+        retryCount = 0;
         if (json.success && json.data) {
           if (json.data.spotify) {
             this.notifyData({
@@ -329,9 +460,19 @@ class SongViewerService {
             );
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        clearTimeout(t);
+        if (this.pollInterval) {
+          clearInterval(this.pollInterval); this.pollInterval=null;
+        }
+        const delay = this.getBackoffDelay(12000, retryCount);
+        retryCount = Math.min(retryCount+1, 5);
+        this.pollInterval = setTimeout(()=> {
+          this.pollInterval = setInterval(fetchRest, 12000);
+          fetchRest();
+        }, delay);
+      }
     };
-
     fetchRest();
     this.pollInterval = setInterval(fetchRest, 12000);
   }
@@ -341,10 +482,14 @@ class SongViewerService {
     if (this.trackInfoCache.has(cacheKey)) {
       return this.trackInfoCache.get(cacheKey);
     }
+    if (!this.isOnline()) return 0;
 
+    const controller = new AbortController();
+    const t = setTimeout(()=> controller.abort(), 5000);
     try {
       const url = `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(trackName)}&api_key=${apiKey}&format=json`;
-      const res = await fetch(url);
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(t);
       if (res.ok) {
         const json = await res.json();
         if (json.track && json.track.duration) {
@@ -355,19 +500,47 @@ class SongViewerService {
           }
         }
       }
-    } catch (e) {}
+    } catch (e) { clearTimeout(t); }
     return 0;
   }
 
   async fetchLastfmData() {
     if (this.provider !== "lastfm" || this.isDemoMode || !this.lastfmUser)
       return;
+    if (!this.isOnline()) {
+      const cached = localStorage.getItem(STORAGE_KEYS.LASTFM_CURRENT_TRACK);
+      if (cached) {
+        const trackName = localStorage.getItem(STORAGE_KEYS.LASTFM_TRACK_NAME) || "Unknown Track";
+        const artistStr = localStorage.getItem(STORAGE_KEYS.LASTFM_TRACK_ARTIST) || "Unknown Artist";
+        const albumStr = localStorage.getItem(STORAGE_KEYS.LASTFM_TRACK_ALBUM) || "";
+        const albumArt = localStorage.getItem(STORAGE_KEYS.LASTFM_TRACK_ART) || "";
+        this.notifyData({
+          song: trackName,
+          artist: artistStr,
+          album: albumStr,
+          album_art_url: albumArt,
+          timestamps: null,
+          isPaused: true,
+          isLastScrobble: true,
+          pausedElapsed: parseInt(localStorage.getItem(STORAGE_KEYS.LASTFM_PAUSED_ELAPSED) || "0", 10)
+        });
+      } else {
+        if (typeof this.options.onStandby === "function") {
+          this.options.onStandby("lastfm", "OFFLINE — NO CACHED TRACK");
+        }
+      }
+      return;
+    }
     const apiKey = this.lastfmApiKey.trim() || DEFAULT_LASTFM_API_KEY;
+    const controller = new AbortController();
+    const t = setTimeout(()=> controller.abort(), 6000);
 
     try {
       const res = await fetch(
         `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(this.lastfmUser)}&api_key=${apiKey}&format=json&limit=2`,
+        { signal: controller.signal }
       );
+      clearTimeout(t);
 
       if (!res.ok) {
         if (typeof this.options.onStandby === "function") {
@@ -561,8 +734,11 @@ class SongViewerService {
         }
       }
     } catch (e) {
+      clearTimeout(t);
+      this._lastfmRetryCount = Math.min((this._lastfmRetryCount||0)+1, 6);
+      const msg = e.name === 'AbortError' ? 'LAST.FM TIMEOUT — RETRYING' : 'LAST.FM CONNECTION ERROR';
       if (typeof this.options.onStandby === "function") {
-        this.options.onStandby("lastfm", "LAST.FM CONNECTION ERROR");
+        this.options.onStandby("lastfm", msg);
       }
     }
   }

@@ -22,7 +22,7 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 ## Features
 
 - **Interactive Showroom Dashboard**: Preview, filter, and test all widgets live at any tile size via the [Live Demo Showroom](https://kuzushiiii.github.io/Vivaldi-Custom-Widgets/) (or local `index.html`) without needing to install them first.
-- **Thematic Immersion**: Authentic visual styles inspired by Persona 5 and Violet Evergarden.
+- **Thematic Immersion**: Authentic visual styles inspired by Persona 5, Violet Evergarden, and Sousou no Frieren.
 - **CSS Container Queries**: Automatically scales typography, icons, and layouts gracefully across compact, wide, square, and banner tile dimensions.
 - **Lightweight & Fast**: Built with vanilla HTML5, CSS3, and JavaScript with zero external frameworks.
 - **Dynamic & Real-Time**: Live digital clocks, interactive calendars, day progress trackers, and real-time music playback visualizers.
@@ -37,7 +37,7 @@ A curated collection of aesthetic, lightweight, and interactive custom webpage w
 
 - **Live Responsive Testing**: Scale widgets continuously or select standard Vivaldi tile presets (`1×1`, `2×1`, `2×2`, `3×2`) to see CSS Container Queries in action.
 - **One-Click URL Copying**: Click `Copy Vivaldi URL` on any widget card to copy its URL for immediate pasting into Vivaldi Start Page.
-- **Theme & Category Filtering**: Instantly filter between Persona 5 and Violet Evergarden widgets.
+- **Theme & Category Filtering**: Instantly filter between themes (Persona 5, Violet Evergarden, and more) and categories.
 
 ---
 
@@ -81,7 +81,7 @@ To remove default white card backgrounds and title bars while keeping access to 
    <img src="docs/assets/add-widgets-step1.png" alt="Opening widget through Vivaldi" width="600">
 </p>
 
-2. Copy the local file URL from the address bar (e.g. `file:///D:/Vivaldi-Widgets-Windows/themes/persona-5/calendar-widget/index.html`).
+2. Copy the local file URL from the address bar (e.g. `file:///D:/Vivaldi-Custom-Widgets/themes/persona-5/calendar-widget/index.html`).
 <p align="center">
    <img src="docs/assets/add-widgets-step2.png" alt="Copy URL" width="600">
 </p>

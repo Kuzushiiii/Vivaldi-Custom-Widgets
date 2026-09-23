@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vivaldi Custom Widgets Showroom</title>
+  <script src="shared/js/widgets-registry.js"></script>
     <style>
     /* ==========================================================================
        TECHNICAL SPECIFICATION & BRUTAL MINIMALIST STYLESHEET
@@ -636,6 +637,11 @@
     .theme-badge.violet {
       border-color: rgba(212, 175, 55, 0.4);
       color: #d4af37;
+    }
+
+    .theme-badge.frieren {
+      border-color: rgba(110, 231, 183, 0.4);
+      color: #6ee7b7;
     }
 
     .card-title {
@@ -1328,17 +1334,8 @@
   <section class="controls-deck">
     
     <div class="control-row">
-      <div class="filter-group">
-        <span class="filter-label">Theme:</span>
-        <button class="pill-btn active" data-filter-theme="all">
-          All Themes <span class="pill-count" id="countAllThemes">10</span>
-        </button>
-        <button class="pill-btn" data-filter-theme="persona-5">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 22,9 18,22 6,22 2,9"/><path d="M7 11c1-1 3-1 4 1M17 11c-1-1-3-1-4 1"/></svg> Persona 5 <span class="pill-count">5</span>
-        </button>
-        <button class="pill-btn" data-filter-theme="violet-evergarden">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14"/><polyline points="3,7 12,13 21,7"/></svg> Violet Evergarden <span class="pill-count">5</span>
-        </button>
+      <div class="filter-group" id="themeFilterGroup">
+        <!-- Theme filters dynamically injected by renderThemeFilters() -->
       </div>
 
       <div class="filter-group">
@@ -1394,266 +1391,7 @@
 
   <main class="showroom-main">
     <div class="widgets-grid" id="widgetsGrid">
-
-      <article class="widget-card" 
-               data-theme="persona-5" 
-               data-category="calendar" 
-               data-title="Persona 5 Calendar &amp; Clock"
-               data-path="themes/persona-5/calendar-widget/index.html">
-        <header class="card-header">
-          <div class="card-header-left">
-            <span class="theme-badge persona">Persona 5</span>
-            <h2 class="card-title">Calendar &amp; Clock</h2>
-          </div>
-          <div class="card-actions">
-            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
-            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
-            <a class="card-action-btn btn-external" target="_blank" href="themes/persona-5/calendar-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-          </div>
-        </header>
-        <div class="card-viewport-stage">
-          <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe data-src="themes/persona-5/calendar-widget/index.html" src="about:blank"></iframe>
-        </div>
-        <footer class="card-footer">
-          <span class="card-desc">Comic digital clock, day indicator &amp; Phantom mask.</span>
-          <span class="card-dimension-badge">380 × 280</span>
-        </footer>
-      </article>
-
-      <article class="widget-card" 
-               data-theme="persona-5" 
-               data-category="day-progression" 
-               data-title="Persona 5 Day Progression"
-               data-path="themes/persona-5/day-progression/index.html">
-        <header class="card-header">
-          <div class="card-header-left">
-            <span class="theme-badge persona">Persona 5</span>
-            <h2 class="card-title">Day Progression</h2>
-          </div>
-          <div class="card-actions">
-            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
-            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
-            <a class="card-action-btn btn-external" target="_blank" href="themes/persona-5/day-progression/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-          </div>
-        </header>
-        <div class="card-viewport-stage">
-          <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe data-src="themes/persona-5/day-progression/index.html" src="about:blank"></iframe>
-        </div>
-        <footer class="card-footer">
-          <span class="card-desc">Meta-Nav daily infiltration percentage &amp; phases.</span>
-          <span class="card-dimension-badge">380 × 280</span>
-        </footer>
-      </article>
-
-      <article class="widget-card" 
-               data-theme="persona-5" 
-               data-category="song-viewer" 
-               data-title="Persona 5 Song Viewer (Phantom Radio HUD)"
-               data-path="themes/persona-5/song-viewer-widget/index.html">
-        <header class="card-header">
-          <div class="card-header-left">
-            <span class="theme-badge persona">Persona 5</span>
-            <h2 class="card-title">Song Viewer (Radio HUD)</h2>
-          </div>
-          <div class="card-actions">
-            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
-            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
-            <a class="card-action-btn btn-external" target="_blank" href="themes/persona-5/song-viewer-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-          </div>
-        </header>
-        <div class="card-viewport-stage">
-          <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe data-src="themes/persona-5/song-viewer-widget/index.html" src="about:blank"></iframe>
-        </div>
-        <footer class="card-footer">
-          <span class="card-desc">Now-Playing HUD with Lanyard, Last.fm &amp; 'Life Will Change'.</span>
-          <span class="card-dimension-badge">380 × 280</span>
-        </footer>
-      </article>
-
-      <article class="widget-card" 
-               data-theme="persona-5" 
-               data-category="gif" 
-               data-title="Persona 5 GIF Cut-in Banner"
-               data-path="themes/persona-5/gif-widget/index.html">
-        <header class="card-header">
-          <div class="card-header-left">
-            <span class="theme-badge persona">Persona 5</span>
-            <h2 class="card-title">Royal GIF Cut-In</h2>
-          </div>
-          <div class="card-actions">
-            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
-            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
-            <a class="card-action-btn btn-external" target="_blank" href="themes/persona-5/gif-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-          </div>
-        </header>
-        <div class="card-viewport-stage">
-          <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe data-src="themes/persona-5/gif-widget/index.html" src="about:blank"></iframe>
-        </div>
-        <footer class="card-footer">
-          <span class="card-desc">Dynamic Royal cut-in animation banner.</span>
-          <span class="card-dimension-badge">380 × 280</span>
-        </footer>
-      </article>
-
-      <article class="widget-card" 
-               data-theme="persona-5" 
-               data-category="gif" 
-               data-title="Persona 5 Atmospheric Cut-in 2"
-               data-path="themes/persona-5/gif-widget-2/index.html">
-        <header class="card-header">
-          <div class="card-header-left">
-            <span class="theme-badge persona">Persona 5</span>
-            <h2 class="card-title">All-Out Attack GIF</h2>
-          </div>
-          <div class="card-actions">
-            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
-            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
-            <a class="card-action-btn btn-external" target="_blank" href="themes/persona-5/gif-widget-2/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-          </div>
-        </header>
-        <div class="card-viewport-stage">
-          <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe data-src="themes/persona-5/gif-widget-2/index.html" src="about:blank"></iframe>
-        </div>
-        <footer class="card-footer">
-          <span class="card-desc">Aesthetic alternate character cut-in banner.</span>
-          <span class="card-dimension-badge">380 × 280</span>
-        </footer>
-      </article>
-
-      <article class="widget-card" 
-               data-theme="violet-evergarden" 
-               data-category="calendar" 
-               data-title="Violet Evergarden Auto Memory Doll Calendar"
-               data-path="themes/violet-evergarden/calendar-widget/index.html">
-        <header class="card-header">
-          <div class="card-header-left">
-            <span class="theme-badge violet">Violet Evergarden</span>
-            <h2 class="card-title">Letterhead Calendar</h2>
-          </div>
-          <div class="card-actions">
-            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
-            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
-            <a class="card-action-btn btn-external" target="_blank" href="themes/violet-evergarden/calendar-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-          </div>
-        </header>
-        <div class="card-viewport-stage">
-          <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe data-src="themes/violet-evergarden/calendar-widget/index.html" src="about:blank"></iframe>
-        </div>
-        <footer class="card-footer">
-          <span class="card-desc">Wax seal, typewriter torn notes &amp; paper sound DSP.</span>
-          <span class="card-dimension-badge">380 × 280</span>
-        </footer>
-      </article>
-
-      <article class="widget-card" 
-               data-theme="violet-evergarden" 
-               data-category="day-progression" 
-               data-title="Violet Evergarden Typewriter Carriage Day Progression"
-               data-path="themes/violet-evergarden/day-progression/index.html">
-        <header class="card-header">
-          <div class="card-header-left">
-            <span class="theme-badge violet">Violet Evergarden</span>
-            <h2 class="card-title">Typewriter Carriage</h2>
-          </div>
-          <div class="card-actions">
-            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
-            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
-            <a class="card-action-btn btn-external" target="_blank" href="themes/violet-evergarden/day-progression/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-          </div>
-        </header>
-        <div class="card-viewport-stage">
-          <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe data-src="themes/violet-evergarden/day-progression/index.html" src="about:blank"></iframe>
-        </div>
-        <footer class="card-footer">
-          <span class="card-desc">Platen roller, dual-tone ribbon &amp; brass margin scale.</span>
-          <span class="card-dimension-badge">380 × 280</span>
-        </footer>
-      </article>
-
-      <article class="widget-card" 
-               data-theme="violet-evergarden" 
-               data-category="song-viewer" 
-               data-title="Violet Evergarden CH Postal Phonograph"
-               data-path="themes/violet-evergarden/song-viewer-widget/index.html">
-        <header class="card-header">
-          <div class="card-header-left">
-            <span class="theme-badge violet">Violet Evergarden</span>
-            <h2 class="card-title">Postal Phonograph</h2>
-          </div>
-          <div class="card-actions">
-            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
-            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
-            <a class="card-action-btn btn-external" target="_blank" href="themes/violet-evergarden/song-viewer-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-          </div>
-        </header>
-        <div class="card-viewport-stage">
-          <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe data-src="themes/violet-evergarden/song-viewer-widget/index.html" src="about:blank"></iframe>
-        </div>
-        <footer class="card-footer">
-          <span class="card-desc">Vintage vinyl gramophone, tonearm needle &amp; 'Sincerely'.</span>
-          <span class="card-dimension-badge">380 × 280</span>
-        </footer>
-      </article>
-
-      <article class="widget-card" 
-               data-theme="violet-evergarden" 
-               data-category="gif" 
-               data-title="Violet Evergarden Typing GIF Banner"
-               data-path="themes/violet-evergarden/gif-widget/index.html">
-        <header class="card-header">
-          <div class="card-header-left">
-            <span class="theme-badge violet">Violet Evergarden</span>
-            <h2 class="card-title">Typing GIF Banner</h2>
-          </div>
-          <div class="card-actions">
-            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
-            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
-            <a class="card-action-btn btn-external" target="_blank" href="themes/violet-evergarden/gif-widget/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-          </div>
-        </header>
-        <div class="card-viewport-stage">
-          <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe data-src="themes/violet-evergarden/gif-widget/index.html" src="about:blank"></iframe>
-        </div>
-        <footer class="card-footer">
-          <span class="card-desc">Atmospheric animated banner of Violet typing letters.</span>
-          <span class="card-dimension-badge">380 × 280</span>
-        </footer>
-      </article>
-
-      <article class="widget-card" 
-               data-theme="violet-evergarden" 
-               data-category="gif" 
-               data-title="Violet Evergarden Bougainvillea Flowers GIF"
-               data-path="themes/violet-evergarden/gif-widget-2/index.html">
-        <header class="card-header">
-          <div class="card-header-left">
-            <span class="theme-badge violet">Violet Evergarden</span>
-            <h2 class="card-title">Bougainvillea Flowers GIF</h2>
-          </div>
-          <div class="card-actions">
-            <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
-            <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
-            <a class="card-action-btn btn-external" target="_blank" href="themes/violet-evergarden/gif-widget-2/index.html" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
-          </div>
-        </header>
-        <div class="card-viewport-stage">
-          <div class="card-loader"><div class="loader-spinner"></div></div>
-          <iframe data-src="themes/violet-evergarden/gif-widget-2/index.html" src="about:blank"></iframe>
-        </div>
-        <footer class="card-footer">
-          <span class="card-desc">Aesthetic anime floral banner with bougainvillea motif.</span>
-          <span class="card-dimension-badge">380 × 280</span>
-        </footer>
-      </article>
+      <!-- Widgets will be dynamically injected here by renderWidgetCards() -->
 
       <div class="empty-state" id="emptyState">
         <h3>No widgets found</h3>
@@ -1845,12 +1583,11 @@
       // DOM Elements
       const htmlEl = document.documentElement;
       const themeToggleBtn = document.getElementById('themeToggleBtn');
-      const filterThemeBtns = document.querySelectorAll('[data-filter-theme]');
+      const themeFilterGroup = document.getElementById('themeFilterGroup');
       const filterCatBtns = document.querySelectorAll('[data-filter-category]');
       const searchInput = document.getElementById('searchInput');
       const clearSearchBtn = document.getElementById('clearSearchBtn');
       const widgetsGrid = document.getElementById('widgetsGrid');
-      const widgetCards = document.querySelectorAll('.widget-card');
       const emptyState = document.getElementById('emptyState');
       const reloadAllBtn = document.getElementById('reloadAllBtn');
       
@@ -1868,6 +1605,101 @@
       let activeThemeFilter = 'all';
       let activeCategoryFilter = 'all';
       let activeSearchQuery = '';
+      let widgetCards = [];
+
+      /* --------------------------------------------------------
+         0. DYNAMIC REGISTRY RENDERING ENGINE
+         -------------------------------------------------------- */
+      function renderThemeFilters() {
+        if (!themeFilterGroup || typeof THEMES_REGISTRY === 'undefined' || typeof WIDGETS_REGISTRY === 'undefined') return;
+
+        const counts = { all: WIDGETS_REGISTRY.length };
+        WIDGETS_REGISTRY.forEach(w => {
+          counts[w.theme] = (counts[w.theme] || 0) + 1;
+        });
+
+        let html = `
+          <span class="filter-label">Theme:</span>
+          <button class="pill-btn active" data-filter-theme="all">
+            All Themes <span class="pill-count" id="countAllThemes">${counts.all}</span>
+          </button>
+        `;
+
+        THEMES_REGISTRY.forEach(t => {
+          const c = counts[t.id] || 0;
+          if (c === 0) return;
+          html += `
+            <button class="pill-btn" data-filter-theme="${t.id}">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${t.icon}</svg>
+              ${t.name} <span class="pill-count">${c}</span>
+            </button>
+          `;
+        });
+
+        themeFilterGroup.innerHTML = html;
+
+        const newThemeBtns = themeFilterGroup.querySelectorAll('[data-filter-theme]');
+        newThemeBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            newThemeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeThemeFilter = btn.getAttribute('data-filter-theme');
+            applyFilters();
+          });
+        });
+      }
+
+      function renderWidgetCards() {
+        if (!widgetsGrid || typeof WIDGETS_REGISTRY === 'undefined') return;
+
+        widgetsGrid.querySelectorAll('.widget-card').forEach(c => c.remove());
+
+        const themesMap = new Map();
+        if (typeof THEMES_REGISTRY !== 'undefined') {
+          THEMES_REGISTRY.forEach(t => themesMap.set(t.id, t));
+        }
+
+        const fragment = document.createDocumentFragment();
+
+        WIDGETS_REGISTRY.forEach(widget => {
+          const themeInfo = themesMap.get(widget.theme) || { name: widget.theme, badgeClass: '' };
+          const card = document.createElement('article');
+          card.className = 'widget-card';
+          card.setAttribute('data-theme', widget.theme);
+          card.setAttribute('data-category', widget.category);
+          card.setAttribute('data-title', widget.fullName || widget.title);
+          card.setAttribute('data-path', widget.path);
+
+          const badgeColorStyle = widget.badgeColor ? `style="border-color: ${widget.badgeColor}66; color: ${widget.badgeColor};"` : '';
+
+          card.innerHTML = `
+            <header class="card-header">
+              <div class="card-header-left">
+                <span class="theme-badge ${themeInfo.badgeClass || ''}" ${badgeColorStyle}>${themeInfo.name}</span>
+                <h2 class="card-title">${widget.title}</h2>
+              </div>
+              <div class="card-actions">
+                <button class="card-action-btn btn-reload" title="Reload Widget"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 0 1 14.93-4M20 12a8 8 0 0 1-14.93 4M20 4v6h-6M4 20v-6h6"/></svg></button>
+                <button class="card-action-btn btn-copy-url" title="Copy Vivaldi URL"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4"/></svg></button>
+                <a class="card-action-btn btn-external" target="_blank" href="${widget.path}" title="Open Standalone in New Tab"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+              </div>
+            </header>
+            <div class="card-viewport-stage">
+              <div class="card-loader"><div class="loader-spinner"></div></div>
+              <iframe data-src="${widget.path}" src="about:blank"></iframe>
+            </div>
+            <footer class="card-footer">
+              <span class="card-desc">${widget.desc}</span>
+              <span class="card-dimension-badge">380 × 280</span>
+            </footer>
+          `;
+
+          fragment.appendChild(card);
+        });
+
+        widgetsGrid.insertBefore(fragment, emptyState);
+        widgetCards = document.querySelectorAll('.widget-card');
+      }
 
       /* --------------------------------------------------------
          1. NIGHT / LIGHT MODE THEME SWITCHER
@@ -1941,14 +1773,6 @@
         }
       }
 
-      filterThemeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          filterThemeBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          activeThemeFilter = btn.getAttribute('data-filter-theme');
-          applyFilters();
-        });
-      });
 
       filterCatBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -2062,55 +1886,63 @@
         threshold: 0.01
       });
 
-      widgetCards.forEach(card => {
-        iframeObserver.observe(card);
+      function bindCardInteractions(cards) {
+        cards.forEach(card => {
+          iframeObserver.observe(card);
 
-        const iframe = card.querySelector('iframe');
-        const loader = card.querySelector('.card-loader');
+          const iframe = card.querySelector('iframe');
+          const loader = card.querySelector('.card-loader');
 
-        if (iframe && loader) {
-          iframe.addEventListener('load', () => {
-            if (iframe.src && !iframe.src.endsWith('about:blank')) {
-              loader.classList.add('hidden');
-              updateCardDimensionBadges();
-            }
-          });
-        }
-
-        // Individual reload button
-        const reloadBtn = card.querySelector('.btn-reload');
-        if (reloadBtn && iframe) {
-          reloadBtn.addEventListener('click', () => {
-            if (loader) loader.classList.remove('hidden');
-            if (iframe.dataset.src) {
-              loadIframe(iframe);
-            } else {
-              iframe.src = iframe.src;
-            }
-          });
-        }
-
-        // Copy Vivaldi URL button
-        const copyBtn = card.querySelector('.btn-copy-url');
-        if (copyBtn) {
-          copyBtn.addEventListener('click', () => {
-            const relPath = card.getAttribute('data-path');
-            // Calculate absolute file:/// URL based on showroom location
-            const baseDir = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
-            const fullUrl = baseDir + relPath;
-
-            navigator.clipboard.writeText(fullUrl).then(() => {
-              showToast(`Copied Vivaldi URL for ${card.getAttribute('data-title')}!`);
-            }).catch(() => {
-              showToast(`Path: ${fullUrl}`);
+          if (iframe && loader) {
+            iframe.addEventListener('load', () => {
+              if (iframe.src && !iframe.src.endsWith('about:blank')) {
+                loader.classList.add('hidden');
+                updateCardDimensionBadges();
+              }
             });
-          });
-        }
-      });
+          }
+
+          // Individual reload button
+          const reloadBtn = card.querySelector('.btn-reload');
+          if (reloadBtn && iframe) {
+            reloadBtn.addEventListener('click', () => {
+              if (loader) loader.classList.remove('hidden');
+              if (iframe.dataset.src) {
+                loadIframe(iframe);
+              } else {
+                iframe.src = iframe.src;
+              }
+            });
+          }
+
+          // Copy Vivaldi URL button
+          const copyBtn = card.querySelector('.btn-copy-url');
+          if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+              const relPath = card.getAttribute('data-path');
+              // Calculate absolute file:/// URL based on showroom location
+              const baseDir = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+              const fullUrl = baseDir + relPath;
+
+              navigator.clipboard.writeText(fullUrl).then(() => {
+                showToast(`Copied Vivaldi URL for ${card.getAttribute('data-title')}!`);
+              }).catch(() => {
+                showToast(`Path: ${fullUrl}`);
+              });
+            });
+          }
+        });
+      }
+
+      // Initial Showroom Dynamic Render
+      renderThemeFilters();
+      renderWidgetCards();
+      bindCardInteractions(widgetCards);
 
       // Reload All Button
       reloadAllBtn.addEventListener('click', () => {
-        widgetCards.forEach(card => {
+        const allCards = document.querySelectorAll('.widget-card');
+        allCards.forEach(card => {
           const iframe = card.querySelector('iframe');
           const loader = card.querySelector('.card-loader');
           if (iframe) {
@@ -2122,7 +1954,7 @@
             }
           }
         });
-        showToast('Reloaded all 10 widgets!');
+        showToast(`Reloaded all ${allCards.length} widgets!`);
       });
 
       /* --------------------------------------------------------
@@ -2166,9 +1998,11 @@
       });
 
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && guideModal.classList.contains('active')) {
-          guideModal.classList.remove('active');
-          guideModal.setAttribute('aria-hidden', 'true');
+        if (e.key === 'Escape') {
+          document.querySelectorAll('.modal-backdrop.active').forEach(modal => {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+          });
         }
       });
 
