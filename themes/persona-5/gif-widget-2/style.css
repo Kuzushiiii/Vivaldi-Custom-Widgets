@@ -1,3 +1,19 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+  user-select: none;
+}
+
 .container {
   position: relative;
   width: 100%;
@@ -15,4 +31,22 @@
   height: 100%;
   object-fit: cover;
   filter: drop-shadow(0 0 10px rgba(230,0,18,0.35));
+}
+
+body.gif-load-failed .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f0f12; /* matches brutal dark theme */
+}
+
+body.gif-load-failed .container::after {
+  content: "Violet Evergarden — Offline";
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  border: 1px solid #3f3f46;
+  padding: 6px 10px;
 }
