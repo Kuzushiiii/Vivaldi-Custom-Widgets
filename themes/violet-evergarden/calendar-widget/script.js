@@ -402,109 +402,33 @@
 
     closeTornNote();
 
-    const eventsMap = new Map();
-    events.forEach(evt => {
-      if (!eventsMap.has(evt.day)) {
-        eventsMap.set(evt.day, []);
-      }
-      eventsMap.get(evt.day).push(evt);
-    });
+    if (window.CalendarService && typeof window.CalendarService.buildCalendarGrid === 'function') {
+      window.CalendarService.buildCalendarGrid(grid, year, month, today, {
+        events,
+        wrapDayNum: true,
+        onRenderDay: (cell, info) => {
+          cell.classList.add('is-selectable');
 
-    const firstDayIndex = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const prevMonthDays = new Date(year, month, 0).getDate();
-    const frag = document.createDocumentFragment();
+          if (info.isToday) {
+            cell.setAttribute('aria-current', 'date');
+            cell.title = `Today's Date: ${CURSIVE_MONTHS[info.month]} ${info.day}, ${info.year}`;
+          }
 
-    for (let i = 0; i < firstDayIndex; i++) {
-      const dayNum = prevMonthDays - firstDayIndex + 1 + i;
-      const cell = createDayCell(dayNum, { isPrevMonth: true, isSun: i === 0 });
-      frag.appendChild(cell);
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      const colIndex = (firstDayIndex + day - 1) % 7;
-      const isToday = (
-        day === today.getDate() &&
-        month === today.getMonth() &&
-        year === today.getFullYear()
-      );
-      const dayEvents = eventsMap.get(day) || [];
-
-      const cell = createDayCell(day, {
-        isToday,
-        isSun: colIndex === 0,
-        isSat: colIndex === 6,
-        events: dayEvents,
-        year,
-        month
+          if (info.events && info.events.length > 0) {
+            if (info.events.length > 1) cell.classList.add('multi-event');
+            const dotWrap = document.createElement('div');
+            dotWrap.className = 'event-dot-wrap';
+            const dot = document.createElement('span');
+            dot.className = 'event-dot';
+            dot.title = `${info.events.length} dispatch(es) recorded`;
+            dotWrap.appendChild(dot);
+            cell.appendChild(dotWrap);
+          }
+        }
       });
-
-      frag.appendChild(cell);
+      
+      return;
     }
-
-    const totalRendered = firstDayIndex + daysInMonth;
-    const remainingCells = (7 - (totalRendered % 7)) % 7;
-    for (let i = 1; i <= remainingCells; i++) {
-      const colIndex = (totalRendered + i - 1) % 7;
-      const cell = createDayCell(i, {
-        isNextMonth: true,
-        isSun: colIndex === 0,
-        isSat: colIndex === 6
-      });
-      frag.appendChild(cell);
-    }
-
-    // Single DOM write: clear and append fragment at once
-    grid.innerHTML = '';
-    grid.appendChild(frag);
-  }
-
-  function createDayCell(dayNumber, config = {}) {
-    const cell = document.createElement('div');
-    cell.className = 'cal-day';
-    cell.setAttribute('role', 'gridcell');
-
-    if (config.isPrevMonth || config.isNextMonth) {
-      cell.classList.add('prev-month');
-    }
-    if (config.isSun) cell.classList.add('sun');
-    if (config.isSat) cell.classList.add('sat');
-
-    const numSpan = document.createElement('span');
-    numSpan.className = 'day-num';
-    numSpan.textContent = dayNumber;
-    cell.appendChild(numSpan);
-
-    if (config.isToday) {
-      cell.classList.add('today');
-      cell.setAttribute('aria-current', 'date');
-      cell.title = `Today's Date: ${CURSIVE_MONTHS[config.month]} ${dayNumber}, ${config.year}`;
-    }
-
-    if (config.events && config.events.length > 0) {
-      cell.classList.add('has-event');
-      if (config.events.length > 1) cell.classList.add('multi-event');
-
-      const dotWrap = document.createElement('div');
-      dotWrap.className = 'event-dot-wrap';
-
-      const dot = document.createElement('span');
-      dot.className = 'event-dot';
-      dot.title = `${config.events.length} dispatch(es) recorded`;
-      dotWrap.appendChild(dot);
-
-      cell.appendChild(dotWrap);
-    }
-
-    if (!config.isPrevMonth && !config.isNextMonth) {
-      cell.dataset.day = String(dayNumber);
-      cell.dataset.month = String(config.month);
-      cell.dataset.year = String(config.year);
-
-      cell.classList.add('is-selectable');
-    }
-
-    return cell;
   }
 
   

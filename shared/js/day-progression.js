@@ -39,19 +39,26 @@ function calculateDayProgression(now = new Date(), phases = DEFAULT_TIME_PHASES)
   const remainingSeconds = Math.max(0, totalSecondsInDay - totalSecondsPassed);
   const remHours = Math.floor(remainingSeconds / 3600);
   const remMinutes = Math.floor((remainingSeconds % 3600) / 60);
+  const remSeconds = Math.floor(remainingSeconds % 60);
+  const msPassed = Math.round(totalSecondsPassed * 1000);
 
   const phase = getTimePhase(h, m, phases);
+  const timeString = `${padNumber(h)}:${padNumber(m)}:${padNumber(s)}`;
 
   return {
     hours: h,
     minutes: m,
     seconds: s,
-    timeString: `${padNumber(h)}:${padNumber(m)}:${padNumber(s)}`,
+    msPassed,
+    timeString,
+    clockString: timeString,
     percent,
     formattedPercent,
     remainingHours: remHours,
     remainingMinutes: remMinutes,
+    remainingSeconds: remSeconds,
     remainingTimeString: `${padNumber(remHours)}H ${padNumber(remMinutes)}M`,
+    remainingString: `${padNumber(remHours)}H ${padNumber(remMinutes)}M ${padNumber(remSeconds)}S`,
     phase
   };
 }
