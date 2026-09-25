@@ -146,31 +146,33 @@
   }
 
   function update() {
-    const now = new Date();
-    const h = now.getHours();
-    const m = now.getMinutes();
-    const s = now.getSeconds();
-    const ms = now.getMilliseconds();
-
-    const totalSecPassed = (h * 3600) + (m * 60) + s + (ms / 1000);
-    const percent = Math.min(100, Math.max(0, (totalSecPassed / 86400) * 100));
-
-    const totalRemainingSec = Math.max(0, 86400 - Math.floor(totalSecPassed));
-    const remH = Math.floor(totalRemainingSec / 3600);
-    const remM = Math.floor((totalRemainingSec % 3600) / 60);
-
-    const curMinutes = h * 60 + m;
-    let phase = P5_PHASES[P5_PHASES.length - 1];
-    for (let i = 0; i < P5_PHASES.length; i++) {
-      if (curMinutes < P5_PHASES[i].maxMinutes) {
-        phase = P5_PHASES[i];
-        break;
-      }
+    // Use shared service with fallback to manual calculation for offline resilience
+    let data = null;
+    if (window.DayProgressionService) {
+      data = window.DayProgressionService.calculateDayProgression(new Date(), P5_PHASES);
+    } else {
+      // Fallback manual calculation when shared service unavailable
+      const now = new Date();
+      const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds(), ms = now.getMilliseconds();
+      const totalSecPassed = (h * 3600) + (m * 60) + s + (ms / 1000);
+      const percent = Math.min(100, Math.max(0, (totalSecPassed / 86400) * 100));
+      const totalRemainingSec = Math.max(0, 86400 - Math.floor(totalSecPassed));
+      const remH = Math.floor(totalRemainingSec / 3600);
+      const remM = Math.floor((totalRemainingSec % 3600) / 60);
+      const curMinutes = h * 60 + m;
+      let phase = P5_PHASES[P5_PHASES.length - 1];
+      for (let i = 0; i < P5_PHASES.length; i++) if (curMinutes < P5_PHASES[i].maxMinutes) { phase = P5_PHASES[i]; break; }
+      data = {
+        percent,
+        phase,
+        remainingTimeString: `${String(remH).padStart(2, '0')}H ${String(remM).padStart(2, '0')}M`
+      };
     }
 
-    if (dom.phaseTitle) dom.phaseTitle.textContent = phase.title;
-    if (dom.phaseDesc) dom.phaseDesc.textContent = phase.desc;
+    if (dom.phaseTitle) dom.phaseTitle.textContent = data.phase.title;
+    if (dom.phaseDesc) dom.phaseDesc.textContent = data.phase.desc;
 
+    const percent = data.percent;
     const wholePart = Math.floor(percent);
     const decimalPart = Math.floor((percent % 1) * 10);
     const tens = Math.floor(wholePart / 10) % 10;
@@ -189,7 +191,7 @@
     }
 
     if (dom.timeLeft) {
-      dom.timeLeft.textContent = `${String(remH).padStart(2, '0')}H ${String(remM).padStart(2, '0')}M`;
+      dom.timeLeft.textContent = data.remainingTimeString;
     }
   }
 

@@ -60,7 +60,7 @@ function addCalendarEvent(event) {
 
 function buildCalendarGrid(container, year, month, today = new Date(), options = {}) {
   if (!container) return;
-  container.innerHTML = '';
+  const frag = document.createDocumentFragment();
 
   const events = options.events || getCalendarEvents(year, month);
   const eventsByDay = new Map();
@@ -73,13 +73,24 @@ function buildCalendarGrid(container, year, month, today = new Date(), options =
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const prevDaysCount = new Date(year, month, 0).getDate();
 
+  const appendDayNumber = (el, num) => {
+    if (options.wrapDayNum) {
+      const span = document.createElement('span');
+      span.className = 'day-num';
+      span.textContent = num;
+      el.appendChild(span);
+    } else {
+      el.textContent = num;
+    }
+  };
+
   // Previous month trailing days
   for (let i = 0; i < firstDayIndex; i++) {
     const d = document.createElement('div');
-    d.className = 'cal-day prev-month';
-    if (i === 0) d.classList.add('sun');
-    d.textContent = prevDaysCount - firstDayIndex + 1 + i;
-    container.appendChild(d);
+    d.className = 'cal-day prev-month' + (i === 0 ? ' sun' : '');
+    d.setAttribute('role', 'gridcell');
+    appendDayNumber(d, prevDaysCount - firstDayIndex + 1 + i);
+    frag.appendChild(d);
   }
 
   // Current month days
@@ -87,6 +98,7 @@ function buildCalendarGrid(container, year, month, today = new Date(), options =
     const d = document.createElement('div');
     const currentColumn = (firstDayIndex + day - 1) % 7;
     d.className = 'cal-day';
+    d.setAttribute('role', 'gridcell');
     d.dataset.day = day;
     d.dataset.month = month;
     d.dataset.year = year;
@@ -103,13 +115,13 @@ function buildCalendarGrid(container, year, month, today = new Date(), options =
       d.dataset.eventCount = dayEvents.length;
     }
 
+    appendDayNumber(d, day);
+
     if (typeof options.onRenderDay === 'function') {
-      options.onRenderDay(d, { day, month, year, events: dayEvents || [] });
-    } else {
-      d.textContent = day;
+      options.onRenderDay(d, { day, month, year, events: dayEvents, isSun: currentColumn === 0, isSat: currentColumn === 6, isToday: d.classList.contains('today') });
     }
 
-    container.appendChild(d);
+    frag.appendChild(d);
   }
 
   // Next month leading days
@@ -117,13 +129,15 @@ function buildCalendarGrid(container, year, month, today = new Date(), options =
   const remainingCells = (7 - (totalCells % 7)) % 7;
   for (let i = 1; i <= remainingCells; i++) {
     const d = document.createElement('div');
-    d.className = 'cal-day prev-month next-month';
     const currentColumn = (totalCells + i - 1) % 7;
-    if (currentColumn === 0) d.classList.add('sun');
-    if (currentColumn === 6) d.classList.add('sat');
-    d.textContent = i;
-    container.appendChild(d);
+    d.className = 'cal-day prev-month next-month' + (currentColumn === 0 ? ' sun' : currentColumn === 6 ? ' sat' : '');
+    d.setAttribute('role', 'gridcell');
+    appendDayNumber(d, i);
+    frag.appendChild(d);
   }
+
+  container.innerHTML = '';
+  container.appendChild(frag);
 }
 
 const CalendarService = {

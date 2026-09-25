@@ -249,43 +249,8 @@
         new Date(),
         renderOptions
       );
-    } else {
-
-      dom.schedCalBody.innerHTML = '';
-      const firstDayIndex = new Date(displayedYear, displayedMonth, 1).getDay();
-      const daysInMonth = new Date(displayedYear, displayedMonth + 1, 0).getDate();
-      const prevDaysCount = new Date(displayedYear, displayedMonth, 0).getDate();
-      const now = new Date();
-
-      for (let i = 0; i < firstDayIndex; i++) {
-        const d = document.createElement('div');
-        d.className = 'cal-day prev-month' + (i === 0 ? ' sun' : '');
-        d.textContent = prevDaysCount - firstDayIndex + 1 + i;
-        dom.schedCalBody.appendChild(d);
-      }
-
-      for (let day = 1; day <= daysInMonth; day++) {
-        const d = document.createElement('div');
-        const col = (firstDayIndex + day - 1) % 7;
-        d.className = 'cal-day' + (col === 0 ? ' sun' : col === 6 ? ' sat' : '');
-        if (day === now.getDate() && displayedMonth === now.getMonth() && displayedYear === now.getFullYear()) {
-          d.classList.add('today');
-        }
-        renderOptions.onRenderDay(d, { day, month: displayedMonth, year: displayedYear });
-        dom.schedCalBody.appendChild(d);
-      }
-
-      const totalCells = firstDayIndex + daysInMonth;
-      const remainingCells = (7 - (totalCells % 7)) % 7;
-      for (let i = 1; i <= remainingCells; i++) {
-        const d = document.createElement('div');
-        const col = (totalCells + i - 1) % 7;
-        d.className = 'cal-day prev-month next-month' + (col === 0 ? ' sun' : col === 6 ? ' sat' : '');
-        d.textContent = i;
-        dom.schedCalBody.appendChild(d);
-      }
-    }
   }
+}
 
   function update() {
     const now = new Date();
@@ -293,7 +258,7 @@
     const m = now.getMinutes();
 
     const displayH = h % 12 || 12;
-    const ampm = h >= 12 ? 'PM' : 'AM';
+    const ampm = h >= 12 ? 'PM' : 'AM'; 
     const hStr = padZero(displayH);
     const mStr = padZero(m);
 
@@ -303,14 +268,9 @@
     if (dom.m2) dom.m2.textContent = mStr[1];
     if (dom.ampmBadge) dom.ampmBadge.textContent = ampm;
 
-    const curMinutes = h * 60 + m;
-    let phase = P5_PHASES[P5_PHASES.length - 1];
-    for (let i = 0; i < P5_PHASES.length; i++) {
-      if (curMinutes < P5_PHASES[i].maxMinutes) {
-        phase = P5_PHASES[i];
-        break;
-      }
-    }
+    const phase = (window.DayProgressionService && typeof window.DayProgressionService.getTimePhase === 'function')
+      ? window.DayProgressionService.getTimePhase(h, m, P5_PHASES)
+      : P5_PHASES[P5_PHASES.length - 1];
 
     if (dom.phaseText) dom.phaseText.textContent = phase.title;
     if (dom.phaseDesc) dom.phaseDesc.textContent = phase.desc;

@@ -31,3 +31,21 @@ html, body {
   object-position: center;
   filter: contrast(0.95) sepia(0.12);
 }
+
+body.gif-load-failed .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f0f12;
+}
+
+body.gif-load-failed .container::after {
+  content: "Violet Evergarden — Offline";
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  border: 1px solid #3f3f46;
+  padding: 6px 10px;
+}

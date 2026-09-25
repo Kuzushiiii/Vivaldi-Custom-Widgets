@@ -24,43 +24,32 @@
   let isReturning = false;
   let lastMsPassed = null;
 
-  function pad(num, size = 2) {
-    return String(num).padStart(size, '0');
-  }
-
-  function getTemporalPhase(hours, minutes) {
-    const currentMinutes = hours * 60 + minutes;
-    for (let i = 0; i < TEMPORAL_PHASES.length; i++) {
-      if (currentMinutes < TEMPORAL_PHASES[i].maxMinutes) {
-        return TEMPORAL_PHASES[i];
-      }
-    }
-    return TEMPORAL_PHASES[TEMPORAL_PHASES.length - 1];
-  }
-
   function calculateProgression() {
+    // Use shared service when available for single source of truth
+    if (window.DayProgressionService) {
+      return window.DayProgressionService.calculateDayProgression(new Date(), TEMPORAL_PHASES);
+    }
+
+    // Fallback phase lookup when shared service unavailable (offline cache miss)
     const now = new Date();
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
-    const msPassed = now.getTime() - startOfDay.getTime();
-    const percent = Math.min(100, Math.max(0, (msPassed / TOTAL_MS_IN_DAY) * 100));
-
-    const remainingMs = Math.max(0, TOTAL_MS_IN_DAY - msPassed);
-    const totalRemainingSecs = Math.floor(remainingMs / 1000);
-    const remHours = Math.floor(totalRemainingSecs / 3600);
-    const remMinutes = Math.floor((totalRemainingSecs % 3600) / 60);
-    const remSeconds = totalRemainingSecs % 60;
-
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
+    const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+    const totalSecs = (h * 3600) + (m * 60) + s;
+    const percent = Math.min(100, Math.max(0, (totalSecs / 86400) * 100));
+    const remSecs = Math.max(0, 86400 - totalSecs);
+    const remH = Math.floor(remSecs / 3600);
+    const remM = Math.floor((remSecs % 3600) / 60);
+    const remS = remSecs % 60;
+    const curMin = h * 60 + m;
+    let phase = TEMPORAL_PHASES[TEMPORAL_PHASES.length - 1];
+    for (const p of TEMPORAL_PHASES) if (curMin < p.maxMinutes) { phase = p; break; }
 
     return {
-      msPassed,
+      msPassed: totalSecs * 1000,
       percent,
       formattedPercent: percent.toFixed(1),
-      clockString: `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`,
-      remainingString: `${pad(remHours)}H ${pad(remMinutes)}M ${pad(remSeconds)}S`,
-      phase: getTemporalPhase(hours, minutes)
+      clockString: `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`,
+      remainingString: `${String(remH).padStart(2,'0')}H ${String(remM).padStart(2,'0')}M ${String(remS).padStart(2,'0')}S`,
+      phase
     };
   }
 
