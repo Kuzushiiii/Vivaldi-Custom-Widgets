@@ -41,7 +41,7 @@ body.gif-load-failed .container {
 }
 
 body.gif-load-failed .container::after {
-  content: "Violet Evergarden — Offline";
+  content: "Persona 5 — Offline";
   font-family: monospace;
   font-size: 10px;
   letter-spacing: 0.08em;
@@ -49,4 +49,9 @@ body.gif-load-failed .container::after {
   color: #a1a1aa;
   border: 1px solid #3f3f46;
   padding: 6px 10px;
+}
+
+body.deep-sleep .container img,
+body.deep-sleep .cut-in-gif {
+  display: none !important;
 }
