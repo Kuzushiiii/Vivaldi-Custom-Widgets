@@ -2,300 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Frieren: Beyond Journey's End — The Elven Staff Crystal</title>
-
-  <!-- Typography: Online Google Fonts + Local Offline Fallbacks -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../violet-evergarden/assets/fonts/fonts.css">
-
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="../theme-base.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fern — Song Viewer</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Reusable SVG Symbols: Zoltraak Magic Circle -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;" aria-hidden="true">
-    <symbol id="zoltraakCircle" viewBox="0 0 100 100">
-      <g fill="none" stroke="currentColor" stroke-width="1.2">
-        <circle cx="50" cy="50" r="47" stroke-width="1.5" />
-        <circle cx="50" cy="50" r="44" stroke-width="0.8" stroke-dasharray="2,2" />
-        <circle cx="50" cy="50" r="41" stroke-width="1" />
-        <circle cx="50" cy="3" r="1.6" fill="currentColor" />
-        <circle cx="50" cy="97" r="1.6" fill="currentColor" />
-        <circle cx="3" cy="50" r="1.6" fill="currentColor" />
-        <circle cx="97" cy="50" r="1.6" fill="currentColor" />
-        <circle cx="16" cy="16" r="1.4" fill="currentColor" />
-        <circle cx="84" cy="16" r="1.4" fill="currentColor" />
-        <circle cx="16" cy="84" r="1.4" fill="currentColor" />
-        <circle cx="84" cy="84" r="1.4" fill="currentColor" />
-        <rect x="20" y="20" width="60" height="60" stroke-width="0.9" />
-        <rect x="20" y="20" width="60" height="60" transform="rotate(45 50 50)" stroke-width="0.9" />
-        <circle cx="50" cy="50" r="32" stroke-width="1" />
-        <circle cx="50" cy="50" r="26" stroke-width="0.8" stroke-dasharray="2,2" />
-        <polygon points="50,26 56,44 74,50 56,56 50,74 44,56 26,50 44,44" stroke-width="0.9" />
-        <circle cx="50" cy="50" r="12" stroke-width="1.2" />
-        <circle cx="50" cy="50" r="3.5" fill="currentColor" />
-      </g>
-    </symbol>
-  </svg>
+  <!-- Main Widget Container: Full-Canvas Vertical Column Layout -->
+  <article class="song-viewer-widget" id="songViewerWidget" data-status="playing">
 
-  <div class="frieren-widget frieren-song-root" id="frierenSongRoot" data-theme="parchment">
-    
-    <!-- Grimoire Ancient Parchment Filter & Background Texture Layer -->
-    <div class="grimoire-texture-overlay" aria-hidden="true"></div>
-
-    <!-- Delicate Grimoire Frame with Elven Corner Filigrees -->
-    <div class="grimoire-frame" aria-hidden="true">
-      <div class="corner-filigree top-left">
-        <svg viewBox="0 0 32 32" class="filigree-svg">
-          <path d="M2,2 L14,2 C8,2 2,8 2,14 Z M2,2 L2,24 M2,2 L24,2 M6,6 L16,6 M6,6 L6,16" stroke="currentColor" fill="none" stroke-width="1"/>
-          <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
-        </svg>
+    <!-- 1. Status Text (Top) -->
+    <header class="status-header">
+      <div class="status-indicator" id="statusIcon" title="Connection Status" aria-label="Connection Status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span class="status-label">FERN'S GRIMOIRE · DISPATCH</span>
       </div>
-      <div class="corner-filigree top-right">
-        <svg viewBox="0 0 32 32" class="filigree-svg">
-          <path d="M30,2 L18,2 C24,2 30,8 30,14 Z M30,2 L30,24 M30,2 L8,2 M26,6 L16,6 M26,6 L26,16" stroke="currentColor" fill="none" stroke-width="1"/>
-          <circle cx="24" cy="8" r="1.5" fill="currentColor"/>
-        </svg>
+    </header>
+
+    <!-- 2. The Zoltraak Magic Circle (Middle-Top) -->
+    <figure class="magic-circle-stage">
+      <div class="magic-circle-wrapper">
+        <img
+          id="albumArt"
+          class="album-art"
+          src=""
+          alt="Track Cover Artwork"
+        >
       </div>
-      <div class="corner-filigree bottom-left">
-        <svg viewBox="0 0 32 32" class="filigree-svg">
-          <path d="M2,30 L14,30 C8,30 2,24 2,18 Z M2,30 L2,8 M2,30 L24,30 M6,26 L16,26 M6,26 L6,16" stroke="currentColor" fill="none" stroke-width="1"/>
-          <circle cx="8" cy="24" r="1.5" fill="currentColor"/>
-        </svg>
-      </div>
-      <div class="corner-filigree bottom-right">
-        <svg viewBox="0 0 32 32" class="filigree-svg">
-          <path d="M30,30 L18,30 C24,30 30,24 30,18 Z M30,30 L30,8 M30,30 L8,30 M26,26 L16,26 M26,26 L26,16" stroke="currentColor" fill="none" stroke-width="1"/>
-          <circle cx="24" cy="24" r="1.5" fill="currentColor"/>
-        </svg>
-      </div>
-      <div class="grimoire-inner-border"></div>
-    </div>
+    </figure>
 
-    <!-- Main Widget Surface -->
-    <main class="grimoire-content" id="grimoireContent">
+    <!-- 3. Track Details & The Staff Progress Bar (Middle-Bottom) -->
+    <section class="track-details-stage" aria-label="Track Information">
+      <h1 id="trackTitle" class="track-title" title="Track Title">Awaiting Melody</h1>
+      <p id="trackArtist" class="track-artist" title="Artist Name">Fern · Ordinary Offensive Magic</p>
 
-      <!-- Top Header: Staff Lore & Actions -->
-      <header class="song-header-bar">
-        <div class="staff-lore-badge" aria-label="Staff Channeled Melody">
-          <span class="rune-glyph">✧</span>
-          <span class="staff-title">FLAMME'S STAFF · RESONATING CRYSTAL</span>
-        </div>
+      <!-- The Staff Progress Bar & Timestamps -->
+      <div class="staff-assembly">
+        <div
+          id="progressBar"
+          class="progress-bar"
+          role="slider"
+          aria-label="Track Progress"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          tabindex="0"
+        >
+          <!-- Solid Deep Purple Fill -->
+          <div id="progressFill" class="progress-fill"></div>
 
-        <div class="header-actions">
-          <div class="mana-status-tag" id="statusBadge">STANDBY</div>
-          
-          <button class="theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle Atmosphere">
-            <span class="theme-icon" id="themeIcon">☽</span>
-          </button>
-
-          <button class="grimoire-config-btn" id="openConfigBtn" type="button" aria-label="Open Spell Inscription Ledger">
-            <span class="config-rune">⚜</span>
-            <span class="config-label">INSCRIPTION</span>
-          </button>
-        </div>
-      </header>
-
-      <!-- Main Stage: The Staff Crystal + Track Plaque -->
-      <section class="song-stage-section">
-        
-        <!-- Pillar 1: Album Art (The Staff Crystal) -->
-        <div class="staff-crystal-mount" id="staffCrystalMount">
-          
-          <!-- Outer Rotating Zoltraak Runic Bezel -->
-          <div class="crystal-outer-bezel" aria-hidden="true">
-            <svg class="bezel-runic-svg" viewBox="0 0 100 100">
-              <use href="#zoltraakCircle"></use>
+          <!-- Fern's Butterfly Hair Ornament Indicator -->
+          <div id="progressThumb" class="progress-thumb" aria-hidden="true">
+            <!-- Inline SVG: Butterfly Silhouette -->
+            <svg class="butterfly-svg" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <!-- Antennae -->
+              <path d="M12 4.2c.4-.8 1.1-1.4 2-1.6.3-.1.6.1.7.4.1.3-.1.6-.4.7-.7.2-1.2.6-1.5 1.3-.1.2-.3.3-.5.3s-.4-.1-.5-.3c-.3-.7-.8-1.1-1.5-1.3-.3-.1-.5-.4-.4-.7.1-.3.4-.5.7-.4.9.2 1.6.8 2 1.6z"/>
+              <!-- Slender Body -->
+              <path d="M12 7c-.6 0-1 .6-1 1.5v6c0 .9.4 1.5 1 1.5s1-.6 1-1.5v-6c0-.9-.4-1.5-1-1.5z"/>
+              <!-- Right Wings -->
+              <path d="M13 7.8c1.8-1.5 4.8-2.2 7.2-1.1 2.2 1 2.7 3.5 1.8 5.7-.7 1.8-2.2 3.1-4 3.6 1.1 1.5 1.1 3.5-.1 4.7-1.3 1.3-3.4 1.3-5.3.3l-.4-.2v-2.2l.6.3c1.3.6 2.7.5 3.5-.3.8-.8.8-2.1.1-3.2l-.5-.7.8-.3c1.7-.6 2.9-1.7 3.5-3.1.6-1.5.2-3.1-1.2-3.7-1.8-.8-4.2-.2-5.7.9l-.4.3V7.8z"/>
+              <!-- Left Wings -->
+              <path d="M11 7.8c-1.8-1.5-4.8-2.2-7.2-1.1-2.2 1-2.7 3.5-1.8 5.7.7 1.8 2.2 3.1 4 3.6-1.1 1.5-1.1 3.5.1 4.7 1.3 1.3 3.4 1.3 5.3.3l.4-.2v-2.2l-.6.3c-1.3.6-2.7.5-3.5-.3-.8-.8-.8-2.1-.1-3.2l.5-.7-.8-.3c-1.7-.6-2.9-1.7-3.5-3.1-.6-1.5-.2-3.1 1.2-3.7 1.8-.8 4.2-.2 5.7.9l.4.3V7.8z"/>
             </svg>
           </div>
-
-          <!-- Dual-Line Gold Encased Crystal Lens -->
-          <div class="crystal-core-housing">
-            
-            <!-- Breathing Cyan/Gold Mana Aura -->
-            <div class="crystal-mana-aura" aria-hidden="true"></div>
-
-            <!-- The Album Art Image Container -->
-            <div class="crystal-album-container" id="crystalAlbumContainer">
-              <img class="crystal-album-img" id="albumImg" src="" alt="Album Artwork" style="display: none;">
-              
-              <!-- Pristine Elven Magic Crystal SVG Fallback -->
-              <div class="crystal-fallback" id="crystalFallback">
-                <svg class="crystal-gem-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <radialGradient id="crystalFacetGrad" cx="50%" cy="40%" r="60%">
-                      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
-                      <stop offset="30%" stop-color="#E0F7FA" stop-opacity="0.9"/>
-                      <stop offset="65%" stop-color="#38BDF8" stop-opacity="0.75"/>
-                      <stop offset="100%" stop-color="#0284C7" stop-opacity="0.85"/>
-                    </radialGradient>
-                    <radialGradient id="goldMountGrad" cx="50%" cy="50%" r="50%">
-                      <stop offset="65%" stop-color="#FDE68A"/>
-                      <stop offset="85%" stop-color="#D97706"/>
-                      <stop offset="100%" stop-color="#6B4E12"/>
-                    </radialGradient>
-                  </defs>
-                  <!-- Outer Mount -->
-                  <circle cx="50" cy="50" r="46" stroke="url(#goldMountGrad)" stroke-width="1.8" stroke-dasharray="2 3"/>
-                  <circle cx="50" cy="50" r="41" stroke="#C29B38" stroke-width="1.2"/>
-                  <!-- Gem Hexagonal Facets -->
-                  <polygon points="50,14 78,30 78,70 50,86 22,70 22,30" fill="url(#crystalFacetGrad)" stroke="#A5F3FC" stroke-width="1.5"/>
-                  <polygon points="50,22 70,35 70,65 50,78 30,65 30,35" fill="none" stroke="#FFFFFF" stroke-width="0.9" opacity="0.65"/>
-                  <polygon points="50,30 62,40 62,60 50,70 38,60 38,40" fill="#E0F7FA" opacity="0.5"/>
-                  <!-- Core Spark -->
-                  <circle cx="50" cy="50" r="4" fill="#FFFFFF"/>
-                  <!-- Light Reflection Highlight -->
-                  <ellipse cx="40" cy="34" rx="4" ry="8" transform="rotate(-30 40 34)" fill="#FFFFFF" opacity="0.6"/>
-                </svg>
-              </div>
-            </div>
-
-            <!-- Glass Reflection & Glint Overlays -->
-            <div class="crystal-sheen-glint" aria-hidden="true"></div>
-            <div class="crystal-inner-bezel" aria-hidden="true"></div>
-          </div>
         </div>
 
-        <!-- Pillar 2 & 3: Typography & Progress Bar -->
-        <div class="song-meta-plaque">
-          
-          <!-- Track Info State -->
-          <div class="track-info-section" id="trackInfoSection" style="display: none;">
-            
-            <div class="song-title-wrap">
-              <h1 class="song-title" id="songTitle">Anytime Anywhere</h1>
-            </div>
-
-            <div class="song-artist-wrap">
-              <span class="song-artist" id="artistName">milet</span>
-              <span class="meta-bullet" aria-hidden="true">·</span>
-              <span class="song-album" id="albumName">Sousou no Frieren</span>
-            </div>
-
-            <!-- Pillar 3: Progress Bar (The Mana Thread) -->
-            <div class="mana-thread-assembly" aria-label="Playback Progression">
-              
-              <div class="mana-thread-track-container" id="manaThreadContainer">
-                <div class="mana-thread-line">
-                  <!-- Flowing Cyan Mana Stream Fill -->
-                  <div class="mana-thread-fill" id="manaThreadFill" style="width: 0%;"></div>
-                </div>
-
-                <!-- Soft Glowing Cyan Particle / Star Indicator -->
-                <div class="mana-particle-beacon" id="manaParticleBeacon" aria-hidden="true" style="left: 0%;">
-                  <div class="particle-halo"></div>
-                  <div class="particle-core"></div>
-                </div>
-              </div>
-
-              <!-- Timecode telemetry -->
-              <div class="mana-thread-telemetry">
-                <span class="time-elapsed" id="timeCurrent">00:00</span>
-                <span class="telemetry-rune" aria-hidden="true">✦</span>
-                <span class="time-total" id="timeDuration">00:00</span>
-              </div>
-
-            </div>
-
-          </div>
-
-          <!-- Standby State (Serene Frieren Lore) -->
-          <div class="standby-section" id="standbySection">
-            <div class="standby-flourish" aria-hidden="true">✧ ✦ ✧</div>
-            <p class="standby-quote">
-              "The staff crystal rests in quiet slumber... awaiting a song from the journey across the northern lands."
-            </p>
-            <span class="standby-hint" id="standbyHint">
-              Play a melody on Spotify (via Lanyard) or Last.fm.
-            </span>
-            <button class="standby-inscribe-btn" id="standbyConfigBtn" type="button">
-              <span class="btn-rune">⚜</span> INSCRIBE DISPATCH LEDGER
-            </button>
-          </div>
-
+        <!-- Timestamps -->
+        <div class="time-readout">
+          <span id="currentTime" class="time-stamp current">00:00</span>
+          <span class="time-divider">/</span>
+          <span id="totalTime" class="time-stamp total">00:00</span>
         </div>
-
-      </section>
-
-      <!-- Chronicle Footer -->
-      <footer class="song-footer">
-        <span class="chronicle-star" aria-hidden="true">✦</span>
-        <span class="footer-lore-text">
-          Echoes of Flamme's Spellbook · The journey continues
-        </span>
-        <span class="chronicle-star" aria-hidden="true">✦</span>
-      </footer>
-
-    </main>
-
-    <!-- Configuration Modal: Ancient Spell Scroll / Grimoire Inscription -->
-    <div class="modal-backdrop" id="configModal" style="display: none;" aria-hidden="true" role="dialog">
-      <div class="grimoire-ledger-modal">
-        
-        <header class="modal-header">
-          <div class="modal-rune-mark">FLAMME'S ARCHIVE · SPELL INSCRIBER</div>
-          <h2 class="modal-title">Musical Dispatch Ledger</h2>
-          <p class="modal-sub">Configure your celestial transmission to channel melodies</p>
-          <div class="modal-rule"></div>
-        </header>
-
-        <div class="modal-tab-bar">
-          <button class="modal-tab-btn active" id="tabDiscord" type="button">
-            <span class="tab-glyph">◆</span> DISCORD (LANYARD)
-          </button>
-          <button class="modal-tab-btn" id="tabLastfm" type="button">
-            <span class="tab-glyph">◆</span> LAST.FM DISPATCH
-          </button>
-        </div>
-
-        <div class="modal-tab-panel" id="discordTabContent">
-          <p class="modal-instructions">
-            Enter your <strong>Discord User ID</strong>. Ensure you are a member of the monitoring network at 
-            <a href="https://discord.gg/lanyard" target="_blank" rel="noopener" class="modal-link">discord.gg/lanyard</a>.
-          </p>
-          <div class="modal-input-field">
-            <label class="modal-label" for="discordIdInput">CLIENT TELEGRAPH ID :</label>
-            <input type="text" class="modal-text-input" id="discordIdInput" placeholder="e.g. 328901234567890123" autocomplete="off" spellcheck="false">
-          </div>
-        </div>
-
-        <div class="modal-tab-panel" id="lastfmTabContent" style="display: none;">
-          <p class="modal-instructions">
-            Enter your <strong>Last.fm Registry Name</strong> to track celestial scrobbles.
-          </p>
-          <div class="modal-input-field">
-            <label class="modal-label" for="lastfmUsernameInput">SUBSCRIBER REPOSITORY NAME :</label>
-            <input type="text" class="modal-text-input" id="lastfmUsernameInput" placeholder="e.g. your_lastfm_username" autocomplete="off" spellcheck="false">
-          </div>
-          <div class="modal-input-field" style="margin-top: 8px;">
-            <label class="modal-label" for="lastfmApiKeyInput">CUSTOM TELEGRAPH CIPHER (OPTIONAL) :</label>
-            <input type="text" class="modal-text-input" id="lastfmApiKeyInput" placeholder="Default cipher active" autocomplete="off" spellcheck="false">
-          </div>
-        </div>
-
-        <div class="modal-footer-actions">
-          <button class="modal-action-btn demo-btn" id="demoBtn" type="button">
-            <span>⚜</span> TEST SPELL (DEMO)
-          </button>
-          <div class="actions-right">
-            <button class="modal-action-btn dismiss-btn" id="closeConfigBtn" type="button">DISMISS</button>
-            <button class="modal-action-btn inscribe-btn" id="saveConfigBtn" type="button">
-              <span>✦</span> INSCRIBE &amp; SAVE
-            </button>
-          </div>
-        </div>
-
       </div>
-    </div>
+    </section>
 
-  </div>
+  </article>
 
+  <!-- Shared Song Viewer Service Script -->
   <script src="../../../shared/js/song-viewer-service.js"></script>
-  <script src="script.js"></script>
 </body>
 </html>
