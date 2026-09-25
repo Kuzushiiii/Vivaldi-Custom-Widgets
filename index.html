@@ -1886,6 +1886,44 @@
         threshold: 0.01
       });
 
+      function copyTextToCLipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          return navigator.clipboard.writeText(text);
+        }
+
+        return new Promise((resolve, reject) => {
+          const textArea = document.createElement('textarea');
+          textArea.value = text;
+
+          textArea.style.position = 'fixed';
+          textArea.style.top = '-9999px';
+          textArea.style.left = '-9999px';
+          textArea.style.opacity = '0';
+          textArea.setAttribute('readonly', '');
+          
+          document.body.appendChild(textArea);
+
+          try {
+            textArea.focus();
+            textArea.select();
+            textArea.setSelectionRange(0, textArea.value.length);
+
+            const successfully = document.execCommand('copy');
+            if (successfully) {
+              resolve();
+            } else {
+              reject(new Error('execCommand copy returned false'));
+            }
+          } catch (err) {
+            reject(err);
+          } finally {
+            if (document.body.contains(textArea)) {
+              document.body.removeChild(textArea);
+            }
+          }
+        });
+      }
+
       function bindCardInteractions(cards) {
         cards.forEach(card => {
           iframeObserver.observe(card);
@@ -1924,7 +1962,7 @@
               const baseDir = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
               const fullUrl = baseDir + relPath;
 
-              navigator.clipboard.writeText(fullUrl).then(() => {
+              copyTextToCLipboard(fullUrl).then(() => {
                 showToast(`Copied Vivaldi URL for ${card.getAttribute('data-title')}!`);
               }).catch(() => {
                 showToast(`Path: ${fullUrl}`);
