@@ -2,36 +2,138 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fern — Song Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Fern — Song Viewer (Grimoire Dispatch)</title>
+
+  <!-- Typography: Majestic Fantasy Serif (Cinzel / Marcellus) + Clean Rounded Sans (Quicksand) - Exact Calendar Widget Match -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Marcellus&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../theme-base.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Main Widget Container: Full-Canvas Vertical Column Layout -->
+  <!-- Main Widget Container: Fern's Grimoire Layout -->
   <article class="song-viewer-widget" id="songViewerWidget" data-status="playing">
 
-    <!-- 1. Status Text (Top) -->
+    <!-- Grimoire Ancient Texture Overlay -->
+    <div class="grimoire-texture-overlay" aria-hidden="true"></div>
+
+    <!-- Grimoire Frame: Delicate Muted Gold Corner Filigrees -->
+    <div class="grimoire-frame" aria-hidden="true">
+      <div class="corner-filigree top-left">
+        <svg viewBox="0 0 24 24" class="filigree-svg">
+          <path d="M2,2 L14,2 C8,2 2,8 2,14 Z M2,2 L2,20 M2,2 L20,2 M5,5 L12,5 M5,5 L5,12" stroke="currentColor" fill="none" stroke-width="1.2"/>
+          <circle cx="6" cy="6" r="1.2" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="corner-filigree top-right">
+        <svg viewBox="0 0 24 24" class="filigree-svg">
+          <path d="M22,2 L10,2 C16,2 22,8 22,14 Z M22,2 L22,20 M22,2 L4,2 M19,5 L12,5 M19,5 L19,12" stroke="currentColor" fill="none" stroke-width="1.2"/>
+          <circle cx="18" cy="6" r="1.2" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="corner-filigree bottom-left">
+        <svg viewBox="0 0 24 24" class="filigree-svg">
+          <path d="M2,22 L14,22 C8,22 2,16 2,10 Z M2,22 L2,4 M2,22 L20,22 M5,19 L12,19 M5,19 L5,12" stroke="currentColor" fill="none" stroke-width="1.2"/>
+          <circle cx="6" cy="18" r="1.2" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="corner-filigree bottom-right">
+        <svg viewBox="0 0 24 24" class="filigree-svg">
+          <path d="M22,22 L10,22 C16,22 22,16 22,10 Z M22,22 L22,4 M22,22 L4,22 M19,19 L12,19 M19,19 L19,12" stroke="currentColor" fill="none" stroke-width="1.2"/>
+          <circle cx="18" cy="18" r="1.2" fill="currentColor"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 1. Chapter Heading (Status Header) -->
     <header class="status-header">
       <div class="status-indicator" id="statusIcon" title="Connection Status" aria-label="Connection Status">
+        <span class="chapter-ornament left" aria-hidden="true"></span>
         <span class="status-dot" aria-hidden="true"></span>
         <span class="status-label">FERN'S GRIMOIRE · DISPATCH</span>
+        <span class="chapter-ornament right" aria-hidden="true"></span>
       </div>
     </header>
 
-    <!-- 2. The Zoltraak Magic Circle (Middle-Top) -->
+    <!-- 2. The Zoltraak Magic Circle & Album Art Orb -->
     <figure class="magic-circle-stage">
       <div class="magic-circle-wrapper">
-        <img
-          id="albumArt"
-          class="album-art"
-          src=""
-          alt="Track Cover Artwork"
-        >
+
+        <!-- Outer Rotating Astrolabe & Spell Linework -->
+        <div class="magic-circle-glyphs" aria-hidden="true">
+          <svg viewBox="0 0 240 240" class="magic-circle-svg" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Outer Astronomical Rings -->
+              <circle cx="120" cy="120" r="114" stroke-width="1.2" opacity="0.75" />
+              <circle cx="120" cy="120" r="108" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.6" />
+
+              <!-- Cardinal Star Nodes -->
+              <circle cx="120" cy="6" r="2.4" fill="currentColor" />
+              <circle cx="120" cy="234" r="2.4" fill="currentColor" />
+              <circle cx="6" cy="120" r="2.4" fill="currentColor" />
+              <circle cx="234" cy="120" r="2.4" fill="currentColor" />
+
+              <!-- Ordinal Minor Nodes -->
+              <circle cx="39.4" cy="39.4" r="1.5" fill="currentColor" opacity="0.8" />
+              <circle cx="200.6" cy="39.4" r="1.5" fill="currentColor" opacity="0.8" />
+              <circle cx="39.4" cy="200.6" r="1.5" fill="currentColor" opacity="0.8" />
+              <circle cx="200.6" cy="200.6" r="1.5" fill="currentColor" opacity="0.8" />
+
+              <!-- Interlocking Geometric Spell Squares -->
+              <rect x="42" y="42" width="156" height="156" stroke-width="0.8" opacity="0.38" />
+              <rect x="42" y="42" width="156" height="156" stroke-width="0.8" transform="rotate(45 120 120)" opacity="0.38" />
+
+              <!-- Inner Orbital Ring & Dash -->
+              <circle cx="120" cy="120" r="92" stroke-width="0.9" opacity="0.5" />
+              <circle cx="120" cy="120" r="85" stroke-width="0.6" stroke-dasharray="4 4" opacity="0.45" />
+
+              <!-- 8-Point Zoltraak Star Geometry -->
+              <polygon points="120,44 135,105 196,120 135,135 120,196 105,135 44,120 105,105" stroke-width="0.75" opacity="0.35" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- Central Core: Album Artwork or Ancient Grimoire Seal -->
+        <div class="magic-circle-core">
+          <img
+            id="albumArt"
+            class="album-art"
+            src=""
+            alt="Awaiting Vision"
+            style="display: none;"
+          >
+
+          <!-- Thematic Default Fallback: Grimoire Parchment Seal with Butterfly Insignia -->
+          <div class="grimoire-seal-fallback" id="crystalFallback" aria-label="Grimoire Seal">
+            <div class="seal-parchment-texture" aria-hidden="true"></div>
+            <div class="seal-emblem" aria-hidden="true">
+              <svg viewBox="0 0 100 100" class="seal-svg" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 2" opacity="0.7"/>
+                <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.6"/>
+                <polygon points="50,14 58,42 86,50 58,58 50,86 42,58 14,50 42,42" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
+                <circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width="1" opacity="0.6"/>
+
+                <!-- Delicate Butterfly Emblem Silhouette in Center -->
+                <path d="M49 46 C44 41 38 41 36 45 C34 49 39 52 49 51" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M51 46 C56 41 62 41 64 45 C66 49 61 52 51 51" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M49 51 C43 53 41 58 44 61 C47 62 49 57 49 53" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+                <path d="M51 51 C57 53 59 58 56 61 C53 62 51 57 51 53" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+                <circle cx="50" cy="49" r="1.4" fill="currentColor"/>
+              </svg>
+              <span class="seal-rune-text">Awaiting Vision</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </figure>
 
-    <!-- 3. Track Details & The Staff Progress Bar (Middle-Bottom) -->
+    <!-- 3. Track Details & Staff Progress Bar -->
     <section class="track-details-stage" aria-label="Track Information">
       <h1 id="trackTitle" class="track-title" title="Track Title">Awaiting Melody</h1>
       <p id="trackArtist" class="track-artist" title="Artist Name">Fern · Ordinary Offensive Magic</p>
@@ -48,37 +150,72 @@
           aria-valuenow="0"
           tabindex="0"
         >
-          <!-- Solid Deep Purple Fill -->
+          <!-- Background Staff Guide Rail -->
+          <div class="progress-track" aria-hidden="true"></div>
+
+          <!-- Staff Red Ribbon & Magic Thread Fill -->
           <div id="progressFill" class="progress-fill"></div>
 
-          <!-- Fern's Butterfly Hair Ornament Indicator -->
+          <!-- Fern's Golden Butterfly Hair Ornament Indicator -->
           <div id="progressThumb" class="progress-thumb" aria-hidden="true">
-            <!-- Inline SVG: Butterfly Silhouette -->
-            <svg class="butterfly-svg" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <svg class="butterfly-svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- Antennae -->
-              <path d="M12 4.2c.4-.8 1.1-1.4 2-1.6.3-.1.6.1.7.4.1.3-.1.6-.4.7-.7.2-1.2.6-1.5 1.3-.1.2-.3.3-.5.3s-.4-.1-.5-.3c-.3-.7-.8-1.1-1.5-1.3-.3-.1-.5-.4-.4-.7.1-.3.4-.5.7-.4.9.2 1.6.8 2 1.6z"/>
+              <path d="M15.2 8.5 C14 5 10.5 4.5 9.2 6.2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+              <circle cx="9" cy="6.4" r="0.8" fill="currentColor" />
+              <path d="M16.8 8.5 C18 5 21.5 4.5 22.8 6.2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+              <circle cx="23" cy="6.4" r="0.8" fill="currentColor" />
+
               <!-- Slender Body -->
-              <path d="M12 7c-.6 0-1 .6-1 1.5v6c0 .9.4 1.5 1 1.5s1-.6 1-1.5v-6c0-.9-.4-1.5-1-1.5z"/>
-              <!-- Right Wings -->
-              <path d="M13 7.8c1.8-1.5 4.8-2.2 7.2-1.1 2.2 1 2.7 3.5 1.8 5.7-.7 1.8-2.2 3.1-4 3.6 1.1 1.5 1.1 3.5-.1 4.7-1.3 1.3-3.4 1.3-5.3.3l-.4-.2v-2.2l.6.3c1.3.6 2.7.5 3.5-.3.8-.8.8-2.1.1-3.2l-.5-.7.8-.3c1.7-.6 2.9-1.7 3.5-3.1.6-1.5.2-3.1-1.2-3.7-1.8-.8-4.2-.2-5.7.9l-.4.3V7.8z"/>
-              <!-- Left Wings -->
-              <path d="M11 7.8c-1.8-1.5-4.8-2.2-7.2-1.1-2.2 1-2.7 3.5-1.8 5.7.7 1.8 2.2 3.1 4 3.6-1.1 1.5-1.1 3.5.1 4.7 1.3 1.3 3.4 1.3 5.3.3l.4-.2v-2.2l-.6.3c-1.3.6-2.7.5-3.5-.3-.8-.8-.8-2.1-.1-3.2l.5-.7-.8-.3c-1.7-.6-2.9-1.7-3.5-3.1-.6-1.5-.2-3.1 1.2-3.7 1.8-.8 4.2-.2 5.7.9l.4.3V7.8z"/>
+              <circle cx="16" cy="9.5" r="1.1" fill="currentColor" />
+              <path d="M16 11.5 V22" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+              <ellipse cx="16" cy="15" rx="0.9" ry="3.5" fill="currentColor" />
+
+              <!-- Forewings (Upper Filigree Wings) -->
+              <!-- Left Forewing -->
+              <path d="M15.5 12 C11.5 6.5 4.5 6.5 2.8 11.2 C1.5 15 6.8 18.2 15.5 16.8" fill="rgba(197, 160, 89, 0.16)" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 13 C10.8 10 6.5 10.2 4.5 12.8" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" opacity="0.85" />
+              <path d="M15 14.8 C10.5 14 7.2 15.5 5.5 16.2" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.7" />
+
+              <!-- Right Forewing -->
+              <path d="M16.5 12 C20.5 6.5 27.5 6.5 29.2 11.2 C30.5 15 25.2 18.2 16.5 16.8" fill="rgba(197, 160, 89, 0.16)" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M17 13 C21.2 10 25.5 10.2 27.5 12.8" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" opacity="0.85" />
+              <path d="M17 14.8 C21.5 14 24.8 15.5 26.5 16.2" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.7" />
+
+              <!-- Hindwings (Lower Filigree Wings) -->
+              <!-- Left Hindwing -->
+              <path d="M15.2 17.2 C9.5 18.8 6.5 23 10.2 26.8 C13.5 27.8 15.4 22.5 15.5 19.5" fill="rgba(197, 160, 89, 0.16)" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 18.5 C11.8 20.8 10.5 23.5 12.2 25.2" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.75" />
+
+              <!-- Right Hindwing -->
+              <path d="M16.8 17.2 C22.5 18.8 25.5 23 21.8 26.8 C18.5 27.8 16.6 22.5 16.5 19.5" fill="rgba(197, 160, 89, 0.16)" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M17 18.5 C20.2 20.8 21.5 23.5 19.8 25.2" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.75" />
+
+              <!-- Ornamental Lavender Core Center Gem -->
+              <circle cx="16" cy="14" r="1.1" fill="var(--fern-lavender, #B8A5D6)" stroke="currentColor" stroke-width="0.6" />
             </svg>
           </div>
         </div>
 
-        <!-- Timestamps -->
+        <!-- Timestamps with Storybook Sparkle Divider -->
         <div class="time-readout">
           <span id="currentTime" class="time-stamp current">00:00</span>
-          <span class="time-divider">/</span>
+          <span class="time-divider" aria-hidden="true">✦</span>
           <span id="totalTime" class="time-stamp total">00:00</span>
         </div>
       </div>
+
+      <!-- Immersive Storybook Lore Footnote -->
+      <footer class="storybook-lore" aria-hidden="true">
+        <span class="lore-sparkle">✦</span>
+        <span class="lore-text">Ordinary Offensive Magic · A silent melody from the journey...</span>
+        <span class="lore-sparkle">✦</span>
+      </footer>
     </section>
 
   </article>
 
-  <!-- Shared Song Viewer Service Script -->
+  <!-- Shared Services and Controller Scripts -->
   <script src="../../../shared/js/song-viewer-service.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
