@@ -17,32 +17,32 @@
 
   // --- DOM REFERENCES ---
   const elements = {
-    root: document.getElementById('frierenSongRoot'),
+    root: document.getElementById('songViewerWidget') || document.getElementById('frierenSongRoot'),
     themeToggleBtn: document.getElementById('themeToggleBtn'),
     themeIcon: document.getElementById('themeIcon'),
 
-    statusBadge: document.getElementById('statusBadge'),
+    statusBadge: document.getElementById('statusIcon') || document.getElementById('statusBadge'),
     openConfigBtn: document.getElementById('openConfigBtn'),
     standbyConfigBtn: document.getElementById('standbyConfigBtn'),
     closeConfigBtn: document.getElementById('closeConfigBtn'),
     saveConfigBtn: document.getElementById('saveConfigBtn'),
     demoBtn: document.getElementById('demoBtn'),
 
-    trackInfoSection: document.getElementById('trackInfoSection'),
+    trackInfoSection: document.querySelector('.track-details-stage') || document.getElementById('trackInfoSection'),
     standbySection: document.getElementById('standbySection'),
     standbyHint: document.getElementById('standbyHint'),
 
-    songTitle: document.getElementById('songTitle'),
-    artistName: document.getElementById('artistName'),
-    albumName: document.getElementById('albumName'),
+    songTitle: document.getElementById('trackTitle') || document.getElementById('songTitle'),
+    artistName: document.getElementById('trackArtist') || document.getElementById('artistName'),
+    albumName: document.getElementById('trackAlbum') || document.getElementById('albumName'),
 
-    albumImg: document.getElementById('albumImg'),
+    albumImg: document.getElementById('albumArt') || document.getElementById('albumImg'),
     crystalFallback: document.getElementById('crystalFallback'),
 
-    manaThreadFill: document.getElementById('manaThreadFill'),
-    manaParticleBeacon: document.getElementById('manaParticleBeacon'),
-    timeCurrent: document.getElementById('timeCurrent'),
-    timeDuration: document.getElementById('timeDuration'),
+    manaThreadFill: document.getElementById('progressFill') || document.getElementById('manaThreadFill'),
+    manaParticleBeacon: document.getElementById('progressThumb') || document.getElementById('manaParticleBeacon'),
+    timeCurrent: document.getElementById('currentTime') || document.getElementById('timeCurrent'),
+    timeDuration: document.getElementById('totalTime') || document.getElementById('timeDuration'),
 
     configModal: document.getElementById('configModal'),
     tabDiscord: document.getElementById('tabDiscord'),
@@ -55,12 +55,12 @@
     lastfmApiKeyInput: document.getElementById('lastfmApiKeyInput'),
   };
 
-  // --- FRIEREN DEMO TRACK DEFINITION ---
+  // --- FRIEREN / FERN DEMO TRACK DEFINITION ---
   const FRIEREN_DEMO_TRACK = {
     song: "Anytime Anywhere",
     artist: "milet",
     album: "Sousou no Frieren Ending Theme",
-    album_art_url: "", // triggers the elven staff crystal gem fallback by default
+    album_art_url: "", // triggers the elven grimoire seal fallback by default
     durationMs: 230000,
     elapsedMs: 65000,
   };
@@ -80,38 +80,41 @@
     onTrackUpdate: (track) => {
       const isPaused = Boolean(track.isPaused);
 
+      if (elements.root) {
+        elements.root.setAttribute('data-status', isPaused ? 'paused' : 'playing');
+      }
+
       if (elements.trackInfoSection) elements.trackInfoSection.style.display = 'flex';
       if (elements.standbySection) elements.standbySection.style.display = 'none';
 
       // 1. Pillar 2: Typography (The Spell & The Caster)
-      // Strictly NO element.title attribute to kill native browser tooltips!
       if (elements.songTitle) {
-        elements.songTitle.textContent = track.song || 'Untitled Spell';
+        elements.songTitle.textContent = track.song || 'Awaiting Melody';
       }
       if (elements.artistName) {
-        elements.artistName.textContent = (track.artist || 'Unknown Mage').replace(/;/g, ', ');
+        elements.artistName.textContent = (track.artist || 'Fern · Ordinary Offensive Magic').replace(/;/g, ', ');
       }
       if (elements.albumName) {
-        elements.albumName.textContent = track.album || "Flamme's Grimoire";
+        elements.albumName.textContent = track.album || "Fern's Grimoire";
       }
 
-      // 2. Pillar 1: Album Art (The Staff Crystal)
-      if (track.album_art_url && elements.albumImg && elements.crystalFallback) {
+      // 2. Pillar 1: Album Art (The Spell Core & Seal Fallback)
+      if (track.album_art_url && elements.albumImg) {
         elements.albumImg.src = track.album_art_url;
         elements.albumImg.style.display = 'block';
-        elements.crystalFallback.style.display = 'none';
+        if (elements.crystalFallback) elements.crystalFallback.style.display = 'none';
 
         elements.albumImg.onerror = () => {
           elements.albumImg.style.display = 'none';
-          elements.crystalFallback.style.display = 'flex';
+          if (elements.crystalFallback) elements.crystalFallback.style.display = 'flex';
         };
-      } else if (elements.albumImg && elements.crystalFallback) {
-        elements.albumImg.style.display = 'none';
-        elements.crystalFallback.style.display = 'flex';
+      } else {
+        if (elements.albumImg) elements.albumImg.style.display = 'none';
+        if (elements.crystalFallback) elements.crystalFallback.style.display = 'flex';
       }
 
-      // 3. Mana Status Tag
-      if (elements.statusBadge) {
+      // 3. Status Tag / Dot
+      if (elements.statusBadge && elements.statusBadge.classList.contains('mana-status-tag')) {
         if (track.isLastScrobble) {
           elements.statusBadge.textContent = 'LAST ECHO';
           elements.statusBadge.className = 'mana-status-tag is-paused';
@@ -125,7 +128,7 @@
       }
     },
 
-    // 4. Pillar 3: Progress Bar (The Mana Thread)
+    // 4. Pillar 3: Progress Bar (The Staff Ribbon & Butterfly)
     onProgressUpdate: ({ isStreaming, percentage, currentFormatted, durationFormatted }) => {
       const pct = Math.min(100, Math.max(0, percentage || 0));
 
@@ -145,7 +148,11 @@
     },
 
     onStateChange: ({ isPaused }) => {
-      if (elements.statusBadge && !songViewerService.isLastScrobble) {
+      if (elements.root) {
+        elements.root.setAttribute('data-status', isPaused ? 'paused' : 'playing');
+      }
+
+      if (elements.statusBadge && !songViewerService.isLastScrobble && elements.statusBadge.classList.contains('mana-status-tag')) {
         if (isPaused) {
           elements.statusBadge.textContent = 'STILLED';
           elements.statusBadge.className = 'mana-status-tag is-paused';
@@ -157,21 +164,26 @@
     },
 
     onStandby: (provider, hintText) => {
-      if (elements.albumImg && elements.crystalFallback) {
-        elements.albumImg.style.display = 'none';
-        elements.crystalFallback.style.display = 'flex';
+      if (elements.albumImg) elements.albumImg.style.display = 'none';
+      if (elements.crystalFallback) elements.crystalFallback.style.display = 'flex';
+
+      if (elements.root) elements.root.setAttribute('data-status', 'paused');
+
+      if (elements.trackInfoSection && elements.standbySection) {
+        elements.trackInfoSection.style.display = 'none';
+        elements.standbySection.style.display = 'flex';
       }
 
-      if (elements.trackInfoSection) elements.trackInfoSection.style.display = 'none';
-      if (elements.standbySection) elements.standbySection.style.display = 'flex';
-
-      if (elements.statusBadge) {
+      if (elements.statusBadge && elements.statusBadge.classList.contains('mana-status-tag')) {
         elements.statusBadge.textContent = 'STANDBY';
         elements.statusBadge.className = 'mana-status-tag';
       }
 
       if (elements.manaThreadFill) elements.manaThreadFill.style.width = '0%';
       if (elements.manaParticleBeacon) elements.manaParticleBeacon.style.left = '0%';
+
+      if (elements.songTitle) elements.songTitle.textContent = 'Awaiting Melody';
+      if (elements.artistName) elements.artistName.textContent = hintText || 'Fern · Ordinary Offensive Magic';
 
       if (elements.standbyHint) {
         if (hintText) {

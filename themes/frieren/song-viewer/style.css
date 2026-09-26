@@ -1,30 +1,74 @@
 /* ==========================================================================
-   FERN (FRIEREN: BEYOND JOURNEY'S END) — SONG VIEWER WIDGET
-   Aesthetic: "Black Coat over White Dress" & Lethal Zoltraak Magic
-   Layout: Strict Full-Canvas Vertical Column (Centered, Anti-Overflow)
-   Constraints: System Serif Fonts, CSS Container Queries (No Media Queries)
+   FERN'S GRIMOIRE — SONG VIEWER WIDGET (FRIEREN: BEYOND JOURNEY'S END)
+   Aesthetic: Ancient Leather-Bound Spellbook, Soft Lavender, Parchment & Muted Gold
+   Pillars:
+     1. The Zoltraak Astrolabe (Layered Concentric Magic Circles & Scrying Orb)
+     2. Fern's Butterfly Hairpin (Filigree Line-Art Progress Beacon)
+     3. The Staff Ribbon (Ultra-Thin Velvet Crimson Magic Thread)
+     4. Storybook Typography (Harmonized with Frieren Calendar Widget)
+   Constraints: No Neon Glow, Soft Ambient Shadows, Container Queries (No Media Queries)
    ========================================================================== */
 
-/* --- 1. THEME VARIABLES --- */
+/* --- 1. DESIGN TOKENS & CSS VARIABLES --- */
 :root {
-  /* Color Palette */
-  --fern-charcoal: #18191C;   /* Deep Charcoal Black (Her Heavy Coat) */
-  --fern-wood: #2A2B2E;       /* Solid Wooden Staff Track Tone */
-  --fern-white: #F8F9FA;      /* Pristine White / Alabaster (Her Dress) */
-  --fern-purple: #5A2A82;     /* Fern's Deep Purple Hair & Eyes */
-  --fern-purple-soft: #A096A8;/* Muted Pale Purple for Subtitles */
-  --fern-cyan: #4CC9F0;       /* Zoltraak Offensive Magic Cyan */
-  --fern-cyan-ring: rgba(76, 201, 240, 0.4); /* Fine Geometric Astrolabe Linework */
+  /* Fern's Thematic Palette (No Neon!) */
+  --fern-charcoal: #191B20;          /* Deep Charcoal (Her Heavy Travel Cloak) */
+  --fern-charcoal-deep: #131418;     /* Grimoire Spine & Vignette Edge */
+  --fern-charcoal-surface: #22252C;  /* Elevated Card Surface */
+  --fern-charcoal-border: rgba(44, 48, 58, 0.65);
 
-  /* Classical Grimoire Typography */
-  --fern-font-serif: Georgia, "Times New Roman", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  --fern-cream: #FAF6EE;             /* Pristine White / Bone Parchment (Her Dress & Ink) */
+  --fern-parchment-warm: #EFE7DA;    /* Weathered Spell Page */
+  --fern-parchment-fiber: rgba(138, 102, 53, 0.08);
+
+  --fern-lavender: #B8A5D6;          /* Fern's Soft Pastel Lavender Hair & Eyes */
+  --fern-lavender-light: #D8CCE8;    /* Lavender Shimmer */
+  --fern-lavender-soft: #A393BD;     /* Muted Mauve Lavender for Subtitles */
+  --fern-lavender-deep: #54446C;     /* Deep Shadow Mauve */
+
+  --fern-gold: #C5A059;              /* Antique Muted Gold (Hairpin & Staff Trims) */
+  --fern-gold-light: #DFC27D;        /* Shimmering Antique Brass */
+  --fern-gold-border: rgba(197, 160, 89, 0.42);
+  --fern-gold-border-soft: rgba(197, 160, 89, 0.22);
+  --fern-gold-faint: rgba(197, 160, 89, 0.65);
+
+  --fern-staff-ribbon: #9E3A4B;      /* Crimson Velvet Ribbon on Fern's Staff */
+  --fern-staff-ribbon-bright: #B84357;
+  --fern-staff-track: rgba(197, 160, 89, 0.18);
+
+  --fern-text-main: #FAF6EE;         /* Putih Tulang (Primary Text) */
+  --fern-text-secondary: #B5A8C8;    /* Soft Lavender Grey (Secondary Text) */
+  --fern-text-muted: #847E8B;        /* Muted Charcoal Grey (Meta / Timestamps) */
+
+  /* Typography: Strict Match with Frieren Calendar Widget */
+  --font-serif: 'Cinzel', 'Marcellus', 'Times New Roman', serif;
+  --font-sans: 'Quicksand', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Ambient Soft Shadows (Strictly No Neon Glow) */
+  --grimoire-shadow-card:
+    0 14px 36px rgba(8, 9, 12, 0.65),
+    inset 0 0 50px rgba(0, 0, 0, 0.55),
+    inset 0 0 1px rgba(197, 160, 89, 0.35);
+  --grimoire-shadow-orb:
+    0 10px 30px rgba(0, 0, 0, 0.65),
+    0 0 0 2px rgba(197, 160, 89, 0.25),
+    0 0 24px rgba(184, 165, 214, 0.12),
+    inset 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-/* --- 2. GLOBAL RESET & FULL-VIEWPORT CANVAS --- */
+/* --- 2. GLOBAL RESETS --- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 html, body {
@@ -32,23 +76,20 @@ html, body {
   height: 100vh;
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  font-family: var(--fern-font-serif);
-  /* Deep Charcoal Black representing Fern's heavy coat */
-  background-color: var(--fern-charcoal);
-  background-image:
-    radial-gradient(circle at 50% 30%, rgba(90, 42, 130, 0.08) 0%, transparent 55%),
-    radial-gradient(circle at 50% 80%, rgba(76, 201, 240, 0.04) 0%, transparent 50%),
-    linear-gradient(180deg, #18191C 0%, #121315 100%);
-  color: var(--fern-white);
+  overflow: hidden !important;
+  background: transparent;
+  user-select: none;
+  font-family: var(--font-sans);
+  color: var(--fern-text-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- 3. FORCE VERTICAL COLUMN LAYOUT (CRITICAL) ---
-   #songViewerWidget spans 100vw × 100vh with NO borders, NO border-radius, NO shadows.
-   Strict vertical stacking top-to-bottom with 2rem padding. */
-#songViewerWidget {
+/* ==========================================================================
+   3. MAIN CONTAINER: FERN'S GRIMOIRE BINDING (AGED LEATHER & NOISE TEXTURE)
+   ========================================================================== */
+#songViewerWidget,
+.song-viewer-widget {
   /* Container Query Context (Strictly No Media Queries) */
   container-type: size;
   container-name: songViewerWidget;
@@ -57,285 +98,536 @@ html, body {
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
+  overflow: hidden !important;
   margin: 0;
-  padding: 2rem; /* Exact requirement: elements won't touch outer edges */
+  /* Calibrated Padding: Generous top padding (+12px to 15px) for breathing room */
+  padding: clamp(24px, 5.5cqh, 34px) clamp(16px, 4cqw, 28px) clamp(16px, 4cqh, 24px) clamp(16px, 4cqw, 28px);
 
-  /* Forced Vertical Column Layout */
+  /* Deep Charcoal Aged Leather background representing Fern's heavy hooded coat */
+  background-color: var(--fern-charcoal);
+  background-image:
+    /* Top-center ambient leather highlight */
+    radial-gradient(ellipse 90% 70% at 50% 18%, rgba(42, 46, 56, 0.9) 0%, transparent 70%),
+    /* Warm parchment stain subtle glow */
+    radial-gradient(circle at 18% 22%, rgba(138, 102, 53, 0.09) 0%, transparent 45%),
+    /* Soft lavender magic aura undertone */
+    radial-gradient(circle at 82% 80%, rgba(84, 68, 108, 0.12) 0%, transparent 50%),
+    /* Vignette shadow towards book binding edges */
+    linear-gradient(180deg, rgba(25, 27, 32, 0.6) 0%, rgba(16, 17, 21, 0.95) 100%);
+
+  /* Dual Antique Gold Grimoire Border Frame */
+  border: 1px solid var(--fern-gold-border);
+  box-shadow: var(--grimoire-shadow-card);
+
+  /* Strict Vertical Alignment */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   text-align: center;
-  user-select: none;
-  overflow: hidden;
 }
 
-/* --- 4. TOP: STATUS TEXT ---
-   One single line, no pill backgrounds, clear margin. */
+/* Internal Inset Border Rule (Like an illuminated ancient manuscript page) */
+#songViewerWidget::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid var(--fern-gold-border-soft);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Subtle Ancient Parchment / Noise Texture Layer */
+.grimoire-texture-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.35;
+  background-image:
+    /* Micro noise texture via inline SVG filter */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.055'/%3E%3C/svg%3E"),
+    /* Aged parchment fiber particles */
+    radial-gradient(circle at 25% 35%, var(--fern-parchment-fiber) 1px, transparent 1px),
+    radial-gradient(circle at 75% 65%, var(--fern-parchment-fiber) 1px, transparent 1px),
+    /* Subtle organic paper weave lines */
+    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+  background-size: 180px 180px, 28px 28px, 36px 36px, 100% 4px;
+}
+
+/* Grimoire Corner Filigrees (Elven Brass Trims in 4 corners) */
+.grimoire-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.corner-filigree {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  color: var(--fern-gold);
+  opacity: 0.75;
+}
+
+.corner-filigree.top-left     { top: 7px; left: 7px; }
+.corner-filigree.top-right    { top: 7px; right: 7px; }
+.corner-filigree.bottom-left  { bottom: 7px; left: 7px; }
+.corner-filigree.bottom-right { bottom: 7px; right: 7px; }
+
+.filigree-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ==========================================================================
+   4. CHAPTER HEADING (STATUS HEADER: "FERN'S GRIMOIRE · DISPATCH")
+   ========================================================================== */
 .status-header {
+  position: relative;
+  z-index: 4;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem; /* Exact requirement */
-  width: 100%;
+  margin-top: 0;
+  /* Extended Margin-Bottom (+10px to 15px) for clear breathing room before Album Art */
+  margin-bottom: clamp(16px, 3.8cqh, 24px);
+  flex-shrink: 0;
 }
 
-#statusIcon {
+.status-indicator {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: transparent;
-  border: none;
-  padding: 0;
-  box-shadow: none;
-  white-space: nowrap;  /* Exact requirement: force single line */
-  font-size: 0.75rem;   /* Exact requirement */
-  letter-spacing: 2px;  /* Exact requirement */
+  width: 100%;
+  max-width: 320px;
+  white-space: nowrap;
+  font-family: var(--font-serif);
+  font-size: clamp(0.62rem, 1.8cqw, 0.72rem);
+  font-weight: 600;
+  letter-spacing: 0.14em; /* Proportional & stately chapter title spacing, not overly spaced */
   text-transform: uppercase;
-  color: var(--fern-purple-soft);
+  color: var(--fern-gold-light);
   cursor: default;
 }
 
+/* Decorative chapter dividing rules flanking the header */
+.chapter-ornament {
+  flex: 1 1 20px;
+  height: 1px;
+  max-width: 48px;
+  position: relative;
+}
+
+.chapter-ornament.left {
+  background: linear-gradient(90deg, transparent, var(--fern-gold-border));
+}
+
+.chapter-ornament.right {
+  background: linear-gradient(90deg, var(--fern-gold-border), transparent);
+}
+
+.chapter-ornament::after {
+  content: "✦";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.55rem;
+  color: var(--fern-gold);
+  line-height: 1;
+}
+
+.chapter-ornament.left::after {
+  right: -2px;
+}
+
+.chapter-ornament.right::after {
+  left: -2px;
+}
+
+/* Delicate status dot (Soft Mana Ember) */
 .status-dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--fern-cyan);
+  background: var(--fern-lavender);
   display: inline-block;
   opacity: 0.85;
   flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(184, 165, 214, 0.45);
 }
 
 #songViewerWidget[data-status="playing"] .status-dot {
-  animation: manaPulse 3.5s ease-in-out infinite;
+  animation: emberBreathe 3.6s ease-in-out infinite;
 }
 
 #songViewerWidget[data-status="paused"] .status-dot {
-  background: var(--fern-purple);
+  background: var(--fern-text-muted);
+  box-shadow: none;
   opacity: 0.5;
   animation: none;
 }
 
-@keyframes manaPulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+@keyframes emberBreathe {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
 }
 
-/* --- 5. MIDDLE-TOP: THE ZOLTRAAK MAGIC CIRCLE (ALBUM ART) ---
-   Concentric geometric spell rings rotating slowly in opposite directions. */
+/* ==========================================================================
+   5. THE ZOLTRAAK MAGIC CIRCLE & ALBUM ART ORB (DEPTH & MULTI-RINGS)
+   ========================================================================== */
 .magic-circle-stage {
+  position: relative;
+  z-index: 4;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
+  margin-bottom: clamp(6px, 1.8cqh, 12px);
   flex-shrink: 0;
 }
 
 .magic-circle-wrapper {
   position: relative;
-  width: clamp(150px, 24cqh, 210px);
-  height: clamp(150px, 24cqh, 210px);
+  width: clamp(140px, 30cqh, 195px);
+  height: clamp(140px, 30cqh, 195px);
   border-radius: 50%;
-
-  /* Ring 1: Primary Wrapper Ring */
-  border: 1px solid var(--fern-cyan-ring);
-  padding: 10px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-  transform-origin: center center;
-  background: rgba(24, 25, 28, 0.6);
 }
 
-/* Ring 2: Concentric Middle Geometric Ring */
+/* Pure CSS Magic Circle: Inner Dashed Spell Ring (Behind the Orb) */
 .magic-circle-wrapper::before {
   content: "";
   position: absolute;
-  inset: -10px;
+  inset: -12px;
   border-radius: 50%;
-  border: 1px solid rgba(76, 201, 240, 0.35);
-  box-shadow: 0 0 0 1px rgba(90, 42, 130, 0.3);
+  border: 1px dashed rgba(197, 160, 89, 0.26);
+  box-shadow:
+    0 0 0 1px rgba(184, 165, 214, 0.14),
+    inset 0 0 18px rgba(197, 160, 89, 0.08);
   pointer-events: none;
-  transform-origin: center center;
+  z-index: 1;
+  opacity: 0.85;
 }
 
-/* Ring 3: Concentric Outermost Ring */
+/* Pure CSS Magic Circle: Outermost Astrolabe Orbital Ring */
 .magic-circle-wrapper::after {
   content: "";
   position: absolute;
-  inset: -20px;
+  inset: -24px;
   border-radius: 50%;
-  border: 1px solid rgba(76, 201, 240, 0.45);
-  box-shadow: 0 0 0 5px transparent, 0 0 0 6px rgba(90, 42, 130, 0.28);
+  border: 1px solid rgba(197, 160, 89, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(197, 160, 89, 0.08),
+    0 0 25px rgba(184, 165, 214, 0.06);
   pointer-events: none;
-  transform-origin: center center;
+  z-index: 1;
+  opacity: 0.75;
 }
 
-/* Circular Album Art Cover (#albumArt) */
-#albumArt {
+/* Rotating Astrolabe & Spell Linework SVG Layer */
+.magic-circle-glyphs {
+  position: absolute;
+  inset: -14px;
+  pointer-events: none;
+  color: var(--fern-gold);
+  transform-origin: center center;
+  opacity: 0.82;
+  transition: opacity 0.8s ease;
+  z-index: 2;
+}
+
+.magic-circle-svg {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
   display: block;
-  position: relative;
-  z-index: 1;
-  border: 1px solid rgba(248, 249, 250, 0.15);
-  background: radial-gradient(circle at 40% 40%, #5A2A82 0%, #301744 70%, #18191C 100%);
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.65);
 }
 
-/* Counter-Rotation of Concentric Spell Rings when Playing */
-@keyframes spinClockwise {
+/* Serene Rotation when Music is Playing */
+@keyframes circleSlowDrift {
   from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  to   { transform: rotate(360deg); }
 }
 
-@keyframes spinCounterClockwise {
+@keyframes circleCounterDrift {
   from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
+  to   { transform: rotate(-360deg); }
 }
 
-#songViewerWidget[data-status="playing"] .magic-circle-wrapper {
-  animation: spinClockwise 60s linear infinite;
+#songViewerWidget[data-status="playing"] .magic-circle-glyphs {
+  animation: circleSlowDrift 80s linear infinite;
 }
 
 #songViewerWidget[data-status="playing"] .magic-circle-wrapper::before {
-  animation: spinClockwise 42s linear infinite;
+  animation: circleCounterDrift 55s linear infinite;
 }
 
 #songViewerWidget[data-status="playing"] .magic-circle-wrapper::after {
-  animation: spinCounterClockwise 52s linear infinite;
+  animation: circleSlowDrift 95s linear infinite;
 }
 
-/* --- 6. THE "POUT" EASTER EGG ---
-   When paused, hovering over the album art triggers a subtle, rapid 1-2px jitter
-   simulating Fern pouting because the music has stopped. */
+#songViewerWidget[data-status="paused"] .magic-circle-glyphs,
+#songViewerWidget[data-status="paused"] .magic-circle-wrapper::before,
+#songViewerWidget[data-status="paused"] .magic-circle-wrapper::after {
+  animation-play-state: paused;
+  opacity: 0.45;
+}
+
+/* Inner Core: Album Artwork Disc & Seal Container */
+.magic-circle-core {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--fern-gold-border);
+  box-shadow: var(--grimoire-shadow-orb);
+  background-color: var(--fern-charcoal-deep);
+  z-index: 3;
+}
+
+/* Circular Album Artwork (Styled cleanly with graceful alt fallback text) */
+.album-art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.4s ease;
+  font-family: var(--font-serif);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fern-gold-border);
+  text-align: center;
+  opacity: 0.45;
+}
+
+/* Grimoire Parchment Seal Fallback (When no cover is available) */
+.grimoire-seal-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 45% 40%, var(--fern-parchment-warm) 0%, #D8CBB7 65%, #BAAB94 100%);
+  border: 1px solid var(--fern-gold-border);
+  box-shadow: inset 0 0 25px rgba(84, 60, 30, 0.35);
+  color: #5C472E;
+  z-index: 1;
+}
+
+.seal-parchment-texture {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  opacity: 0.2;
+  background-image: radial-gradient(circle at 50% 50%, rgba(70, 48, 20, 0.15) 1px, transparent 1px);
+  background-size: 8px 8px;
+  pointer-events: none;
+}
+
+.seal-emblem {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+}
+
+.seal-svg {
+  width: 65%;
+  height: 65%;
+  display: block;
+}
+
+/* Thematic Placeholder Text: Soft and Integrated into the Parchment */
+.seal-rune-text {
+  font-family: var(--font-serif);
+  font-size: clamp(0.52rem, 1.4cqw, 0.62rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6B5539;
+  opacity: 0.45; /* Soft, blends into parchment, not like error text */
+  margin-top: 3px;
+}
+
+/* Easter Egg: Fern's Subtle Pout Jitter when Paused and Hovered */
 @keyframes fernPoutJitter {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-1.5px, 1.2px); }
-  40% { transform: translate(1.5px, -1.2px); }
-  60% { transform: translate(-1.2px, 1.5px); }
-  80% { transform: translate(1.2px, -1px); }
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(-1.2px, 1px); }
+  40%  { transform: translate(1.2px, -1px); }
+  60%  { transform: translate(-1px, 1.2px); }
+  80%  { transform: translate(1px, -0.8px); }
   100% { transform: translate(0, 0); }
 }
 
-#songViewerWidget[data-status="paused"] .magic-circle-wrapper:hover,
-#songViewerWidget[data-status="paused"] #albumArt:hover {
-  animation: fernPoutJitter 0.15s ease-in-out infinite !important;
+#songViewerWidget[data-status="paused"] .magic-circle-core:hover {
+  animation: fernPoutJitter 0.16s ease-in-out infinite;
   cursor: pointer;
 }
 
-/* --- 7. MIDDLE-BOTTOM: TRACK DETAILS & TYPOGRAPHY --- */
+/* ==========================================================================
+   6. TRACK DETAILS & TYPOGRAPHY (HARMONIZED WITH CALENDAR WIDGET)
+   ========================================================================== */
 .track-details-stage {
+  position: relative;
+  z-index: 4;
   width: 100%;
-  max-width: 440px;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin-top: clamp(8px, 2cqh, 14px);
+  flex: 1 1 auto;
+  justify-content: flex-end;
 }
 
-/* Track Title: Centered, full width, spaced from circle above */
-#trackTitle {
-  text-align: center;   /* Exact requirement */
-  width: 100%;          /* Exact requirement */
-  margin-top: 1.5rem;   /* Exact requirement: distance from circle */
-  margin-bottom: 0.35rem;
-  font-size: clamp(1.4rem, 4cqw, 2.1rem);
-  font-weight: 400;
-  color: var(--fern-white);
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Track Artist */
-#trackArtist {
-  text-align: center;
+/* Track Title: Grand Fantasy Serif in Bone White (Cinzel / Marcellus) */
+#trackTitle,
+.track-title {
   width: 100%;
   margin: 0;
-  font-size: clamp(0.9rem, 2cqw, 1.1rem);
-  font-style: italic;
-  letter-spacing: 0.02em;
-  color: var(--fern-purple-soft);
+  margin-bottom: 4px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.08rem, 3.4cqw, 1.38rem);
+  letter-spacing: 0.02em; /* Tighter refined letter-spacing (approx 0.5px - 1px) */
+  text-transform: none;   /* Title Case: Awaiting Melody (No stiff ALL CAPS) */
+  line-height: 1.25;
+  color: var(--fern-cream);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* --- 8. THE STAFF PROGRESS BAR & BUTTERFLY THUMB --- */
+/* Track Artist: Scribed Italic Marginalia (Clean, Slender, Elegant) */
+#trackArtist,
+.track-artist {
+  width: 100%;
+  margin-top: 2px;
+  margin-bottom: 0;
+  font-family: var(--font-sans);
+  font-style: italic;     /* Italic: feels like handwritten marginalia notes in an ancient grimoire */
+  font-weight: 500;
+  font-size: clamp(0.78rem, 2cqw, 0.90rem);
+  letter-spacing: 0.02em; /* Natural and comfortable spacing */
+  text-transform: none;
+  color: var(--fern-lavender-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   7. THE STAFF PROGRESS BAR & BUTTERFLY HAIRPIN
+   ========================================================================== */
 .staff-assembly {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: clamp(12px, 2.8cqh, 18px);
 }
 
-/* Centered solid wooden staff track below artist */
-#progressBar {
-  position: relative;          /* Exact requirement */
-  width: 80%;                  /* Exact requirement */
-  max-width: 200px;            /* Exact requirement */
-  margin: 1.5rem auto 0 auto;  /* Exact requirement */
-  height: 4px;
-  background-color: var(--fern-wood);
+/* Slender Magic Thread / Staff Rail */
+#progressBar,
+.progress-bar {
+  position: relative;
+  width: 82%;
+  max-width: 240px;
+  height: 3px;
+  margin: 0 auto;
+  background: var(--fern-staff-track);
   border-radius: 2px;
   cursor: pointer;
   outline: none;
   border: none;
-  box-shadow: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 #progressBar:focus-visible {
-  outline: 1px dotted var(--fern-cyan);
+  outline: 1px dotted var(--fern-gold);
 }
 
-/* Solid Deep Purple Fill (#progressFill) */
-#progressFill {
+/* Background Staff Guide Rail */
+.progress-track {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(197, 160, 89, 0.15) 0%, rgba(197, 160, 89, 0.28) 100%);
+  pointer-events: none;
+}
+
+/* Fill Line: Inspired by the Crimson Velvet Ribbon tied to Fern's Staff */
+#progressFill,
+.progress-fill {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 0%;
-  background: var(--fern-purple);
+  background: linear-gradient(90deg, var(--fern-staff-ribbon) 0%, var(--fern-staff-ribbon-bright) 70%, var(--fern-gold) 100%);
   border-radius: 2px;
   pointer-events: none;
-  transition: width 0.25s ease-out;
+  box-shadow: 0 0 5px rgba(184, 67, 87, 0.35);
+  transition: width 0.25s linear;
 }
 
-/* Butterfly Thumb: Sits perfectly centered on the line (no floating above) */
-#progressThumb {
-  position: absolute;          /* Exact requirement */
-  top: 50%;                    /* Exact requirement */
+/* Fern's Golden Butterfly Hair Ornament (Crucial Thematic Element!) */
+#progressThumb,
+.progress-thumb {
+  position: absolute;
+  top: 50%;
   left: 0%;
-  /* translate(-50%, -50%) vertically & horizontally centers the SVG right on the progress mark */
   transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
-  color: var(--fern-white);
-  filter: drop-shadow(0 2px 4px rgba(90, 42, 130, 0.45));
+  width: 22px;
+  height: 22px;
+  color: var(--fern-gold);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.55));
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  z-index: 4;
-  line-height: 0;
+  z-index: 5;
   margin: 0;
   padding: 0;
-  transition: left 0.25s ease-out;
+  transition: left 0.25s linear, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 #progressBar:hover #progressThumb {
-  transform: translate(-50%, -50%) scale(1.15);
+  transform: translate(-50%, -50%) scale(1.18);
+  color: var(--fern-gold-light);
 }
 
 .butterfly-svg {
@@ -345,74 +637,164 @@ html, body {
   overflow: visible;
 }
 
-/* Timestamps: Matched to the 80% / 200px width of the progress bar */
+/* Timestamps: Symmetrical readout below progress bar */
 .time-readout {
-  width: 80%;
-  max-width: 200px;
-  margin: 0.6rem auto 0 auto;
+  width: 82%;
+  max-width: 240px;
+  margin-top: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: clamp(0.66rem, 1.6cqw, 0.74rem);
+  font-weight: 600;
   letter-spacing: 0.08em;
-  color: var(--fern-purple-soft);
+  color: var(--fern-text-muted);
   font-variant-numeric: tabular-nums;
 }
 
 .time-stamp {
-  font-weight: 400;
+  font-weight: 600;
+}
+
+.time-stamp.current {
+  color: var(--fern-lavender-soft);
 }
 
 .time-divider {
-  opacity: 0.35;
-  margin: 0 4px;
+  font-size: 0.6em;
+  color: var(--fern-gold);
+  opacity: 0.65;
 }
 
-/* --- 9. CONTAINER QUERIES (STRICTLY NO MEDIA QUERIES) --- */
-/* Compact Screen Mode (<= 320px) */
-@container songViewerWidget (max-width: 320px) {
-  #songViewerWidget {
-    padding: 1rem;
+/* ==========================================================================
+   8. STORYBOOK LORE FOOTNOTE (CLIPPING FIX & CLASSIC STORYBOOK VIBE)
+   ========================================================================== */
+.storybook-lore {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 clamp(16px, 4cqw, 24px); /* Minimum 16px - 24px side padding to stay clear of gold borders */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: clamp(8px, 2.2cqh, 14px);
+  margin-bottom: 2px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(0.58rem, 1.5cqw, 0.68rem);
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+  text-transform: none; /* No stiff ALL CAPS */
+  color: var(--fern-gold-faint);
+  text-align: center;
+  white-space: normal;  /* Wrap text cleanly if narrow, strictly no horizontal clipping! */
+  word-break: normal;
+  overflow-wrap: break-word;
+  opacity: 0.82;
+}
+
+.lore-sparkle {
+  flex-shrink: 0;
+  font-style: normal;
+  font-size: 0.65em;
+  color: var(--fern-gold);
+  opacity: 0.8;
+  line-height: 1;
+}
+
+.lore-text {
+  display: inline;
+}
+
+/* ==========================================================================
+   9. CONTAINER QUERIES (RESPONSIVENESS IN VIVALDI TILES)
+   ========================================================================== */
+/* Very Compact Mode (<= 280px wide, e.g. small panel tile) */
+@container songViewerWidget (max-width: 280px) {
+  #songViewerWidget,
+  .song-viewer-widget {
+    padding: 16px 12px 10px 12px;
   }
 
   .status-header {
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
   }
 
-  #statusIcon {
-    font-size: 0.65rem;
-    letter-spacing: 1.5px;
+  .status-indicator {
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+  }
+
+  .chapter-ornament {
+    max-width: 24px;
   }
 
   .magic-circle-wrapper {
-    width: 130px;
-    height: 130px;
-    padding: 8px;
+    width: 120px;
+    height: 120px;
   }
 
   .magic-circle-wrapper::before {
-    inset: -7px;
+    inset: -9px;
   }
 
   .magic-circle-wrapper::after {
-    inset: -14px;
+    inset: -18px;
+  }
+
+  .magic-circle-glyphs {
+    inset: -10px;
   }
 
   #trackTitle {
-    margin-top: 1rem;
-    font-size: 1.25rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
   }
 
   #trackArtist {
-    font-size: 0.82rem;
+    font-size: 0.72rem;
   }
 
   #progressBar {
-    margin-top: 1rem;
+    width: 88%;
+    height: 2.5px;
   }
 
   #progressThumb {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .storybook-lore {
+    font-size: 0.55rem;
+    padding: 0 12px;
+    margin-top: 5px;
+  }
+}
+
+/* Ultra Short Height (<= 280px high, e.g. horizontal tile) */
+@container songViewerWidget (max-height: 280px) {
+  #songViewerWidget,
+  .song-viewer-widget {
+    padding: 10px 14px;
+  }
+
+  .status-header {
+    margin-bottom: 6px;
+  }
+
+  .magic-circle-wrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .storybook-lore {
+    display: none; /* Hide lore footnote on tight vertical spaces */
+  }
+
+  .staff-assembly {
+    margin-top: 6px;
   }
 }

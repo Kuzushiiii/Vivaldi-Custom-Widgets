@@ -43,10 +43,41 @@
   --mana-stream-soft-glow: rgba(56, 189, 248, 0.28);
   --mana-flower-petal: #7DD3FC;
 
-  /* --- TYPOGRAPHY --- */
-  --font-cinzel: 'Cinzel', 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
-  --font-serif: 'EB Garamond', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  --font-display: 'Playfair Display', 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+  /* --- PALETTE 3: FERN'S GRIMOIRE (Deep Charcoal, Soft Lavender, & Ancient Parchment) --- */
+  --fern-charcoal: #191B20;          /* Deep Charcoal (Her Heavy Travel Cloak) */
+  --fern-charcoal-light: #242730;    /* Charcoal Surface Tone */
+  --fern-charcoal-muted: #32353E;    /* Elevated Charcoal Panel */
+  --fern-dress-white: #FAF6EE;       /* Bone White / Cream Parchment (Her Dress & Grimoire Pages) */
+  --fern-parchment-warm: #EFE8DC;    /* Aged Parchment Warm Tone */
+  --fern-parchment-fiber: rgba(107, 78, 38, 0.06);
+
+  --fern-lavender: #B8A5D6;          /* Fern's Soft Pastel Purple Hair & Eyes */
+  --fern-lavender-light: #D4C7EC;    /* Lavender Highlight */
+  --fern-lavender-soft: #9E8DB8;     /* Muted Mauve Lavender for Subtitles */
+  --fern-lavender-deep: #5A4773;     /* Deep Shadow Lavender */
+
+  --fern-gold: #C5A059;              /* Antique Muted Gold (Hairpin & Staff Accents) */
+  --fern-gold-light: #DFC27D;        /* Shimmering Gold Accent */
+  --fern-gold-border: rgba(197, 160, 89, 0.45);
+  --fern-gold-glow: rgba(197, 160, 89, 0.25);
+
+  --fern-staff-ribbon: #9E3A4B;      /* Crimson Velvet Ribbon on Fern's Staff */
+  --fern-staff-ribbon-light: #B84357;
+  --fern-staff-wood: #2E2A27;        /* Aged Staff Wood */
+
+  --fern-text-main: #FAF6EE;         /* Crisp Bone White Text */
+  --fern-text-secondary: #B5A8C8;    /* Soft Lavender Grey Text */
+  --fern-text-muted: #8E8A94;        /* Subdued Slate Charcoal Text */
+  --fern-text-faint: rgba(250, 246, 238, 0.38);
+
+  --fern-magic-circle: rgba(197, 160, 89, 0.55);
+  --fern-magic-circle-faint: rgba(184, 165, 214, 0.25);
+
+  /* --- TYPOGRAPHY (Harmonized with Frieren Calendar Widget) --- */
+  --font-serif: 'Cinzel', 'Marcellus', 'Times New Roman', serif;
+  --font-cinzel: 'Cinzel', 'Marcellus', 'Times New Roman', serif;
+  --font-display: 'Cinzel', 'Marcellus', 'Playfair Display', serif;
+  --font-sans: 'Quicksand', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* --- GEOMETRY & RADIUS --- */
   --radius-card: 10px;
