@@ -1,1097 +1,868 @@
 /* ==========================================================================
-   FRIEREN: BEYOND JOURNEY'S END — SONG VIEWER WIDGET
-   Theme Concept: "The Elven Staff Crystal"
-   Aesthetic: Serene Fantasy, Ancient Grimoire Artifacts, & Eternal Time
-   Performance: GPU-Accelerated 60fps Compositing, Zero Math Grid Patterns
+   FERN'S GRIMOIRE — SONG VIEWER WIDGET (FRIEREN: BEYOND JOURNEY'S END)
+   Aesthetic: Ancient Leather-Bound Spellbook, Soft Lavender, Parchment & Muted Gold
+   Pillars:
+     1. The Zoltraak Astrolabe (Layered Concentric Magic Circles & Scrying Orb)
+     2. Fern's Butterfly Hairpin (Filigree Line-Art Progress Beacon)
+     3. The Staff Ribbon (Ultra-Thin Velvet Crimson Magic Thread)
+     4. Storybook Typography (Harmonized with Frieren Calendar Widget)
+   Constraints: No Neon Glow, Soft Ambient Shadows, Container Queries (No Media Queries)
    ========================================================================== */
 
-@import '../theme-base.css';
+/* --- 1. DESIGN TOKENS & CSS VARIABLES --- */
+:root {
+  /* Fern's Thematic Palette (No Neon!) */
+  --fern-charcoal: #191B20;          /* Deep Charcoal (Her Heavy Travel Cloak) */
+  --fern-charcoal-deep: #131418;     /* Grimoire Spine & Vignette Edge */
+  --fern-charcoal-surface: #22252C;  /* Elevated Card Surface */
+  --fern-charcoal-border: rgba(44, 48, 58, 0.65);
 
-/* --- 1. ROOT CONTAINER: PURE ORGANIC PARCHMENT & COSMIC VOID CANVAS --- */
-.frieren-song-root {
+  --fern-cream: #FAF6EE;             /* Pristine White / Bone Parchment (Her Dress & Ink) */
+  --fern-parchment-warm: #EFE7DA;    /* Weathered Spell Page */
+  --fern-parchment-fiber: rgba(138, 102, 53, 0.08);
+
+  --fern-lavender: #B8A5D6;          /* Fern's Soft Pastel Lavender Hair & Eyes */
+  --fern-lavender-light: #D8CCE8;    /* Lavender Shimmer */
+  --fern-lavender-soft: #A393BD;     /* Muted Mauve Lavender for Subtitles */
+  --fern-lavender-deep: #54446C;     /* Deep Shadow Mauve */
+
+  --fern-gold: #C5A059;              /* Antique Muted Gold (Hairpin & Staff Trims) */
+  --fern-gold-light: #DFC27D;        /* Shimmering Antique Brass */
+  --fern-gold-border: rgba(197, 160, 89, 0.42);
+  --fern-gold-border-soft: rgba(197, 160, 89, 0.22);
+  --fern-gold-faint: rgba(197, 160, 89, 0.65);
+
+  --fern-staff-ribbon: #9E3A4B;      /* Crimson Velvet Ribbon on Fern's Staff */
+  --fern-staff-ribbon-bright: #B84357;
+  --fern-staff-track: rgba(197, 160, 89, 0.18);
+
+  --fern-text-main: #FAF6EE;         /* Putih Tulang (Primary Text) */
+  --fern-text-secondary: #B5A8C8;    /* Soft Lavender Grey (Secondary Text) */
+  --fern-text-muted: #847E8B;        /* Muted Charcoal Grey (Meta / Timestamps) */
+
+  /* Typography: Strict Match with Frieren Calendar Widget */
+  --font-serif: 'Cinzel', 'Marcellus', 'Times New Roman', serif;
+  --font-sans: 'Quicksand', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Ambient Soft Shadows (Strictly No Neon Glow) */
+  --grimoire-shadow-card:
+    0 14px 36px rgba(8, 9, 12, 0.65),
+    inset 0 0 50px rgba(0, 0, 0, 0.55),
+    inset 0 0 1px rgba(197, 160, 89, 0.35);
+  --grimoire-shadow-orb:
+    0 10px 30px rgba(0, 0, 0, 0.65),
+    0 0 0 2px rgba(197, 160, 89, 0.25),
+    0 0 24px rgba(184, 165, 214, 0.12),
+    inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* --- 2. GLOBAL RESETS --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important;
+  background: transparent;
+  user-select: none;
+  font-family: var(--font-sans);
+  color: var(--fern-text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   3. MAIN CONTAINER: FERN'S GRIMOIRE BINDING (AGED LEATHER & NOISE TEXTURE)
+   ========================================================================== */
+#songViewerWidget,
+.song-viewer-widget {
+  /* Container Query Context (Strictly No Media Queries) */
   container-type: size;
-  container-name: widget;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: var(--radius-card);
+  container-name: songViewerWidget;
+
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden !important;
+  margin: 0;
+  /* Calibrated Padding: Generous top padding (+12px to 15px) for breathing room */
+  padding: clamp(24px, 5.5cqh, 34px) clamp(16px, 4cqw, 28px) clamp(16px, 4cqh, 24px) clamp(16px, 4cqw, 28px);
+
+  /* Deep Charcoal Aged Leather background representing Fern's heavy hooded coat */
+  background-color: var(--fern-charcoal);
+  background-image:
+    /* Top-center ambient leather highlight */
+    radial-gradient(ellipse 90% 70% at 50% 18%, rgba(42, 46, 56, 0.9) 0%, transparent 70%),
+    /* Warm parchment stain subtle glow */
+    radial-gradient(circle at 18% 22%, rgba(138, 102, 53, 0.09) 0%, transparent 45%),
+    /* Soft lavender magic aura undertone */
+    radial-gradient(circle at 82% 80%, rgba(84, 68, 108, 0.12) 0%, transparent 50%),
+    /* Vignette shadow towards book binding edges */
+    linear-gradient(180deg, rgba(25, 27, 32, 0.6) 0%, rgba(16, 17, 21, 0.95) 100%);
+
+  /* Dual Antique Gold Grimoire Border Frame */
+  border: 1px solid var(--fern-gold-border);
+  box-shadow: var(--grimoire-shadow-card);
+
+  /* Strict Vertical Alignment */
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
-  align-items: stretch;
-  padding: clamp(10px, 2.2cqh + 4px, 18px) clamp(14px, 2.6cqw + 4px, 22px);
-  box-sizing: border-box;
-  color: var(--frieren-text-ink);
-  transition: background 0.8s ease, color 0.8s ease;
-
-  /* DAYLIGHT CANVAS: Pure Organic Manuscript Parchment */
-  background-color: #F7F3EB;
-  background-image:
-    radial-gradient(ellipse at 50% 0%, rgba(214, 197, 168, 0.35) 0%, transparent 60%),
-    radial-gradient(ellipse at 50% 100%, rgba(198, 178, 144, 0.4) 0%, transparent 65%),
-    radial-gradient(ellipse at 0% 50%, rgba(210, 192, 160, 0.28) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 50%, rgba(210, 192, 160, 0.28) 0%, transparent 50%),
-    radial-gradient(circle at 8% 12%, rgba(184, 155, 110, 0.16) 0%, transparent 45%),
-    radial-gradient(circle at 92% 88%, rgba(184, 155, 110, 0.16) 0%, transparent 45%),
-    linear-gradient(135deg, #FAF7F0 0%, #F5F0E6 48%, #EBE3D3 100%);
-  box-shadow:
-    0 4px 20px rgba(44, 34, 20, 0.12),
-    inset 0 0 35px rgba(168, 140, 95, 0.22),
-    inset 0 0 80px rgba(135, 105, 65, 0.14);
+  text-align: center;
 }
 
-/* NOCTURNE CANVAS: Deep Starry Void & Glowing Nebula Clouds */
-[data-theme="night"] .frieren-song-root,
-.frieren-song-root[data-theme="night"] {
-  background-color: #0B0F19;
-  background-image:
-    radial-gradient(ellipse at 80% 20%, rgba(56, 189, 248, 0.22) 0%, transparent 60%),
-    radial-gradient(circle at 20% 80%, rgba(129, 140, 248, 0.16) 0%, transparent 55%),
-    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 70%),
-    radial-gradient(circle at 12% 28%, rgba(255, 255, 255, 0.85) 0.8px, transparent 1.6px),
-    radial-gradient(circle at 35% 72%, rgba(255, 255, 255, 0.65) 0.6px, transparent 1.2px),
-    radial-gradient(circle at 68% 18%, rgba(255, 255, 255, 0.75) 0.7px, transparent 1.4px),
-    radial-gradient(circle at 84% 64%, rgba(255, 255, 255, 0.6) 0.5px, transparent 1.2px),
-    radial-gradient(circle at 45% 35%, rgba(125, 211, 252, 0.8) 0.8px, transparent 1.6px),
-    radial-gradient(circle at 92% 88%, rgba(255, 255, 255, 0.65) 0.7px, transparent 1.3px),
-    radial-gradient(circle at 24% 48%, rgba(254, 240, 138, 0.7) 0.6px, transparent 1.2px),
-    linear-gradient(135deg, #070A12 0%, #0D1220 50%, #111728 100%);
-  box-shadow: var(--grimoire-card-shadow);
+/* Internal Inset Border Rule (Like an illuminated ancient manuscript page) */
+#songViewerWidget::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid var(--fern-gold-border-soft);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 2;
 }
 
-/* --- 2. THE ETCHED ZOLTRAAK / ELVEN MAGIC CIRCLE WATERMARK --- */
+/* Subtle Ancient Parchment / Noise Texture Layer */
 .grimoire-texture-overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: clamp(280px, 72cqw, 460px);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' width='500' height='500'%3E%3Cg fill='none' stroke='%23C29B38' stroke-width='1.5'%3E%3Ccircle cx='250' cy='250' r='238' stroke-width='2'/%3E%3Ccircle cx='250' cy='250' r='224' stroke-width='1' stroke-dasharray='4,4'/%3E%3Ccircle cx='250' cy='250' r='212' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='12' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='250' cy='488' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='12' cy='250' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='488' cy='250' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='82' cy='82' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='418' cy='82' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='82' cy='418' r='4.5' fill='%23C29B38'/%3E%3Ccircle cx='418' cy='418' r='4.5' fill='%23C29B38'/%3E%3Crect x='97' y='97' width='306' height='306' stroke-width='1.4'/%3E%3Crect x='97' y='97' width='306' height='306' transform='rotate(45 250 250)' stroke-width='1.4'/%3E%3Ccircle cx='250' cy='250' r='168' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='250' r='148' stroke-dasharray='6,6' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='128' stroke-width='1.5'/%3E%3Cpolygon points='250,128 285,215 372,250 285,285 250,372 215,285 128,250 215,215' stroke-width='1.2'/%3E%3Cpolygon points='250,142 275,225 358,250 275,275 250,358 225,275 142,250 225,225' stroke-width='1' transform='rotate(22.5 250 250)' stroke-dasharray='3,3'/%3E%3Ccircle cx='250' cy='250' r='62' stroke-width='1.8'/%3E%3Ccircle cx='250' cy='250' r='36' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='10' fill='%23C29B38'/%3E%3Cline x1='250' y1='12' x2='250' y2='488' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='12' y1='250' x2='488' y2='250' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='82' y1='82' x2='418' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='418' y1='82' x2='82' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3E%3C/g%3E%3C/svg%3E");
-  opacity: 0.038;
-  mix-blend-mode: multiply;
-  will-change: transform;
-  transform: translateZ(0);
-  animation: zoltraakOrbit 240s linear infinite;
-  transition: opacity var(--transition-serene);
+  opacity: 0.35;
+  background-image:
+    /* Micro noise texture via inline SVG filter */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.055'/%3E%3C/svg%3E"),
+    /* Aged parchment fiber particles */
+    radial-gradient(circle at 25% 35%, var(--fern-parchment-fiber) 1px, transparent 1px),
+    radial-gradient(circle at 75% 65%, var(--fern-parchment-fiber) 1px, transparent 1px),
+    /* Subtle organic paper weave lines */
+    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+  background-size: 180px 180px, 28px 28px, 36px 36px, 100% 4px;
 }
 
-[data-theme="night"] .grimoire-texture-overlay {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' width='500' height='500'%3E%3Cg fill='none' stroke='%2338BDF8' stroke-width='1.5'%3E%3Ccircle cx='250' cy='250' r='238' stroke-width='2'/%3E%3Ccircle cx='250' cy='250' r='224' stroke-width='1' stroke-dasharray='4,4'/%3E%3Ccircle cx='250' cy='250' r='212' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='12' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='250' cy='488' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='12' cy='250' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='488' cy='250' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='82' cy='82' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='418' cy='82' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='82' cy='418' r='4.5' fill='%2338BDF8'/%3E%3Ccircle cx='418' cy='418' r='4.5' fill='%2338BDF8'/%3E%3Crect x='97' y='97' width='306' height='306' stroke-width='1.4'/%3E%3Crect x='97' y='97' width='306' height='306' transform='rotate(45 250 250)' stroke-width='1.4'/%3E%3Ccircle cx='250' cy='250' r='168' stroke-width='1.5'/%3E%3Ccircle cx='250' cy='250' r='148' stroke-dasharray='6,6' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='128' stroke-width='1.5'/%3E%3Cpolygon points='250,128 285,215 372,250 285,285 250,372 215,285 128,250 215,215' stroke-width='1.2'/%3E%3Cpolygon points='250,142 275,225 358,250 275,275 250,358 225,275 142,250 225,225' stroke-width='1' transform='rotate(22.5 250 250)' stroke-dasharray='3,3'/%3E%3Ccircle cx='250' cy='250' r='62' stroke-width='1.8'/%3E%3Ccircle cx='250' cy='250' r='36' stroke-width='1.2'/%3E%3Ccircle cx='250' cy='250' r='10' fill='%2338BDF8'/%3E%3Cline x1='250' y1='12' x2='250' y2='488' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='12' y1='250' x2='488' y2='250' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='82' y1='82' x2='418' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3Cline x1='418' y1='82' x2='82' y2='418' stroke-width='0.8' stroke-dasharray='8,8'/%3E%3C/g%3E%3C/svg%3E");
-  opacity: 0.065;
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.45));
-}
-
-@keyframes zoltraakOrbit {
-  0%   { transform: rotate3d(0, 0, 1, 0deg); }
-  100% { transform: rotate3d(0, 0, 1, 360deg); }
-}
-
-/* --- 3. DUAL-LINE GRIMOIRE BINDING & BRASS BOOK CORNERS --- */
+/* Grimoire Corner Filigrees (Elven Brass Trims in 4 corners) */
 .grimoire-frame {
   position: absolute;
-  inset: 5px;
+  inset: 0;
   pointer-events: none;
-  z-index: 2;
-  border: 1.5px double var(--frieren-gold-accent);
-  border-radius: calc(var(--radius-card) - 3px);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.25),
-    inset 0 0 0 1.5px var(--frieren-border-delicate),
-    0 0 0 1px rgba(44, 34, 20, 0.04);
-  transition: border-color var(--transition-serene), box-shadow var(--transition-serene);
+  z-index: 3;
 }
 
-[data-theme="night"] .grimoire-frame {
-  border-color: var(--frieren-gold-accent);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
-    inset 0 0 0 1.5px rgba(0, 0, 0, 0.5),
-    0 0 8px rgba(229, 192, 123, 0.15);
-}
-
-.grimoire-inner-border {
-  position: absolute;
-  inset: 3px;
-  border: 1px dashed var(--frieren-border-delicate);
-  border-radius: calc(var(--radius-card) - 5px);
-  box-shadow: inset 0 0 10px rgba(194, 155, 56, 0.06);
-}
-
-/* Delicate Elven Filigree Corner Accents */
 .corner-filigree {
   position: absolute;
-  width: 18px;
-  height: 18px;
-  z-index: 5;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  pointer-events: none;
-  transition: all var(--transition-serene);
+  width: 22px;
+  height: 22px;
+  color: var(--fern-gold);
+  opacity: 0.75;
 }
 
-.corner-filigree.top-left     { top: 2px; left: 2px; }
-.corner-filigree.top-right    { top: 2px; right: 2px; }
-.corner-filigree.bottom-left  { bottom: 2px; left: 2px; }
-.corner-filigree.bottom-right { bottom: 2px; right: 2px; }
+.corner-filigree.top-left     { top: 7px; left: 7px; }
+.corner-filigree.top-right    { top: 7px; right: 7px; }
+.corner-filigree.bottom-left  { bottom: 7px; left: 7px; }
+.corner-filigree.bottom-right { bottom: 7px; right: 7px; }
 
 .filigree-svg {
   width: 100%;
   height: 100%;
   display: block;
-  color: var(--frieren-gold-accent);
-  opacity: 0.85;
-  filter: drop-shadow(0 0 2px var(--frieren-gold-glow));
-  transition: color var(--transition-serene), filter var(--transition-serene), opacity var(--transition-serene);
-}
-
-[data-theme="night"] .filigree-svg {
-  color: var(--frieren-gold-accent);
-  opacity: 0.9;
-  filter: drop-shadow(0 0 3px rgba(229, 192, 123, 0.45));
-}
-
-/* --- 4. MAIN WIDGET SURFACE --- */
-.grimoire-content {
-  position: relative;
-  z-index: 3;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: clamp(4px, 1.2cqh, 8px);
-}
-
-/* --- 5. TOP HEADER: STAFF LORE & TACTILE ACTIONS --- */
-.song-header-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding-bottom: clamp(2px, 0.8cqh, 4px);
-  border-bottom: 1px solid var(--frieren-border-delicate);
-}
-
-.staff-lore-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-cinzel);
-  font-size: clamp(0.52rem, 1.2cqw, 0.62rem);
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--frieren-gold-accent);
-}
-
-.rune-glyph {
-  font-size: 0.8em;
-  opacity: 0.85;
-  filter: drop-shadow(0 0 2px var(--frieren-gold-glow));
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* --- GLOWING RUNIC INSCRIPTIONS (NO RIGID BOUNDING BOXES) --- */
-
-/* 1. Status Inscription ("CHANNELED" / "STILLED" / "STANDBY") */
-.mana-status-tag {
-  font-family: var(--font-cinzel), 'Cinzel', serif;
-  font-size: clamp(0.5rem, 1.1cqw, 0.6rem);
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  padding: 0;
-  border: none;
-  background: transparent;
-  box-shadow: none;
-  color: var(--frieren-text-muted);
-  opacity: 0.75;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: all var(--transition-serene);
-}
-
-.mana-status-tag.is-playing {
-  color: var(--mana-stream-deep);
-  opacity: 1;
-  text-shadow:
-    0 0 6px rgba(56, 189, 248, 0.75),
-    0 0 14px rgba(56, 189, 248, 0.35);
-  animation: runicLuminescence 4.8s ease-in-out infinite;
-}
-
-[data-theme="night"] .mana-status-tag.is-playing {
-  color: var(--mana-cyan-light);
-  text-shadow:
-    0 0 8px rgba(56, 189, 248, 0.9),
-    0 0 18px rgba(56, 189, 248, 0.5);
-}
-
-.mana-status-tag.is-paused {
-  color: var(--frieren-text-muted);
-  opacity: 0.6;
-  text-shadow: none;
-}
-
-@keyframes runicLuminescence {
-  0%, 100% {
-    opacity: 0.85;
-    text-shadow: 0 0 5px rgba(56, 189, 248, 0.5), 0 0 10px rgba(56, 189, 248, 0.2);
-  }
-  50% {
-    opacity: 1;
-    text-shadow: 0 0 9px rgba(56, 189, 248, 0.95), 0 0 18px rgba(56, 189, 248, 0.45);
-  }
-}
-
-/* 2. Atmosphere Glyph Toggle */
-.theme-toggle-btn {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  width: auto;
-  height: auto;
-  padding: 0 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--frieren-text-secondary);
-  font-size: 0.76rem;
-  opacity: 0.75;
-  transition: all 0.35s ease;
-}
-
-.theme-toggle-btn:hover {
-  opacity: 1;
-  color: var(--mana-stream-cyan);
-  text-shadow: 0 0 8px rgba(56, 189, 248, 0.85);
-  transform: scale(1.1);
-}
-
-/* 3. Inscription Action ("⚜ INSCRIPTION") */
-.grimoire-config-btn {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-  font-family: var(--font-cinzel), 'Cinzel', serif;
-  font-size: clamp(0.5rem, 1.1cqw, 0.6rem);
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--frieren-gold-accent);
-  opacity: 0.82;
-  text-shadow: 0 0 3px var(--frieren-gold-glow);
-  transition: all 0.35s ease;
-}
-
-.grimoire-config-btn:hover {
-  background: transparent;
-  opacity: 1;
-  color: var(--mana-stream-cyan);
-  text-shadow:
-    0 0 8px rgba(56, 189, 248, 0.85),
-    0 0 16px rgba(56, 189, 248, 0.45);
-  transform: translateY(-0.5px);
-}
-
-.config-rune {
-  font-size: 0.72rem;
-  color: inherit;
-  transition: all 0.35s ease;
-}
-
-.grimoire-config-btn:hover .config-rune {
-  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.9));
-}
-
-/* --- 6. MAIN STAGE: THE STAFF CRYSTAL + TRACK PLAQUE --- */
-.song-stage-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(12px, 3cqw, 24px);
-  flex-grow: 1;
-  width: 100%;
 }
 
 /* ==========================================================================
-   PILLAR 1: ALBUM ART (THE STAFF CRYSTAL)
-   Encased in dual-line elven gold frame, perfectly circular,
-   with slow, peaceful 4.8s Breathing Glow box-shadow.
+   4. CHAPTER HEADING (STATUS HEADER: "FERN'S GRIMOIRE · DISPATCH")
    ========================================================================== */
-.staff-crystal-mount {
+.status-header {
   position: relative;
-  flex-shrink: 0;
-  width: clamp(74px, 18cqw + 20px, 108px);
-  height: clamp(74px, 18cqw + 20px, 108px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Outer Rotating Zoltraak Runic Bezel */
-.crystal-outer-bezel {
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 1;
-  animation: zoltraakOrbit 180s linear infinite;
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-.bezel-runic-svg {
-  width: 100%;
-  height: 100%;
-  color: var(--frieren-gold-accent);
-  opacity: 0.45;
-  transition: opacity var(--transition-serene), color var(--transition-serene);
-}
-
-[data-theme="night"] .bezel-runic-svg {
-  color: var(--mana-stream-cyan);
-  opacity: 0.6;
-  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.6));
-}
-
-/* Dual-Line Gold Encased Crystal Housing */
-.crystal-core-housing {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 2px double var(--frieren-gold-accent);
-  padding: 3px;
-  box-sizing: border-box;
-  z-index: 2;
-  transition: border-color var(--transition-serene);
-}
-
-/* Pillar 1 Animation: Peaceful 4.8s Breathing Mana Glow (will-change: filter, transform) */
-.crystal-mana-aura {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 1;
-  will-change: filter, transform;
-  transform: translateZ(0);
-  animation: staffCrystalBreathing 4.8s ease-in-out infinite;
-}
-
-@keyframes staffCrystalBreathing {
-  0% {
-    box-shadow:
-      0 0 8px rgba(56, 189, 248, 0.25),
-      0 0 18px rgba(194, 155, 56, 0.2),
-      inset 0 0 6px rgba(56, 189, 248, 0.18);
-    filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.3));
-    transform: scale(0.985);
-  }
-  50% {
-    box-shadow:
-      0 0 16px rgba(56, 189, 248, 0.6),
-      0 0 30px rgba(194, 155, 56, 0.45),
-      inset 0 0 12px rgba(56, 189, 248, 0.4);
-    filter: drop-shadow(0 0 7px rgba(56, 189, 248, 0.65));
-    transform: scale(1.015);
-  }
-  100% {
-    box-shadow:
-      0 0 8px rgba(56, 189, 248, 0.25),
-      0 0 18px rgba(194, 155, 56, 0.2),
-      inset 0 0 6px rgba(56, 189, 248, 0.18);
-    filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.3));
-    transform: scale(0.985);
-  }
-}
-
-/* Album Container (Lens) */
-.crystal-album-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  overflow: hidden;
-  background: var(--frieren-bg-surface);
-  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.2);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.crystal-album-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: opacity 0.8s ease;
-}
-
-/* Crystal Fallback SVG Gem */
-.crystal-fallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle, #0F2338 0%, #08121E 100%);
-}
-
-.crystal-gem-svg {
-  width: 82%;
-  height: 82%;
-  display: block;
-  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.8));
-}
-
-/* Crystal Glass Sheen & Convex Lens Glint */
-.crystal-sheen-glint {
-  position: absolute;
-  inset: 3px;
-  border-radius: 50%;
-  pointer-events: none;
   z-index: 4;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.45) 0%,
-    rgba(255, 255, 255, 0.12) 35%,
-    transparent 55%,
-    rgba(56, 189, 248, 0.15) 100%
-  );
-  mix-blend-mode: overlay;
-}
-
-.crystal-inner-bezel {
-  position: absolute;
-  inset: 1px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  pointer-events: none;
-  z-index: 5;
-}
-
-/* ==========================================================================
-   PILLAR 2: TYPOGRAPHY (THE SPELL & THE CASTER)
-   Track Title in primary Serif (Cinzel / Playfair Display / EB Garamond),
-   Artist in delicate italic serif, resembling scribed ancient notes.
-   ========================================================================== */
-.song-meta-plaque {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 0;
-}
-
-.track-info-section {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
   width: 100%;
-}
-
-.song-title-wrap {
-  width: 100%;
-  overflow: hidden;
-}
-
-.song-title {
-  font-family: var(--font-cinzel), 'Cinzel', 'Playfair Display', serif;
-  font-weight: 700;
-  font-size: clamp(0.85rem, 1.8cqw + 0.25rem, 1.18rem);
-  line-height: 1.25;
-  letter-spacing: 0.04em;
-  color: var(--frieren-text-ink);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 0;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85), 0 -1px 0 rgba(0, 0, 0, 0.06);
-  transition: color var(--transition-serene), text-shadow var(--transition-serene);
-}
-
-[data-theme="night"] .song-title {
-  color: #FFFFFF;
-  text-shadow: 0 0 10px rgba(56, 189, 248, 0.45);
-}
-
-.song-artist-wrap {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-.song-artist {
-  font-family: var(--font-serif), 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-size: clamp(0.72rem, 1.5cqw, 0.88rem);
-  color: var(--frieren-text-secondary);
-  letter-spacing: 0.02em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.meta-bullet {
-  color: var(--frieren-gold-accent);
-  font-size: 0.75rem;
-  opacity: 0.7;
-}
-
-.song-album {
-  font-family: var(--font-serif), 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(0.66rem, 1.3cqw, 0.78rem);
-  color: var(--frieren-text-muted);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  opacity: 0.85;
-}
-
-/* ==========================================================================
-   PILLAR 3: PROGRESS BAR (THE MANA THREAD)
-   Delicate 1px dotted cartographic line, glowing cyan particle beacon.
-   ========================================================================== */
-.mana-thread-assembly {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  margin-top: 6px;
-  width: 100%;
-}
-
-.mana-thread-track-container {
-  position: relative;
-  width: 100%;
-  height: 14px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin-top: 0;
+  /* Extended Margin-Bottom (+10px to 15px) for clear breathing room before Album Art */
+  margin-bottom: clamp(16px, 3.8cqh, 24px);
+  flex-shrink: 0;
 }
 
-/* Delicate 1px dotted cartographic line */
-.mana-thread-line {
-  position: relative;
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
-  height: 2px;
-  border-bottom: 1px dotted var(--frieren-gold-accent);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
-  transition: border-color var(--transition-serene);
+  max-width: 320px;
+  white-space: nowrap;
+  font-family: var(--font-serif);
+  font-size: clamp(0.62rem, 1.8cqw, 0.72rem);
+  font-weight: 600;
+  letter-spacing: 0.14em; /* Proportional & stately chapter title spacing, not overly spaced */
+  text-transform: uppercase;
+  color: var(--fern-gold-light);
+  cursor: default;
 }
 
-[data-theme="night"] .mana-thread-line {
-  border-bottom: 1px dotted rgba(229, 192, 123, 0.75);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+/* Decorative chapter dividing rules flanking the header */
+.chapter-ornament {
+  flex: 1 1 20px;
+  height: 1px;
+  max-width: 48px;
+  position: relative;
 }
 
-/* Flowing Cyan Mana Stream Fill */
-.mana-thread-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    rgba(56, 189, 248, 0.25) 0%,
-    var(--mana-stream-cyan) 80%,
-    var(--mana-core) 100%
-  );
-  box-shadow: 0 0 6px var(--mana-stream-cyan);
-  border-radius: 1px;
-  transition: width 0.3s ease;
+.chapter-ornament.left {
+  background: linear-gradient(90deg, transparent, var(--fern-gold-border));
 }
 
-/* Soft, Glowing Cyan Particle Indicator */
-.mana-particle-beacon {
+.chapter-ornament.right {
+  background: linear-gradient(90deg, var(--fern-gold-border), transparent);
+}
+
+.chapter-ornament::after {
+  content: "✦";
   position: absolute;
   top: 50%;
-  transform: translate(-50%, -50%);
-  width: 10px;
-  height: 10px;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;
-  transition: left 0.3s ease;
+  transform: translateY(-50%);
+  font-size: 0.55rem;
+  color: var(--fern-gold);
+  line-height: 1;
 }
 
-.particle-halo {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, transparent 70%);
-  animation: particleHaloBreathe 2.4s ease-in-out infinite;
+.chapter-ornament.left::after {
+  right: -2px;
 }
 
-.particle-core {
-  position: relative;
+.chapter-ornament.right::after {
+  left: -2px;
+}
+
+/* Delicate status dot (Soft Mana Ember) */
+.status-dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: #FFFFFF;
-  border: 1px solid var(--mana-stream-cyan);
-  box-shadow: 0 0 6px #38BDF8, 0 0 10px rgba(56, 189, 248, 0.85);
+  background: var(--fern-lavender);
+  display: inline-block;
+  opacity: 0.85;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(184, 165, 214, 0.45);
 }
 
-@keyframes particleHaloBreathe {
-  0%, 100% { transform: scale(0.85); opacity: 0.6; }
-  50%      { transform: scale(1.25); opacity: 1; }
+#songViewerWidget[data-status="playing"] .status-dot {
+  animation: emberBreathe 3.6s ease-in-out infinite;
 }
 
-/* Telemetry Readout */
-.mana-thread-telemetry {
+#songViewerWidget[data-status="paused"] .status-dot {
+  background: var(--fern-text-muted);
+  box-shadow: none;
+  opacity: 0.5;
+  animation: none;
+}
+
+@keyframes emberBreathe {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* ==========================================================================
+   5. THE ZOLTRAAK MAGIC CIRCLE & ALBUM ART ORB (DEPTH & MULTI-RINGS)
+   ========================================================================== */
+.magic-circle-stage {
+  position: relative;
+  z-index: 4;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-family: var(--font-cinzel), 'Cinzel', serif;
-  font-size: clamp(0.58rem, 1.2cqw, 0.68rem);
-  letter-spacing: 0.06em;
-  color: var(--frieren-text-muted);
+  justify-content: center;
+  margin: 0;
+  margin-bottom: clamp(6px, 1.8cqh, 12px);
+  flex-shrink: 0;
 }
 
-.telemetry-rune {
-  font-size: 0.65em;
-  color: var(--frieren-gold-accent);
-  opacity: 0.8;
+.magic-circle-wrapper {
+  position: relative;
+  width: clamp(140px, 30cqh, 195px);
+  height: clamp(140px, 30cqh, 195px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* --- 7. STANDBY STATE (SERENE FRIEREN LORE) --- */
-.standby-section {
+/* Pure CSS Magic Circle: Inner Dashed Spell Ring (Behind the Orb) */
+.magic-circle-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px dashed rgba(197, 160, 89, 0.26);
+  box-shadow:
+    0 0 0 1px rgba(184, 165, 214, 0.14),
+    inset 0 0 18px rgba(197, 160, 89, 0.08);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
+}
+
+/* Pure CSS Magic Circle: Outermost Astrolabe Orbital Ring */
+.magic-circle-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  border-radius: 50%;
+  border: 1px solid rgba(197, 160, 89, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(197, 160, 89, 0.08),
+    0 0 25px rgba(184, 165, 214, 0.06);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.75;
+}
+
+/* Rotating Astrolabe & Spell Linework SVG Layer */
+.magic-circle-glyphs {
+  position: absolute;
+  inset: -14px;
+  pointer-events: none;
+  color: var(--fern-gold);
+  transform-origin: center center;
+  opacity: 0.82;
+  transition: opacity 0.8s ease;
+  z-index: 2;
+}
+
+.magic-circle-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Serene Rotation when Music is Playing */
+@keyframes circleSlowDrift {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes circleCounterDrift {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+#songViewerWidget[data-status="playing"] .magic-circle-glyphs {
+  animation: circleSlowDrift 80s linear infinite;
+}
+
+#songViewerWidget[data-status="playing"] .magic-circle-wrapper::before {
+  animation: circleCounterDrift 55s linear infinite;
+}
+
+#songViewerWidget[data-status="playing"] .magic-circle-wrapper::after {
+  animation: circleSlowDrift 95s linear infinite;
+}
+
+#songViewerWidget[data-status="paused"] .magic-circle-glyphs,
+#songViewerWidget[data-status="paused"] .magic-circle-wrapper::before,
+#songViewerWidget[data-status="paused"] .magic-circle-wrapper::after {
+  animation-play-state: paused;
+  opacity: 0.45;
+}
+
+/* Inner Core: Album Artwork Disc & Seal Container */
+.magic-circle-core {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--fern-gold-border);
+  box-shadow: var(--grimoire-shadow-orb);
+  background-color: var(--fern-charcoal-deep);
+  z-index: 3;
+}
+
+/* Circular Album Artwork (Styled cleanly with graceful alt fallback text) */
+.album-art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.4s ease;
+  font-family: var(--font-serif);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fern-gold-border);
+  text-align: center;
+  opacity: 0.45;
+}
+
+/* Grimoire Parchment Seal Fallback (When no cover is available) */
+.grimoire-seal-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 6px 4px;
-  gap: 5px;
-  width: 100%;
+  background: radial-gradient(circle at 45% 40%, var(--fern-parchment-warm) 0%, #D8CBB7 65%, #BAAB94 100%);
+  border: 1px solid var(--fern-gold-border);
+  box-shadow: inset 0 0 25px rgba(84, 60, 30, 0.35);
+  color: #5C472E;
+  z-index: 1;
 }
 
-.standby-flourish {
-  font-size: 0.72rem;
-  letter-spacing: 0.25em;
-  color: var(--frieren-gold-accent);
-  opacity: 0.85;
+.seal-parchment-texture {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  opacity: 0.2;
+  background-image: radial-gradient(circle at 50% 50%, rgba(70, 48, 20, 0.15) 1px, transparent 1px);
+  background-size: 8px 8px;
+  pointer-events: none;
 }
 
-.standby-quote {
-  font-family: var(--font-serif), 'EB Garamond', Georgia, serif;
-  font-style: italic;
-  font-size: clamp(0.72rem, 1.5cqw, 0.84rem);
-  line-height: 1.3;
-  color: var(--frieren-text-secondary);
-  max-width: 96%;
-  margin: 0;
-}
-
-.standby-hint {
-  font-family: var(--font-serif), 'EB Garamond', Georgia, serif;
-  font-size: clamp(0.62rem, 1.2cqw, 0.72rem);
-  color: var(--frieren-text-muted);
-  opacity: 0.9;
-}
-
-.standby-inscribe-btn {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 3px 0;
-  margin-top: 4px;
-  font-family: var(--font-cinzel), 'Cinzel', serif;
-  font-size: clamp(0.54rem, 1.2cqw, 0.64rem);
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  color: var(--frieren-gold-accent);
-  opacity: 0.85;
-  cursor: pointer;
-  display: inline-flex;
+.seal-emblem {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 5px;
-  text-shadow: 0 0 3px var(--frieren-gold-glow);
-  border-bottom: 1px dotted rgba(194, 155, 56, 0.4);
-  transition: all 0.35s ease;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
 }
 
-.standby-inscribe-btn:hover {
-  background: transparent;
-  opacity: 1;
-  color: var(--mana-stream-cyan);
-  border-bottom-color: var(--mana-stream-cyan);
-  text-shadow:
-    0 0 8px rgba(56, 189, 248, 0.85),
-    0 0 16px rgba(56, 189, 248, 0.4);
-  transform: translateY(-0.5px);
+.seal-svg {
+  width: 65%;
+  height: 65%;
+  display: block;
 }
 
-.btn-rune {
-  font-size: 0.75rem;
-  color: var(--frieren-gold-accent);
+/* Thematic Placeholder Text: Soft and Integrated into the Parchment */
+.seal-rune-text {
+  font-family: var(--font-serif);
+  font-size: clamp(0.52rem, 1.4cqw, 0.62rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6B5539;
+  opacity: 0.45; /* Soft, blends into parchment, not like error text */
+  margin-top: 3px;
 }
 
-/* --- 8. CHRONICLE FOOTER --- */
-.song-footer {
+/* Easter Egg: Fern's Subtle Pout Jitter when Paused and Hovered */
+@keyframes fernPoutJitter {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(-1.2px, 1px); }
+  40%  { transform: translate(1.2px, -1px); }
+  60%  { transform: translate(-1px, 1.2px); }
+  80%  { transform: translate(1px, -0.8px); }
+  100% { transform: translate(0, 0); }
+}
+
+#songViewerWidget[data-status="paused"] .magic-circle-core:hover {
+  animation: fernPoutJitter 0.16s ease-in-out infinite;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   6. TRACK DETAILS & TYPOGRAPHY (HARMONIZED WITH CALENDAR WIDGET)
+   ========================================================================== */
+.track-details-stage {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: clamp(8px, 2cqh, 14px);
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+
+/* Track Title: Grand Fantasy Serif in Bone White (Cinzel / Marcellus) */
+#trackTitle,
+.track-title {
+  width: 100%;
+  margin: 0;
+  margin-bottom: 4px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.08rem, 3.4cqw, 1.38rem);
+  letter-spacing: 0.02em; /* Tighter refined letter-spacing (approx 0.5px - 1px) */
+  text-transform: none;   /* Title Case: Awaiting Melody (No stiff ALL CAPS) */
+  line-height: 1.25;
+  color: var(--fern-cream);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Track Artist: Scribed Italic Marginalia (Clean, Slender, Elegant) */
+#trackArtist,
+.track-artist {
+  width: 100%;
+  margin-top: 2px;
+  margin-bottom: 0;
+  font-family: var(--font-sans);
+  font-style: italic;     /* Italic: feels like handwritten marginalia notes in an ancient grimoire */
+  font-weight: 500;
+  font-size: clamp(0.78rem, 2cqw, 0.90rem);
+  letter-spacing: 0.02em; /* Natural and comfortable spacing */
+  text-transform: none;
+  color: var(--fern-lavender-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   7. THE STAFF PROGRESS BAR & BUTTERFLY HAIRPIN
+   ========================================================================== */
+.staff-assembly {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: clamp(12px, 2.8cqh, 18px);
+}
+
+/* Slender Magic Thread / Staff Rail */
+#progressBar,
+.progress-bar {
+  position: relative;
+  width: 82%;
+  max-width: 240px;
+  height: 3px;
+  margin: 0 auto;
+  background: var(--fern-staff-track);
+  border-radius: 2px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+#progressBar:focus-visible {
+  outline: 1px dotted var(--fern-gold);
+}
+
+/* Background Staff Guide Rail */
+.progress-track {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(197, 160, 89, 0.15) 0%, rgba(197, 160, 89, 0.28) 100%);
+  pointer-events: none;
+}
+
+/* Fill Line: Inspired by the Crimson Velvet Ribbon tied to Fern's Staff */
+#progressFill,
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--fern-staff-ribbon) 0%, var(--fern-staff-ribbon-bright) 70%, var(--fern-gold) 100%);
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: 0 0 5px rgba(184, 67, 87, 0.35);
+  transition: width 0.25s linear;
+}
+
+/* Fern's Golden Butterfly Hair Ornament (Crucial Thematic Element!) */
+#progressThumb,
+.progress-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  color: var(--fern-gold);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.55));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+  margin: 0;
+  padding: 0;
+  transition: left 0.25s linear, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#progressBar:hover #progressThumb {
+  transform: translate(-50%, -50%) scale(1.18);
+  color: var(--fern-gold-light);
+}
+
+.butterfly-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* Timestamps: Symmetrical readout below progress bar */
+.time-readout {
+  width: 82%;
+  max-width: 240px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: clamp(0.66rem, 1.6cqw, 0.74rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--fern-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.time-stamp {
+  font-weight: 600;
+}
+
+.time-stamp.current {
+  color: var(--fern-lavender-soft);
+}
+
+.time-divider {
+  font-size: 0.6em;
+  color: var(--fern-gold);
+  opacity: 0.65;
+}
+
+/* ==========================================================================
+   8. STORYBOOK LORE FOOTNOTE (CLIPPING FIX & CLASSIC STORYBOOK VIBE)
+   ========================================================================== */
+.storybook-lore {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 clamp(16px, 4cqw, 24px); /* Minimum 16px - 24px side padding to stay clear of gold borders */
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  border-top: 1px solid var(--frieren-border-delicate);
-  padding-top: clamp(2px, 0.8cqh, 4px);
-  text-align: center;
-}
-
-.chronicle-star {
-  color: var(--frieren-gold-accent);
-  font-size: 0.75rem;
-  opacity: 0.85;
-  filter: drop-shadow(0 0 3px var(--frieren-gold-glow));
-}
-
-.footer-lore-text {
+  margin-top: clamp(8px, 2.2cqh, 14px);
+  margin-bottom: 2px;
   font-family: var(--font-serif);
-  font-size: clamp(0.58rem, 1.3cqw, 0.7rem);
   font-style: italic;
+  font-size: clamp(0.58rem, 1.5cqw, 0.68rem);
   letter-spacing: 0.03em;
-  color: var(--frieren-text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 90%;
-}
-
-/* --- 9. ANCIENT MODAL: SPELL SCROLL / GRIMOIRE INSCRIBER --- */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgba(12, 16, 26, 0.75);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  box-sizing: border-box;
-}
-
-.grimoire-ledger-modal {
-  position: relative;
-  width: 100%;
-  max-width: 440px;
-  background-color: #FAF7F0;
-  background-image:
-    radial-gradient(ellipse at 50% 0%, rgba(214, 197, 168, 0.35) 0%, transparent 60%),
-    linear-gradient(135deg, #FAF7F0 0%, #F5F0E6 48%, #EBE3D3 100%);
-  border: 2px double var(--frieren-gold-accent);
-  border-radius: var(--radius-card);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.45),
-    inset 0 0 25px rgba(168, 140, 95, 0.2);
-  padding: 20px 24px;
-  box-sizing: border-box;
-  color: var(--frieren-text-ink);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-[data-theme="night"] .grimoire-ledger-modal {
-  background-color: #0E1422;
-  background-image: linear-gradient(135deg, #090D17 0%, #121A2C 100%);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.75),
-    inset 0 0 35px rgba(3, 105, 161, 0.2);
-}
-
-.modal-header {
+  line-height: 1.35;
+  text-transform: none; /* No stiff ALL CAPS */
+  color: var(--fern-gold-faint);
   text-align: center;
+  white-space: normal;  /* Wrap text cleanly if narrow, strictly no horizontal clipping! */
+  word-break: normal;
+  overflow-wrap: break-word;
+  opacity: 0.82;
 }
 
-.modal-rune-mark {
-  font-family: var(--font-cinzel);
-  font-size: 0.58rem;
-  letter-spacing: 0.15em;
-  color: var(--frieren-gold-accent);
-  text-transform: uppercase;
+.lore-sparkle {
+  flex-shrink: 0;
+  font-style: normal;
+  font-size: 0.65em;
+  color: var(--fern-gold);
+  opacity: 0.8;
+  line-height: 1;
 }
 
-.modal-title {
-  font-family: var(--font-cinzel);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--frieren-text-ink);
-  margin: 3px 0 2px;
-}
-
-.modal-sub {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 0.76rem;
-  color: var(--frieren-text-muted);
-}
-
-.modal-rule {
-  width: 60%;
-  height: 1px;
-  background: var(--frieren-border-gold);
-  margin: 8px auto 0;
-  box-shadow: 0 0 4px var(--frieren-gold-glow);
-}
-
-/* Tab Bar */
-.modal-tab-bar {
-  display: flex;
-  border-bottom: 1px solid var(--frieren-border-delicate);
-  gap: 8px;
-}
-
-.modal-tab-btn {
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  padding: 6px 10px;
-  font-family: var(--font-cinzel);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--frieren-text-muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.25s ease;
-}
-
-.modal-tab-btn.active {
-  color: var(--frieren-gold-accent);
-  border-bottom-color: var(--frieren-gold-accent);
-}
-
-.modal-tab-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.modal-instructions {
-  font-family: var(--font-serif);
-  font-size: 0.74rem;
-  line-height: 1.4;
-  color: var(--frieren-text-secondary);
-}
-
-.modal-link {
-  color: var(--mana-stream-deep);
-  text-decoration: underline;
-}
-
-[data-theme="night"] .modal-link {
-  color: var(--mana-cyan-light);
-}
-
-.modal-input-field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.modal-label {
-  font-family: var(--font-cinzel);
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--frieren-text-muted);
-}
-
-.modal-text-input {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid var(--frieren-border-grimoire);
-  border-radius: 2px;
-  padding: 6px 8px;
-  font-family: var(--font-serif);
-  font-size: 0.82rem;
-  color: var(--frieren-text-ink);
-  outline: none;
-  box-sizing: border-box;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-[data-theme="night"] .modal-text-input {
-  background: rgba(20, 27, 43, 0.7);
-  color: #FFFFFF;
-}
-
-.modal-text-input:focus {
-  border-color: var(--frieren-gold-accent);
-  box-shadow: 0 0 6px var(--frieren-gold-glow);
-}
-
-/* Modal Actions */
-.modal-footer-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 6px;
-  border-top: 1px solid var(--frieren-border-delicate);
-  padding-top: 10px;
-}
-
-.actions-right {
-  display: flex;
-  gap: 8px;
-}
-
-.modal-action-btn {
-  background: transparent;
-  border: 1px solid var(--frieren-border-gold);
-  border-radius: 2px;
-  padding: 5px 12px;
-  font-family: var(--font-cinzel);
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--frieren-text-ink);
-  transition: all 0.25s ease;
-}
-
-.modal-action-btn.demo-btn:hover {
-  background: rgba(194, 155, 56, 0.12);
-  box-shadow: 0 0 8px var(--frieren-gold-glow);
-}
-
-.modal-action-btn.dismiss-btn {
-  border-color: var(--frieren-border-delicate);
-  color: var(--frieren-text-muted);
-}
-
-.modal-action-btn.dismiss-btn:hover {
-  border-color: var(--frieren-border-grimoire);
-  color: var(--frieren-text-ink);
-}
-
-.modal-action-btn.inscribe-btn {
-  background: linear-gradient(
-    135deg,
-    var(--brass-light) 0%,
-    var(--brass-mid) 60%,
-    var(--brass-dark) 100%
-  );
-  color: #FFFFFF;
-  border: 1px solid #78350F;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-}
-
-.modal-action-btn.inscribe-btn:hover {
-  box-shadow: 0 0 12px var(--frieren-gold-glow);
-  transform: translateY(-0.5px);
+.lore-text {
+  display: inline;
 }
 
 /* ==========================================================================
-   PILLAR 4 & 5: RESPONSIVE CONTAINER QUERIES (VIVALDI TILE PRESETS)
+   9. CONTAINER QUERIES (RESPONSIVENESS IN VIVALDI TILES)
+   ========================================================================== */
+/* Very Compact Mode (<= 280px wide, e.g. small panel tile) */
+@container songViewerWidget (max-width: 280px) {
+  #songViewerWidget,
+  .song-viewer-widget {
+    padding: 16px 12px 10px 12px;
+  }
+
+  .status-header {
+    margin-bottom: 10px;
+  }
+
+  .status-indicator {
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+  }
+
+  .chapter-ornament {
+    max-width: 24px;
+  }
+
+  .magic-circle-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+
+  .magic-circle-wrapper::before {
+    inset: -9px;
+  }
+
+  .magic-circle-wrapper::after {
+    inset: -18px;
+  }
+
+  .magic-circle-glyphs {
+    inset: -10px;
+  }
+
+  #trackTitle {
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+  }
+
+  #trackArtist {
+    font-size: 0.72rem;
+  }
+
+  #progressBar {
+    width: 88%;
+    height: 2.5px;
+  }
+
+  #progressThumb {
+    width: 18px;
+    height: 18px;
+  }
+
+  .storybook-lore {
+    font-size: 0.55rem;
+    padding: 0 12px;
+    margin-top: 5px;
+  }
+}
+
+/* Ultra Short Height (<= 280px high, e.g. horizontal tile) */
+@container songViewerWidget (max-height: 280px) {
+  #songViewerWidget,
+  .song-viewer-widget {
+    padding: 10px 14px;
+  }
+
+  .status-header {
+    margin-bottom: 6px;
+  }
+
+  .magic-circle-wrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .storybook-lore {
+    display: none; /* Hide lore footnote on tight vertical spaces */
+  }
+
+  .staff-assembly {
+    margin-top: 6px;
+  }
+}
+
+/* ==========================================================================
+   10. SECRET EASTER EGG: FERN'S MANA CONCEALMENT (PENYEMBUNYIAN MANA)
+   Aesthetic: Total stealth where all sound & mana dissipate into the void,
+              leaving only Fern's faint magical silhouette and golden hairpin.
    ========================================================================== */
 
-/* COMPACT TILE (1x1 / Mini: Width <= 280px or Height <= 220px) */
-@container widget (max-width: 280px), widget (max-height: 220px) {
-  .frieren-song-root {
-    padding: 8px 12px;
-  }
-  .grimoire-frame {
-    inset: 3px;
-    border-width: 1.5px;
-  }
-  .grimoire-inner-border {
-    display: none;
-  }
-  .corner-filigree {
-    width: 15px;
-    height: 15px;
-  }
-  .staff-lore-badge {
-    font-size: 0.5rem;
-  }
-  .staff-crystal-mount {
-    width: 60px;
-    height: 60px;
-  }
-  .song-title {
-    font-size: 0.85rem;
-  }
-  .song-artist {
-    font-size: 0.68rem;
-  }
-  .song-album {
-    display: none;
-  }
-  .meta-bullet {
-    display: none;
-  }
-  .standby-quote {
-    font-size: 0.68rem;
-  }
-  .footer-lore-text {
-    font-size: 0.56rem;
-  }
+/* Universal smooth 60fps GPU-composited transition on opacity */
+#songViewerWidget,
+.song-viewer-widget,
+.status-header,
+.magic-circle-core,
+.magic-circle-glyphs,
+.magic-circle-wrapper::before,
+.magic-circle-wrapper::after,
+.track-details-stage,
+.staff-assembly,
+.storybook-lore,
+.grimoire-frame,
+.corner-filigree,
+#songViewerWidget::before,
+#progressThumb,
+.butterfly-svg {
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.35s ease,
+              border-color 0.35s ease;
 }
 
-/* ULTRA COMPACT TILE (Square Mini: Width <= 220px) */
-@container widget (max-width: 220px) {
-  .corner-filigree {
-    display: none;
-  }
-  .staff-lore-badge {
-    display: none;
-  }
-  .chronicle-star {
-    display: none;
-  }
-  .song-stage-section {
-    flex-direction: column;
-    gap: 8px;
-  }
+/* When Mana Concealment is Active: Background dims into dark stealth */
+#songViewerWidget.mana-concealed,
+.song-viewer-widget.mana-concealed {
+  background-color: rgba(18, 19, 24, 0.45);
+  border-color: rgba(197, 160, 89, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  cursor: grab;
 }
 
-/* WIDE TILE (2x1, 3x1, 3x2: Width >= 460px) */
-@container widget (min-width: 460px) {
-  .grimoire-content {
-    gap: 10px;
-  }
-  .staff-crystal-mount {
-    width: 112px;
-    height: 112px;
-  }
-  .song-title {
-    font-size: 1.25rem;
-  }
-  .song-artist {
-    font-size: 0.95rem;
-  }
-  .footer-lore-text {
-    font-size: 0.78rem;
-  }
+/* Most elements (texts, scrying orb, track, lore, and textures) fade to near-zero (0.08 - 0.1) */
+#songViewerWidget.mana-concealed .status-header,
+#songViewerWidget.mana-concealed .magic-circle-core,
+#songViewerWidget.mana-concealed .magic-circle-glyphs,
+#songViewerWidget.mana-concealed .magic-circle-wrapper::before,
+#songViewerWidget.mana-concealed .magic-circle-wrapper::after,
+#songViewerWidget.mana-concealed .track-details-stage,
+#songViewerWidget.mana-concealed .progress-track,
+#songViewerWidget.mana-concealed .progress-fill,
+#songViewerWidget.mana-concealed .time-readout,
+#songViewerWidget.mana-concealed .storybook-lore,
+#songViewerWidget.mana-concealed .grimoire-texture-overlay {
+  opacity: 0.08;
+  filter: blur(0.5px);
 }
+
+/* Faint Magic Silhouette: Gold frame borders & elven filigrees remain softly visible (0.4) */
+#songViewerWidget.mana-concealed .grimoire-frame,
+#songViewerWidget.mana-concealed .corner-filigree,
+#songViewerWidget.mana-concealed::before {
+  opacity: 0.4;
+}
+
+/* Fern's Golden Butterfly Hairpin remains as her signature anchor (0.45) */
+#songViewerWidget.mana-concealed #progressThumb,
+#songViewerWidget.mana-concealed .butterfly-svg {
+  opacity: 0.45;
+  filter: drop-shadow(0 0 6px rgba(197, 160, 89, 0.45));
+}
+

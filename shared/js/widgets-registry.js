@@ -140,7 +140,14 @@ const WIDGETS_REGISTRY = [
     desc: "Zoltraak magic circles visualizer, Lanyard, Last.fm & 'Anytime Anywhere'.",
     path: "themes/frieren/song-viewer/index.html"
   },
-
+  {
+    theme: "frieren",
+    category: "gif",
+    title: "Sleeping Frieren GIF",
+    fullName: "Frieren Sleeping GIF Widget",
+    desc: "Aesthetic animated banner of Frieren sleeping peacefully.",
+    path: "themes/frieren/gif-widget/index.html"
+  }
 ];
 
 if (typeof window !== "undefined") {
