@@ -326,8 +326,53 @@
     }
   }
 
+  // --- SECRET EASTER EGG: FERN'S MANA CONCEALMENT ---
+  function initManaConcealment() {
+    const rootEl = elements.root;
+    if (!rootEl) return;
+
+    // Interactive elements where clicking should NOT trigger mana concealment
+    const interactiveSelectors = 'button, input, select, textarea, a, #progressBar, .progress-bar, [role="slider"], [role="button"]';
+
+    let isConcealed = false;
+
+    function concealMana(e) {
+      // Only trigger on primary (left) mouse button click
+      if (e.button !== 0) return;
+
+      // Ignore if clicking on interactive controls (like progress bar, config buttons)
+      if (e.target && e.target.closest(interactiveSelectors)) {
+        return;
+      }
+
+      isConcealed = true;
+      rootEl.classList.add('mana-concealed');
+    }
+
+    function revealMana() {
+      if (!isConcealed) return;
+      isConcealed = false;
+      rootEl.classList.remove('mana-concealed');
+    }
+
+    // 1. Mouse down on widget background activates mana concealment
+    rootEl.addEventListener('mousedown', concealMana);
+
+    // 2. Mouse up anywhere on widget, document, or body reveals mana
+    rootEl.addEventListener('mouseup', revealMana);
+    document.body.addEventListener('mouseup', revealMana);
+    document.addEventListener('mouseup', revealMana);
+    window.addEventListener('mouseup', revealMana);
+
+    // 3. Fail-safes: Drag end, window blur, or mouse leaving ensures widget is never stuck
+    window.addEventListener('blur', revealMana);
+    document.addEventListener('mouseleave', revealMana);
+    document.addEventListener('dragend', revealMana);
+  }
+
   // --- INITIALIZATION ---
   initTheme();
+  initManaConcealment();
   songViewerService.init();
 
 })();

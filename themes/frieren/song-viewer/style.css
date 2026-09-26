@@ -798,3 +798,71 @@ html, body {
     margin-top: 6px;
   }
 }
+
+/* ==========================================================================
+   10. SECRET EASTER EGG: FERN'S MANA CONCEALMENT (PENYEMBUNYIAN MANA)
+   Aesthetic: Total stealth where all sound & mana dissipate into the void,
+              leaving only Fern's faint magical silhouette and golden hairpin.
+   ========================================================================== */
+
+/* Universal smooth 60fps GPU-composited transition on opacity */
+#songViewerWidget,
+.song-viewer-widget,
+.status-header,
+.magic-circle-core,
+.magic-circle-glyphs,
+.magic-circle-wrapper::before,
+.magic-circle-wrapper::after,
+.track-details-stage,
+.staff-assembly,
+.storybook-lore,
+.grimoire-frame,
+.corner-filigree,
+#songViewerWidget::before,
+#progressThumb,
+.butterfly-svg {
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.35s ease,
+              border-color 0.35s ease;
+}
+
+/* When Mana Concealment is Active: Background dims into dark stealth */
+#songViewerWidget.mana-concealed,
+.song-viewer-widget.mana-concealed {
+  background-color: rgba(18, 19, 24, 0.45);
+  border-color: rgba(197, 160, 89, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  cursor: grab;
+}
+
+/* Most elements (texts, scrying orb, track, lore, and textures) fade to near-zero (0.08 - 0.1) */
+#songViewerWidget.mana-concealed .status-header,
+#songViewerWidget.mana-concealed .magic-circle-core,
+#songViewerWidget.mana-concealed .magic-circle-glyphs,
+#songViewerWidget.mana-concealed .magic-circle-wrapper::before,
+#songViewerWidget.mana-concealed .magic-circle-wrapper::after,
+#songViewerWidget.mana-concealed .track-details-stage,
+#songViewerWidget.mana-concealed .progress-track,
+#songViewerWidget.mana-concealed .progress-fill,
+#songViewerWidget.mana-concealed .time-readout,
+#songViewerWidget.mana-concealed .storybook-lore,
+#songViewerWidget.mana-concealed .grimoire-texture-overlay {
+  opacity: 0.08;
+  filter: blur(0.5px);
+}
+
+/* Faint Magic Silhouette: Gold frame borders & elven filigrees remain softly visible (0.4) */
+#songViewerWidget.mana-concealed .grimoire-frame,
+#songViewerWidget.mana-concealed .corner-filigree,
+#songViewerWidget.mana-concealed::before {
+  opacity: 0.4;
+}
+
+/* Fern's Golden Butterfly Hairpin remains as her signature anchor (0.45) */
+#songViewerWidget.mana-concealed #progressThumb,
+#songViewerWidget.mana-concealed .butterfly-svg {
+  opacity: 0.45;
+  filter: drop-shadow(0 0 6px rgba(197, 160, 89, 0.45));
+}
+
