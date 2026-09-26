@@ -56,6 +56,7 @@ Vivaldi-Custom-Widgets/
 │   ├── frieren/                           # Frieren Theme (Magic, Elven Grimoire aesthetic)
 │   │   ├── calendar-widget/               # Widget: Calendar with DocumentFragment reflow optimization
 │   │   ├── day-progression/               # Widget: Daily time progression
+│   │   ├── gif-widget/                    # Widget: Local GIF rendering (offline-bundled)
 │   │   ├── song-viewer/                   # Widget: Music player API integration
 │   │   └── theme-base.css                 # Source of truth for Frieren CSS variables (colors, fonts, metrics)
 │   ├── persona-5/                         # Persona 5 Theme (Neubrutalism, High Contrast)
