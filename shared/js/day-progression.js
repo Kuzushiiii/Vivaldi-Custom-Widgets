@@ -73,4 +73,46 @@ const DayProgressionService = {
 if (typeof window !== 'undefined') {
   window.DayProgressionService = DayProgressionService;
   window.calculateDayProgression = calculateDayProgression;
+
+  // Auto-bind to standard day-progression layout elements if present in DOM
+  function autoBindDayProgression() {
+    const timeDisplay = document.getElementById('timeDisplay');
+    const phaseText = document.getElementById('phaseText');
+    const percentageDisplay = document.getElementById('percentageDisplay');
+    const progressionFill = document.getElementById('progressionFill');
+    const progressionThumb = document.getElementById('progressionThumb');
+
+    if (timeDisplay || phaseText || percentageDisplay || progressionFill) {
+      function update() {
+        const data = calculateDayProgression();
+        if (timeDisplay) timeDisplay.textContent = data.timeString;
+        if (phaseText) phaseText.textContent = `${data.phase.title} · ${data.phase.desc}`;
+        if (percentageDisplay) percentageDisplay.textContent = `${data.formattedPercent}%`;
+        if (progressionFill) progressionFill.style.width = `${data.percent}%`;
+        if (progressionThumb) progressionThumb.style.left = `${data.percent}%`;
+      }
+
+      update();
+      let timerId = setInterval(update, 1000);
+
+      // Deep Sleep guard
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          if (timerId) {
+            clearInterval(timerId);
+            timerId = null;
+          }
+        } else if (!timerId) {
+          update();
+          timerId = setInterval(update, 1000);
+        }
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', autoBindDayProgression);
+  } else {
+    autoBindDayProgression();
+  }
 }
