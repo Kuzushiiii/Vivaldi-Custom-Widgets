@@ -1,10 +1,4 @@
-/* ==========================================================================
-   FRIEREN: BEYOND JOURNEY'S END — UNIVERSAL THEME BASE
-   Aesthetic: Serene Fantasy, Ancient Grimoire Artifacts, & Eternal Time
-   ========================================================================== */
-
 :root {
-  /* --- PALETTE 1: ANCIENT GRIMOIRE (Parchment, Brass, & Deep Ink - Default) --- */
   --frieren-bg: #F4EFE6;
   --frieren-bg-warm: #EADFC9;
   --frieren-bg-surface: #FAF6EE;
@@ -22,7 +16,6 @@
   --frieren-border-delicate: rgba(44, 62, 80, 0.1);
   --frieren-border-gold: rgba(194, 155, 56, 0.55);
 
-  /* --- METALLIC CAST BRASS / ANTIQUE GOLD TOKENS --- */
   --brass-metal: #C29B38;
   --brass-light: #FDE68A;
   --brass-mid: #D97706;
@@ -34,7 +27,6 @@
   --frieren-gold-light: #DFC27D;
   --frieren-gold-glow: rgba(194, 155, 56, 0.35);
 
-  /* --- THE MANA STREAM (Elven Cyan / Mist & Particle Luminescence) --- */
   --mana-core: #E0F7FA;
   --mana-cyan-light: #A5F3FC;
   --mana-stream-cyan: #38BDF8;
@@ -43,43 +35,40 @@
   --mana-stream-soft-glow: rgba(56, 189, 248, 0.28);
   --mana-flower-petal: #7DD3FC;
 
-  /* --- PALETTE 3: FERN'S GRIMOIRE (Deep Charcoal, Soft Lavender, & Ancient Parchment) --- */
-  --fern-charcoal: #191B20;          /* Deep Charcoal (Her Heavy Travel Cloak) */
-  --fern-charcoal-light: #242730;    /* Charcoal Surface Tone */
-  --fern-charcoal-muted: #32353E;    /* Elevated Charcoal Panel */
-  --fern-dress-white: #FAF6EE;       /* Bone White / Cream Parchment (Her Dress & Grimoire Pages) */
-  --fern-parchment-warm: #EFE8DC;    /* Aged Parchment Warm Tone */
+  --fern-charcoal: #191B20;
+  --fern-charcoal-light: #242730;
+  --fern-charcoal-muted: #32353E;
+  --fern-dress-white: #FAF6EE;
+  --fern-parchment-warm: #EFE8DC;
   --fern-parchment-fiber: rgba(107, 78, 38, 0.06);
 
-  --fern-lavender: #B8A5D6;          /* Fern's Soft Pastel Purple Hair & Eyes */
-  --fern-lavender-light: #D4C7EC;    /* Lavender Highlight */
-  --fern-lavender-soft: #9E8DB8;     /* Muted Mauve Lavender for Subtitles */
-  --fern-lavender-deep: #5A4773;     /* Deep Shadow Lavender */
+  --fern-lavender: #B8A5D6;
+  --fern-lavender-light: #D4C7EC;
+  --fern-lavender-soft: #9E8DB8;
+  --fern-lavender-deep: #5A4773;
 
-  --fern-gold: #C5A059;              /* Antique Muted Gold (Hairpin & Staff Accents) */
-  --fern-gold-light: #DFC27D;        /* Shimmering Gold Accent */
+  --fern-gold: #C5A059;
+  --fern-gold-light: #DFC27D;
   --fern-gold-border: rgba(197, 160, 89, 0.45);
   --fern-gold-glow: rgba(197, 160, 89, 0.25);
 
-  --fern-staff-ribbon: #9E3A4B;      /* Crimson Velvet Ribbon on Fern's Staff */
+  --fern-staff-ribbon: #9E3A4B;
   --fern-staff-ribbon-light: #B84357;
-  --fern-staff-wood: #2E2A27;        /* Aged Staff Wood */
+  --fern-staff-wood: #2E2A27;
 
-  --fern-text-main: #FAF6EE;         /* Crisp Bone White Text */
-  --fern-text-secondary: #B5A8C8;    /* Soft Lavender Grey Text */
-  --fern-text-muted: #8E8A94;        /* Subdued Slate Charcoal Text */
+  --fern-text-main: #FAF6EE;
+  --fern-text-secondary: #B5A8C8;
+  --fern-text-muted: #8E8A94;
   --fern-text-faint: rgba(250, 246, 238, 0.38);
 
   --fern-magic-circle: rgba(197, 160, 89, 0.55);
   --fern-magic-circle-faint: rgba(184, 165, 214, 0.25);
 
-  /* --- TYPOGRAPHY (Harmonized with Frieren Calendar Widget) --- */
   --font-serif: 'Cinzel', 'Marcellus', 'Times New Roman', serif;
   --font-cinzel: 'Cinzel', 'Marcellus', 'Times New Roman', serif;
   --font-display: 'Cinzel', 'Marcellus', 'Playfair Display', serif;
   --font-sans: 'Quicksand', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* --- GEOMETRY & RADIUS --- */
   --radius-card: 10px;
   --radius-pill: 9999px;
   --grimoire-card-shadow: 
@@ -87,12 +76,10 @@
     inset 0 0 45px rgba(168, 130, 80, 0.32),
     inset 0 0 110px rgba(115, 80, 35, 0.2);
 
-  /* --- BREATHING TRANSITIONS --- */
   --transition-serene: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-breathing: 4.8s ease-in-out infinite;
 }
 
-/* --- PALETTE 2: DEEP NIGHT SKY (Cosmic Void & Nebula Mode) --- */
 [data-theme="night"],
 .frieren-night-mode {
   --frieren-bg: #0C101A;
@@ -135,7 +122,6 @@
     inset 0 0 100px rgba(3, 105, 161, 0.18);
 }
 
-/* Base resets for seamless Start Page integration */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -156,7 +142,6 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hide scrollbars strictly across all browsers */
 ::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
