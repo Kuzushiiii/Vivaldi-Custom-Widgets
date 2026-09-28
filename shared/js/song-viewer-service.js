@@ -526,7 +526,7 @@ class SongViewerService {
         });
       } else {
         if (typeof this.options.onStandby === "function") {
-          this.options.onStandby("lastfm", "OFFLINE — NO CACHED TRACK");
+          this.options.onStandby("lastfm", "OFFLINE: NO CACHED TRACK");
         }
       }
       return;
@@ -736,7 +736,7 @@ class SongViewerService {
     } catch (e) {
       clearTimeout(t);
       this._lastfmRetryCount = Math.min((this._lastfmRetryCount||0)+1, 6);
-      const msg = e.name === 'AbortError' ? 'LAST.FM TIMEOUT — RETRYING' : 'LAST.FM CONNECTION ERROR';
+      const msg = e.name === 'AbortError' ? 'LAST.FM TIMEOUT: RETRYING' : 'LAST.FM CONNECTION ERROR';
       if (typeof this.options.onStandby === "function") {
         this.options.onStandby("lastfm", msg);
       }

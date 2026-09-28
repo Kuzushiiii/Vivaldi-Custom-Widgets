@@ -41,7 +41,7 @@ body.gif-load-failed .container {
 }
 
 body.gif-load-failed .container::after {
-  content: "Persona 5 — Offline";
+  content: "Persona 5: Offline";
   font-family: monospace;
   font-size: 10px;
   letter-spacing: 0.08em;
