@@ -272,9 +272,6 @@ html, body {
   inset: -12px;
   border-radius: 50%;
   border: 1px dashed rgba(197, 160, 89, 0.26);
-  box-shadow:
-    0 0 0 1px rgba(184, 165, 214, 0.14),
-    inset 0 0 18px rgba(197, 160, 89, 0.08);
   pointer-events: none;
   z-index: 1;
   opacity: 0.85;
@@ -286,9 +283,6 @@ html, body {
   inset: -24px;
   border-radius: 50%;
   border: 1px solid rgba(197, 160, 89, 0.18);
-  box-shadow:
-    0 0 0 1px rgba(197, 160, 89, 0.08),
-    0 0 25px rgba(184, 165, 214, 0.06);
   pointer-events: none;
   z-index: 1;
   opacity: 0.75;
