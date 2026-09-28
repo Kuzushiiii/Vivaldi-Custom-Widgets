@@ -34,22 +34,6 @@
     standbySection: document.getElementById('standbySection'),
     standbyHint: document.getElementById('standbyHint'),
 
-    configModal: document.getElementById('configModal'),
-    openConfigBtn: document.getElementById('openConfigBtn'),
-    standbyConfigBtn: document.getElementById('standbyConfigBtn'),
-    closeConfigBtn: document.getElementById('closeConfigBtn'),
-    saveConfigBtn: document.getElementById('saveConfigBtn'),
-    demoBtn: document.getElementById('demoBtn'),
-
-    tabDiscord: document.getElementById('tabDiscord'),
-    tabLastfm: document.getElementById('tabLastfm'),
-    discordTabContent: document.getElementById('discordTabContent'),
-    lastfmTabContent: document.getElementById('lastfmTabContent'),
-
-    discordIdInput: document.getElementById('discordIdInput'),
-    lastfmUsernameInput: document.getElementById('lastfmUsernameInput'),
-    lastfmApiKeyInput: document.getElementById('lastfmApiKeyInput'),
-
     needleAudio: document.getElementById('needleDropAudio'),
   };
 
@@ -157,7 +141,6 @@
 
   // Tonearm & vinyl state
   let isCurrentlyPlaying = false;
-  let activeTabProvider = 'discord';
 
   function setTonearmAngle(angle) {
     if (elements.tonearmRod) {
@@ -336,101 +319,6 @@
     onError: (err) => {
       console.warn('[Phonograph Widget]', err);
     },
-  });
-
-  function switchTab(prov) {
-    activeTabProvider = prov;
-    if (prov === 'discord') {
-      elements.tabDiscord.classList.add('active');
-      elements.tabLastfm.classList.remove('active');
-      elements.discordTabContent.style.display = 'block';
-      elements.lastfmTabContent.style.display = 'none';
-    } else {
-      elements.tabLastfm.classList.add('active');
-      elements.tabDiscord.classList.remove('active');
-      elements.lastfmTabContent.style.display = 'block';
-      elements.discordTabContent.style.display = 'none';
-    }
-  }
-
-  function openConfigModal() {
-    getAudioContext(); // User gesture unlocks audio context if locked
-
-    if (elements.discordIdInput) {
-      elements.discordIdInput.value = songViewerService.discordId || '';
-    }
-    if (elements.lastfmUsernameInput) {
-      elements.lastfmUsernameInput.value = songViewerService.lastfmUser || '';
-    }
-    if (elements.lastfmApiKeyInput) {
-      elements.lastfmApiKeyInput.value = songViewerService.lastfmApiKey || '';
-    }
-
-    switchTab(songViewerService.provider || 'discord');
-
-    if (elements.configModal) {
-      elements.configModal.style.display = 'flex';
-      elements.configModal.setAttribute('aria-hidden', 'false');
-    }
-  }
-
-  function closeConfigModal() {
-    if (elements.configModal) {
-      elements.configModal.style.display = 'none';
-      elements.configModal.setAttribute('aria-hidden', 'true');
-    }
-  }
-
-  if (elements.openConfigBtn) {
-    elements.openConfigBtn.addEventListener('click', openConfigModal);
-  }
-  if (elements.standbyConfigBtn) {
-    elements.standbyConfigBtn.addEventListener('click', openConfigModal);
-  }
-  if (elements.closeConfigBtn) {
-    elements.closeConfigBtn.addEventListener('click', closeConfigModal);
-  }
-
-  if (elements.tabDiscord) {
-    elements.tabDiscord.addEventListener('click', () => switchTab('discord'));
-  }
-  if (elements.tabLastfm) {
-    elements.tabLastfm.addEventListener('click', () => switchTab('lastfm'));
-  }
-
-  if (elements.saveConfigBtn) {
-    elements.saveConfigBtn.addEventListener('click', () => {
-      hasPlayedNeedleDrop = false;
-      songViewerService.saveConfig({
-        provider: activeTabProvider,
-        discordId: elements.discordIdInput ? elements.discordIdInput.value.trim() : '',
-        lastfmUser: elements.lastfmUsernameInput ? elements.lastfmUsernameInput.value.trim() : '',
-        lastfmApiKey: elements.lastfmApiKeyInput ? elements.lastfmApiKeyInput.value.trim() : '',
-      });
-      closeConfigModal();
-    });
-  }
-
-  if (elements.demoBtn) {
-    elements.demoBtn.addEventListener('click', () => {
-      hasPlayedNeedleDrop = false;
-      closeConfigModal();
-      songViewerService.runDemoMode(VE_DEMO_TRACK);
-    });
-  }
-
-  if (elements.configModal) {
-    elements.configModal.addEventListener('click', (e) => {
-      if (e.target === elements.configModal) {
-        closeConfigModal();
-      }
-    });
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && elements.configModal && elements.configModal.style.display === 'flex') {
-      closeConfigModal();
-    }
   });
 
   if (elements.vinylDisc) {

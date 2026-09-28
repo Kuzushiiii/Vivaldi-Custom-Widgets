@@ -4,10 +4,8 @@
  */
 
 const STORAGE_KEYS = {
-  PROVIDER: "vcw_music_provider",
-  DISCORD: "vcw_lanyard_discord_id",
-  LASTFM_USER: "vcw_lastfm_username",
-  LASTFM_KEY: "vcw_lastfm_api_key",
+  GLOBAL_LASTFM: "vivaldi_global_lastfm",
+  GLOBAL_LANYARD: "vivaldi_global_lanyard",
 
   LASTFM_CURRENT_TRACK: "vcw_lastfm_current_track",
   LASTFM_START_TIME: "vcw_lastfm_start_time",
@@ -17,25 +15,9 @@ const STORAGE_KEYS = {
   LASTFM_TRACK_ARTIST: "vcw_lastfm_track_artist",
   LASTFM_TRACK_ALBUM: "vcw_lastfm_track_album",
   LASTFM_TRACK_ART: "vcw_lastfm_track_art",
-
-  LEGACY_PROVIDER: "p5_music_provider",
-  LEGACY_DISCORD: "p5_lanyard_discord_id",
-  LEGACY_LASTFM_USER: "p5_lastfm_username",
-  LEGACY_LASTFM_KEY: "p5_lastfm_api_key",
 };
 
 const DEFAULT_LASTFM_API_KEY = "b25b959554ed76058ac220b7b2e0a026";
-
-function getStorage(key, legacyKey) {
-  return (localStorage.getItem(key) || (legacyKey ? localStorage.getItem(legacyKey) : null) ||"");
-}
-
-function setStorage(key, legacyKey, value) {
-  localStorage.setItem(key, value);
-  if (legacyKey) {
-    localStorage.setItem(legacyKey, value);
-  }
-}
 
 function formatTimeMs(ms) {
   if (isNaN(ms) || ms < 0) return "00:00";
@@ -49,10 +31,10 @@ class SongViewerService {
   constructor(options = {}) {
     this.options = options;
 
-    this.provider = getStorage(STORAGE_KEYS.PROVIDER, STORAGE_KEYS.LEGACY_PROVIDER) || "discord";
-    this.discordId = getStorage(STORAGE_KEYS.DISCORD, STORAGE_KEYS.LEGACY_DISCORD,);
-    this.lastfmUser = getStorage(STORAGE_KEYS.LASTFM_USER, STORAGE_KEYS.LEGACY_LASTFM_USER,);
-    this.lastfmApiKey = getStorage(STORAGE_KEYS.LASTFM_KEY, STORAGE_KEYS.LEGACY_LASTFM_KEY,);
+    this.provider = "discord";
+    this.discordId = "";
+    this.lastfmApiKey = "";
+    this.lastfmUser = "";
 
     this.socket = null;
     this.pollInterval = null;
@@ -72,6 +54,7 @@ class SongViewerService {
     this._lastfmRetryCount = 0;
     this.bindVisibilityHandler();
     this.bindOnlineHandlers();
+    this.bindStorageHandler();
   }
 
   bindVisibilityHandler() {
@@ -177,16 +160,89 @@ class SongViewerService {
     }
   }
 
-  saveConfig({ provider, discordId, lastfmUser, lastfmApiKey }) {
-    this.provider = provider || "discord";
-    this.discordId = (discordId || "").trim();
-    this.lastfmUser = (lastfmUser || "").trim();
-    this.lastfmApiKey = (lastfmApiKey || "").trim();
+  bindStorageHandler() {
+    if (typeof window !== "undefined") {
+      window.addEventListener("storage", (e) => {
+        if (e.key === STORAGE_KEYS.GLOBAL_LASTFM || e.key === STORAGE_KEYS.GLOBAL_LANYARD) {
+          this.isDemoMode = false;
+          this.init();
+        }
+      });
+    }
+  }
 
-    setStorage(STORAGE_KEYS.PROVIDER, STORAGE_KEYS.LEGACY_PROVIDER, this.provider,);
-    setStorage(STORAGE_KEYS.DISCORD, STORAGE_KEYS.LEGACY_DISCORD, this.discordId,);
-    setStorage(STORAGE_KEYS.LASTFM_USER, STORAGE_KEYS.LEGACY_LASTFM_USER, this.lastfmUser,);
-    setStorage(STORAGE_KEYS.LASTFM_KEY, STORAGE_KEYS.LEGACY_LASTFM_KEY, this.lastfmApiKey,);
+  loadConfig() {
+    let lastfm = localStorage.getItem(STORAGE_KEYS.GLOBAL_LASTFM);
+    let lanyard = localStorage.getItem(STORAGE_KEYS.GLOBAL_LANYARD);
+
+    if (lastfm === null && lanyard === null) {
+      if (typeof window !== "undefined" && typeof window.prompt === "function") {
+        const promptLastfm = window.prompt("Enter Last.fm API Key (or Username):");
+        if (promptLastfm !== null) {
+          lastfm = promptLastfm.trim();
+          localStorage.setItem(STORAGE_KEYS.GLOBAL_LASTFM, lastfm);
+        } else {
+          lastfm = "";
+        }
+
+        const promptDiscord = window.prompt("Enter Discord User ID (for Lanyard):");
+        if (promptDiscord !== null) {
+          lanyard = promptDiscord.trim();
+          localStorage.setItem(STORAGE_KEYS.GLOBAL_LANYARD, lanyard);
+        } else {
+          lanyard = "";
+        }
+      }
+    }
+
+    this.lastfmApiKey = (lastfm || "").trim();
+    this.discordId = (lanyard || "").trim();
+    this.resolveLastfmCredentials();
+
+    if (this.discordId) {
+      this.provider = "discord";
+    } else if (this.lastfmUser || this.lastfmApiKey) {
+      this.provider = "lastfm";
+    } else {
+      this.provider = "none";
+    }
+  }
+
+  resolveLastfmCredentials() {
+    const raw = (this.lastfmApiKey || "").trim();
+    if (!raw) {
+      this.lastfmUser = "";
+      return;
+    }
+
+    if (raw.includes(":")) {
+      const parts = raw.split(":");
+      this.lastfmUser = parts[0].trim();
+      this.lastfmApiKey = parts[1].trim() || DEFAULT_LASTFM_API_KEY;
+    } else if (/^[a-f0-9]{32}$/i.test(raw)) {
+      this.lastfmApiKey = raw;
+      this.lastfmUser = (localStorage.getItem("vcw_lastfm_username") || "").trim() || raw;
+    } else {
+      this.lastfmUser = raw;
+      this.lastfmApiKey = DEFAULT_LASTFM_API_KEY;
+    }
+  }
+
+  saveConfig({ provider, discordId, lastfmUser, lastfmApiKey, lastfm } = {}) {
+    if (discordId !== undefined) {
+      this.discordId = (discordId || "").trim();
+      localStorage.setItem(STORAGE_KEYS.GLOBAL_LANYARD, this.discordId);
+    }
+
+    const lastfmVal = (lastfm !== undefined ? lastfm : (lastfmApiKey || lastfmUser || "")).trim();
+    if (lastfmVal !== "") {
+      this.lastfmApiKey = lastfmVal;
+      localStorage.setItem(STORAGE_KEYS.GLOBAL_LASTFM, lastfmVal);
+    }
+
+    if (provider) {
+      this.provider = provider;
+    }
 
     this.isDemoMode = false;
     this.init();
@@ -200,18 +256,14 @@ class SongViewerService {
       return;
     }
 
-    if (this.provider === "discord") {
-      if (this.discordId) {
-        this.connectLanyard();
-      } else {
-        this.runDemoMode();
-      }
-    } else if (this.provider === "lastfm") {
-      if (this.lastfmUser) {
-        this.connectLastfm();
-      } else {
-        this.runDemoMode();
-      }
+    this.loadConfig();
+
+    if (this.provider === "discord" && this.discordId) {
+      this.connectLanyard();
+    } else if (this.provider === "lastfm" && (this.lastfmUser || this.lastfmApiKey)) {
+      this.connectLastfm();
+    } else {
+      this.runDemoMode();
     }
 
     this.startProgressTimer();

@@ -112,15 +112,6 @@
               <span class="status-seal" id="statusBadge">STANDBY</span>
               <span class="provider-label" id="providerLabel">CH·POST</span>
             </div>
-
-            <button class="envelope-trigger" id="openConfigBtn" title="Open Client Request Form" aria-label="Open Settings">
-              <svg class="envelope-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M3 6.5C3 5.67157 3.67157 5 4.5 5H19.5C20.3284 5 21 5.67157 21 6.5V17.5C21 18.3284 20.3284 19 19.5 19H4.5C3.67157 19 3 18.3284 3 17.5V6.5Z" stroke-width="1.4"/>
-                <path d="M3 6.5L12 13L21 6.5" stroke-width="1.4"/>
-                <circle cx="12" cy="12.5" r="1.8" fill="var(--accent-wax-red)" stroke="var(--brass-metal)" stroke-width="0.8"/>
-              </svg>
-              <span class="envelope-tag">FORM</span>
-            </button>
           </div>
 
           <div class="track-info" id="trackInfoSection" style="display: none;">
@@ -152,9 +143,6 @@
             <div class="standby-flourish">❦</div>
             <p class="standby-quote">"The phonograph rests in serene stillness... awaiting your melody from across the sea."</p>
             <span class="standby-hint" id="standbyHint">Play a song or configure your dispatch credentials.</span>
-            <button class="standby-ledger-btn" id="standbyConfigBtn">
-              <span>⚜</span> OPEN CLIENT LEDGER
-            </button>
           </div>
 
         </section>
@@ -166,83 +154,6 @@
         <span class="doll-signature">Violet Evergarden</span>
       </footer>
 
-    </div>
-
-    <div class="modal-backdrop" id="configModal" style="display: none;" aria-hidden="true" role="dialog">
-      <div class="ledger-paper-modal">
-        
-        <div class="modal-wax-badge">
-          <div class="wax-stamp-circle">
-            <span class="wax-insignia">CH</span>
-          </div>
-        </div>
-
-        <header class="modal-header">
-          <div class="modal-postal-mark">REGISTERED TELEGRAPHIC DISPATCH</div>
-          <h2 class="modal-title">Client Request Ledger</h2>
-          <p class="modal-sub">C·H POSTAL COMPANY · MUSIC TRANSCRIPTION SERVICE</p>
-          <div class="ledger-rule"></div>
-        </header>
-
-        <div class="service-ribbon-tabs">
-          <button class="ribbon-tab active" id="tabDiscord" type="button">
-            <span class="tab-flourish">◆</span> DISCORD (LANYARD)
-          </button>
-          <button class="ribbon-tab" id="tabLastfm" type="button">
-            <span class="tab-flourish">◆</span> LAST.FM DISPATCH
-          </button>
-        </div>
-
-        <div class="ledger-tab-panel" id="discordTabContent">
-          <div class="ledger-instructions">
-            Record your <strong>Discord User Identifier</strong> below. Ensure you have presented yourself to the bot telegraph at 
-            <a href="https://discord.gg/lanyard" target="_blank" rel="noopener" class="ledger-link">discord.gg/lanyard</a>.
-          </div>
-
-          <div class="ledger-field-group">
-            <label class="ledger-label" for="discordIdInput">CLIENT TELEGRAPH ID :</label>
-            <div class="perforated-input-wrap">
-              <input type="text" class="ledger-input" id="discordIdInput" placeholder="e.g. 328901234567890123" autocomplete="off" spellcheck="false">
-              <div class="dotted-underrule"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="ledger-tab-panel" id="lastfmTabContent" style="display: none;">
-          <div class="ledger-instructions">
-            Enter your <strong>Last.fm Registry Name</strong> to track scrobbled musical cylinders.
-          </div>
-
-          <div class="ledger-field-group">
-            <label class="ledger-label" for="lastfmUsernameInput">SUBSCRIBER REPOSITORY NAME :</label>
-            <div class="perforated-input-wrap">
-              <input type="text" class="ledger-input" id="lastfmUsernameInput" placeholder="e.g. your_lastfm_username" autocomplete="off" spellcheck="false">
-              <div class="dotted-underrule"></div>
-            </div>
-          </div>
-
-          <div class="ledger-field-group" style="margin-top: 10px;">
-            <label class="ledger-label" for="lastfmApiKeyInput">CUSTOM TELEGRAPH CIPHER (OPTIONAL) :</label>
-            <div class="perforated-input-wrap">
-              <input type="text" class="ledger-input" id="lastfmApiKeyInput" placeholder="Default cipher is active" autocomplete="off" spellcheck="false">
-              <div class="dotted-underrule"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="ledger-actions">
-          <button class="action-btn btn-demo" id="demoBtn" type="button" title="Play Orchestral Demo Cylinder">
-            <span>⚜</span> TEST CYLINDER
-          </button>
-          <div class="actions-right">
-            <button class="action-btn btn-dismiss" id="closeConfigBtn" type="button">DISMISS</button>
-            <button class="action-btn btn-seal" id="saveConfigBtn" type="button">
-              <span class="seal-icon">✦</span> AFFIX SEAL &amp; SAVE
-            </button>
-          </div>
-        </div>
-
-      </div>
     </div>
 
   </div>
