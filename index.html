@@ -310,7 +310,9 @@
       transition: border-color 0.15s ease, background-color 0.15s ease;
     }
 
-    .search-input:focus {
+    .search-input:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 1px;
       border-color: var(--text-white);
       background: var(--bg-void);
     }
@@ -439,6 +441,19 @@
       background: var(--border-bright);
       outline: none;
       cursor: pointer;
+    }
+
+    .slider-item input[type="range"]:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 4px;
+    }
+
+    .btn:focus-visible,
+    .pill-btn:focus-visible,
+    .card-action-btn:focus-visible,
+    .modal-close-btn:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
     }
 
     .slider-item input[type="range"]::-webkit-slider-thumb {

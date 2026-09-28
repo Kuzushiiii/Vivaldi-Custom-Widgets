@@ -21,6 +21,11 @@
     outline: none !important;
 }
 
+.dashboard-widget:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.6) !important;
+    outline-offset: 2px !important;
+}
+
 /* 2. Hide unwanted title text, icons, and URL address */
 .dashboard-widget.Dashboard-Webpage .url-wrapper,
 .dashboard-widget.Dashboard-Webpage h1.title span,
