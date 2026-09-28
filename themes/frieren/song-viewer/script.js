@@ -1,21 +1,10 @@
 /**
- * FRIEREN: BEYOND JOURNEY'S END — SONG VIEWER CONTROLLER
- * Theme Concept: "The Elven Staff Crystal"
- * Aesthetic: Serene Fantasy, Elven Magic, & Eternal Time
- *
- * Architecture:
- * - Album Art (The Staff Crystal): Dual-line gold framed crystal lens with peaceful 4.8s breathing mana glow.
- * - Typography (The Spell & The Caster): Grand serif track title & scribed italic artist notes.
- * - Progress Bar (The Mana Thread): 1px dotted cartographic line with glowing cyan particle beacon.
- * - Shared SongViewerService: Bridges Discord Lanyard (WebSocket/REST) & Last.fm API.
- * - Zero Browser Tooltips: Strictly removes native OS title attributes to preserve ancient manuscript immersion.
- * - Shared Theme Persistence: Syncs 'frieren_day_theme' via localStorage & storage event.
+ * Frieren song viewer controller.
  */
 
 (function () {
   'use strict';
 
-  // --- DOM REFERENCES ---
   const elements = {
     root: document.getElementById('songViewerWidget') || document.getElementById('frierenSongRoot'),
     themeToggleBtn: document.getElementById('themeToggleBtn'),
@@ -55,19 +44,17 @@
     lastfmApiKeyInput: document.getElementById('lastfmApiKeyInput'),
   };
 
-  // --- FRIEREN / FERN DEMO TRACK DEFINITION ---
   const FRIEREN_DEMO_TRACK = {
     song: "Anytime Anywhere",
     artist: "milet",
     album: "Sousou no Frieren Ending Theme",
-    album_art_url: "", // triggers the elven grimoire seal fallback by default
+    album_art_url: "",
     durationMs: 230000,
     elapsedMs: 65000,
   };
 
   let activeTabProvider = 'discord';
 
-  // --- SERVICE INITIALIZATION ---
   const SongServiceClass = window.SongViewerService || window.SpotifyService;
   if (!SongServiceClass) {
     console.error('[Frieren Song Viewer] SongViewerService not found.');
@@ -87,7 +74,6 @@
       if (elements.trackInfoSection) elements.trackInfoSection.style.display = 'flex';
       if (elements.standbySection) elements.standbySection.style.display = 'none';
 
-      // 1. Pillar 2: Typography (The Spell & The Caster)
       if (elements.songTitle) {
         elements.songTitle.textContent = track.song || 'Awaiting Melody';
       }
@@ -98,7 +84,6 @@
         elements.albumName.textContent = track.album || "Fern's Grimoire";
       }
 
-      // 2. Pillar 1: Album Art (The Spell Core & Seal Fallback)
       if (track.album_art_url && elements.albumImg) {
         elements.albumImg.src = track.album_art_url;
         elements.albumImg.style.display = 'block';
@@ -113,7 +98,6 @@
         if (elements.crystalFallback) elements.crystalFallback.style.display = 'flex';
       }
 
-      // 3. Status Tag / Dot
       if (elements.statusBadge && elements.statusBadge.classList.contains('mana-status-tag')) {
         if (track.isLastScrobble) {
           elements.statusBadge.textContent = 'LAST ECHO';
@@ -128,7 +112,6 @@
       }
     },
 
-    // 4. Pillar 3: Progress Bar (The Staff Ribbon & Butterfly)
     onProgressUpdate: ({ isStreaming, percentage, currentFormatted, durationFormatted }) => {
       const pct = Math.min(100, Math.max(0, percentage || 0));
 
@@ -201,7 +184,6 @@
     }
   });
 
-  // --- CONFIG MODAL MANAGEMENT ---
   function switchTab(prov) {
     activeTabProvider = prov;
     if (prov === 'discord') {
@@ -293,7 +275,6 @@
     }
   });
 
-  // --- PILLAR 4: SHARED THEME SYNCHRONIZATION ---
   function initTheme() {
     const savedTheme = localStorage.getItem('frieren_day_theme') || 'parchment';
     setTheme(savedTheme);
@@ -306,7 +287,7 @@
       });
     }
 
-    // Synchronize across widgets if Calendar or Day Progression changes theme
+    // Synchronize across widgets if Calendar or Day Progression changes theme.
     window.addEventListener('storage', (e) => {
       if (e.key === 'frieren_day_theme' && e.newValue) {
         setTheme(e.newValue);
@@ -326,21 +307,17 @@
     }
   }
 
-  // --- SECRET EASTER EGG: FERN'S MANA CONCEALMENT ---
   function initManaConcealment() {
     const rootEl = elements.root;
     if (!rootEl) return;
 
-    // Interactive elements where clicking should NOT trigger mana concealment
     const interactiveSelectors = 'button, input, select, textarea, a, #progressBar, .progress-bar, [role="slider"], [role="button"]';
 
     let isConcealed = false;
 
     function concealMana(e) {
-      // Only trigger on primary (left) mouse button click
       if (e.button !== 0) return;
 
-      // Ignore if clicking on interactive controls (like progress bar, config buttons)
       if (e.target && e.target.closest(interactiveSelectors)) {
         return;
       }
@@ -355,22 +332,19 @@
       rootEl.classList.remove('mana-concealed');
     }
 
-    // 1. Mouse down on widget background activates mana concealment
     rootEl.addEventListener('mousedown', concealMana);
 
-    // 2. Mouse up anywhere on widget, document, or body reveals mana
     rootEl.addEventListener('mouseup', revealMana);
     document.body.addEventListener('mouseup', revealMana);
     document.addEventListener('mouseup', revealMana);
     window.addEventListener('mouseup', revealMana);
 
-    // 3. Fail-safes: Drag end, window blur, or mouse leaving ensures widget is never stuck
+    // Reset concealment state if cursor leaves or window blurs.
     window.addEventListener('blur', revealMana);
     document.addEventListener('mouseleave', revealMana);
     document.addEventListener('dragend', revealMana);
   }
 
-  // --- INITIALIZATION ---
   initTheme();
   initManaConcealment();
   songViewerService.init();

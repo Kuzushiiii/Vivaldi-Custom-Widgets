@@ -29,9 +29,7 @@ const THEMES_REGISTRY = [
 ];
 
 const WIDGETS_REGISTRY = [
-  // ==========================================
-  // PERSONA 5 WIDGETS
-  // ==========================================
+  // Persona 5 widgets
   {
     theme: "persona-5",
     category: "calendar",
@@ -73,9 +71,7 @@ const WIDGETS_REGISTRY = [
     path: "themes/persona-5/gif-widget-2/index.html"
   },
 
-  // ==========================================
-  // VIOLET EVERGARDEN WIDGETS
-  // ==========================================
+  // Violet Evergarden widgets
   {
     theme: "violet-evergarden",
     category: "calendar",
@@ -116,6 +112,8 @@ const WIDGETS_REGISTRY = [
     desc: "Aesthetic anime floral banner with bougainvillea motif.",
     path: "themes/violet-evergarden/gif-widget-2/index.html"
   },
+
+  // Frieren widgets
   {
     theme: "frieren",
     category: "calendar",

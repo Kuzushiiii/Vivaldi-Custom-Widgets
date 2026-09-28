@@ -6,35 +6,25 @@
   <title>Vivaldi Custom Widgets Showroom</title>
   <script src="shared/js/widgets-registry.js"></script>
     <style>
-    /* ==========================================================================
-       TECHNICAL SPECIFICATION & BRUTAL MINIMALIST STYLESHEET
-       Aesthetic: High-End Developer Sandbox & Exhibition Gallery
-       Rules: 0px Border Radius, Zero Glows, Stark Monochromatic Palette,
-              Crisp 1px Wireframe Borders, Audio Fader Sliders, Monospace Telemetry
-       ========================================================================== */
-
     :root {
       --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
       --font-mono: "JetBrains Mono", "Consolas", "SF Mono", "Roboto Mono", Menlo, monospace;
 
-      /* ========================================================
-         HIGH-CONTRAST NIGHT MODE (BRUTALIST DARK - DEFAULT)
-         ======================================================== */
       --bg-void: #000000;
       --bg-base: #09090b;
       --bg-panel: #111114;
       --bg-panel-elevated: #18181d;
       --bg-panel-hover: #22222a;
       
-      --border-stark: #3f3f46;      /* High-contrast wireframe */
+      --border-stark: #3f3f46;
       --border-subtle: #27272a;
       --border-bright: #71717a;
       --border-focus: #ffffff;
 
       --text-white: #ffffff;
-      --text-primary: #f4f4f6;      /* Crisp high-visibility text */
-      --text-secondary: #d4d4d8;    /* Elevated from #a1a1aa for instant legibility */
-      --text-muted: #a1a1aa;        /* Elevated from #52525b to guarantee WCAG AA contrast! */
+      --text-primary: #f4f4f6;
+      --text-secondary: #d4d4d8;
+      --text-muted: #a1a1aa;
       
       --accent-active: #ffffff;
       --accent-active-inv: #000000;
@@ -44,9 +34,6 @@
       --viewport-height: 280px;
     }
 
-    /* ========================================================
-       ARCHITECTURAL LIGHT MODE (BAUHAUS BLUEPRINT)
-       ======================================================== */
     [data-dashboard-theme="light"] {
       --bg-void: #e8ecf1;
       --bg-base: #f8fafc;
@@ -59,10 +46,10 @@
       --border-bright: #94a3b8;
       --border-focus: #09090b;
 
-      --text-white: #09090b;         /* Deep high-emphasis black */
+      --text-white: #09090b;
       --text-primary: #09090b;
-      --text-secondary: #334155;     /* High-contrast crisp slate */
-      --text-muted: #64748b;         /* Technical blueprint slate */
+      --text-secondary: #334155;
+      --text-muted: #64748b;
       
       --accent-active: #09090b;
       --accent-active-inv: #ffffff;
@@ -79,14 +66,13 @@
       background: rgba(15, 23, 42, 0.65);
     }
 
-    /* Reset & Universal Rules */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      border-radius: 0 !important; /* Directive 1: Kill the curves */
-      text-shadow: none !important; /* Directive 1: Kill the glows */
-      box-shadow: none !important;  /* Directive 1: Kill soft drop shadows */
+      border-radius: 0 !important;
+      text-shadow: none !important;
+      box-shadow: none !important;
     }
 
     html, body {
@@ -101,7 +87,6 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Technical Grid Overlay */
     body::before {
       content: "";
       position: fixed;
@@ -114,7 +99,6 @@
       z-index: 0;
     }
 
-    /* Custom Technical Scrollbar */
     ::-webkit-scrollbar {
       width: 5px;
       height: 5px;
@@ -130,9 +114,6 @@
       background: var(--text-muted);
     }
 
-    /* ==========================================================================
-       HEADER & BRAND STRIP
-       ========================================================================== */
     header.showroom-header {
       position: sticky;
       top: 0;
@@ -212,63 +193,7 @@
       flex-wrap: wrap;
     }
 
-    /* Technical Buttons */
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      border: 1px solid var(--border-stark);
-      background: var(--bg-panel);
-      color: var(--text-primary);
-      cursor: pointer;
-      text-decoration: none;
-      user-select: none;
-      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-    }
-
-    .btn:hover {
-      background: var(--text-white);
-      color: var(--bg-void);
-      border-color: var(--text-white);
-    }
-
-    .btn-primary {
-      background: var(--text-white);
-      color: var(--bg-void);
-      border-color: var(--text-white);
-      font-weight: 700;
-    }
-
-    .btn-primary:hover {
-      background: var(--bg-panel-hover);
-      color: var(--text-white);
-      border-color: var(--border-bright);
-    }
-
-    /* Night / Light Mode Toggle Button */
-    #themeToggleBtn {
-      min-width: 115px;
-      justify-content: center;
-    }
-
-    #themeToggleBtn .icon {
-      transition: transform 0.25s ease;
-    }
-
-    #themeToggleBtn:hover .icon {
-      transform: rotate(15deg);
-    }
-
-    /* ==========================================================================
-       CONTROLS DECK: WIREFRAME PANELS & TECHNICAL FADERS
-       ========================================================================== */
-    .controls-deck {
       position: relative;
       z-index: 10;
       max-width: 1780px;
@@ -308,7 +233,6 @@
       margin-right: 6px;
     }
 
-    /* Flat Stark Filter Buttons (Replaced pills) */
     .pill-btn {
       padding: 5px 11px;
       font-family: var(--font-mono);
@@ -333,7 +257,6 @@
       border-color: var(--border-bright);
     }
 
-    /* Inverted Monochromatic Active State */
     .pill-btn.active {
       background: var(--text-white);
       color: var(--bg-void);
@@ -356,7 +279,6 @@
       border-color: var(--bg-void);
     }
 
-    /* Search Input (Prompt Style) */
     .search-box {
       position: relative;
       flex: 1;
@@ -417,7 +339,6 @@
       color: var(--text-white);
     }
 
-    /* Sizing Deck / Technical Fader Controller */
     .sizing-deck {
       display: flex;
       flex-wrap: wrap;
@@ -510,7 +431,6 @@
       letter-spacing: 0.1em;
     }
 
-    /* Audio-Mixing Fader Styling for Sliders */
     .slider-item input[type="range"] {
       -webkit-appearance: none;
       appearance: none;
@@ -556,9 +476,6 @@
       text-transform: uppercase;
     }
 
-    /* ==========================================================================
-       MAIN: TECHNICAL SCHEMATIC WIDGET PANES
-       ========================================================================== */
     main.showroom-main {
       position: relative;
       z-index: 1;
@@ -583,7 +500,6 @@
       gap: 16px;
     }
 
-    /* Brutalist Wireframe Card / Window Pane */
     .widget-card {
       background: var(--bg-void);
       border: 1px solid var(--border-stark);
@@ -597,7 +513,6 @@
       border-color: var(--border-bright);
     }
 
-    /* Card Header */
     .card-header {
       padding: 8px 12px;
       display: flex;
@@ -615,7 +530,6 @@
       min-width: 0;
     }
 
-    /* Monospace Sharp Theme Badges */
     .theme-badge {
       font-family: var(--font-mono);
       font-size: 9px;
@@ -662,7 +576,6 @@
       flex-shrink: 0;
     }
 
-    /* Sharp Square Action Buttons */
     .card-action-btn {
       background: var(--bg-base);
       border: 1px solid var(--border-stark);
@@ -685,7 +598,6 @@
       border-color: var(--text-white);
     }
 
-    /* Viewport Stage */
     .card-viewport-stage {
       position: relative;
       background: #000000;
@@ -706,7 +618,6 @@
       background: transparent;
     }
 
-    /* Loader */
     .card-loader {
       position: absolute;
       inset: 0;
@@ -736,7 +647,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Card Footer: Stark Monospace Telemetry */
     .card-footer {
       padding: 6px 12px;
       background: var(--bg-panel);
@@ -770,7 +680,6 @@
       flex-shrink: 0;
     }
 
-    /* Empty State */
     .empty-state {
       grid-column: 1 / -1;
       text-align: center;
@@ -795,9 +704,6 @@
       color: var(--text-muted);
     }
 
-    /* ==========================================================================
-       MODAL: TECHNICAL WIREFRAME DIALOGUE
-       ========================================================================== */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -926,9 +832,6 @@
       font-size: 10px;
     }
 
-    /* ==========================================================================
-       TOAST NOTIFICATION: HUD POPUP
-       ========================================================================== */
     .toast-container {
       position: fixed;
       bottom: 20px;
@@ -967,9 +870,6 @@
       font-weight: bold;
     }
 
-    /* ==========================================================================
-       RESPONSIVE BREAKPOINTS
-       ========================================================================== */
     @media (max-width: 900px) {
       .header-container { flex-direction: column; align-items: stretch; }
       .header-actions { justify-content: space-between; }
@@ -979,7 +879,6 @@
       .widgets-grid { grid-template-columns: 1fr; }
     }
 
-    /* Technical Vector Icons */
     .icon {
       width: 12px;
       height: 12px;
@@ -999,9 +898,6 @@
       stroke: currentColor;
     }
 
-    /* ==========================================================================
-       DATA CENTER: BRUTAL MINIMALIST STYLESHEET
-       ========================================================================== */
     .dc-modal-box {
       max-width: 740px !important;
     }
@@ -1125,7 +1021,6 @@
       margin-top: 4px;
     }
 
-    /* Import Dropzone */
     .dc-import-zone {
       border: 1px dashed var(--border-bright);
       background: var(--bg-base);
@@ -1151,7 +1046,6 @@
       letter-spacing: 0.04em;
     }
 
-    /* Inspector Box */
     .dc-inspector {
       background: var(--bg-base);
       border: 1px solid var(--text-white);
@@ -1239,7 +1133,6 @@
       margin-top: 4px;
     }
 
-    /* Maintenance Row */
     .dc-maintenance {
       border-color: rgba(225, 29, 72, 0.3) !important;
       background: rgba(225, 29, 72, 0.04) !important;
@@ -1335,7 +1228,6 @@
     
     <div class="control-row">
       <div class="filter-group" id="themeFilterGroup">
-        <!-- Theme filters dynamically injected by renderThemeFilters() -->
       </div>
 
       <div class="filter-group">
@@ -1391,8 +1283,6 @@
 
   <main class="showroom-main">
     <div class="widgets-grid" id="widgetsGrid">
-      <!-- Widgets will be dynamically injected here by renderWidgetCards() -->
-
       <div class="empty-state" id="emptyState">
         <h3>No widgets found</h3>
         <p>Try clearing your search query or selecting a different theme/category filter.</p>
@@ -1444,9 +1334,6 @@
   </div>
 
 
-  <!-- ========================================================
-       MODAL: DATA CENTER (BACKUP & RESTORE)
-       ======================================================== -->
   <div class="modal-backdrop" id="dataCenterModal" aria-hidden="true">
     <div class="modal-box dc-modal-box">
       <header class="modal-header">
@@ -1459,7 +1346,6 @@
 
       <div class="modal-body dc-modal-body">
         
-        <!-- Live Storage Telemetry -->
         <div class="dc-telemetry-strip">
           <div class="dc-stat-item">
             <span class="dc-stat-label">Violet Letters Stored:</span>
@@ -1475,7 +1361,6 @@
           </div>
         </div>
 
-        <!-- Section 1: Export Modules -->
         <div class="dc-section">
           <div class="dc-section-title">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -1483,7 +1368,6 @@
           </div>
           <div class="dc-cards-grid">
             
-            <!-- Master Export Card -->
             <div class="dc-card">
               <div class="dc-card-head">
                 <span class="dc-tag">All-in-One</span>
@@ -1495,7 +1379,6 @@
               </button>
             </div>
 
-            <!-- Violet Letters Archive Card -->
             <div class="dc-card">
               <div class="dc-card-head">
                 <span class="dc-tag ve">CH Postal Company</span>
@@ -1510,7 +1393,6 @@
           </div>
         </div>
 
-        <!-- Section 2: Import & Restore -->
         <div class="dc-section">
           <div class="dc-section-title">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -1525,7 +1407,6 @@
             <span class="dc-dropzone-hint">or drop a .json file directly into this zone</span>
           </div>
 
-          <!-- File Inspector Preview -->
           <div class="dc-inspector" id="dcInspector" style="display: none;">
             <div class="dc-inspector-head">
               <span class="dc-inspector-badge">Archive Verified</span>
@@ -1540,11 +1421,11 @@
                 <div class="dc-radio-group">
                   <label class="dc-radio-label">
                     <input type="radio" name="restoreStrategy" value="merge" checked>
-                    <span><strong>Smart Merge (Recommended)</strong> — Merges archived letters without overwriting new unrecorded dates.</span>
+                    <span><strong>Smart Merge (Recommended)</strong>: Merges archived letters without overwriting new unrecorded dates.</span>
                   </label>
                   <label class="dc-radio-label">
                     <input type="radio" name="restoreStrategy" value="overwrite">
-                    <span><strong>Clean Overwrite</strong> — Replaces existing calendar dispatches with the file archive.</span>
+                    <span><strong>Clean Overwrite</strong>: Replaces existing calendar dispatches with the file archive.</span>
                   </label>
                 </div>
               </div>
@@ -1559,7 +1440,6 @@
           </div>
         </div>
 
-        <!-- Section 3: Factory Reset / Maintenance -->
         <div class="dc-section dc-maintenance">
           <div class="dc-maintenance-row">
             <div>
@@ -1580,7 +1460,6 @@
 
   <script>
     (function () {
-      // DOM Elements
       const htmlEl = document.documentElement;
       const themeToggleBtn = document.getElementById('themeToggleBtn');
       const themeFilterGroup = document.getElementById('themeFilterGroup');
@@ -1601,15 +1480,11 @@
       const closeGuideBtn = document.getElementById('closeGuideBtn');
       const toastContainer = document.getElementById('toastContainer');
 
-      // State
       let activeThemeFilter = 'all';
       let activeCategoryFilter = 'all';
       let activeSearchQuery = '';
       let widgetCards = [];
 
-      /* --------------------------------------------------------
-         0. DYNAMIC REGISTRY RENDERING ENGINE
-         -------------------------------------------------------- */
       function renderThemeFilters() {
         if (!themeFilterGroup || typeof THEMES_REGISTRY === 'undefined' || typeof WIDGETS_REGISTRY === 'undefined') return;
 
@@ -1701,9 +1576,6 @@
         widgetCards = document.querySelectorAll('.widget-card');
       }
 
-      /* --------------------------------------------------------
-         1. NIGHT / LIGHT MODE THEME SWITCHER
-         -------------------------------------------------------- */
       function applyDashboardTheme(mode) {
         const isLight = (mode === 'light');
         htmlEl.setAttribute('data-dashboard-theme', isLight ? 'light' : 'dark');
@@ -1742,9 +1614,6 @@
                         (localStorage.getItem('vcw_showroom_theme') === 'light' ? 'light' : 'dark');
       applyDashboardTheme(savedMode);
 
-      /* --------------------------------------------------------
-         2. FILTERING & SEARCH
-         -------------------------------------------------------- */
       function applyFilters() {
         let visibleCount = 0;
 
@@ -1797,9 +1666,6 @@
         applyFilters();
       });
 
-      /* --------------------------------------------------------
-         3. CONTAINER QUERY & TILE SIZING ENGINE
-         -------------------------------------------------------- */
       function setViewportDimensions(width, height, isResponsive = false) {
         if (isResponsive) {
           document.documentElement.style.setProperty('--viewport-width', 'auto');
@@ -1814,7 +1680,6 @@
           dimensionTelemetry.textContent = `${width} × ${height}px (${ratio}:1)`;
         }
 
-        // Update dimension telemetry on all card badges
         setTimeout(updateCardDimensionBadges, 220);
       }
 
@@ -1858,10 +1723,6 @@
         setViewportDimensions(parseInt(widthSlider.value, 10), parseInt(heightSlider.value, 10), false);
       });
 
-      /* --------------------------------------------------------
-         4. IFRAME LOADERS & RELOAD
-         -------------------------------------------------------- */
-      // 4. INTERSECTION OBSERVER LAZY LOADING
       function loadIframe(iframe) {
         if (iframe && iframe.dataset.src) {
           iframe.src = iframe.dataset.src;
@@ -1940,7 +1801,6 @@
             });
           }
 
-          // Individual reload button
           const reloadBtn = card.querySelector('.btn-reload');
           if (reloadBtn && iframe) {
             reloadBtn.addEventListener('click', () => {
@@ -1953,7 +1813,6 @@
             });
           }
 
-          // Copy Vivaldi URL button
           const copyBtn = card.querySelector('.btn-copy-url');
           if (copyBtn) {
             copyBtn.addEventListener('click', () => {
@@ -1972,12 +1831,10 @@
         });
       }
 
-      // Initial Showroom Dynamic Render
       renderThemeFilters();
       renderWidgetCards();
       bindCardInteractions(widgetCards);
 
-      // Reload All Button
       reloadAllBtn.addEventListener('click', () => {
         const allCards = document.querySelectorAll('.widget-card');
         allCards.forEach(card => {
@@ -1995,16 +1852,12 @@
         showToast(`Reloaded all ${allCards.length} widgets!`);
       });
 
-      /* --------------------------------------------------------
-         5. TOAST NOTIFICATION
-         -------------------------------------------------------- */
       function showToast(message) {
         const toast = document.createElement('div');
         toast.className = 'toast';
         toast.innerHTML = `<svg class="icon toast-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><polyline points="20,6 9,17 4,12"/></svg> <span>${message}</span>`;
         toastContainer.appendChild(toast);
 
-        // Trigger animation
         requestAnimationFrame(() => {
           toast.classList.add('show');
         });
@@ -2015,9 +1868,6 @@
         }, 3200);
       }
 
-      /* --------------------------------------------------------
-         6. VIVALDI SETUP GUIDE MODAL
-         -------------------------------------------------------- */
       openGuideBtn.addEventListener('click', () => {
         guideModal.classList.add('active');
         guideModal.setAttribute('aria-hidden', 'false');
@@ -2044,12 +1894,8 @@
         }
       });
 
-      // Initial dimension calculation
       setTimeout(updateCardDimensionBadges, 300);
 
-      /* ========================================================
-         7. DATA CENTER // BACKUP & RESTORE ENGINE
-         ======================================================== */
       const openDataCenterBtn = document.getElementById('openDataCenterBtn');
       const closeDataCenterBtn = document.getElementById('closeDataCenterBtn');
       const dataCenterModal = document.getElementById('dataCenterModal');
@@ -2075,7 +1921,6 @@
 
       let parsedImportArchive = null;
 
-      // Storage keys definition
       const STORAGE_KEYS = {
         VE_MEMOS: 'vcw_ve_calendar_memos',
         MUSIC_PROVIDER: 'vcw_music_provider',
@@ -2087,7 +1932,6 @@
       };
 
       function updateDataCenterTelemetry() {
-        // 1. Letters count
         let letterCount = 0;
         try {
           const rawMemos = localStorage.getItem(STORAGE_KEYS.VE_MEMOS);
@@ -2098,7 +1942,6 @@
         } catch (e) {}
         if (dcLetterCount) dcLetterCount.textContent = letterCount + ' Missives';
 
-        // 2. Music provider
         const provider = localStorage.getItem(STORAGE_KEYS.MUSIC_PROVIDER) || 'discord';
         const discordId = localStorage.getItem(STORAGE_KEYS.LANYARD_ID);
         const lastfmUser = localStorage.getItem(STORAGE_KEYS.LASTFM_USER);
@@ -2111,7 +1954,6 @@
         }
         if (dcMusicProvider) dcMusicProvider.textContent = providerStr;
 
-        // 3. Storage bytes
         let totalBytes = 0;
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
@@ -2126,7 +1968,6 @@
       async function downloadJSON(filename, dataObj) {
         const jsonStr = JSON.stringify(dataObj, null, 2);
 
-        // 1. Modern File System Access API (Native Windows "Save As" Dialog)
         if (window.showSaveFilePicker) {
           try {
             const handle = await window.showSaveFilePicker({
@@ -2144,11 +1985,9 @@
           } catch (err) {
             // User cancelled the file picker dialog
             if (err.name === 'AbortError') return false;
-            // Otherwise fall back to anchor click
           }
         }
 
-        // 2. Standard Blob Object URL with Delayed Cleanup
         try {
           const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
           const url = URL.createObjectURL(blob);
@@ -2170,7 +2009,6 @@
           showToast(`Downloaded ${filename} to Downloads folder!`);
           return true;
         } catch (e) {
-          // 3. Ultra-safe Fallback: Data URI
           try {
             const dataUrl = 'data:application/json;charset=utf-8,' + encodeURIComponent(jsonStr);
             const a = document.createElement('a');
@@ -2191,7 +2029,6 @@
         }
       }
 
-      // Master Full System Export
       if (exportFullBtn) {
         exportFullBtn.addEventListener('click', async () => {
           let memos = [];
@@ -2230,7 +2067,6 @@
         });
       }
 
-      // Dedicated Violet Evergarden Letters Only Export
       if (exportVioletBtn) {
         exportVioletBtn.addEventListener('click', async () => {
           let memos = [];
@@ -2255,7 +2091,6 @@
         });
       }
 
-      // File Import Handling
       function processSelectedFile(file) {
         if (!file) return;
         const reader = new FileReader();
@@ -2265,7 +2100,6 @@
             const parsed = JSON.parse(e.target.result);
             parsedImportArchive = parsed;
 
-            // Inspect archive contents
             let detectedLetters = 0;
             let hasMusic = false;
             let isDedicatedLetters = false;
@@ -2281,7 +2115,6 @@
               isDedicatedLetters = true;
             }
 
-            // Populate inspector
             if (dcFileName) dcFileName.textContent = file.name;
             if (dcFileTime) dcFileTime.textContent = parsed.exportedAt ? new Date(parsed.exportedAt).toLocaleDateString() : 'Unknown Date';
 
@@ -2310,7 +2143,6 @@
         });
       }
 
-      // Dropzone Drag & Drop
       if (dcDropzone) {
         ['dragenter', 'dragover'].forEach(name => {
           dcDropzone.addEventListener(name, (e) => {
@@ -2341,7 +2173,6 @@
         });
       }
 
-      // Execute Restore
       if (confirmRestoreBtn) {
         confirmRestoreBtn.addEventListener('click', () => {
           if (!parsedImportArchive) return;
@@ -2363,12 +2194,10 @@
             importedLetters = parsedImportArchive;
           }
 
-          // Restore letters logic
           if (Array.isArray(importedLetters) && importedLetters.length > 0) {
             if (strategy === 'overwrite') {
               localStorage.setItem(STORAGE_KEYS.VE_MEMOS, JSON.stringify(importedLetters));
             } else {
-              // Smart Merge
               let currentMemos = [];
               try {
                 const raw = localStorage.getItem(STORAGE_KEYS.VE_MEMOS);
@@ -2383,7 +2212,6 @@
 
               importedLetters.forEach(m => {
                 const key = `${m.year}-${m.month}-${m.day}`;
-                // Imported letters merge into existing dates or add new
                 map.set(key, m);
               });
 
@@ -2392,7 +2220,6 @@
             }
           }
 
-          // Restore music config if present
           if (importedMusic) {
             if (importedMusic.provider) localStorage.setItem(STORAGE_KEYS.MUSIC_PROVIDER, importedMusic.provider);
             if (importedMusic.discord_id) localStorage.setItem(STORAGE_KEYS.LANYARD_ID, importedMusic.discord_id);
@@ -2400,7 +2227,6 @@
             if (importedMusic.lastfm_api_key) localStorage.setItem(STORAGE_KEYS.LASTFM_KEY, importedMusic.lastfm_api_key);
           }
 
-          // Restore prefs if present
           if (importedPrefs) {
             if (typeof importedPrefs.p5_cal_sound !== 'undefined') {
               localStorage.setItem(STORAGE_KEYS.P5_SOUND, String(importedPrefs.p5_cal_sound));
@@ -2410,7 +2236,6 @@
           // Trigger cross-frame storage update
           window.dispatchEvent(new Event('storage'));
 
-          // Reload all active widgets in showroom
           if (reloadAllBtn) reloadAllBtn.click();
 
           updateDataCenterTelemetry();
@@ -2421,7 +2246,6 @@
         });
       }
 
-      // Factory Reset / Purge
       if (purgeStorageBtn) {
         purgeStorageBtn.addEventListener('click', () => {
           const confirmed = confirm('WARNING: Are you sure you want to reset all stored memos and credentials to default? This action cannot be undone.');
@@ -2440,7 +2264,6 @@
         });
       }
 
-      // Data Center Modal Toggles
       if (openDataCenterBtn && dataCenterModal) {
         openDataCenterBtn.addEventListener('click', () => {
           updateDataCenterTelemetry();

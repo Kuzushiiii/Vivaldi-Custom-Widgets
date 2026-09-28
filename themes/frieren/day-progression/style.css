@@ -1,50 +1,30 @@
-/* ==========================================================================
-   FRIEREN: BEYOND JOURNEY'S END — STARK: THE VANGUARD (DAY PROGRESSION)
-   Aesthetic: Combat Charcoal, Martial Vest Clasps, Asymmetric Red Drape & Greataxe
-   Pillars:
-     1. Asymmetric Vanguard Frame (Sharp Top-Left Angle & Heavy 6px Red Jacket Drape)
-     2. Pure Chiseled Steel Numerals (No Chromatic Glitch, Razor-Sharp Shadow)
-     3. Stark's Greataxe (Official Anime Series Setting Sheet War Axe)
-     4. Extended 92% Cleave Track & Muted Iron Silver Combat Motto
-     5. Senkou Zan / Lightning Strike (Radiant Golden-Yellow Anime Energy)
-   Strict Rules: Container Queries (@container, No Media Queries), 0 Reflow Thrashing
-   ========================================================================== */
-
-/* --- 1. DESIGN TOKENS & CSS VARIABLES --- */
 :root {
-  /* Stark's Anime Thematic Palette */
-  --stark-charcoal-deep: #101114;     /* Deep Shadow Tunic */
-  --stark-charcoal: #151619;          /* Combat Vest Base */
-  --stark-charcoal-surface: #1E2026;  /* Elevated Card Surface */
+  --stark-charcoal-deep: #101114;
+  --stark-charcoal: #151619;
+  --stark-charcoal-surface: #1E2026;
   --stark-charcoal-border: rgba(255, 255, 255, 0.08);
 
-  /* Stark's Signature Crimson Jacket & Fiery Hair */
-  --stark-crimson: #C8232B;           /* Primary Jacket Drape */
-  --stark-crimson-bright: #E63946;    /* Active Energy Slash */
-  --stark-crimson-dark: #7A1217;      /* Bevel Shadow */
+  --stark-crimson: #C8232B;
+  --stark-crimson-bright: #E63946;
+  --stark-crimson-dark: #7A1217;
   --stark-crimson-glow: rgba(230, 57, 70, 0.45);
 
-  /* Linen / Lapel White */
-  --stark-linen: #EBE5D8;             /* Jacket Folded Collar & Waist Sash */
-  --stark-linen-muted: #A8A295;       /* Subdued Linen Trim */
+  --stark-linen: #EBE5D8;
+  --stark-linen-muted: #A8A295;
 
-  /* Forged Steel & Iron Weaponry */
-  --stark-steel-light: #E2E5EC;       /* Razor Sharpened Edge */
-  --stark-steel-silver: #8E929D;      /* Muted Iron Silver (Motto & Rivets) */
-  --stark-steel-dark: #2B2E35;        /* Forged Axe Body */
+  --stark-steel-light: #E2E5EC;
+  --stark-steel-silver: #8E929D;
+  --stark-steel-dark: #2B2E35;
 
-  /* Senkou Zan: Anime-Accurate Radiant Golden-Yellow Lightning */
   --stark-lightning-core: #FFFFFF;
   --stark-lightning-yellow: #FFE600;
   --stark-lightning-deep: #FFAA00;
   --stark-lightning-glow: rgba(255, 230, 0, 0.7);
 
-  /* Typography: Harmonized with Frieren Calendar & Fern Song Viewer */
   --font-serif: 'Cinzel', 'Marcellus', 'Georgia', serif;
   --font-sans: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* --- 2. GLOBAL RESETS --- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -73,10 +53,8 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- 3. MAIN WIDGET CONTAINER (THE ASYMMETRIC VANGUARD CARD) --- */
 #dayProgressionWidget,
 .stark-widget {
-  /* Container Query Context (Strictly No Media Queries) */
   container-type: size;
   container-name: widgetContainer;
 
@@ -86,26 +64,21 @@ html, body {
   position: relative;
   overflow: hidden !important;
 
-  /* Asymmetric Vanguard Architecture: Sharp top-left armor angle, rounded elsewhere */
   border-top-left-radius: 0px;
   border-top-right-radius: 14px;
   border-bottom-right-radius: 14px;
   border-bottom-left-radius: 8px;
 
-  /* Deep Combat Charcoal Background with subtle metallic angle sheen */
   background: linear-gradient(155deg, #1C1E24 0%, #121316 65%, #0E0F12 100%);
   
-  /* Bold Crimson Red Left Border (Stark's Iconic Red Jacket Drape) */
   border: 1px solid var(--stark-charcoal-border);
   border-left: 6px solid var(--stark-crimson);
 
-  /* Ambient physical depth shadow with subtle crimson drape cast */
   box-shadow: 
     0 10px 25px rgba(0, 0, 0, 0.65),
     inset 0 0 35px rgba(0, 0, 0, 0.5),
     -4px 0 16px rgba(200, 35, 43, 0.22);
 
-  /* Layout: Clean vertical distribution that fills tile without overflow */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -116,7 +89,6 @@ html, body {
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-/* --- 4. TOP HEADER: VANGUARD BADGE & CLEAVE COUNTER --- */
 .vanguard-header {
   display: flex;
   justify-content: space-between;
@@ -159,7 +131,6 @@ html, body {
   color: #8C909A;
 }
 
-/* #percentageDisplay: Bold athletic Crimson Red numeral */
 #percentageDisplay,
 .cleave-percent {
   font-family: var(--font-sans);
@@ -170,7 +141,6 @@ html, body {
   text-shadow: 0 0 8px rgba(230, 57, 70, 0.3);
 }
 
-/* --- 5. CENTER CHRONOS: TIME DISPLAY & DAILY LORE PHASE --- */
 .chronos-center {
   display: flex;
   flex-direction: column;
@@ -181,7 +151,6 @@ html, body {
   margin: 1px 0;
 }
 
-/* #timeDisplay: Pure Chiseled Forged Steel (No Chromatic Aberration / 3D Glitch) */
 #timeDisplay,
 .time-display {
   font-family: var(--font-serif);
@@ -195,7 +164,6 @@ html, body {
     0 -1px 1px rgba(255, 255, 255, 0.1);
 }
 
-/* #phaseText: Subtitle below the time */
 #phaseText,
 .phase-subtitle {
   font-family: var(--font-serif);
@@ -207,8 +175,6 @@ html, body {
   min-height: 1.1em;
 }
 
-/* --- 6. MARTIAL CLASP MOTIF (STARK'S VEST CLOSURE) --- */
-/* Authentic horizontal frog toggle fastener (Replaces the broken vertical dashed line) */
 .vest-clasp-motif {
   display: flex;
   align-items: center;
@@ -254,7 +220,6 @@ html, body {
   background: var(--stark-steel-light);
 }
 
-/* --- 7. THE BATTLE AXE PROGRESS BAR ASSEMBLY --- */
 .progression-assembly {
   width: 100%;
   display: flex;
@@ -264,7 +229,6 @@ html, body {
   z-index: 1;
 }
 
-/* #progressionBar: Extended to 92% width for a wide, devastating swing arc */
 #progressionBar,
 .progression-bar {
   width: 92%;
@@ -279,7 +243,6 @@ html, body {
   position: relative;
 }
 
-/* #progressionFill: Dominant Crimson Red Cleave Slash with White-Hot Tip */
 #progressionFill,
 .progression-fill {
   height: 100%;
@@ -295,7 +258,6 @@ html, body {
   transition: width 0.2s ease, background 0.1s ease, box-shadow 0.1s ease;
 }
 
-/* #progressionThumb: Stark's Battle Axe Head (gliding centered on line) */
 #progressionThumb,
 .progression-thumb {
   position: absolute;
@@ -318,8 +280,6 @@ html, body {
   filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.85));
 }
 
-/* --- 8. EASTER EGG 1: THE TREMBLING WARRIOR (HOVER) --- */
-/* Stark's iconic shaking hands before battle */
 #progressionThumb:hover {
   animation: starkTremble 0.07s infinite linear;
 }
@@ -332,8 +292,6 @@ html, body {
   100% { transform: translate(-50%, -50%) translateX(0); }
 }
 
-/* --- 9. EASTER EGG 2: SENKOU ZAN / LIGHTNING STRIKE (ACTIVE) --- */
-/* Anime-Accurate Radiant GOLDEN-YELLOW Lightning Strike when mouse is held down */
 #dayProgressionWidget:active {
   border-color: rgba(255, 230, 0, 0.55);
   box-shadow: 
@@ -381,7 +339,6 @@ html, body {
   stroke: #FFFFFF;
 }
 
-/* --- 10. TELEMETRY BASELINE FOOTER: MUTED IRON GRAY MOTTO --- */
 .track-telemetry {
   display: flex;
   justify-content: center;
@@ -400,9 +357,6 @@ html, body {
   text-transform: uppercase;
 }
 
-/* --- 11. RESPONSIVE CONTAINER QUERIES (@container ONLY) --- */
-
-/* COMPACT TILE (1x1: Width <= 260px or Height <= 160px) */
 @container widgetContainer (max-width: 260px), widgetContainer (max-height: 160px) {
   #dayProgressionWidget {
     padding: 6px 10px;
@@ -426,14 +380,12 @@ html, body {
   }
 }
 
-/* ULTRA COMPACT TILE (Square Mini: Width <= 210px) */
 @container widgetContainer (max-width: 210px) {
   .vanguard-badge {
     display: none;
   }
 }
 
-/* WIDE / EXPANDED TILE (Width >= 400px) */
 @container widgetContainer (min-width: 400px) {
   #dayProgressionWidget {
     padding: 16px 22px;

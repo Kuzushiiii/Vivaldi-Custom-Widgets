@@ -1,11 +1,4 @@
-/* ==========================================================================
-   FRIEREN: BEYOND JOURNEY'S END — CALENDAR WIDGET
-   Design System: White Robes, Gold Trims, Teal Magic Circles & Ruby Gem
-   ========================================================================== */
-
-/* --- 1. DESIGN SYSTEM & CSS VARIABLES --- */
 :root {
-  /* Core Frieren Palette */
   --bg-color: #F9F9F6;
   --bg-gradient: linear-gradient(145deg, #FCFCFA 0%, #F8FAF8 50%, #F0F6F5 100%);
   --gold-accent: #D4AF37;
@@ -25,11 +18,9 @@
   --text-muted: #7E7870;
   --text-faint: #A8A39C;
 
-  /* Typography */
   --font-serif: 'Cinzel', 'Marcellus', 'Times New Roman', serif;
   --font-sans: 'Quicksand', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* Radii & Shadows */
   --radius-card: 14px;
   --radius-pill: 9999px;
   --card-shadow: 
@@ -37,7 +28,6 @@
     0 0 20px rgba(136, 212, 208, 0.08);
 }
 
-/* Base Resets */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -60,16 +50,12 @@ html, body {
   scrollbar-width: none !important;
 }
 
-/* Hide scrollbars strictly across all browsers */
 ::-webkit-scrollbar, *::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
 }
 
-/* ==========================================================================
-   2. MAIN CONTAINER (PALE FABRIC CANVAS & THIN DOUBLE GOLD BORDER)
-   ========================================================================== */
 .frieren-calendar-root {
   container-type: size;
   container-name: widget;
@@ -79,15 +65,12 @@ html, body {
   overflow: hidden !important;
   border-radius: var(--radius-card);
 
-  /* Bone white background with very light teal/mint gradient */
   background-color: var(--bg-color);
   background-image: var(--bg-gradient);
 
-  /* Elegant thin double-line border in soft gold */
   border: 3px double var(--gold-accent);
   box-shadow: var(--card-shadow);
 
-  /* Layout Distribution */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -96,9 +79,6 @@ html, body {
   box-sizing: border-box;
 }
 
-/* ==========================================================================
-   3. HEADER: MAJESTIC MONTH TITLE & STYLIZED TODAY PILL
-   ========================================================================== */
 .calendar-header {
   flex: 0 0 auto;
   display: flex;
@@ -167,7 +147,6 @@ html, body {
   margin-right: clamp(12px, 3cqw, 24px);
 }
 
-/* Nav Arrow (< >): Minimalist, No Circle, Glowing on Hover, Fixed Size */
 .nav-arrow-btn {
   width: 20px;
   height: 24px;
@@ -191,7 +170,7 @@ html, body {
   background: transparent;
   border: none;
   box-shadow: none;
-  transform: none; /* Never grows or shifts size */
+  transform: none;
   color: var(--gold-accent);
   text-shadow: 
     0 0 6px var(--gold-glow),
@@ -203,7 +182,6 @@ html, body {
   color: #B38F24;
 }
 
-/* Minimalist TODAY Button with Staff Icon & Magic Dot-to-Line Underline */
 .today-btn {
   display: inline-flex;
   align-items: center;
@@ -236,7 +214,6 @@ html, body {
   fill: var(--ruby-bright);
 }
 
-/* Word Container with Animated Dot-to-Line Pseudo Element */
 .today-btn span {
   position: relative;
   display: inline-block;
@@ -258,7 +235,6 @@ html, body {
   box-shadow: 0 0 6px var(--gold-glow);
 }
 
-/* Hover State: No pill/circle, text glows, and underline expands from a dot */
 .today-btn:hover {
   background: transparent;
   border: none;
@@ -305,9 +281,6 @@ html, body {
   transform: none;
 }
 
-/* ==========================================================================
-   4. CALENDAR BOARD & SUBTLE TEAL MAGIC CIRCLE WATERMARK
-   ========================================================================== */
 .calendar-board {
   position: relative;
   width: 100%;
@@ -321,7 +294,6 @@ html, body {
   padding: clamp(4px, 1.2cqh, 8px) 0;
 }
 
-/* Subtle, Low-Opacity Teal Magic Circle Inline SVG Motif */
 .magic-circle-bg {
   position: absolute;
   top: 50%;
@@ -332,7 +304,7 @@ html, body {
   pointer-events: none;
   z-index: 0;
   color: var(--teal-accent);
-  opacity: 0.16; /* Soft and subtle magical presence */
+  opacity: 0.16;
   animation: slowMagicOrbit 240s linear infinite;
 }
 
@@ -347,7 +319,6 @@ html, body {
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Weekday Labels (Muted Gold/Grey) */
 .calendar-weekdays {
   position: relative;
   z-index: 1;
@@ -371,7 +342,6 @@ html, body {
   opacity: 0.95;
 }
 
-/* 7-Column Date Grid: Generous Vertical Spacing Between Rows */
 .calendar-grid {
   position: relative;
   z-index: 1;
@@ -386,7 +356,6 @@ html, body {
   align-content: space-evenly;
 }
 
-/* Floating Date Cell */
 .cal-day {
   position: relative;
   display: flex;
@@ -405,7 +374,6 @@ html, body {
   box-sizing: border-box;
 }
 
-/* Regular Day Number Typography (Cinzel Fantasy Serif) */
 .day-num {
   position: relative;
   z-index: 2;
@@ -417,7 +385,6 @@ html, body {
   transition: color 0.2s ease;
 }
 
-/* Overflow / Adjacent Month Days */
 .cal-day.cal-day-other {
   opacity: 0.28;
 }
@@ -426,14 +393,10 @@ html, body {
   color: var(--text-faint);
 }
 
-/* Weekend Date Tint */
 .cal-day.cal-day-weekend:not(.cal-day-other) .day-num {
   color: #4A463F;
 }
 
-/* ==========================================================================
-   4. "THE FLOWER-BLOOMING SPELL" INLINE SVG STROKE ANIMATION
-   ========================================================================== */
 .bloom-magic {
   position: absolute;
   inset: -3px;
@@ -451,17 +414,14 @@ html, body {
   filter: drop-shadow(0 0 3px var(--teal-glow));
 }
 
-/* Hide bloom magic on Today's Ruby Gem cell */
 .cal-day.cal-day-today .bloom-magic {
   display: none;
 }
 
-/* Date Hover: Gentle Magical Aura and Real-Time Vine Drawing (Stationary size) */
 .cal-day:not(.cal-day-today):hover {
   background: var(--teal-soft);
   border-color: rgba(136, 212, 208, 0.65);
   box-shadow: 0 0 12px var(--teal-glow);
-  /* Keep size rock-solid: no transform scale */
 }
 
 .cal-day:not(.cal-day-today):hover .bloom-magic path {
@@ -472,9 +432,6 @@ html, body {
   color: #173B39;
 }
 
-/* ==========================================================================
-   5. TODAY INDICATOR: HIMMEL'S SILVER LOTUS RING (MITHRIL)
-   ========================================================================== */
 .cal-day.cal-day-today {
   position: relative;
   background: transparent;
@@ -488,7 +445,6 @@ html, body {
   animation: silverRingManaPulse 3.5s ease-in-out infinite;
 }
 
-/* Symmetrical Mirrored Lotus Engraving on the Mithril Band */
 .silver-lotus-magic {
   position: absolute;
   top: 50%;
@@ -520,7 +476,6 @@ html, body {
     0 0 4px rgba(255, 255, 255, 0.85);
 }
 
-/* Polished Mithril Lotus Ring: Animates Glow Intensity Without Altering Ring Thickness */
 @keyframes silverRingManaPulse {
   0%, 100% {
     box-shadow: 
@@ -538,9 +493,6 @@ html, body {
   }
 }
 
-/* ==========================================================================
-   6. FOOTER QUOTE: POETIC HIMMEL INSCRIPTION
-   ========================================================================== */
 .calendar-footer {
   flex: 0 0 auto;
   display: flex;
@@ -564,16 +516,13 @@ html, body {
   font-size: clamp(0.58rem, 1.3cqw, 0.70rem);
   font-style: italic;
   letter-spacing: 0.04em;
-  color: #6C7D7B; /* Soft poetic grey-teal */
+  color: #6C7D7B;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 90%;
 }
 
-/* ==========================================================================
-   7. RESPONSIVE CONTAINER QUERIES (VIVALDI TILE COMPATIBILITY)
-   ========================================================================== */
 @container widget (max-width: 280px), widget (max-height: 220px) {
   .frieren-calendar-root {
     padding: 8px 12px;
@@ -652,3 +601,4 @@ html, body {
     font-size: 0.78rem;
   }
 }
+
