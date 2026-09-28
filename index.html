@@ -521,6 +521,8 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      max-width: 100%;
+      box-sizing: border-box;
       transition: border-color 0.2s ease;
     }
 
@@ -621,6 +623,7 @@
       align-items: center;
       justify-content: center;
       width: var(--viewport-width, 100%);
+      max-width: 100%;
       height: var(--viewport-height, 280px);
       transition: width 0.15s ease, height 0.15s ease;
     }
