@@ -11,11 +11,6 @@
     themeIcon: document.getElementById('themeIcon'),
 
     statusBadge: document.getElementById('statusIcon') || document.getElementById('statusBadge'),
-    openConfigBtn: document.getElementById('openConfigBtn'),
-    standbyConfigBtn: document.getElementById('standbyConfigBtn'),
-    closeConfigBtn: document.getElementById('closeConfigBtn'),
-    saveConfigBtn: document.getElementById('saveConfigBtn'),
-    demoBtn: document.getElementById('demoBtn'),
 
     trackInfoSection: document.querySelector('.track-details-stage') || document.getElementById('trackInfoSection'),
     standbySection: document.getElementById('standbySection'),
@@ -32,16 +27,6 @@
     manaParticleBeacon: document.getElementById('progressThumb') || document.getElementById('manaParticleBeacon'),
     timeCurrent: document.getElementById('currentTime') || document.getElementById('timeCurrent'),
     timeDuration: document.getElementById('totalTime') || document.getElementById('timeDuration'),
-
-    configModal: document.getElementById('configModal'),
-    tabDiscord: document.getElementById('tabDiscord'),
-    tabLastfm: document.getElementById('tabLastfm'),
-    discordTabContent: document.getElementById('discordTabContent'),
-    lastfmTabContent: document.getElementById('lastfmTabContent'),
-
-    discordIdInput: document.getElementById('discordIdInput'),
-    lastfmUsernameInput: document.getElementById('lastfmUsernameInput'),
-    lastfmApiKeyInput: document.getElementById('lastfmApiKeyInput'),
   };
 
   const FRIEREN_DEMO_TRACK = {
@@ -52,8 +37,6 @@
     durationMs: 230000,
     elapsedMs: 65000,
   };
-
-  let activeTabProvider = 'discord';
 
   const SongServiceClass = window.SongViewerService || window.SpotifyService;
   if (!SongServiceClass) {
@@ -181,97 +164,6 @@
 
     onError: (err) => {
       console.warn('[Frieren Staff Crystal]', err);
-    }
-  });
-
-  function switchTab(prov) {
-    activeTabProvider = prov;
-    if (prov === 'discord') {
-      if (elements.tabDiscord) elements.tabDiscord.classList.add('active');
-      if (elements.tabLastfm) elements.tabLastfm.classList.remove('active');
-      if (elements.discordTabContent) elements.discordTabContent.style.display = 'flex';
-      if (elements.lastfmTabContent) elements.lastfmTabContent.style.display = 'none';
-    } else {
-      if (elements.tabLastfm) elements.tabLastfm.classList.add('active');
-      if (elements.tabDiscord) elements.tabDiscord.classList.remove('active');
-      if (elements.lastfmTabContent) elements.lastfmTabContent.style.display = 'flex';
-      if (elements.discordTabContent) elements.discordTabContent.style.display = 'none';
-    }
-  }
-
-  function openConfigModal() {
-    if (elements.discordIdInput) {
-      elements.discordIdInput.value = songViewerService.discordId || '';
-    }
-    if (elements.lastfmUsernameInput) {
-      elements.lastfmUsernameInput.value = songViewerService.lastfmUser || '';
-    }
-    if (elements.lastfmApiKeyInput) {
-      elements.lastfmApiKeyInput.value = songViewerService.lastfmApiKey || '';
-    }
-
-    switchTab(songViewerService.provider || 'discord');
-
-    if (elements.configModal) {
-      elements.configModal.style.display = 'flex';
-      elements.configModal.setAttribute('aria-hidden', 'false');
-    }
-  }
-
-  function closeConfigModal() {
-    if (elements.configModal) {
-      elements.configModal.style.display = 'none';
-      elements.configModal.setAttribute('aria-hidden', 'true');
-    }
-  }
-
-  if (elements.openConfigBtn) {
-    elements.openConfigBtn.addEventListener('click', openConfigModal);
-  }
-  if (elements.standbyConfigBtn) {
-    elements.standbyConfigBtn.addEventListener('click', openConfigModal);
-  }
-  if (elements.closeConfigBtn) {
-    elements.closeConfigBtn.addEventListener('click', closeConfigModal);
-  }
-
-  if (elements.tabDiscord) {
-    elements.tabDiscord.addEventListener('click', () => switchTab('discord'));
-  }
-  if (elements.tabLastfm) {
-    elements.tabLastfm.addEventListener('click', () => switchTab('lastfm'));
-  }
-
-  if (elements.saveConfigBtn) {
-    elements.saveConfigBtn.addEventListener('click', () => {
-      songViewerService.saveConfig({
-        provider: activeTabProvider,
-        discordId: elements.discordIdInput ? elements.discordIdInput.value.trim() : '',
-        lastfmUser: elements.lastfmUsernameInput ? elements.lastfmUsernameInput.value.trim() : '',
-        lastfmApiKey: elements.lastfmApiKeyInput ? elements.lastfmApiKeyInput.value.trim() : '',
-      });
-      closeConfigModal();
-    });
-  }
-
-  if (elements.demoBtn) {
-    elements.demoBtn.addEventListener('click', () => {
-      closeConfigModal();
-      songViewerService.runDemoMode(FRIEREN_DEMO_TRACK);
-    });
-  }
-
-  if (elements.configModal) {
-    elements.configModal.addEventListener('click', (e) => {
-      if (e.target === elements.configModal) {
-        closeConfigModal();
-      }
-    });
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && elements.configModal && elements.configModal.style.display === 'flex') {
-      closeConfigModal();
     }
   });
 

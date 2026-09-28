@@ -507,6 +507,68 @@
       outline-offset: 2px;
     }
 
+    .settings-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .settings-field label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+    }
+
+    .settings-input {
+      width: 100%;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-stark);
+      color: var(--text-white);
+      padding: 8px 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      outline: none;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .settings-input:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 1px;
+      border-color: var(--text-white);
+      background: var(--bg-void);
+    }
+
+    .settings-input::placeholder {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .settings-hint {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .settings-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .settings-status {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
     .slider-item input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -1282,6 +1344,10 @@
         </button>
 
         
+        <button class="btn" id="openSettingsBtn" title="Configure Global API Keys">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings
+        </button>
+
         <button class="btn" id="openDataCenterBtn" title="Backup & Restore Widget Data">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg> Data Center
         </button>
@@ -1521,6 +1587,44 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="settingsModal" aria-hidden="true" role="dialog" aria-labelledby="settingsModalTitle">
+    <div class="modal-box">
+      <header class="modal-header">
+        <h2 id="settingsModalTitle">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Song Viewer Configuration
+        </h2>
+        <button class="modal-close-btn" id="closeSettingsBtn" title="Close Settings" aria-label="Close Settings">&times;</button>
+      </header>
+
+      <div class="modal-body">
+        <p style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); line-height: 1.5;">
+          Configure global music provider credentials. Values are stored in local storage and shared across all themes.
+        </p>
+
+        <div class="settings-field">
+          <label for="settingDiscordId">Discord User ID (Lanyard)</label>
+          <input type="text" id="settingDiscordId" class="settings-input" placeholder="e.g. 328901234567890123" autocomplete="off" spellcheck="false">
+          <span class="settings-hint">Streams live Spotify track status via WebSocket. Requires joining discord.gg/lanyard once.</span>
+        </div>
+
+        <div class="settings-field">
+          <label for="settingLastfmKey">Last.fm API Key</label>
+          <input type="text" id="settingLastfmKey" class="settings-input" placeholder="e.g. 32-character API key or username" autocomplete="off" spellcheck="false">
+          <span class="settings-hint">Used to fetch recent scrobbles from Last.fm if Discord is unavailable.</span>
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn btn-primary" id="saveSettingsBtn" type="button">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Save Credentials
+          </button>
+          <button class="btn" id="clearSettingsBtn" type="button">Clear</button>
+          <span class="settings-status" id="settingsStatus" aria-live="polite"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -2324,6 +2428,8 @@
             localStorage.removeItem(STORAGE_KEYS.LANYARD_ID);
             localStorage.removeItem(STORAGE_KEYS.LASTFM_USER);
             localStorage.removeItem(STORAGE_KEYS.LASTFM_KEY);
+            localStorage.removeItem('vivaldi_global_lanyard');
+            localStorage.removeItem('vivaldi_global_lastfm');
 
             window.dispatchEvent(new Event('storage'));
             if (reloadAllBtn) reloadAllBtn.click();
@@ -2353,6 +2459,99 @@
           if (e.target === dataCenterModal) {
             dataCenterModal.classList.remove('active');
             dataCenterModal.setAttribute('aria-hidden', 'true');
+          }
+        });
+      }
+
+      const settingsModal = document.getElementById('settingsModal');
+      const openSettingsBtn = document.getElementById('openSettingsBtn');
+      const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+      const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+      const clearSettingsBtn = document.getElementById('clearSettingsBtn');
+      const settingDiscordId = document.getElementById('settingDiscordId');
+      const settingLastfmKey = document.getElementById('settingLastfmKey');
+      const settingsStatus = document.getElementById('settingsStatus');
+
+      function loadSettingsValues() {
+        if (settingDiscordId) {
+          settingDiscordId.value = localStorage.getItem('vivaldi_global_lanyard') || localStorage.getItem('vcw_lanyard_discord_id') || '';
+        }
+        if (settingLastfmKey) {
+          settingLastfmKey.value = localStorage.getItem('vivaldi_global_lastfm') || localStorage.getItem('vcw_lastfm_api_key') || localStorage.getItem('vcw_lastfm_username') || '';
+        }
+        if (settingsStatus) {
+          settingsStatus.textContent = '';
+        }
+      }
+
+      if (openSettingsBtn && settingsModal) {
+        openSettingsBtn.addEventListener('click', () => {
+          loadSettingsValues();
+          settingsModal.classList.add('active');
+          settingsModal.setAttribute('aria-hidden', 'false');
+          if (settingDiscordId) {
+            settingDiscordId.focus();
+          }
+        });
+      }
+
+      if (closeSettingsBtn && settingsModal) {
+        closeSettingsBtn.addEventListener('click', () => {
+          settingsModal.classList.remove('active');
+          settingsModal.setAttribute('aria-hidden', 'true');
+        });
+      }
+
+      if (settingsModal) {
+        settingsModal.addEventListener('click', (e) => {
+          if (e.target === settingsModal) {
+            settingsModal.classList.remove('active');
+            settingsModal.setAttribute('aria-hidden', 'true');
+          }
+        });
+      }
+
+      if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+          const discordVal = settingDiscordId ? settingDiscordId.value.trim() : '';
+          const lastfmVal = settingLastfmKey ? settingLastfmKey.value.trim() : '';
+
+          localStorage.setItem('vivaldi_global_lanyard', discordVal);
+          localStorage.setItem('vivaldi_global_lastfm', lastfmVal);
+
+          localStorage.setItem('vcw_lanyard_discord_id', discordVal);
+          localStorage.setItem('vcw_lastfm_api_key', lastfmVal);
+
+          window.dispatchEvent(new Event('storage'));
+
+          if (settingsStatus) {
+            settingsStatus.textContent = 'Saved successfully.';
+          }
+          showToast('Global credentials saved.');
+          if (reloadAllBtn) {
+            reloadAllBtn.click();
+          }
+        });
+      }
+
+      if (clearSettingsBtn) {
+        clearSettingsBtn.addEventListener('click', () => {
+          if (settingDiscordId) settingDiscordId.value = '';
+          if (settingLastfmKey) settingLastfmKey.value = '';
+
+          localStorage.removeItem('vivaldi_global_lanyard');
+          localStorage.removeItem('vivaldi_global_lastfm');
+          localStorage.removeItem('vcw_lanyard_discord_id');
+          localStorage.removeItem('vcw_lastfm_api_key');
+
+          window.dispatchEvent(new Event('storage'));
+
+          if (settingsStatus) {
+            settingsStatus.textContent = 'Credentials cleared.';
+          }
+          showToast('Global credentials cleared.');
+          if (reloadAllBtn) {
+            reloadAllBtn.click();
           }
         });
       }

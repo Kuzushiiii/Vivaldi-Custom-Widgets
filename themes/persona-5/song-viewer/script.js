@@ -117,7 +117,6 @@
     statusBadge: document.getElementById('statusBadge'),
     soundToggleBtn: document.getElementById('soundToggleBtn'),
     soundIcon: document.getElementById('soundIcon'),
-    openConfigBtn: document.getElementById('openConfigBtn'),
 
     heroAlbumStage: document.getElementById('heroAlbumStage'),
     albumArtCard: document.getElementById('albumArtCard'),
@@ -142,21 +141,6 @@
 
     standbySection: document.getElementById('standbySection'),
     standbyHint: document.getElementById('standbyHint'),
-    standbyDemoBtn: document.getElementById('standbyDemoBtn'),
-    standbyConfigBtn: document.getElementById('standbyConfigBtn'),
-
-    configModal: document.getElementById('configModal'),
-    closeConfigBtn: document.getElementById('closeConfigBtn'),
-    saveConfigBtn: document.getElementById('saveConfigBtn'),
-    demoBtn: document.getElementById('demoBtn'),
-    tabDiscord: document.getElementById('tabDiscord'),
-    tabLastfm: document.getElementById('tabLastfm'),
-    discordTabContent: document.getElementById('discordTabContent'),
-    lastfmTabContent: document.getElementById('lastfmTabContent'),
-    discordIdInput: document.getElementById('discordIdInput'),
-    lastfmUsernameInput: document.getElementById('lastfmUsernameInput'),
-    lastfmApiKeyInput: document.getElementById('lastfmApiKeyInput'),
-    phoneClock: document.getElementById('phoneClock')
   };
 
   if (elements.albumImg && elements.artFallback) {
@@ -164,15 +148,6 @@
       elements.albumImg.style.display = 'none';
       elements.artFallback.style.display = 'flex';
     };
-  }
-
-  
-  function updatePhoneClock() {
-    if (!elements.phoneClock) return;
-    const now = new Date();
-    const hrs = String(now.getHours()).padStart(2, '0');
-    const mins = String(now.getMinutes()).padStart(2, '0');
-    elements.phoneClock.textContent = `${hrs}:${mins}`;
   }
 
   function updateSoundIcon() {
@@ -213,9 +188,6 @@
       }
     });
   }
-
-  
-  let activeTabProvider = 'discord';
 
   const P5_DEMO_TRACK = {
     song: "Life Will Change",
@@ -350,81 +322,8 @@
     }
   });
 
-  
-  function switchTab(prov) {
-    activeTabProvider = prov;
-    if (!elements.tabDiscord || !elements.tabLastfm) return;
-    playBlipSound();
-
-    if (prov === 'discord') {
-      elements.tabDiscord.classList.add('active');
-      elements.tabLastfm.classList.remove('active');
-      if (elements.discordTabContent) elements.discordTabContent.style.display = 'block';
-      if (elements.lastfmTabContent) elements.lastfmTabContent.style.display = 'none';
-    } else {
-      elements.tabLastfm.classList.add('active');
-      elements.tabDiscord.classList.remove('active');
-      if (elements.lastfmTabContent) elements.lastfmTabContent.style.display = 'block';
-      if (elements.discordTabContent) elements.discordTabContent.style.display = 'none';
-    }
-  }
-
-  function openModal() {
-    playSlashSound();
-    updatePhoneClock();
-    if (elements.discordIdInput) elements.discordIdInput.value = songViewerService.discordId || '';
-    if (elements.lastfmUsernameInput) elements.lastfmUsernameInput.value = songViewerService.lastfmUser || '';
-    if (elements.lastfmApiKeyInput) elements.lastfmApiKeyInput.value = songViewerService.lastfmApiKey || '';
-
-    switchTab(songViewerService.provider);
-    if (elements.configModal) elements.configModal.style.display = 'flex';
-  }
-
-  function closeModal() {
-    playBlipSound();
-    if (elements.configModal) elements.configModal.style.display = 'none';
-  }
-
-  if (elements.tabDiscord) elements.tabDiscord.addEventListener('click', () => switchTab('discord'));
-  if (elements.tabLastfm) elements.tabLastfm.addEventListener('click', () => switchTab('lastfm'));
-  if (elements.openConfigBtn) elements.openConfigBtn.addEventListener('click', openModal);
-  if (elements.standbyConfigBtn) elements.standbyConfigBtn.addEventListener('click', openModal);
-  if (elements.closeConfigBtn) elements.closeConfigBtn.addEventListener('click', closeModal);
-
-  if (elements.saveConfigBtn) {
-    elements.saveConfigBtn.addEventListener('click', () => {
-      playSlashSound();
-      songViewerService.saveConfig({
-        provider: activeTabProvider,
-        discordId: elements.discordIdInput ? elements.discordIdInput.value : '',
-        lastfmUser: elements.lastfmUsernameInput ? elements.lastfmUsernameInput.value : '',
-        lastfmApiKey: elements.lastfmApiKeyInput ? elements.lastfmApiKeyInput.value : ''
-      });
-      closeModal();
-    });
-  }
-
-  if (elements.demoBtn) {
-    elements.demoBtn.addEventListener('click', () => {
-      playSlashSound();
-      closeModal();
-      songViewerService.runDemoMode(P5_DEMO_TRACK);
-    });
-  }
-
-  if (elements.standbyDemoBtn) {
-    elements.standbyDemoBtn.addEventListener('click', () => {
-      playSlashSound();
-      songViewerService.runDemoMode(P5_DEMO_TRACK);
-    });
-  }
-
-  
   randomizeMask();
-  updatePhoneClock();
   songViewerService.init();
-
-  setInterval(updatePhoneClock, 30000);
 
   window.addEventListener('resize', () => {
     if (currentRawTitle) updateSongTitle(currentRawTitle);
