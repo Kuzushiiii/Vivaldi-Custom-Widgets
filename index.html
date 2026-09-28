@@ -194,6 +194,57 @@
     }
 
     .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--border-stark);
+      background: var(--bg-panel);
+      color: var(--text-primary);
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover {
+      background: var(--text-white);
+      color: var(--bg-void);
+      border-color: var(--text-white);
+    }
+
+    .btn-primary {
+      background: var(--text-white);
+      color: var(--bg-void);
+      border-color: var(--text-white);
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: var(--bg-panel-hover);
+      color: var(--text-white);
+      border-color: var(--border-bright);
+    }
+
+    #themeToggleBtn {
+      min-width: 115px;
+      justify-content: center;
+    }
+
+    #themeToggleBtn .icon {
+      transition: transform 0.25s ease;
+    }
+
+    #themeToggleBtn:hover .icon {
+      transform: rotate(15deg);
+    }
+
+    .controls-deck {
       position: relative;
       z-index: 10;
       max-width: 1780px;
