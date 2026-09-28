@@ -9,7 +9,7 @@
 
   --frieren-text-ink: #2C3E50;
   --frieren-text-secondary: #4A5568;
-  --frieren-text-muted: #627282;
+  --frieren-text-muted: #506170;
   --frieren-text-faint: rgba(44, 62, 80, 0.35);
 
   --frieren-border-grimoire: rgba(44, 62, 80, 0.2);
@@ -78,48 +78,6 @@
 
   --transition-serene: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-breathing: 4.8s ease-in-out infinite;
-}
-
-[data-theme="night"],
-.frieren-night-mode {
-  --frieren-bg: #0C101A;
-  --frieren-bg-warm: #080B12;
-  --frieren-bg-surface: #141B2B;
-  --frieren-bg-panel: rgba(20, 27, 43, 0.82);
-  --frieren-bg-vignette: rgba(0, 0, 0, 0.75);
-
-  --frieren-text-ink: #F8FAFC;
-  --frieren-text-secondary: #CBD5E1;
-  --frieren-text-muted: #94A3B8;
-  --frieren-text-faint: rgba(248, 250, 252, 0.32);
-
-  --frieren-border-grimoire: rgba(248, 250, 252, 0.16);
-  --frieren-border-delicate: rgba(248, 250, 252, 0.08);
-  --frieren-border-gold: rgba(229, 192, 123, 0.55);
-
-  --brass-metal: #E5C07B;
-  --brass-light: #FEF3C7;
-  --brass-mid: #D97706;
-  --brass-dark: #451A03;
-  --brass-shadow: rgba(0, 0, 0, 0.7);
-  --brass-highlight: rgba(255, 255, 255, 0.5);
-
-  --frieren-gold-accent: #E5C07B;
-  --frieren-gold-light: #F6E0A4;
-  --frieren-gold-glow: rgba(229, 192, 123, 0.45);
-
-  --mana-core: #F0FDFA;
-  --mana-cyan-light: #67E8F9;
-  --mana-stream-cyan: #38BDF8;
-  --mana-stream-deep: #0369A1;
-  --mana-stream-aura: rgba(56, 189, 248, 0.7);
-  --mana-stream-soft-glow: rgba(56, 189, 248, 0.35);
-  --mana-flower-petal: #38BDF8;
-
-  --grimoire-card-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.7),
-    inset 0 0 50px rgba(0, 0, 0, 0.85),
-    inset 0 0 100px rgba(3, 105, 161, 0.18);
 }
 
 *, *::before, *::after {
